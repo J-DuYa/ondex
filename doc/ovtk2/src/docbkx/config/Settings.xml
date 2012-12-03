@@ -1,0 +1,4 @@
+<sect1 id="Config.Settings">
+	<title>Settings</title>
+	<para>Launches a small box with the login user and password. Not currently in use but will be by future web services.</para>
+</sect1>

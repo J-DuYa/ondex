@@ -1,0 +1,317 @@
+\chapter{List of relation types}
+\label{cha:relation_types}
+This is a list of all the relation types currently defined in Ondex meta-data file.
+\begin{itemize}
+
+
+\item{5pAdjacent}\\ Full name: is\_5'\_adjacent\_to\\ Description: 
+
+\item{5pNeighbour}\\ Full name: is\_5'\_neighbour\_of\\ Description: 
+
+\item{5pOverlap}\\ Full name: overlaps\_5'\_of\\ Description: 
+
+\item{KI}\\ Full name: KI\\ Description: 
+
+\item{ac\_by}\\ Full name: activated\_by\\ Description: activation of a gene's expression by a transcription factor 
+
+\item{acetylated\_by}\\ Full name: acetylated\_by\\ Description: 
+
+\item{adjacent\_to}\\ Full name: adjacent\_to\\ Description: n C adjacent to C' if and only if: given any instance c that instantiates C at a time t, there is some c' such that: c' instantiates C' at time t and c and c' are in spatial proximity 
+
+\item{anto}\\ Full name: anto\\ Description: 
+
+\item{asso\_wi}\\ Full name: associated\_with\\ Description: 
+
+\item{assoc\_hormone}\\ Full name: is associated with hormone\\ Description: This would typically relate a gene or an experiment with a hormone. Interpretation should be: This gene or experiment involved this hormone (but more explicit information of how is not known). 
+
+\item{att}\\ Full name: att\\ Description: 
+
+\item{bi\_to}\\ Full name: binds\_to\\ Description: Molecule-$>$Molecule 
+
+\item{broader}\\ Full name: broader than\\ Description: one term is broader than another (SKOS?) 
+
+\item{ca\_by}\\ Full name: catalyzed\_by\\ Description: catalyzation of a reaction by a catalyst 
+
+\item{cat\_c}\\ Full name: part\_of\_catalyzing\_class\\ Description: 
+
+\item{catalyzes}\\ Full name: catalyzes\\ Description: Enzyme-$>$Reaction 
+
+\item{chem\_rel}\\ Full name: chemical\_relationship\\ Description: 
+
+\item{co\_by}\\ Full name: cofactored\_by\\ Description: 
+
+\item{coloc}\\ Full name: colocalized\_with\\ Description: 
+
+\item{contrib}\\ Full name: contributes\_to\\ Description: 
+
+\item{cooc\_wi}\\ Full name: cooccurs\_with\\ Description: 
+
+\item{correlated\_with}\\ Full name: correlated\_with\\ Description: 
+
+\item{cs\_by}\\ Full name: consumed\_by\\ Description: 
+
+\item{demethylated\_by}\\ Full name: demethylated\_by\\ Description: 
+
+\item{dephosphorylated\_by}\\ Full name: dephosphorylated\_by\\ Description: 
+
+\item{der}\\ Full name: der\\ Description: 
+
+\item{derives\_from}\\ Full name: derives\_from\\ Description: Derivation on the instance level (*derives\_from*) holds between distinct material continuants when one succeeds the other across a temporal divide in such a way that at least a biologically significant portion of the matter of the earlier continuant is inherited by the later. We say that one class C derives\_from class C' if instances of C are connected to instances of C' via some chain of instance-level derivation relations. Example: osteocyte derives\_from osteoblast. Formally: C derives\_immediately\_from C' if and only if: given any c and any t, if c instantiates C at time t, then there is some c' and some t', such that c' instantiates C' at t' and t' earlier-than t and c *derives\_from* c'. C derives\_from C' if and only if: there is an chain of immediate derivation relations connecting C to C'. 
+
+\item{dev}\\ Full name: dev\\ Description: 
+
+\item{develops\_from}\\ Full name: develops\_from\\ Description: Used when a plant structure (the child) develops from another plant structure (the parent) 
+
+\item{di\_fr}\\ Full name: dissociated\_from\\ Description: 
+
+\item{direct\_correlation\_with}\\ Full name: direct\_correlation\_with\\ Description: Entities that are directly correlated (+ve coefficiant) 
+
+\item{do\_by}\\ Full name: effluxes\_from\\ Description: 
+
+\item{elongates}\\ Full name: elongates\\ Description: Catalysis of chain elongation 
+
+\item{en\_by}\\ Full name: is\_encoded\_by\\ Description: Polypeptide-$>$Gene 
+
+\item{enc}\\ Full name: encodes\\ Description: Gene-$>$Protein 
+
+\item{enz\_int}\\ Full name: enz\_int\\ Description: Two compounds have an unspecified enzymatic interaction 
+
+\item{equ}\\ Full name: is\_equivalent\_to\\ Description: 
+
+\item{err}\\ Full name: Error\\ Description: 
+
+\item{ex\_by}\\ Full name: expressed\_by\\ Description: interactions via DNA binding 
+
+\item{ex\_du}\\ Full name: expressed\_during\\ Description: Gene-$>$growth and developmental stages 
+
+\item{ex\_in}\\ Full name: expressed\_in\\ Description: Gene-$>$morphology, organs, tissue and cell types 
+
+\item{gi}\\ Full name: interacts\_genetically\_with\\ Description: Gene-$>$Gene 
+
+\item{gi\_dgd}\\ Full name: dosage\_growth\_defect\\ Description: 
+
+\item{gi\_dl}\\ Full name: dosage\_lethality\\ Description: 
+
+\item{gi\_dr}\\ Full name: dosage\_rescue\\ Description: 
+
+\item{gi\_pe}\\ Full name: enhances\_phenotype\_of\\ Description: 
+
+\item{gi\_ps}\\ Full name: suppresses\_phenotype\_of\\ Description: 
+
+\item{gi\_sgd}\\ Full name: inflicts\_growth\_defect\_on\\ Description: 
+
+\item{gi\_shi}\\ Full name: inflicts\_haploinsufficiency\_on\\ Description: 
+
+\item{gi\_sl}\\ Full name: causes\_lethality\_with\\ Description: 
+
+\item{gi\_sr}\\ Full name: rescues\\ Description: 
+
+\item{given\_by}\\ Full name: given\_by\\ Description: 
+
+\item{gives}\\ Full name: gives\\ Description: 
+
+\item{glycosylated\_by}\\ Full name: glycosylated\_by\\ Description: 
+
+\item{h\_chem\_p\_hybride}\\ Full name: has\_chemical\_parent\_hybride\\ Description: Used to denote the relationship between an entity and its parent hydride (defined by IUPAC as "an unbranched acyclic or cyclic structure or an acyclic/cyclic structure having a semisystematic or trivial name to which only hydrogen atoms are attached"). 
+
+\item{h\_pwm}\\ Full name: has\_pwm\\ Description: transcription factor binding site (TFBS) has position-specific weight matrix (PWM) 
+
+\item{h\_s\_s}\\ Full name: has\_similar\_sequence\\ Description: blastbased homolog proteins of different species 
+
+\item{hasActivity}\\ Full name: has activity\\ Description: this thing exhibits that activity 
+
+\item{hasConcept}\\ Full name: hasConcept\\ Description: A MeSH description has a concept 
+
+\item{hasPreferredConcept}\\ Full name: hasPreferredConcept\\ Description: A MeSH descriptor has a preferred concept 
+
+\item{has\_agent}\\ Full name: has\_agent\\ Description: As for has\_participant, but with the additional condition that the component instance is causally active in the relevant process 
+
+\item{has\_attributive\_relation\_with}\\ Full name: has\_attributive\_relation\_with\\ Description: 
+
+\item{has\_chem\_f\_p}\\ Full name: has\_chemical\_functional\_parent\\ Description: Used to denote the relationship between two molecular entities (or classes of entities), one of which possesses one or more chacteristic groups from which the other can be derived by functional modification. This relationship is especially useful to demonstrate the relationships between a number of functionalised entities and a common less-functionalised parent. 
+
+\item{has\_domain}\\ Full name: has\_protein\_domain\\ Description: AminoacidSequence-$>$ProteinDomain 
+
+\item{has\_feature}\\ Full name: has\_feature\\ Description: Sequence-$>$SequenceFeature 
+
+\item{has\_function}\\ Full name: has\_function\\ Description: 
+
+\item{has\_mutated\_gene}\\ Full name: has\_mutated\_gene\\ Description: has\_mutated\_gene relates an organism/cultivar/mutant with a reference/canonical gene Interpretation: Organism has a mutant version of some reference/canonical gene, where the reference gene would be regarded one from a public database. 
+
+\item{has\_nuclFeature}\\ Full name: has\_nucleotide\_feature\\ Description: NucleotideSequence-$>$NucleotideFeature 
+
+\item{has\_observ\_pheno}\\ Full name: has\_observed\_phenotype\\ Description: Result of a experiment produces a phenotype 
+
+\item{has\_part}\\ Full name: has\_part\\ Description: Specifies the inverse relation to part\_of 
+
+\item{has\_participant}\\ Full name: has\_participant\\ Description: P has\_participant C if and only if: given any process p that instantiates P there is some continuant c, and some time t, such that: c instantiates C at t and c participates in p at t 
+
+\item{has\_relative\_position}\\ Full name: has\_relative\_position\\ Description: 
+
+\item{has\_sequence}\\ Full name: has\_sequence\\ Description: InfoPolymer-$>$Sequence 
+
+\item{homologue}\\ Full name: homologue\\ Description: gene is homologue to other gene 
+
+\item{hormone\_control}\\ Full name: hormone treatment (control case)\\ Description: hormone\_control relates an experiment with a hormone. experiment -$>$ hormone\_control -$>$ hormone should be interpreted as: This experiment has no hormone treatment applied. 
+
+\item{hormone\_treated}\\ Full name: hormone treatment (treated case)\\ Description: hormone\_treated relates an experiment with a hormone. experiment -$>$ hormone\_treated -$>$ hormone should be interpreted as: This experiment involves the application of hormone. 
+
+\item{hormone\_treatment}\\ Full name: involves hormone\\ Description: 
+
+\item{hs\_ch}\\ Full name: has\_chemical\\ Description: has Ec or CAS ID 
+
+\item{id\_by}\\ Full name: indirect\_effect\\ Description: indirect effect without molecular details (same as used for GErel) 
+
+\item{im\_of}\\ Full name: intermediate\_of\\ Description: 
+
+\item{in\_by}\\ Full name: inhibited\_by\\ Description: inhibition of a gene's expression by a transcription factor 
+
+\item{info\_transd}\\ Full name: information\_transduction\\ Description: 
+
+\item{instance\_of}\\ Full name: instance\_of\\ Description: A relation between an instance and a class. For components: a primitive relation between a component instance and a class which it instantiates at a specific time. For processes: a primitive relation, between a process instance and a class which it instantiates, holding independently of time 
+
+\item{integral\_part\_of}\\ Full name: integral\_part\_of\\ Description: C integral\_part\_of C' if and only if: C part\_of C' AND C' has\_part C 
+
+\item{inv\_in}\\ Full name: is\_involved\_in\\ Description: Involvement in something e.g. disease 
+
+\item{inverse\_correlation\_with}\\ Full name: inverse\_correlation\_with\\ Description: Entities that are inversely correlated (-ve coefficiant) 
+
+\item{ipara}\\ Full name: inparalogue\\ Description: gene is inparalogue of another gene 
+
+\item{is\_a}\\ Full name: is\_a\\ Description: (Meta) is\_a This relation type represents when two classes are represented as Ondex Concepts, that there is a class level is-a relationship between the two classes. 
+
+\item{is\_annotated\_by}\\ Full name: is\_annotated\_by\\ Description: Thing-$>$Annotation 
+
+\item{is\_chem\_sub\_gr\_from}\\ Full name: is\_chemical\_substituent\_group\_from\\ Description: Indicates the relationship between a substituent group (or atom) and its parent molecular entity, from which it is formed by loss of one or more protons or simple groups. 
+
+\item{is\_conjugate}\\ Full name: is\_conjugate\\ Description: Cyclic relationships which are used mainly between acids and their conjugate bases. 
+
+\item{is\_enantiomer\_of}\\ Full name: is\_enantiomer\_of\\ Description: A cyclic relationship used when two entities are enantiomers of each other. An entity may have this relationship with only one other entity. 
+
+\item{is\_hyperym\_of}\\ Full name: is\_hypernym\_of\\ Description: 
+
+\item{is\_part\_of}\\ Full name: is\_part\_of\\ Description: Molecule-$>$MoleculeCmplx 
+
+\item{is\_tautomer\_of}\\ Full name: is\_tautomer\_of\\ Description: A cyclic relationship used to show the interrelationship between two tautomers, where the differences between the structures are significant enough to warrant their separate inclusion in ChEBI. 
+
+\item{it\_mi}\\ Full name: missing\_interaction\\ Description: Thing-$>$Thing 
+
+\item{it\_wi}\\ Full name: interacts\_with\\ Description: Thing-$>$Thing 
+
+\item{located\_in}\\ Full name: located\_in\\ Description: Localizable-$>$Space 
+
+\item{math}\\ Full name: mathematical\_relationship\\ Description: superclass for mathematical relations 
+
+\item{member\_of}\\ Full name: member\_of\\ Description: Used for characterisation of grouping relationships, e.g. a reaction is member of a pathway. 
+
+\item{methylated\_by}\\ Full name: methylated\_by\\ Description: 
+
+\item{modifies}\\ Full name: modifies\\ Description: Participant-$>$Process 
+
+\item{narrower}\\ Full name: narrower than\\ Description: one term is narrower than another (SKOS?) 
+
+\item{neg\_reg}\\ Full name: negatively\_regulates\\ Description: Used in GO, eg BP A neg\_regulates BP B 
+
+\item{not\_annotated\_by}\\ Full name: not\_annotated\_with\\ Description: 
+
+\item{not\_function}\\ Full name: has\_not\_function\\ Description: 
+
+\item{not\_located\_in}\\ Full name: is\_not\_located\_in\\ Description: 
+
+\item{occ\_in}\\ Full name: occurs\_in\\ Description: 
+
+\item{ortho}\\ Full name: orthologue\\ Description: blastbased ortholog proteins of different species 
+
+\item{para}\\ Full name: paralogue\\ Description: gene is paralogue to other gene 
+
+\item{part\_act}\\ Full name: participates\_actively\_in\\ Description: 
+
+\item{part\_of}\\ Full name: part\_of\\ Description: For continuants: C part\_of C' if and only if: given any c that instantiates C at a time t, there is some c' such that c' instantiates C' at time t, and c *part\_of* c' at t. For processes: P part\_of P' if and only if: given any p that instantiates P at a time t, there is some p' such that p' instantiates P' at time t, and p *part\_of* p' at t. (Here *part\_of* is the instance-level part-relation.) 
+
+\item{part\_pass}\\ Full name: participates\_passively\_in\\ Description: 
+
+\item{participates\_in}\\ Full name: participates\_in\\ Description: Participant-$>$Process 
+
+\item{participates\_not}\\ Full name: participates\_not\\ Description: 
+
+\item{pd\_by}\\ Full name: produced\_by\\ Description: 
+
+\item{performs\_transport}\\ Full name: performs\_transport\\ Description: Transporter-$>$Transport 
+
+\item{phosphorylated\_by}\\ Full name: phosphorylated\_by\\ Description: Protein-$>$Protein 
+
+\item{phys\_int}\\ Full name: interacts\_physically\_with\\ Description: Participant-$>$Participant 
+
+\item{phys\_intbio}\\ Full name: physical\_IB\_relation\\ Description: 
+
+\item{physical}\\ Full name: has\_physical\_relation\_with\\ Description: 
+
+\item{pos\_reg}\\ Full name: positively\_regulates\\ Description: Used in GO, eg BP A pos\_regulates BP B 
+
+\item{pr\_by}\\ Full name: preceded\_by\\ Description: A is the direct outcome of B 
+
+\item{preceded\_by}\\ Full name: preceded\_by\\ Description: Used for keggenzymecentric on P preceded\_by P' if and only if: given any process p that instantiates P at a time t, there is some process p' such that p' instantiates P' at time t', and t' is earlier than t. 
+
+\item{produces}\\ Full name: produces\\ Description: 
+
+\item{proper\_part\_of}\\ Full name: proper\_part\_of\\ Description: As for part\_of, with the additional constraint that subject and object are distinct 
+
+\item{ptm\_by}\\ Full name: post-translationally\_modified\_by\\ Description: 
+
+\item{pu\_by}\\ Full name: taken\_up\_by\\ Description: 
+
+\item{pub\_in}\\ Full name: published\_in\\ Description: Thing-$>$Publication 
+
+\item{qualifiedBy}\\ Full name: qualifiedBy\\ Description: A MeSH description is qualified by a MeSH qualifier 
+
+\item{r}\\ Full name: is\_related\_to\\ Description: Root relation type 
+
+\item{re\_by}\\ Full name: repressed\_by\\ Description: gene's expression is repressed by transcripiton factor 
+
+\item{regulates}\\ Full name: regulates\\ Description: Gene-$>$TF or GO1-$>$GO2 
+
+\item{rel\_seq\_pos}\\ Full name: has\_relative\_sequence\_position\\ Description: 
+
+\item{related}\\ Full name: related to\\ Description: one term is related to another (SKOS?) 
+
+\item{relatedTo}\\ Full name: related to\\ Description: 
+
+\item{rg\_by}\\ Full name: regulated\_by\\ Description: TF-$>$Gene 
+
+\item{rp\_by}\\ Full name: replaced\_by\\ Description: 
+
+\item{s\_isp}\\ Full name: s\_isp\\ Description: 
+
+\item{sensu}\\ Full name: sensu\\ Description: GO concept names contain a sensu part which we break up into seperate concepts and relations 
+
+\item{sh\_im}\\ Full name: share\_intermediate\\ Description: shared with two successive reactions (ECrel) or intermediate of two interacting proteins (PPrel) 
+
+\item{sim}\\ Full name: sim\\ Description: 
+
+\item{situated\_to}\\ Full name: situated\_to\\ Description: A transcription factor binding site is situated next to a Gene. 
+
+\item{st\_fr}\\ Full name: state\_change\_from\\ Description: entry2 has a state change from entry1 
+
+\item{subfeature\_of}\\ Full name: is\_subfeature\_of\\ Description: 
+
+\item{taken\_by}\\ Full name: taken\_by\\ Description: 
+
+\item{textual\_relationship}\\ Full name: textual\_relationship\\ Description: 
+
+\item{transcribes\_to}\\ Full name: transcribes\_to\\ Description: Gene-$>$mRNA 
+
+\item{transformation\_of}\\ Full name: transformation\_of\\ Description: Relation between two classes, in which instances retain their identity yet change their classification by virtue of some kind of transformation. Formally: C transformation\_of C' if and only if given any c and any t, if c instantiates C at time t, then for some t', c instantiates C' at t' and t' earlier t, and there is no t2 such that c instantiates C at t2 and c instantiates C' at t2. 
+
+\item{translates\_to}\\ Full name: translates\_to\\ Description: mRNA-$>$Polypeptide 
+
+\item{ubiquinated\_by}\\ Full name: ubiquinated\_by\\ Description: 
+
+\item{undefined\_semantics}\\ Full name: undefined\_semantics\\ Description: 
+
+\item{unkwn}\\ Full name: unkwn\\ Description: 
+
+\item{upstream}\\ Full name: is\_upstream\_of\\ Description: 
+
+\item{with\_treatment}\\ Full name: involves hormone\\ Description: 
+
+\end{itemize}

@@ -1,0 +1,25 @@
+<sect1 id="Visualization.EdgeLabels">
+	<title>Show Relation Labels</title>
+	<para>
+	Show Relation Labels displays the relations' names on the network.
+	The following two screenshots show an example before and after selecting this option.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/view_concept_label2.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/view_relation_label2.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+</sect1>

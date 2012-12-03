@@ -1,0 +1,186 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>webservices</artifactId>
+        <groupId>net.sourceforge.ondex</groupId>
+        <version>0.5.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.sourceforge.ondex.webservices</groupId>
+    <artifactId>webservice-api</artifactId>
+    <packaging>jar</packaging>
+    <name>Webservice API</name>
+    <version>0.5.0-SNAPSHOT</version>
+    <description>webservice api and low level wsdl</description>
+    <organization>
+        <name>ONDEX</name>
+        <url>http://www.ondex.org</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>GNU LGPL</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0-standalone.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>David</id>
+            <name>Withers</name>
+            <email>david.withers@manchester.ac.uk</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <organization>University of Manchester</organization>
+            <timezone>0</timezone>
+        </developer>
+        <developer>
+            <id>BrennincC</id>
+            <name>Christian Brenninkmeijer</name>
+            <email>BrennincC@cs.man.ac.uk</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <organization>University of Manchester</organization>
+            <timezone>0</timezone>
+        </developer>
+    </developers>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.plugin.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>${maven.scm.plugin.version}</version>
+                <configuration>
+                    <goals>install</goals>
+                    <checkoutDirectory>${basedir}</checkoutDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <meminitial>128m</meminitial>
+                    <maxmem>512m</maxmem>
+                    <encoding>UTF-8</encoding>
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+                <version>${cxf.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                        <version>${cxf.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-rt-frontend-simple</artifactId>
+                        <version>${cxf.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+
+                <executions>
+                    <execution>
+                        <id>process-classes</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <className>net.sourceforge.ondex.wsapi.ONDEXapiWS</className>
+                            <genWsdl>true</genWsdl>
+                            <verbose>true</verbose>
+                            <attachWsdl>true</attachWsdl>
+                            <serviceName>ONDEXapiWSService</serviceName>
+                            <databinding>aegis</databinding>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Jetty is needed if you're are not using the CXFServlet -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-databinding-aegis</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+		<dependency>
+			<groupId>javatar</groupId>
+			<artifactId>javatar</artifactId>
+			<version>2.5</version>
+			<scope>compile</scope>
+		</dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.ondex.core</groupId>
+            <artifactId>marshal</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.ondex.core</groupId>
+            <artifactId>workflow-base</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.ondex.modules</groupId>
+            <artifactId>oxl</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+</project> 

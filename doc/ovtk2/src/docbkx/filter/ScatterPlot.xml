@@ -1,0 +1,33 @@
+<sect1 id="Filter.ScatterPlot">
+	<title>Scatter Plot</title>
+	<para>
+		The scatter plot filter allows users to show / not show concepts
+		based on attribute ranges selection in a scatter plot.
+	</para>
+	<para>
+		Before applying the filter:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_scatterPlot1.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the filter:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_scatterPlot2.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

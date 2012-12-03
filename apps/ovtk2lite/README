@@ -1,0 +1,86 @@
+Installation Instructions for Ondex Web
+=======================================
+
+Ondex Web is a Java applet and requires Oracle Java 6 browser plugin installed on your system.
+
+1. Required files
+
+Ondex Web is packaged in two separate files, one containing the Java code and libraries and 
+a second containing a template directory structure and configuration files.
+
+The latest Java code and libraries archive is available at:
+http://ondex.rothamsted.ac.uk/nexus/service/local/artifact/maven/redirect?r=snapshots&g=net.sourceforge.ondex.apps&a=ovtk2lite&v=0.5.0-SNAPSHOT&e=zip&c=packaged-distro
+
+The latest template directory structure and configuration archive is available at:
+http://ondex.rothamsted.ac.uk/nexus/service/local/artifact/maven/redirect?r=snapshots&g=net.sourceforge.ondex.apps&a=ovtk2lite&v=0.5.0-SNAPSHOT&e=zip&c=packaged-data 
+
+2. Installation
+
+Ondex Web can be installed like any simple web page in a web directory accessible of any common web server.
+
+You will need to extract the two archives mentioned in the previous section, for example by using the command
+[user@host applet]# unzip ovtk2lite-0.5.0-[TIMESTAMP]-[BUILD]-packaged-distro.zip
+[user@host applet]# unzip ovtk2lite-0.5.0-[TIMESTAMP]-[BUILD]-packaged-data.zip
+(replace TIMESTAMP and BUILD accordingly)
+
+Next, you need to edit the index.html in the directory you have extracted the two archives.
+Within the index.html please replace all occurrences of http://ondex.rothamsted.ac.uk/applet 
+with the correct URL of your server and web directory.
+
+You should now be able to test your Ondex Web installation by opening your URL in a browser.
+This will load a small example, which is shipped with Ondex Web.
+
+3. Customization
+
+Ondex Web offers certain options to define what file to load and the initial look of the graph.
+Below you will find a list of options, only two (ondex.dir and ovtk.dir) are required, all others are optional.
+
+General REQUIRED:
+ondex.dir 	(might use relative path "data")
+ovtk.dir	(might use relative path "config")
+
+Loading from file OPTIONAL:
+filename 	(path to OXL file, has to be reachable from Applet, please pay attention to java.policy.applet)
+xgmml		(path to XGMML file, same conditions as above)
+
+Loading from webservice OPTIONAL:
+webservice 	(URL of webservice, e.g. http://rpc274.cs.man.ac.uk:8080/ondex/services/ondex-graph?wsdl)
+graphname	(name of graph, see webservice, if multiple graphs have same name, selection is arbitrary)
+
+Other optional parameters:
+nodes.labels	(true/false show node labels)
+edges.labels	(true/false show edge labels)
+antialiased		(true/false use antialiased painting)
+layout			(default: "net.sourceforge.ondex.ovtk2.layout.GEMLayout")
+loadappearance  (true/false to load saved appearance)
+
+4. Usage
+
+Once Ondex Web has finished loading you can use the following keyboard short-cuts and
+mouse functions to navigate and interact with the graph. Further functionality is available
+via the Ondex Web menu bar.
+
+Key bindings:
+CTRL+c = center graph to fit into display
+CTRL+m = special function for QTLNetMiner, load appearance and size
+CTRL+z = undo last visibility change
+CTRL+y = redo last visibility change
+CTRL+a = select all nodes
+CTRL+h = hide selection
+CTRL+g = hide everything but selection
+Numpad - = zoom out
+Numpad + = zoom in
+
+Mouse behaviour similar to Ondex Desktop Application
+- left click on empty space and holding moves graph
+- mouse wheel for zooming in / out
+- left click on nodes or edges selects them
+- right click shows context menu
+
+5. License
+
+Ondex Web is part of the Ondex software suite and licensed under the same LGPL.
+
+6. Support
+
+For any questions, please contact: contact@ondex.org

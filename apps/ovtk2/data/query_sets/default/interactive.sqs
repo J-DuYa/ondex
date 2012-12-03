@@ -1,0 +1,95 @@
+#COMMAND_LIST
+Fill attributes
+#VALUE
+CONSTRUCT {<~~URI~~> ?p ?o}
+WHERE {graph ?g{<~~URI~~> ?p ?o.
+FILTER isLiteral(?o)}}
+LIMIT 30
+#END
+#COMMAND_LIST*
+Find objects of
+#VALUE
+construct { <~~URI~~> ?p ?o}
+where { graph ?g {<~~URI~~> ?p ?o .
+FILTER (str(?p) != "~~URI~~") .
+FILTER (str(?p) != "~~URI~~") .
+FILTER (str(?p) != "~~URI~~") 
+}}
+limit 30
+#END
+#COMMAND_LIST*
+Find subjects of
+#VALUE
+CONSTRUCT {?s ?p <~~URI~~>}
+WHERE {graph ?g{?s ?p  <~~URI~~>.
+FILTER (?p != <~~URI~~>) .
+FILTER (?p != <~~URI~~>) .
+FILTER (?p != <~~URI~~>) 
+}}
+LIMIT 50
+#END
+#COMMAND_LIST
+Find relations subjects of
+#VALUE
+select ?p
+where { graph ?g {
+?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <~~URI~~> }
+}
+limit 30
+#END
+#COMMAND_LIST
+Find relations objects of
+#VALUE
+select ?p
+where { graph ?g {
+?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <~~URI~~> }
+}
+limit 30
+#END
+construct { <~~URI~~> ?p ?o}
+where { graph ?g {<~~URI~~> ?p ?o .
+FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#object>) .
+FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject>) .
+FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>) 
+}}
+limit 30
+#END
+#COMMAND_LIST*
+Find subjects of
+#VALUE
+CONSTRUCT {?s ?p <~~URI~~>}
+WHERE {graph ?g{?s ?p  <~~URI~~>.
+FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#object>) .
+FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject>) .
+FILTER (?p != <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>) 
+}}
+LIMIT 50
+#END
+#COMMAND_LIST*
+Find relations subjects of
+#VALUE
+select ?p
+where { graph ?g {
+?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <~~URI~~> }
+}
+limit 30
+#END
+#COMMAND_LIST*
+Find relations objects of
+#VALUE
+select ?p
+where { graph ?g {
+?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <~~URI~~> }
+}
+limit 30
+#END
+#COMMAND_LIST*
+Get relation attributes
+#VALUE
+SELECT ?stat 
+WHERE {graph ?g {
+?stat <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <~~FROM_URI~~> .
+?stat <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <~~TYPE~~> .
+?stat <http://www.w3.org/1999/02/22-rdf-syntax-ns#object>  <~~TO_URI~~>
+}}
+#END

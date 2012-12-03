@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>webservices</artifactId>
+		<groupId>net.sourceforge.ondex</groupId>
+		<version>0.5.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sourceforge.ondex.webservices</groupId>
+	<artifactId>webservice-client</artifactId>
+	<version>0.5.0-SNAPSHOT</version>
+
+	<name>ONDEX Webservice Client</name>
+	<description>ONDEX Webservice Client</description>
+	<build>
+		<plugins>
+           <!-- <producer>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-producer</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>net.sourceforge.ondex.webservices</groupId>
+                                    <artifactId>ws-api</artifactId>
+                                    <version>0.1.2-SNAPSHOT</version>
+                                    <type>wsdl</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${build.directory}/wsdl</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </producer> -->
+
+			<plugin>
+<dependencies> 
+<dependency>
+                <groupId>apache-xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>2.9.1</version>
+        </dependency>
+</dependencies>
+
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+							<wsdlOptions>
+								<wsdlOption>
+									<!-- <wsdl>${build.directory}/wsdl/ws-api-${project.version}.wsdl</wsdl> a hack --> 
+									<wsdl>${project.basedir}/src/main/wsdl/ONDEXapiWS.xml</wsdl>
+									<extraargs>
+										<extraarg>-validate</extraarg>
+										<extraarg>-client</extraarg>
+										<extraarg>-verbose</extraarg>
+										<extraarg>-xjc-verbose</extraarg>
+									</extraargs>
+                                    <packagenames><packagename>net.sourceforge.ondex.webservice.client</packagename></packagenames>
+                                    <!--<bindingFiles>-->
+                                        <!--<bindingfile>${project.basedir}/src/main/wsdl/packageBindings.jaxb</bindingfile>-->
+                                    <!--</bindingFiles>-->
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+        <dependency>
+            <groupId>net.sourceforge.ondex.webservices</groupId>
+            <artifactId>webservice-api</artifactId>
+            <version>0.5.0-SNAPSHOT</version>
+            <scope>provided</scope>
+            <type>wsdl</type>
+        </dependency>
+	</dependencies>
+</project>

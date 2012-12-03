@@ -1,0 +1,30 @@
+<sect1 id="Filter.RelationType">
+	<title>Relation Type</title>
+	<para>
+		The Relation Type Filter allows users to show / hide relations of
+		a certain relation types.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/filter/filter_relationType1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the Relation Type Filter:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/filter/filter_relationType2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

@@ -1,0 +1,25 @@
+<sect1 id="Layout.RadialTree">
+	<title>Radial Tree</title>
+	<para>
+		Layout for directed acyclic graphs, which is based on a tree
+		arrangement of nodes using polar coordinates.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/layout/layout_radialTree.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		For more information see
+		<ulink url="http://www.prenhall.com/books/esm_0133016153.html">
+			<citetitle>Graph Drawing: Algorithms for the Visualization of Graphs
+			</citetitle>
+		</ulink>
+		.
+	</para>
+</sect1>
