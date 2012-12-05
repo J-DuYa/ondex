@@ -2,10 +2,10 @@
 <div id="footer_spacer"></div>
 <div id="footer">
 	<div id="left_footer">
-    	<img src="html/image/rothamsted_logo.png" /><br />
+    	<img src="html/image/rothamsted_logo.png" /><img src="html/image/inta_logo.png" /><img src="html/image/mincyt_logo.png" /><br />
         Contact: keywan.hassani-pak@rothamsted.ac.uk<br /> 
         Developed at Rothamsted Research (<a href="http://www.rothamsted.ac.uk/csys/bioinf.php">Applied Bioinformatics Group</a>)<br />
-        in Collaboration with Sergio Feingold and Martin Castellote (<a href="http://inta.gob.ar/">INTA</a>)
+        in Collaboration with Martin Castellote and Sergio Feingold (<a href="http://inta.gob.ar/">INTA</a>, Argentina)
     </div>
     <div id="right_footer">
     	<img src="html/image/bbsrc_logo.png" /><br />
