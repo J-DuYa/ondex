@@ -40,9 +40,9 @@
 	</organization>
 
 	<scm>
-		<connection>scm:svn:https://ondex.svn.sourceforge.net/svnroot/ondex/trunk</connection>
-		<developerConnection>scm:svn:https://ondex.svn.sourceforge.net/svnroot/ondex/trunk</developerConnection>
-		<url>https://ondex.svn.sourceforge.net/svnroot/ondex/trunk</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/ondex/code/trunk</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/ondex/code/trunk</developerConnection>
+		<url>https://svn.code.sf.net/p/ondex/code/trunk</url>
 	</scm>
 
 	<distributionManagement>
