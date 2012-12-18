@@ -72,7 +72,7 @@
 		<!-- Dependencies required for the lib directory, promoted from 'provided' 
 			to 'runtime' -->
 		<dependency>
-			<groupId>apache-log4j</groupId>
+			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
