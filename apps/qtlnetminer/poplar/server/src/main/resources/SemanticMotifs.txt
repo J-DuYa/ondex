@@ -19,6 +19,7 @@
 
 #Transitions
 1-3	enc
+1-33	enc
 3-2	enc
 3-22	enc
 3-3	h_s_s	5
