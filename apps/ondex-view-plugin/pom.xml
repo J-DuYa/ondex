@@ -135,11 +135,12 @@
     </dependency>-->
     
     <!-- Missing dependencies from "ondex.parent" -->
+    <!--
     <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
     </dependency>
-
+-->
     <!-- Missing dependencies from "modules" -->
     <dependency>
         <groupId>net.sourceforge.ondex.core</groupId>
