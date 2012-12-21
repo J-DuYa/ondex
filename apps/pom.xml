@@ -28,6 +28,5 @@
 		<module>qtlnetminer</module>
 		<module>scripting</module>
 		<module>scripting-commandline</module>
-                <module>emolecules</module>
 	</modules>
 </project>
