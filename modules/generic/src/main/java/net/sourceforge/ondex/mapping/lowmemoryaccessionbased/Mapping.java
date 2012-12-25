@@ -33,10 +33,11 @@ import net.sourceforge.ondex.core.searchable.LuceneEnv;
 import net.sourceforge.ondex.core.searchable.LuceneQueryBuilder;
 import net.sourceforge.ondex.core.util.BitSetFunctions;
 import net.sourceforge.ondex.event.type.AttributeNameMissingEvent;
+import net.sourceforge.ondex.event.type.ConceptClassMissingEvent;
+import net.sourceforge.ondex.event.type.DataSourceMissingEvent;
 import net.sourceforge.ondex.event.type.EvidenceTypeMissingEvent;
 import net.sourceforge.ondex.event.type.GeneralOutputEvent;
 import net.sourceforge.ondex.event.type.RelationTypeMissingEvent;
-import net.sourceforge.ondex.exception.type.WrongParameterException;
 import net.sourceforge.ondex.mapping.ONDEXMapping;
 
 import org.apache.lucene.search.Query;
@@ -45,13 +46,13 @@ import org.apache.lucene.search.Query;
  * Implements a ConceptAccession based mapping.
  * 
  * @author taubertj, hindlem
- * @version 21.01.2008
+ * @version 25.12.2012
  */
 @Authors(authors = { "Jan Taubert", "Matthew Hindle" }, emails = {
 		"jantaubert at users.sourceforge.net",
 		"matthew_hindle at users.sourceforge.net" })
-@Status(description = "Tested March 2010 (hindlem)", status = StatusType.STABLE)
-@Custodians(custodians = { "Jochen Weile" }, emails = { "jweile at users.sourceforge.net" })
+@Status(description = "Tested December 2012 (Jan Taubert)", status = StatusType.STABLE)
+@Custodians(custodians = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
 public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 	// toggles debug messages to system.out
@@ -64,29 +65,29 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	private boolean ignoreAmbiguity = false;
 
 	// stores DataSource mappings
-	private Map<String, Set<DataSource>> dataSource2cvEquals = null;
+	private Map<String, Set<DataSource>> ds2dsEquals = null;
 
 	// for self DataSource mappings
-	private Map<String, Set<DataSource>> dataSource2cvSelf = new HashMap<String, Set<DataSource>>();
+	private Map<String, Set<DataSource>> ds2dsSelf = new HashMap<String, Set<DataSource>>();
 
-	private boolean mapWithinCV = false;
+	private boolean mapWithInDataSource = false;
 
-	private final NumberFormat formatter;
-	private final NumberFormat format;
+	private final NumberFormat decimalFormat;
+	private final NumberFormat numberFormat;
 
 	private RelationType rt;
 	private EvidenceType eviType;
 	private AttributeName hitAttr;
 
-	private HashSet<String> relations;
+	private Set<String> relations;
 	private Map<ConceptClass, ConceptClass> ccMapping;
 
 	/**
 	 * Simply calls super constructor.
 	 */
 	public Mapping() {
-		formatter = new DecimalFormat(".00");
-		format = NumberFormat.getInstance();
+		decimalFormat = new DecimalFormat(".00");
+		numberFormat = NumberFormat.getInstance();
 	}
 
 	/**
@@ -98,18 +99,18 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		StringMappingPairArgumentDefinition pairCC = new StringMappingPairArgumentDefinition(
 				EQUIVALENT_CC_ARG, EQUIVALENT_CC_ARG_DESC, false, null, true);
 
-		StringMappingPairArgumentDefinition pairCV = new StringMappingPairArgumentDefinition(
-				EQUIVALENT_CV_ARG, EQUIVALENT_CV_ARG_DESC, false, null, true);
+		StringMappingPairArgumentDefinition pairDS = new StringMappingPairArgumentDefinition(
+				EQUIVALENT_DS_ARG, EQUIVALENT_DS_ARG_DESC, false, null, true);
 
-		StringArgumentDefinition gdsEquals = new StringArgumentDefinition(
+		StringArgumentDefinition attributeEquals = new StringArgumentDefinition(
 				ATTRIBUTE_EQUALS_ARG, ATTRIBUTE_EQUALS_ARG_DESC, false, null,
 				true);
 
-		BooleanArgumentDefinition ignoreAmbiguousEquals = new BooleanArgumentDefinition(
+		BooleanArgumentDefinition ignoreAmbiguous = new BooleanArgumentDefinition(
 				IGNORE_AMBIGUOUS_ARG, IGNORE_AMBIGUOUS_ARG_DESC, false, false);
 
-		BooleanArgumentDefinition mapWithinCV = new BooleanArgumentDefinition(
-				WITHIN_CV_ARG, WITHIN_CV_ARG_DESC, false, false);
+		BooleanArgumentDefinition mapWithinDataSource = new BooleanArgumentDefinition(
+				WITHIN_DATASOURCE_ARG, WITHIN_DATASOURCE_ARG_DESC, false, false);
 
 		StringArgumentDefinition relationType = new StringArgumentDefinition(
 				RELATION_TYPE_ARG, RELATION_TYPE_ARG_DESC, false, "equ", false);
@@ -118,13 +119,13 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				CONCEPTCLASS_RESTRICTION_ARG,
 				CONCEPTCLASS_RESTRICTION_ARG_DESC, false, null, true);
 
-		StringArgumentDefinition cvAccessionRestriction = new StringArgumentDefinition(
-				CV_ACCESSION_RESTRICTION_ARG,
-				CV_ACCESSION_RESTRICTION_ARG_DESC, false, null, true);
+		StringArgumentDefinition dsAccessionRestriction = new StringArgumentDefinition(
+				DS_ACCESSION_RESTRICTION_ARG,
+				DS_ACCESSION_RESTRICTION_ARG_DESC, false, null, true);
 
-		return new ArgumentDefinition<?>[] { pairCC, pairCV, gdsEquals,
-				ignoreAmbiguousEquals, relationType, mapWithinCV,
-				ccRestriction, cvAccessionRestriction };
+		return new ArgumentDefinition<?>[] { pairCC, pairDS, attributeEquals,
+				ignoreAmbiguous, relationType, mapWithinDataSource,
+				ccRestriction, dsAccessionRestriction };
 	}
 
 	/**
@@ -142,7 +143,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	 * @return String
 	 */
 	public String getVersion() {
-		return new String("21.01.2008");
+		return new String("25.12.2012");
 	}
 
 	@Override
@@ -161,42 +162,54 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 	public void start() throws InvalidPluginArgumentException {
 
-		if (args.getUniqueValue(WITHIN_CV_ARG) != null) {
-			mapWithinCV = (Boolean) args.getUniqueValue(WITHIN_CV_ARG);
+		if (args.getUniqueValue(WITHIN_DATASOURCE_ARG) != null) {
+			mapWithInDataSource = (Boolean) args
+					.getUniqueValue(WITHIN_DATASOURCE_ARG);
 		}
 
 		relations = new HashSet<String>();
 
 		initArgs();
 
-		Set<DataSource> exclusiveCvs = getExclusiveDataSources();
+		Set<DataSource> exclusiveDataSources = getExclusiveDataSources();
 
 		ccMapping = getAllowedCCs(graph);
-		// for (ConceptClass key : ccMapping.keySet()) {
-		// System.out.println(key.getId() + " => "
-		// + ccMapping.get(key).getId());
-		// }
+		for (ConceptClass key : ccMapping.keySet()) {
+			fireEventOccurred(new GeneralOutputEvent(
+					"Accession based mapping concept class restriction "
+							+ key.getId() + " => " + ccMapping.get(key).getId(),
+					getCurrentMethodName()));
+		}
+
+		for (String s : args
+				.getObjectValueList(EQUIVALENT_CC_ARG, String.class)) {
+			String[] split = s.split(",");
+			fireEventOccurred(new GeneralOutputEvent(
+					"Adding concept class equivalent " + split[0] + " "
+							+ split[1], getCurrentMethodName()));
+		}
 
 		// define concepts to map from
 		Set<ONDEXConcept> itConcepts = getBaseConcepts();
 		int total = itConcepts.size();
 
 		fireEventOccurred(new GeneralOutputEvent("Accession based mapping on "
-				+ total + " concepts", "[accessionbased.Mapping - start]"));
+				+ total + " concepts", getCurrentMethodName()));
 
 		long timeStart = System.currentTimeMillis();
 
 		int current = 0;
 		for (ONDEXConcept concept : itConcepts) {
 
-			// get actual concept, cv and corresponding concept class
+			// get actual concept, data source and corresponding concept class
 			current++;
 
 			if ((current % 50000d) == 0) {
-				System.out.println("Mapping complete on "
-						+ formatter.format(((double) current)
+				fireEventOccurred(new GeneralOutputEvent("Mapping complete on "
+						+ decimalFormat.format(((double) current)
 								/ ((double) total) * 100d) + "% ("
-						+ format.format(current) + " Concepts)");
+						+ numberFormat.format(current) + " Concepts)",
+						getCurrentMethodName()));
 				if (current % 200000 == 0) {
 					System.runFinalization();
 				}
@@ -205,23 +218,24 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			// iterate over all accession of this concept
 			for (ConceptAccession conceptAcc : concept.getConceptAccessions()) {
 
-				if (exclusiveCvs != null
-						&& !exclusiveCvs.contains(conceptAcc.getElementOf())) {
+				if (exclusiveDataSources != null
+						&& !exclusiveDataSources.contains(conceptAcc
+								.getElementOf())) {
 					continue;
 				}
 
 				// accession must not be ambiguous or ignore ambiguous
 				if (ignoreAmbiguity || !conceptAcc.isAmbiguous()) {
 
-					Set<DataSource> dataSourceToMapTo = getCVtoMapTo(graph,
-							conceptAcc.getElementOf());
+					Set<DataSource> dataSourceToMapTo = getDataSourceToMapTo(
+							graph, conceptAcc.getElementOf());
 					for (ConceptClass cc : getCCtoMapTo(graph,
 							concept.getOfType())) {
 						// possible DataSource for concept accessions
 						for (DataSource dataSource : dataSourceToMapTo) {
 							Query query = null;
 
-							if (mapWithinCV) {
+							if (mapWithInDataSource) {
 								query = LuceneQueryBuilder
 										.searchConceptByConceptAccessionExact(
 												dataSource, conceptAcc
@@ -251,9 +265,9 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			}
 		}
 
-		System.out.println("All took "
+		fireEventOccurred(new GeneralOutputEvent("All took "
 				+ (System.currentTimeMillis() - timeStart) + " created "
-				+ relations.size() + " relations");
+				+ relations.size() + " relations", getCurrentMethodName()));
 
 		itConcepts = null;
 		relations = null;
@@ -271,14 +285,14 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 		fireEventOccurred(new GeneralOutputEvent(
 				"ACC mapping ignore ambiguity is " + this.ignoreAmbiguity,
-				"[Mapping - setONDEXGraph]"));
+				getCurrentMethodName()));
 
-		// get the relationtypeset, evidencetype and hit count for the mapping
+		// get the relation type, evidence type and hit count for the mapping
 
 		rt = graph.getMetaData().getRelationType(relationType);
 		if (rt == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.relType,
-					"[Mapping - setONDEXGraph]"));
+					getCurrentMethodName()));
 			rt = graph.getMetaData().getFactory()
 					.createRelationType(relationType);
 		}
@@ -286,7 +300,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		eviType = graph.getMetaData().getEvidenceType(MetaData.evidence);
 		if (eviType == null) {
 			fireEventOccurred(new EvidenceTypeMissingEvent(MetaData.evidence,
-					"[Mapping - setONDEXGraph]"));
+					getCurrentMethodName()));
 			eviType = graph.getMetaData().getFactory()
 					.createEvidenceType(MetaData.evidence);
 		}
@@ -294,7 +308,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		hitAttr = graph.getMetaData().getAttributeName(MetaData.accHit);
 		if (hitAttr == null) {
 			fireEventOccurred(new AttributeNameMissingEvent(MetaData.accHit,
-					"[Mapping - setONDEXGraph]"));
+					getCurrentMethodName()));
 			hitAttr = graph.getMetaData().getFactory()
 					.createAttributeName(MetaData.accHit, Integer.class);
 		}
@@ -307,7 +321,8 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		Set<ConceptClass> validCCs = getExclusiveConceptClasses();
 		if (validCCs.size() > 0) {
 			for (ConceptClass cc : validCCs) {
-				System.out.println("Filtering on cc " + cc.getId());
+				fireEventOccurred(new GeneralOutputEvent("Filtering on cc "
+						+ cc.getId(), getCurrentMethodName()));
 				if (itConcepts == null) {
 					itConcepts = BitSetFunctions.copy(graph
 							.getConceptsOfConceptClass(cc));
@@ -316,8 +331,8 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				}
 			}
 		} else {
-			itConcepts = BitSetFunctions.copy(graph.getConcepts()); // map to
-																	// everything
+			itConcepts = BitSetFunctions.copy(graph.getConcepts());
+			// map to everything
 		}
 		return itConcepts;
 	}
@@ -331,8 +346,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		// search for this concept accession
 		for (ONDEXConcept hitConcept : itResults) {
 
-			// get hit concept and relevant attributes
-			// from results
+			// get hit concept and relevant attributes from results
 			if (hitConcept instanceof LuceneConcept) {
 				hitConcept = ((LuceneConcept) hitConcept).getParent();
 			}
@@ -363,16 +377,16 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 			// only map between different concept data source or
 			// equal data sources
-			if (this.mapWithinCV
+			if (this.mapWithInDataSource
 					|| !conceptDataSource.equals(hitConceptDataSource)) {
 
 				// concept accession has to be from same data source
 				for (ConceptAccession hitConceptAcc : hitConcept
 						.getConceptAccessions()) {
 
-					if (evaluateMapping(graph, hitConcept, concept, mapWithinCV)) {
-						// DataSource must be the same and
-						// accession must not be
+					if (evaluateMapping(graph, hitConcept, concept,
+							mapWithInDataSource)) {
+						// DataSource must be the same and accession must not be
 						// ambiguous or ignore ambiguous
 						if (ignoreAmbiguity || !hitConceptAcc.isAmbiguous()) {
 
@@ -398,19 +412,19 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			} else {
 				if (DEBUG) {
 					fireEventOccurred(new GeneralOutputEvent(
-							"Not matching CVs between hitconcepts: "
+							"Not matching DataSources between hit concepts: "
 									+ concept.getPID() + " with "
 									+ concept.getElementOf().getId() + " and "
 									+ hitConcept.getPID() + " with "
 									+ hitConcept.getElementOf().getId(),
-							"[Mapping - setONDEXGraph]"));
+							getCurrentMethodName()));
 				}
 			}
 		}
 	}
 
 	/**
-	 * gets the set of conceptclasses as from in restrictions, if empty return
+	 * gets the set of concept classes as from in restrictions, if empty return
 	 * than map to anything
 	 * 
 	 * @return
@@ -428,18 +442,12 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				ConceptClass cc0;
 				// optional could contain a pair of concept classes
 				for (String s : value.split(",")) {
-					try {
-						cc0 = graph.getMetaData().getConceptClass(s);
-						if (cc0 != null)
-							ccs.add(cc0);
-						else
-							System.out
-									.println("ConceptClass not found in MetaData "
-											+ value.toString());
-					} catch (WrongParameterException e) {
-						System.out.println(e.getMessage());
-						continue;
-					}
+					cc0 = graph.getMetaData().getConceptClass(s);
+					if (cc0 != null)
+						ccs.add(cc0);
+					else
+						fireEventOccurred(new ConceptClassMissingEvent(
+								value.toString(), getCurrentMethodName()));
 				}
 			}
 		}
@@ -447,31 +455,30 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	}
 
 	/**
-	 * gets the set of cv as from in restrictions, if empty return than map to
-	 * anything
+	 * gets the set of data sources as from in restrictions, if empty return
+	 * than map to anything
 	 * 
 	 * @return
 	 */
 	private Set<DataSource> getExclusiveDataSources()
 			throws InvalidPluginArgumentException {
-		Set<DataSource> cvs = new HashSet<DataSource>();
+		Set<DataSource> dataSources = new HashSet<DataSource>();
 
-		if (args.getOptions().get(ArgumentNames.CV_ACCESSION_RESTRICTION_ARG) != null) {
+		if (args.getOptions().get(ArgumentNames.DS_ACCESSION_RESTRICTION_ARG) != null) {
 
 			List<String> valueList = args.getObjectValueList(
-					ArgumentNames.CV_ACCESSION_RESTRICTION_ARG, String.class);
+					ArgumentNames.DS_ACCESSION_RESTRICTION_ARG, String.class);
 
 			for (String value : valueList) {
-				DataSource dataSource;
-				try {
-					dataSource = graph.getMetaData().getDataSource(value);
-					cvs.add(dataSource);
-				} catch (WrongParameterException e) {
-					System.out.println("DataSource " + value + " is not found");
-					continue;
-				}
+				DataSource dataSource = graph.getMetaData()
+						.getDataSource(value);
+				if (dataSource != null)
+					dataSources.add(dataSource);
+				else
+					fireEventOccurred(new DataSourceMissingEvent(
+							value.toString(), getCurrentMethodName()));
 			}
-			return cvs;
+			return dataSources;
 		}
 		return null;
 	}
@@ -483,13 +490,13 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	 *            relation from
 	 * @param toConcept
 	 *            relation to
-	 * @param rtSet
+	 * @param relType
 	 *            relation type
 	 * @param eviType
 	 *            evidence
 	 */
 	private boolean createRelation(ONDEXConcept fromConcept,
-			ONDEXConcept toConcept, RelationType rtSet, EvidenceType eviType) {
+			ONDEXConcept toConcept, RelationType relType, EvidenceType eviType) {
 
 		// unwrap
 		if (fromConcept instanceof LuceneConcept)
@@ -502,7 +509,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 		if (!relations.contains(key)) {
 			ONDEXRelation relation = graph.getFactory().createRelation(
-					fromConcept, toConcept, rtSet, eviType);
+					fromConcept, toConcept, relType, eviType);
 			relations.add(key);
 			if (relation != null) {
 				return true;
@@ -523,46 +530,43 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	 *            DataSource
 	 * @return Set<DataSource>
 	 */
-	private Set<DataSource> getCVtoMapTo(ONDEXGraph graph, DataSource from)
-			throws InvalidPluginArgumentException {
+	private Set<DataSource> getDataSourceToMapTo(ONDEXGraph graph,
+			DataSource from) throws InvalidPluginArgumentException {
 
-		// parse mapping arguments for CVs
-		if (args.getOptions().containsKey(EQUIVALENT_CV_ARG)
-				&& dataSource2cvEquals == null) {
-			dataSource2cvEquals = new HashMap<String, Set<DataSource>>(5);
-			Iterator<String> cvIt = args.getObjectValueList(EQUIVALENT_CV_ARG,
+		// parse mapping arguments for data sources
+		if (args.getOptions().containsKey(EQUIVALENT_DS_ARG)
+				&& ds2dsEquals == null) {
+			ds2dsEquals = new HashMap<String, Set<DataSource>>(5);
+			Iterator<String> dsIt = args.getObjectValueList(EQUIVALENT_DS_ARG,
 					String.class).iterator();
-			while (cvIt.hasNext()) {
-				String[] mapping = cvIt.next().split(",");
+			while (dsIt.hasNext()) {
+				String[] mapping = dsIt.next().split(",");
 				if (mapping.length == 2) {
-					if (!dataSource2cvEquals.containsKey(mapping[0]))
-						dataSource2cvEquals.put(mapping[0],
-								new HashSet<DataSource>());
-					if (!dataSource2cvEquals.containsKey(mapping[1]))
-						dataSource2cvEquals.put(mapping[1],
-								new HashSet<DataSource>());
+					if (!ds2dsEquals.containsKey(mapping[0]))
+						ds2dsEquals.put(mapping[0], new HashSet<DataSource>());
+					if (!ds2dsEquals.containsKey(mapping[1]))
+						ds2dsEquals.put(mapping[1], new HashSet<DataSource>());
 					DataSource dataSource0 = graph.getMetaData().getDataSource(
 							mapping[0]);
 					DataSource dataSource1 = graph.getMetaData().getDataSource(
 							mapping[1]);
-					dataSource2cvEquals.get(mapping[0]).add(dataSource0);
-					dataSource2cvEquals.get(mapping[0]).add(dataSource1);
-					dataSource2cvEquals.get(mapping[1]).add(dataSource0);
-					dataSource2cvEquals.get(mapping[1]).add(dataSource1);
+					ds2dsEquals.get(mapping[0]).add(dataSource0);
+					ds2dsEquals.get(mapping[0]).add(dataSource1);
+					ds2dsEquals.get(mapping[1]).add(dataSource0);
+					ds2dsEquals.get(mapping[1]).add(dataSource1);
 				}
 			}
 		}
 
-		// return equivalent CVs or only selfmatch
-		if (dataSource2cvEquals != null
-				&& dataSource2cvEquals.containsKey(from.getId())) {
-			return dataSource2cvEquals.get(from.getId());
+		// return equivalent data sources or only self-match
+		if (ds2dsEquals != null && ds2dsEquals.containsKey(from.getId())) {
+			return ds2dsEquals.get(from.getId());
 		} else {
-			if (!dataSource2cvSelf.containsKey(from.getId())) {
-				dataSource2cvSelf.put(from.getId(), new HashSet<DataSource>());
-				dataSource2cvSelf.get(from.getId()).add(from);
+			if (!ds2dsSelf.containsKey(from.getId())) {
+				ds2dsSelf.put(from.getId(), new HashSet<DataSource>());
+				ds2dsSelf.get(from.getId()).add(from);
 			}
-			return dataSource2cvSelf.get(from.getId());
+			return ds2dsSelf.get(from.getId());
 		}
 	}
 

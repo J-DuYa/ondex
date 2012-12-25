@@ -71,11 +71,11 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 	 * otherwise.
 	 * 
 	 * @param graph
-	 *            AbstractONDEXGraph
+	 *            ONDEXGraph
 	 * @param c1
-	 *            AbstractConcept
+	 *            ONDEXConcept
 	 * @param c2
-	 *            AbstractConcept
+	 *            ONDEXConcept
 	 * @param mapWithinDataSource
 	 * @return boolean
 	 */
@@ -136,11 +136,11 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 					attributeEqualsAttributeNames.add(attr);
 					fireEventOccurred(new GeneralOutputEvent(
 							ArgumentNames.ATTRIBUTE_EQUALS_ARG + " on " + gds,
-							"[ONDEXMapping - evaluateMapping]"));
+							getCurrentMethodName()));
 				} else {
 					fireEventOccurred(new AttributeNameMissingEvent(
 							"Specified Attribute AttributeName is unrecognized in metadata "
-									+ gds, "[ONDEXMapping - evaluateMapping]"));
+									+ gds, getCurrentMethodName()));
 				}
 			}
 
@@ -167,19 +167,12 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 					conequAttribute = null;
 				}
 				// all three of the following conditions must be false to fail
-				if (!(conequAttribute == null || hitequAttribute == null // if
-																			// one
-																			// is
-																			// null
-																			// then
-																			// pass
+				if (!(conequAttribute == null || hitequAttribute == null
+				// if one is null then pass
 				|| conequAttribute.getValue()
-						.equals(hitequAttribute.getValue())) // if there both
-																// not null then
-																// are they
-																// equal? if
-																// there not
-																// then fail
+						.equals(hitequAttribute.getValue()))
+				// if there both not null then are they equal? if there not then
+				// fail
 				) {
 					if (DEBUG) {
 						fireEventOccurred(new GeneralOutputEvent(
@@ -187,8 +180,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 										+ c1.getPID() + " and " + c2.getPID()
 										+ " (" + hitequAttribute.getValue()
 										+ " vs " + conequAttribute.getValue()
-										+ ")",
-								"[ONDEXMapping - evaluateMapping]"));
+										+ ")", getCurrentMethodName()));
 					}
 					return false;
 				}
@@ -202,7 +194,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 	 * Returns a map of allowed from and to ConceptClasses for relations.
 	 * 
 	 * @param graph
-	 *            AbstractONDEXGraph to handle meta data
+	 *            ONDEXGraph to handle meta data
 	 * @return map of allowed from and to ConceptClasses
 	 */
 	protected Map<ConceptClass, ConceptClass> getAllowedCCs(ONDEXGraph graph)
@@ -223,7 +215,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 									new WrongParameterEvent(
 											"Ignoring Invalid Format for ConceptClass pair "
 													+ pair,
-											"[ONDEXMapping - getAllowedCCs]"));
+											getCurrentMethodName()));
 					continue;
 				}
 
@@ -245,7 +237,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 							"Added ConceptClass restriction for "
 									+ fromConceptClass.getId() + " ==> "
 									+ toConceptClass.getId(),
-							"[ONDEXMapping - getAllowedCCs]"));
+							getCurrentMethodName()));
 				} else {
 					if (fromConceptClass == null)
 						ONDEXEventHandler
@@ -254,7 +246,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 										new WrongParameterEvent(
 												values[0]
 														+ " is not a valid from ConceptClass.",
-												"[ONDEXMapping - getAllowedCCs]"));
+												getCurrentMethodName()));
 					if (toConceptClass == null)
 						ONDEXEventHandler
 								.getEventHandlerForSID(graph.getSID())
@@ -262,7 +254,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 										new WrongParameterEvent(
 												values[1]
 														+ " is not a valid to ConceptClass.",
-												"[ONDEXMapping - getAllowedCCs]"));
+												getCurrentMethodName()));
 				}
 			}
 		}
@@ -273,29 +265,28 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 	 * Returns a map of allowed from and to DataSources for relations.
 	 * 
 	 * @param graph
-	 *            AbstractONDEXGraph to handle meta data
+	 *            ONDEXGraph to handle meta data
 	 * @return map of allowed from and to DataSources
 	 */
 	protected Map<DataSource, DataSource> getAllowedDataSources(ONDEXGraph graph)
 			throws InvalidPluginArgumentException {
-		Object[] cvs = args
+		Object[] dataSources = args
 				.getObjectValueArray(ArgumentNames.DATASOURCE_RESTRICTION_ARG);
 
 		// add DataSource restriction pairs
 		HashMap<DataSource, DataSource> dataSourceMapping = new HashMap<DataSource, DataSource>();
-		if (cvs != null && cvs.length > 0) {
-			for (Object cv : cvs) {
+		if (dataSources != null && dataSources.length > 0) {
+			for (Object cv : dataSources) {
 				String pair = ((String) cv).trim();
 				String[] values = pair.split(",");
 
 				if (values.length != 2) {
-					ONDEXEventHandler
-							.getEventHandlerForSID(graph.getSID())
+					ONDEXEventHandler.getEventHandlerForSID(graph.getSID())
 							.fireEventOccurred(
 									new WrongParameterEvent(
 											"Invalid Format for DataSource pair "
 													+ pair,
-											"[ONDEXMapping - getAllowedDataSources]"));
+											getCurrentMethodName()));
 				}
 				DataSource fromDataSource;
 				DataSource toDataSource;
@@ -308,15 +299,14 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 				}
 				if (fromDataSource != null && toDataSource != null) {
 					dataSourceMapping.put(fromDataSource, toDataSource);
-					ONDEXEventHandler
-							.getEventHandlerForSID(graph.getSID())
+					ONDEXEventHandler.getEventHandlerForSID(graph.getSID())
 							.fireEventOccurred(
 									new GeneralOutputEvent(
 											"Added DataSource restriction for "
 													+ fromDataSource.getId()
 													+ " ==> "
 													+ toDataSource.getId(),
-											"[ONDEXMapping - getAllowedDataSources]"));
+											getCurrentMethodName()));
 				} else {
 					if (fromDataSource == null)
 						ONDEXEventHandler
@@ -325,7 +315,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 										new WrongParameterEvent(
 												values[0]
 														+ " is not a valid from DataSource.",
-												"[ONDEXMapping - getAllowedDataSources]"));
+												getCurrentMethodName()));
 					if (toDataSource == null)
 						ONDEXEventHandler
 								.getEventHandlerForSID(graph.getSID())
@@ -333,7 +323,7 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 										new WrongParameterEvent(
 												values[1]
 														+ " is not a valid to DataSource.",
-												"[ONDEXMapping - getAllowedDataSources]"));
+												getCurrentMethodName()));
 				}
 			}
 		}

@@ -145,7 +145,7 @@ public class MappingTest {
         arg.addOption(ArgumentNames.RELATION_TYPE_ARG, "equ");
         arg.addOption(ArgumentNames.EQUIVALENT_CC_ARG, "Thing,Protein");
         arg.addOption(ArgumentNames.IGNORE_AMBIGUOUS_ARG, false);
-        arg.addOption(ArgumentNames.WITHIN_CV_ARG, false);
+        arg.addOption(ArgumentNames.WITHIN_DATASOURCE_ARG, false);
 
 
         m.setArguments(arg);
@@ -205,7 +205,7 @@ public class MappingTest {
         arg.addOption(ArgumentNames.RELATION_TYPE_ARG, "equ");
         arg.addOption(ArgumentNames.EQUIVALENT_CC_ARG, "Thing,Protein");
         arg.addOption(ArgumentNames.IGNORE_AMBIGUOUS_ARG, false);
-        arg.addOption(ArgumentNames.WITHIN_CV_ARG, false);
+        arg.addOption(ArgumentNames.WITHIN_DATASOURCE_ARG, false);
         arg.addOption(ArgumentNames.ATTRIBUTE_EQUALS_ARG, "TAXID");
 
         m.setArguments(arg);
@@ -254,7 +254,7 @@ public class MappingTest {
         arg.addOption(ArgumentNames.RELATION_TYPE_ARG, "equ");
 
         arg.addOption(ArgumentNames.IGNORE_AMBIGUOUS_ARG, false);
-        arg.addOption(ArgumentNames.WITHIN_CV_ARG, false);
+        arg.addOption(ArgumentNames.WITHIN_DATASOURCE_ARG, false);
 
 
         m.setArguments(arg);
@@ -290,7 +290,7 @@ public class MappingTest {
         arg.addOption(ArgumentNames.RELATION_TYPE_ARG, "equ");
         arg.addOption(ArgumentNames.EQUIVALENT_CC_ARG, "Thing,Protein");
         arg.addOption(ArgumentNames.IGNORE_AMBIGUOUS_ARG, false);
-        arg.addOption(ArgumentNames.WITHIN_CV_ARG, false);
+        arg.addOption(ArgumentNames.WITHIN_DATASOURCE_ARG, false);
 
         m.setArguments(arg);
         m.setONDEXGraph(graph);
@@ -336,7 +336,7 @@ public class MappingTest {
         arg.addOption(ArgumentNames.RELATION_TYPE_ARG, "equ");
         arg.addOption(ArgumentNames.EQUIVALENT_CC_ARG, "Thing,Protein");
         arg.addOption(ArgumentNames.IGNORE_AMBIGUOUS_ARG, false);
-        arg.addOption(ArgumentNames.WITHIN_CV_ARG, true);
+        arg.addOption(ArgumentNames.WITHIN_DATASOURCE_ARG, true);
 
         m.setArguments(arg);
         m.setONDEXGraph(graph);

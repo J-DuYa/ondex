@@ -175,7 +175,7 @@ public class LowMemoryAccessionBasedTest {
         arg.addOption(ArgumentNames.RELATION_TYPE_ARG, "equ");
         // arg.addOption(ArgumentNames.EQUIVALENT_CC_ARG, "Thing,Protein");
         arg.addOption(ArgumentNames.IGNORE_AMBIGUOUS_ARG, false);
-        arg.addOption(ArgumentNames.WITHIN_CV_ARG, false);
+        arg.addOption(ArgumentNames.WITHIN_DATASOURCE_ARG, false);
 
         lma_mapping.setArguments(arg);
         lma_mapping.setONDEXGraph(graph);
