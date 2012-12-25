@@ -26,12 +26,12 @@ import java.util.List;
  * EC Nomenclature Parser for the files: "enzclass.txt" "enzyme.dat" from
  * ftp://ftp.expasy.org/databases/enzyme/release_with_updates/
  * <p/>
- * latest tested version: 06/12/07
+ * latest tested version: 2012/11/28
  *
  * @author winnenbr, taubertj
  */
-@Status(description = "Tested March 2010 (Artem Lysenko)", status = StatusType.STABLE)
-@DatabaseTarget(name = "EXPASY ENZYME", description = "EXPASY ENZYME database", version = "4/10/2009", url = "http://www.expasy.ch/")
+@Status(description = "Tested December 2012 (Jan Taubert)", status = StatusType.STABLE)
+@DatabaseTarget(name = "EXPASY ENZYME", description = "EXPASY ENZYME database", version = "2012/11/28", url = "http://www.expasy.ch/")
 @DataURL(name = "enzclass and enzyme files", description = "enzclass and enzyme, all txt and dat files in directory files", urls = {"ftp://ftp.expasy.org/databases/enzyme"})
 @DataSourceRequired(ids = {
         MetaData.CV_EC, MetaData.CV_PROTSITE, MetaData.CV_UNIPROTKB})

@@ -1,5 +1,14 @@
 package net.sourceforge.ondex.mapping.ec2go;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.List;
+
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.annotations.DataURL;
 import net.sourceforge.ondex.annotations.DatabaseTarget;
@@ -10,27 +19,30 @@ import net.sourceforge.ondex.annotations.metadata.DataSourceRequired;
 import net.sourceforge.ondex.annotations.metadata.EvidenceTypeRequired;
 import net.sourceforge.ondex.annotations.metadata.RelationTypeRequired;
 import net.sourceforge.ondex.args.ArgumentDefinition;
-import net.sourceforge.ondex.args.StringArgumentDefinition;
-import net.sourceforge.ondex.core.*;
-import net.sourceforge.ondex.event.type.*;
+import net.sourceforge.ondex.args.FileArgumentDefinition;
+import net.sourceforge.ondex.core.Attribute;
+import net.sourceforge.ondex.core.AttributeName;
+import net.sourceforge.ondex.core.DataSource;
+import net.sourceforge.ondex.core.EvidenceType;
+import net.sourceforge.ondex.core.ONDEXConcept;
+import net.sourceforge.ondex.core.ONDEXRelation;
+import net.sourceforge.ondex.core.RelationType;
+import net.sourceforge.ondex.event.type.DataFileErrorEvent;
+import net.sourceforge.ondex.event.type.DataFileMissingEvent;
+import net.sourceforge.ondex.event.type.DataSourceMissingEvent;
+import net.sourceforge.ondex.event.type.EvidenceTypeMissingEvent;
+import net.sourceforge.ondex.event.type.GeneralOutputEvent;
+import net.sourceforge.ondex.event.type.InconsistencyEvent;
+import net.sourceforge.ondex.event.type.RelationTypeMissingEvent;
 import net.sourceforge.ondex.mapping.ONDEXMapping;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.List;
 
 /**
  * Parses the ec2go mapping from a given file.
  *
  * @author taubertj
  */
-@Status(description = "not tested yet", status = StatusType.EXPERIMENTAL)
-@DatabaseTarget(name = "geneontology-external2go-ec2go", description = "the ec componant of the external2go set of mappings in the geneontology", version = "08/09/09", url = "http://www.geneontology.org/external2go/")
+@Status(description = "Tested December 2012 (Jan Taubert)", status = StatusType.STABLE)
+@DatabaseTarget(name = "geneontology-external2go-ec2go", description = "the ec component of the external2go set of mappings in the geneontology", version = "2012/06/19", url = "http://www.geneontology.org/external2go/")
 @DataURL(name = "ec2go", description = "external2go mapping file", urls = "http://www.geneontology.org/external2go/ec2go")
 @DataSourceRequired(ids = MetaData.cvGO)
 @EvidenceTypeRequired(ids = MetaData.evidence)
@@ -171,9 +183,9 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
      * @return ArgumentDefinition<?>[]
      */
     public ArgumentDefinition<?>[] getArgumentDefinitions() {
-        StringArgumentDefinition filenameARG = new StringArgumentDefinition(
-                ArgumentNames.INPUT_FILE_ARG,
-                ArgumentNames.INPUT_FILE_ARG_DESC, true, null, false);
+        FileArgumentDefinition filenameARG = new FileArgumentDefinition(
+        		FileArgumentDefinition.INPUT_FILE,
+        		FileArgumentDefinition.INPUT_FILE_DESC, true, true, false);
         return new ArgumentDefinition<?>[]{filenameARG};
     }
 
