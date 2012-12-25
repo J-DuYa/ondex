@@ -1100,8 +1100,8 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 
 			// add new column
 			Object[] rowData = new Object[] { color, et, visibleNodes,
-					evidenceTypeTotalConcepts.get(et), visibleEdges,
-					evidenceTypeTotalRelations.get(et), visibleNodes > 0,
+					evidenceTypeTotalConcepts.get(et) != null ? evidenceTypeTotalConcepts.get(et) : 0, visibleEdges,
+					evidenceTypeTotalRelations.get(et) != null ? evidenceTypeTotalRelations.get(et) : 0, visibleNodes > 0,
 					visibleEdges > 0 };
 			model.addRow(rowData);
 		}
