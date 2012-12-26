@@ -384,8 +384,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				for (ConceptAccession hitConceptAcc : hitConcept
 						.getConceptAccessions()) {
 
-					if (evaluateMapping(graph, hitConcept, concept,
-							mapWithInDataSource)) {
+					if (evaluateMapping(graph, hitConcept, concept)) {
 						// DataSource must be the same and accession must not be
 						// ambiguous or ignore ambiguous
 						if (ignoreAmbiguity || !hitConceptAcc.isAmbiguous()) {

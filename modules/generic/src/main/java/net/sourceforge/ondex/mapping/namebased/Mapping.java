@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,6 +11,8 @@ import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
 import net.sourceforge.ondex.annotations.IncludeType;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.annotations.Webservice;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.BooleanArgumentDefinition;
@@ -43,11 +44,12 @@ import org.apache.lucene.search.Query;
  * @author taubertj
  */
 @Authors(authors = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
-@Custodians(custodians = { "Jochen Weile" }, emails = { "jweile at users.sourceforge.net" })
+@Custodians(custodians = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
+@Status(description = "Tested December 2012 (Jan Taubert)", status = StatusType.STABLE)
 @Webservice(description = "Added at Paul Fishers request! August 2011 Christian", include = IncludeType.ALWAYS)
 public class Mapping extends ONDEXMapping implements ArgumentNames {
 
-	private boolean includeUnidirection = true;
+	private boolean includeUniDirection = true;
 
 	// toggles debug messages to system.out
 	private static boolean DEBUG = false;
@@ -58,7 +60,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	// use only exact synonyms
 	private boolean exactSyn = false;
 
-	private boolean mapWithinCV = false;
+	private boolean mapWithInDataSource = false;
 
 	private boolean exactNameMapping = false;
 
@@ -83,7 +85,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	 * @return String
 	 */
 	public String getVersion() {
-		return new String("16.01.2008");
+		return new String("26.12.2012");
 	}
 
 	@Override
@@ -106,12 +108,12 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		StringMappingPairArgumentDefinition pairCC = new StringMappingPairArgumentDefinition(
 				EQUIVALENT_CC_ARG, EQUIVALENT_CC_ARG_DESC, false, null, true);
 
+		BooleanArgumentDefinition mapWithinCV = new BooleanArgumentDefinition(
+				WITHIN_DATASOURCE_ARG, WITHIN_DATASOURCE_ARG_DESC, false, false);
+
 		// these belong to this mapping method
 		BooleanArgumentDefinition exactSyn = new BooleanArgumentDefinition(
 				EXACT_SYN_ARG, EXACT_SYN_ARG_DESC, false, false);
-
-		BooleanArgumentDefinition mapWithinCV = new BooleanArgumentDefinition(
-				WITHIN_CV_ARG, WITHIN_CV_ARG_DESC, false, false);
 
 		RangeArgumentDefinition<Integer> nameThreshold = new RangeArgumentDefinition<Integer>(
 				NAME_THRESHOLD_ARG, NAME_THRESHOLD_ARG_DESC, false, 2, 0,
@@ -144,14 +146,15 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		}
 		fireEventOccurred(new GeneralOutputEvent(
 				"Matching of only exact synonyms is " + exactSyn,
-				"[Mapping - setArguments]"));
+				getCurrentMethodName()));
 		if (args.getUniqueValue(NAME_THRESHOLD_ARG) != null)
 			this.threshold = (Integer) args.getUniqueValue(NAME_THRESHOLD_ARG);
 		fireEventOccurred(new GeneralOutputEvent(
 				"Use name based mapping with concept name threshold "
-						+ this.threshold, "[Mapping - setArguments]"));
-		if (args.getUniqueValue(WITHIN_CV_ARG) != null) {
-			mapWithinCV = (Boolean) args.getUniqueValue(WITHIN_CV_ARG);
+						+ this.threshold, getCurrentMethodName()));
+		if (args.getUniqueValue(WITHIN_DATASOURCE_ARG) != null) {
+			mapWithInDataSource = (Boolean) args
+					.getUniqueValue(WITHIN_DATASOURCE_ARG);
 		}
 
 		if (args.getUniqueValue(EXACT_NAME_MAPPING_ARG) != null) {
@@ -192,11 +195,11 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			}
 		}
 
-		// get restrictions on ConceptClasses or CVs on relations
+		// get restrictions on ConceptClasses or DataSources on relations
 		Map<DataSource, DataSource> dataSourceMapping = getAllowedDataSources(graph);
 		Map<ConceptClass, ConceptClass> ccMapping = getAllowedCCs(graph);
 
-		// get the relationtypeset, evidencetype and hitattr for this mapping
+		// get the relationtype, evidencetype and hitattr for this mapping
 		RelationType rtSet = graph.getMetaData().getRelationType(
 				MetaData.relType);
 		EvidenceType eviType = graph.getMetaData().getEvidenceType(
@@ -209,21 +212,22 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		// will contain the ID combinations to be used for relations
 		Map<Integer, Map<Integer, Integer>> relations = new HashMap<Integer, Map<Integer, Integer>>();
 
-		NumberFormat formatter = new DecimalFormat(".00");
-		NumberFormat format = NumberFormat.getInstance();
+		NumberFormat decimalFormat = new DecimalFormat(".00");
+		NumberFormat numberFormat = NumberFormat.getInstance();
 
 		Set<ONDEXConcept> itConcept = graph.getConcepts();
 		double totals = itConcept.size();
 		double increments = totals / 50;
 		fireEventOccurred(new GeneralOutputEvent("Name based mapping on "
-				+ totals + " Concepts", "[Mapping - setONDEXGraph]"));
+				+ totals + " Concepts", getCurrentMethodName()));
 
 		for (ONDEXConcept concept : itConcept) {
 
 			if (processed > 0 && processed % increments == 0) {
-				System.out.println("Mapping complete on "
-						+ formatter.format(processed / totals * 100d) + "% ("
-						+ format.format(processed) + " Concepts");
+				fireEventOccurred(new GeneralOutputEvent("Mapping complete on "
+						+ decimalFormat.format(processed / totals * 100d)
+						+ "% (" + numberFormat.format(processed) + " Concepts",
+						getCurrentMethodName()));
 				if (processed % 200000 == 0) {
 					System.runFinalization();
 				}
@@ -246,7 +250,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			}
 
 			// at least two concept names should be identical
-			HashSet<String> cnames = new HashSet<String>();
+			Set<String> cnames = new HashSet<String>();
 
 			// add all concept names for this concept
 			for (ConceptName cn : concept.getConceptNames()) {
@@ -255,7 +259,6 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 					if (name.length() > 0) {
 						cnames.add(name);
 					}
-
 				}
 			}
 
@@ -283,7 +286,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 					for (String name : cnames) {
 						Query query;
 
-						if (mapWithinCV) {
+						if (mapWithInDataSource) {
 							query = LuceneQueryBuilder
 									.searchConceptByConceptNameExact(name, cc);
 						} else {
@@ -326,14 +329,13 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				}
 
 				// look for occurrences greater one
-
 				for (ONDEXConcept hitConcept : occurrences.keySet()) {
 					if (hitConcept.equals(concept)) {
 						continue;
 					}
 
 					// at least two concept names are identical
-					HashSet<String> hitCNames = new HashSet<String>();
+					Set<String> hitCNames = new HashSet<String>();
 					for (ConceptName cn : hitConcept.getConceptNames()) {
 						if (!exactSyn || cn.isPreferred()) {
 							String name = LuceneEnv.stripText(cn.getName())
@@ -350,15 +352,14 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 						DataSource hitConceptDataSource = hitConcept
 								.getElementOf();
 
-						// only map between different CVs
-						if (mapWithinCV
+						// only map between different data sources
+						if (mapWithInDataSource
 								|| !conceptDataSource
 										.equals(hitConceptDataSource)) {
 
-							// evaluate mapping for other cv, cc and gds
+							// evaluate mapping for other ds, cc and attr
 							// restrictions
-							if (evaluateMapping(graph, concept, hitConcept,
-									mapWithinCV)) {
+							if (evaluateMapping(graph, concept, hitConcept)) {
 
 								Map<Integer, Integer> toToScore = relations
 										.get(hitConcept.getId());
@@ -419,7 +420,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				}
 
 				// check for bidirectional hits
-				if (includeUnidirection
+				if (includeUniDirection
 						|| (relations.containsKey(toConceptID) && relations
 								.get(toConceptID).containsKey(fromConceptID))) {
 
@@ -437,7 +438,6 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 					int fromScore = relations.get(toConceptID).get(
 							fromConceptID);
 					if (fromScore < threshold) {
-						;
 						continue;
 					}
 
@@ -448,7 +448,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 					// check DataSource conditions
 					DataSource fromDataSource = fromConcept.getElementOf();
 					DataSource toDataSource = toConcept.getElementOf();
-					if (!mapWithinCV
+					if (!mapWithInDataSource
 							&& dataSourceMapping.size() == 0
 							&& toDataSource.equals(dataSourceMapping
 									.get(fromDataSource))) {
@@ -463,8 +463,8 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 						continue;
 					}
 
-					// different CVs
-					if (mapWithinCV
+					// different data sources
+					if (mapWithInDataSource
 							|| !fromConcept.getElementOf().equals(
 									toConcept.getElementOf())) {
 
@@ -522,7 +522,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 		fireEventOccurred(new GeneralOutputEvent(
 				"Uni directional hits excluded = " + unidirectional,
-				"[Mapping - setONDEXGraph]"));
+				getCurrentMethodName()));
 	}
 
 	/**

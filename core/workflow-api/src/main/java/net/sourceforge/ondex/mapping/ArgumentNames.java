@@ -18,8 +18,12 @@ public interface ArgumentNames {
 			+ "specified by this parameter is the same.";
 
 	public static final String CONCEPTCLASS_RESTRICTION_ARG = "ConceptClassRestriction";
-	public static final String CONCEPTCLASS_RESTRICTION_ARG_DESC = "A Concept Class Restriction as an concept class that is used as the seed in the mapping";
+	public static final String CONCEPTCLASS_RESTRICTION_ARG_DESC = "A ConceptClass Restriction as an concept class that is used as the seed in the mapping";
 
 	public static final String DATASOURCE_RESTRICTION_ARG = "DataSourceRestriction";
 	public static final String DATASOURCE_RESTRICTION_ARG_DESC = "A DataSource Restriction as an ordered pair representing from and to Concepts in an evaluated Relation. (add the reverse compliment if direction is not important)";
+
+	public final static String WITHIN_DATASOURCE_ARG = "WithinDataSourceMapping";
+	public final static String WITHIN_DATASOURCE_ARG_DESC = "Map also within each DataSource.";
+
 }

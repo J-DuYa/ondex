@@ -6,7 +6,7 @@ package net.sourceforge.ondex.mapping.graphpattern;
  * @author taubertj
  *
  */
-public interface ArgumentNames {
+public interface ArgumentNames extends net.sourceforge.ondex.mapping.ArgumentNames {
 
 	public static final String PATTERN_ARG = "pattern";
 
@@ -16,6 +16,4 @@ public interface ArgumentNames {
 
 	public static final String RELATIONTYPE_ARG_DESC = "The relation type to be considered at sufficient between concepts of the criteria concept class. (default: equ)";
 
-	public final static String WITHIN_CV_ARG = "WithinCVMapping";
-	public final static String WITHIN_CV_ARG_DESC = "Map within CVs";
 }

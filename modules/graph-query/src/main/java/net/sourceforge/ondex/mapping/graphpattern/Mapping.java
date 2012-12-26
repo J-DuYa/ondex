@@ -22,12 +22,12 @@ import java.util.*;
 @Custodians(custodians = { "Matthew Hindle" }, emails = { " matthew_hindle at users.sourceforge.net" })
 public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 
-	private boolean mapWithinCV = false;
+	private boolean mapWithInDataSource = false;
 
 	@Override
 	public void start() throws Exception {
-		if (args.getUniqueValue(WITHIN_CV_ARG) != null) {
-			mapWithinCV = (Boolean) args.getUniqueValue(WITHIN_CV_ARG);
+		if (args.getUniqueValue(WITHIN_DATASOURCE_ARG) != null) {
+			mapWithInDataSource = (Boolean) args.getUniqueValue(WITHIN_DATASOURCE_ARG);
 		}
 
 		// relation type to create between mapped entries
@@ -35,7 +35,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 		if (equ == null) {
 			this.fireEventOccurred(new RelationTypeMissingEvent(
 					"Required relation type " + RT + " not found in metadata.",
-					"[Mapping - start]"));
+					getCurrentMethodName()));
 			equ = graph.getMetaData().getFactory().createRelationType(RT);
 		}
 
@@ -44,7 +44,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 		if (et == null) {
 			this.fireEventOccurred(new EvidenceTypeMissingEvent(
 					"Required evidence type " + ET + " not found in metadata.",
-					"[Mapping - start]"));
+					getCurrentMethodName()));
 			et = graph.getMetaData().getFactory().createEvidenceType(ET);
 		}
 
@@ -53,7 +53,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 		if (an == null) {
 			this.fireEventOccurred(new AttributeNameMissingEvent(
 					"Required attribute name " + AN + " not found in metadata.",
-					"[Mapping - start]"));
+					getCurrentMethodName()));
 			an = graph.getMetaData().getFactory()
 					.createAttributeName(AN, Integer.class);
 		}
@@ -68,7 +68,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 						"Specified relation type "
 								+ args.getUniqueValue(RELATIONTYPE_ARG)
 								+ " not found in metadata.",
-						"[Mapping - start]"));
+								getCurrentMethodName()));
 				return;
 			}
 		}
@@ -84,7 +84,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 					this.fireEventOccurred(new ConceptClassMissingEvent(
 							"Specified concept class " + id + " in pattern "
 									+ o + " not found in metadata.",
-							"[Mapping - start]"));
+									getCurrentMethodName()));
 					return;
 				}
 				pattern.add(cc);
@@ -93,14 +93,14 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 			if (pattern.size() >= 2) {
 				this.fireEventOccurred(new GeneralOutputEvent(
 						"Adding concept class pattern " + o,
-						"[Mapping - start]"));
+						getCurrentMethodName()));
 				patterns.add(pattern);
 			} else {
 				this.fireEventOccurred(new PluginErrorEvent(
 						"Specified pattern "
 								+ o
 								+ " doesnt fulfill minimal length requirement of 2.",
-						"[Mapping - start]"));
+								getCurrentMethodName()));
 				return;
 			}
 		}
@@ -169,7 +169,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 				// map only within same concept class and different CVs
 				if (conceptA.getOfType().equals(conceptB.getOfType())
 						&& (!conceptA.getElementOf().equals(
-								conceptB.getElementOf()) || mapWithinCV)) {
+								conceptB.getElementOf()) || mapWithInDataSource)) {
 
 					// no relationship between considered entries given
 					if (rt == null) {
@@ -238,7 +238,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames, MetaData {
 		StringArgumentDefinition relationtype = new StringArgumentDefinition(
 				RELATIONTYPE_ARG, RELATIONTYPE_ARG_DESC, false, null, false);
 		BooleanArgumentDefinition mapWithinCV = new BooleanArgumentDefinition(
-				WITHIN_CV_ARG, WITHIN_CV_ARG_DESC, false, false);
+				WITHIN_DATASOURCE_ARG, WITHIN_DATASOURCE_ARG_DESC, false, false);
 		return new ArgumentDefinition<?>[] { pattern, relationtype, mapWithinCV };
 	}
 

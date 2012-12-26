@@ -194,7 +194,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
                         // CC equal, DataSource not
                         if (!conceptDataSource.equals(hitConceptDataSource)) {
-                            if (this.evaluateMapping(graph, hitConcept, concept, false)) {
+                            if (this.evaluateMapping(graph, hitConcept, concept)) {
                                 // add hit concept ID to set for current concept
                                 hitConceptIDs.add(hitConcept.getId());
                             }

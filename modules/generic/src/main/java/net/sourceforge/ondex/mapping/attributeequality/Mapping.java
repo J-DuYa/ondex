@@ -43,7 +43,7 @@ public class Mapping extends ONDEXMapping implements MetaData, ArgumentNames {
 	public void start() throws NullValueException, EmptyStringException,
 			InvalidPluginArgumentException {
 
-		Boolean withinCV = (Boolean) args.getUniqueValue(WITHIN_DATASOURCE_ARG);
+		Boolean mapWithInDataSource = (Boolean) args.getUniqueValue(WITHIN_DATASOURCE_ARG);
 		Boolean ignoreCase = (Boolean) args.getUniqueValue(IGNORE_CASE_ARG);
 
 		String replacePatternString = (String) args
@@ -67,8 +67,8 @@ public class Mapping extends ONDEXMapping implements MetaData, ArgumentNames {
 			replacePattern = Pattern.compile(replacePatternString);
 		}
 
-		if (withinCV == null)
-			withinCV = false;
+		if (mapWithInDataSource == null)
+			mapWithInDataSource = false;
 
 		// get the relationtype and evidencetype for this mapping
 		relationType = graph.getMetaData().getRelationType(
@@ -133,8 +133,7 @@ public class Mapping extends ONDEXMapping implements MetaData, ArgumentNames {
 			for (ONDEXConcept concept : concepts) {
 				for (ONDEXConcept cloneConcept : concepts) {
 					if (cloneConcept.getId() != concept.getId()) {
-						if (!evaluateMapping(graph, concept, cloneConcept,
-								withinCV)) {
+						if (!evaluateMapping(graph, concept, cloneConcept)) {
 							continue;
 						}
 

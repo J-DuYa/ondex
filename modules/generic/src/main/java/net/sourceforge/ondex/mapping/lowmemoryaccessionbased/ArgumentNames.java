@@ -18,9 +18,6 @@ public interface ArgumentNames extends
 
 	public final static String RELATION_TYPE_ARG = "RelationType";
 	public final static String RELATION_TYPE_ARG_DESC = "The relation type to create between matching concepts: default relation type is the equals relation type.";
-
-	public final static String WITHIN_DATASOURCE_ARG = "WithinDataSourceMapping";
-	public final static String WITHIN_DATASOURCE_ARG_DESC = "Map also within each DataSource.";
 	
 	public static final String MAX_RELATIONS_ARG = "MaxRelations";
 	public static final String MAX_RELATIONS_ARG_DESC = "The Max Number of Relations to create before aborting (usful for cyclical mapping and collapsing)";

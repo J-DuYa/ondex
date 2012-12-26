@@ -13,9 +13,6 @@ public interface ArgumentNames extends net.sourceforge.ondex.mapping.ArgumentNam
 
 	public final static String EXACT_SYN_ARG = "ExactSynonyms";
 	public final static String EXACT_SYN_ARG_DESC = "Force matching of only exact Synonyms (preferred concept names).";
-
-	public final static String WITHIN_CV_ARG = "WithinCVMapping";
-	public final static String WITHIN_CV_ARG_DESC = "Map within CVs";
 	
 	public final static String EXACT_NAME_MAPPING_ARG = "ExactNameMapping";
 	public final static String EXACT_NAME_MAPPING_ARG_DESC = "Enforces when true that mappings between names should be case insensitive exact";

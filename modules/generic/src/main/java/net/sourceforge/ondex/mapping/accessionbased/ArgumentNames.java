@@ -19,6 +19,4 @@ public interface ArgumentNames extends
 	public final static String RELATION_TYPE_ARG = "RelationType";
 	public final static String RELATION_TYPE_ARG_DESC = "The relation type to create between matching concepts: default relation type is the equals relation type.";
 
-	public final static String WITHIN_CV_ARG = "WithinSameDataSource";
-	public final static String WITHIN_CV_ARG_DESC = "Map also within the same DataSource";
 }

@@ -18,9 +18,6 @@ public interface ArgumentNames extends
 	public final static String RELATION_ARG = "RelationType";
 	public final static String RELATION_DESC = "RelationType to create when conditions are met";
 
-	public final static String WITHIN_DATASOURCE_ARG = "WithinDataSourceMapping";
-	public final static String WITHIN_DATASOURCE_ARG_DESC = "Map within DataSources";
-
 	public final static String REPLACE_PATTERN_ARG = "ReplacePattern";
 	public final static String REPLACE_PATTERN_ARG_DESC = "An optional preprocessing pattern if Attribute is on Strings";
 

@@ -94,7 +94,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				IGNORE_AMBIGUOUS_ARG, IGNORE_AMBIGUOUS_ARG_DESC, false, false);
 
 		BooleanArgumentDefinition mapWithinCV = new BooleanArgumentDefinition(
-				WITHIN_CV_ARG, WITHIN_CV_ARG_DESC, false, false);
+				WITHIN_DATASOURCE_ARG, WITHIN_DATASOURCE_ARG_DESC, false, false);
 
 		StringArgumentDefinition relationType = new StringArgumentDefinition(
 				RELATION_TYPE_ARG, RELATION_TYPE_ARG_DESC, false, "equ", false);
@@ -138,8 +138,8 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 	public void start() throws InvalidPluginArgumentException {
 
-		if (args.getUniqueValue(WITHIN_CV_ARG) != null) {
-			mapWithinCV = (Boolean) args.getUniqueValue(WITHIN_CV_ARG);
+		if (args.getUniqueValue(WITHIN_DATASOURCE_ARG) != null) {
+			mapWithinCV = (Boolean) args.getUniqueValue(WITHIN_DATASOURCE_ARG);
 		}
 
 		// get mapping options
@@ -274,8 +274,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 																			.getAccession())) {
 
 												if (this.evaluateMapping(graph,
-														hitConcept, concept,
-														this.mapWithinCV)) {
+														hitConcept, concept)) {
 													// DataSource must be the
 													// same and
 													// accession must not be

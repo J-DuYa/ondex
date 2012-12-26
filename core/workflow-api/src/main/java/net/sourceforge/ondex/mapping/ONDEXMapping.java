@@ -80,8 +80,13 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 	 * @return boolean
 	 */
 	protected boolean evaluateMapping(ONDEXGraph graph, ONDEXConcept c1,
-			ONDEXConcept c2, boolean mapWithinDataSource)
-			throws InvalidPluginArgumentException {
+			ONDEXConcept c2) throws InvalidPluginArgumentException {
+
+		boolean mapWithinDataSource = false;
+		if (args.getUniqueValue(ArgumentNames.WITHIN_DATASOURCE_ARG) != null) {
+			mapWithinDataSource = (Boolean) args
+					.getUniqueValue(ArgumentNames.WITHIN_DATASOURCE_ARG);
+		}
 
 		if (DEBUG)
 			System.out.println("Equal: " + c1.equals(c2));
