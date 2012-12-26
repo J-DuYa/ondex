@@ -76,7 +76,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	 * @return String
 	 */
 	public String getName() {
-		return new String("ConceptName based mapping");
+		return new String("Concept name based mapping");
 	}
 
 	/**

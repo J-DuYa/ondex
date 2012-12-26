@@ -129,7 +129,7 @@ public class Parser extends ONDEXParser {
 		isGOSLIM = (Boolean) args.getUniqueValue(ArgumentNames.IS_GOSLIM_ARG);
 
 		GeneralOutputEvent goe = new GeneralOutputEvent(
-				"Starting GO parsing...", "[Parser - setONDEXGraph]");
+				"Starting GO parsing...", getCurrentMethodName());
 		goe.setLog4jLevel(Level.INFO);
 		fireEventOccurred(goe);
 
@@ -141,7 +141,7 @@ public class Parser extends ONDEXParser {
 				(String) args.getUniqueValue(FileArgumentDefinition.INPUT_FILE));
 
 		goe = new GeneralOutputEvent("Using GO flatfile " + go_obo_file,
-				"[Parser - setONDEXGraph]");
+				getCurrentMethodName());
 		goe.setLog4jLevel(Level.INFO);
 		fireEventOccurred(goe);
 
@@ -152,10 +152,10 @@ public class Parser extends ONDEXParser {
 			results = imp.getFileContent(go_obo_file);
 		} catch (FileNotFoundException fnfe) {
 			fireEventOccurred(new DataFileMissingEvent(fnfe.getMessage(),
-					"[Parser - setONDEXGraph]"));
+					getCurrentMethodName()));
 		} catch (IOException ioe) {
 			fireEventOccurred(new DataFileErrorEvent(ioe.getMessage(),
-					"[Parser - setONDEXGraph]"));
+					getCurrentMethodName()));
 		}
 
 		// get ONDEX metadata for GO database
@@ -172,12 +172,12 @@ public class Parser extends ONDEXParser {
 
 			if (!getObsoletes) {
 				goe = new GeneralOutputEvent("Ignoring obsolete terms.",
-						"[Parser - createConcepts]");
+						getCurrentMethodName());
 				goe.setLog4jLevel(Level.INFO);
 				fireEventOccurred(goe);
 			} else {
 				goe = new GeneralOutputEvent("Also parsing obsolete terms.",
-						"[Parser - createConcepts]");
+						getCurrentMethodName());
 				goe.setLog4jLevel(Level.INFO);
 				fireEventOccurred(goe);
 			}
@@ -191,12 +191,12 @@ public class Parser extends ONDEXParser {
 
 			goe = new GeneralOutputEvent("Chopped of \"activity\" "
 					+ this.activity_chopped + " times.",
-					"[Parser - setONDEXGraph]");
+					getCurrentMethodName());
 			goe.setLog4jLevel(Level.INFO);
 			fireEventOccurred(goe);
 
 			goe = new GeneralOutputEvent("GO parsing finished!",
-					"[Parser - setONDEXGraph]");
+					getCurrentMethodName());
 			goe.setLog4jLevel(Level.INFO);
 			fireEventOccurred(goe);
 		}
@@ -229,7 +229,7 @@ public class Parser extends ONDEXParser {
 		dataSourceGO = graph.getMetaData().getDataSource(goCV);
 		if (dataSourceGO == null) {
 			fireEventOccurred(new DataSourceMissingEvent(goCV,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -237,7 +237,7 @@ public class Parser extends ONDEXParser {
 		dataSourceEC = graph.getMetaData().getDataSource(MetaData.cvEC);
 		if (dataSourceEC == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvEC,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -245,7 +245,7 @@ public class Parser extends ONDEXParser {
 		dataSourceTC = graph.getMetaData().getDataSource(MetaData.cvTC);
 		if (dataSourceTC == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvTC,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -253,7 +253,7 @@ public class Parser extends ONDEXParser {
 		dataSourceAC = graph.getMetaData().getDataSource(MetaData.cvAC);
 		if (dataSourceAC == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvAC,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -261,7 +261,7 @@ public class Parser extends ONDEXParser {
 		dataSourceMC = graph.getMetaData().getDataSource(MetaData.cvMC);
 		if (dataSourceMC == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvMC,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -269,7 +269,7 @@ public class Parser extends ONDEXParser {
 		dataSourceRESID = graph.getMetaData().getDataSource(MetaData.cvRESID);
 		if (dataSourceRESID == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvRESID,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -277,7 +277,7 @@ public class Parser extends ONDEXParser {
 		dataSourceUME = graph.getMetaData().getDataSource(MetaData.cvUME);
 		if (dataSourceUME == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvUME,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -285,7 +285,7 @@ public class Parser extends ONDEXParser {
 		dataSourceUMR = graph.getMetaData().getDataSource(MetaData.cvUMR);
 		if (dataSourceUMR == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvUMR,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -293,7 +293,7 @@ public class Parser extends ONDEXParser {
 		dataSourceUMP = graph.getMetaData().getDataSource(MetaData.cvUMP);
 		if (dataSourceUMP == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvUMP,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -301,7 +301,7 @@ public class Parser extends ONDEXParser {
 		dataSourceREAC = graph.getMetaData().getDataSource(MetaData.cvREAC);
 		if (dataSourceREAC == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvREAC,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -309,7 +309,7 @@ public class Parser extends ONDEXParser {
 		dataSourceWIKI = graph.getMetaData().getDataSource(MetaData.cvWIKI);
 		if (dataSourceWIKI == null) {
 			fireEventOccurred(new DataSourceMissingEvent(MetaData.cvWIKI,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -329,7 +329,7 @@ public class Parser extends ONDEXParser {
 		et = graph.getMetaData().getEvidenceType(MetaData.IMPD);
 		if (et == null) {
 			fireEventOccurred(new EvidenceTypeMissingEvent(MetaData.IMPD,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -337,7 +337,7 @@ public class Parser extends ONDEXParser {
 		ccMolFunc = graph.getMetaData().getConceptClass(MetaData.MolFunc);
 		if (ccMolFunc == null) {
 			fireEventOccurred(new ConceptClassMissingEvent(MetaData.MolFunc,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -345,7 +345,7 @@ public class Parser extends ONDEXParser {
 		ccBioProc = graph.getMetaData().getConceptClass(MetaData.BioProc);
 		if (ccBioProc == null) {
 			fireEventOccurred(new ConceptClassMissingEvent(MetaData.BioProc,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -353,7 +353,7 @@ public class Parser extends ONDEXParser {
 		ccCelComp = graph.getMetaData().getConceptClass(MetaData.CelComp);
 		if (ccCelComp == null) {
 			fireEventOccurred(new ConceptClassMissingEvent(MetaData.CelComp,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		}
 
@@ -361,7 +361,7 @@ public class Parser extends ONDEXParser {
 		RelationType is_a = graph.getMetaData().getRelationType(MetaData.is_a);
 		if (is_a == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.is_a,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else
 			relation_name.put("is_a", is_a); // defined for convenience
@@ -370,7 +370,7 @@ public class Parser extends ONDEXParser {
 		RelationType is_p = graph.getMetaData().getRelationType(MetaData.is_p);
 		if (is_p == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.is_p,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else
 			relation_name.put("part_of", is_p);
@@ -380,7 +380,7 @@ public class Parser extends ONDEXParser {
 				MetaData.has_part);
 		if (has_part == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.has_part,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else
 			relation_name.put("has_part", has_part);
@@ -390,7 +390,7 @@ public class Parser extends ONDEXParser {
 				MetaData.occurs_in);
 		if (occurs_in == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.occurs_in,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else
 			relation_name.put("occurs_in", occurs_in);
@@ -400,7 +400,7 @@ public class Parser extends ONDEXParser {
 				MetaData.results_in);
 		if (results_in == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.results_in,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else
 			relation_name.put("results_in", results_in);
@@ -410,7 +410,7 @@ public class Parser extends ONDEXParser {
 				MetaData.rtRp_by);
 		if (rp_by == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.rtRp_by,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else
 			relation_name.put("rp_by", rp_by);
@@ -420,7 +420,7 @@ public class Parser extends ONDEXParser {
 				MetaData.rtRegulates);
 		if (rg_by == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(
-					MetaData.rtRegulates, "[Parser - getMetaData]"));
+					MetaData.rtRegulates, getCurrentMethodName()));
 			ready = false;
 		} else {
 			relation_name.put("regulates", rg_by);
@@ -430,7 +430,7 @@ public class Parser extends ONDEXParser {
 				MetaData.rtPos_reg);
 		if (pos_reg == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.rtPos_reg,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else {
 			relation_name.put("positively_regulates", pos_reg);
@@ -440,7 +440,7 @@ public class Parser extends ONDEXParser {
 				MetaData.rtPos_reg);
 		if (neg_reg == null) {
 			fireEventOccurred(new RelationTypeMissingEvent(MetaData.rtNeg_reg,
-					"[Parser - getMetaData]"));
+					getCurrentMethodName()));
 			ready = false;
 		} else {
 			relation_name.put("negatively_regulates", neg_reg);
@@ -503,22 +503,20 @@ public class Parser extends ONDEXParser {
 				} else {
 					fireEventOccurred(new InconsistencyEvent(
 							"Namespace missing for GO object (" + obo.getId()
-									+ ")", "[Parser - setONDEXGraph]"));
+									+ ")", getCurrentMethodName()));
 				}
 
 				// create GO ConceptAccession
 				accession = concept.createConceptAccession(id, dataSourceGO,
 						false);
-				accession.setAmbiguous(false);
 
 				// go through list of alternative GO ConceptAccessions
 				for (int j = 0; j < obo.getAlt_ids().size(); j++) {
 					accession = concept.createConceptAccession(obo.getAlt_ids()
-							.get(j), dataSourceGO, false);
-					accession.setAmbiguous(true);
+							.get(j), dataSourceGO, true);
 				}
 
-				// go through list of ConceptAccessions from other CVs
+				// go through list of ConceptAccessions from other data sources
 				for (int j = 0; j < obo.getRefs().size(); j++) {
 					boolean ambiguous = false;
 					boolean write = false;
@@ -611,7 +609,7 @@ public class Parser extends ONDEXParser {
 						// + xref
 						// +
 						// "\" referenced from xref field in GO file unknown!",
-						// "[Parser - setONDEXGraph]"));
+						// getCurrentMethodName()));
 					}
 
 					if (write) {
@@ -634,12 +632,10 @@ public class Parser extends ONDEXParser {
 
 				// represents already written syns - prevents duplication
 				// accross syn types
-				HashSet<String> writtenSyns = new HashSet<String>();
+				Set<String> writtenSyns = new HashSet<String>();
 				writtenSyns.add(concept_name);
 
-				for (String s1 : obo.getSynonyms().keySet()) {
-					String synType = s1;
-
+				for (String synType : obo.getSynonyms().keySet()) {
 					// write exact syns first these are the most important
 					if (synType.equalsIgnoreCase(OboConcept.exactSynonym)) {
 						for (String s : obo.getSynonyms().get(synType)) {
@@ -690,7 +686,7 @@ public class Parser extends ONDEXParser {
 			GeneralOutputEvent goe = new GeneralOutputEvent(
 					"Data Sources (Xrefs) that are not in the Ondex MetaData: "
 							+ createdDataSources.toString(),
-					"[Parser - setONDEXGraph]");
+					getCurrentMethodName());
 			fireEventOccurred(goe);
 		}
 

@@ -21,7 +21,7 @@ public class OboImporter {
     private String getText(String input) {
         if (input.startsWith("\"")) {
             input = input.substring(1, input.length());
-            int index = input.indexOf("\"");
+            int index = input.lastIndexOf("\"");
             input = input.substring(0, index);
         }
         return input;

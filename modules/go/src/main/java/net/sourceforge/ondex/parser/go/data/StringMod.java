@@ -36,7 +36,8 @@ public class StringMod {
 	/**
 	 * Remove ending "activity" from a name.
 	 * 
-	 * @param name String
+	 * @param name
+	 *            String
 	 * @return String
 	 */
 	public static String removeActivity(String name) {
@@ -49,9 +50,10 @@ public class StringMod {
 	}
 
 	/**
-	 * Removes unnecessary content from 
+	 * Removes unnecessary content from
 	 * 
-	 * @param input String
+	 * @param input
+	 *            String
 	 * @return String
 	 */
 	public static String removeUnwanted(String input) {
@@ -61,30 +63,13 @@ public class StringMod {
 		input = input.replace('/', ' ');
 		input = input.replace('\\', ' ');
 
-		StringTokenizer st = new StringTokenizer(input);
-
-		String backup_input = input;
 		String result = input;
-		boolean take = true;
 
-		if (st.countTokens() > 1) { // remove tokens in "(...)" only if there is
-			// more then one token
-			result = "";
-			while (st.hasMoreTokens()) {
-				String token = st.nextToken();
-
-				if (token.indexOf("(") != -1)
-					take = false;
-				if ((token.indexOf(")") != -1) && !take)
-					take = true;
-
-				if ((take) && (token.indexOf(")") == -1))
-					result = result + " " + token;
-			}
+		// only remove last "(...)"
+		if (result.lastIndexOf("(") > -1
+				&& result.lastIndexOf(")") == result.length() - 1) {
+			result = result.substring(0, result.lastIndexOf("("));
 		}
-
-		if (result.length() == 0) // if the result is still empty ...
-			result = backup_input;
 
 		result = result.trim();
 
