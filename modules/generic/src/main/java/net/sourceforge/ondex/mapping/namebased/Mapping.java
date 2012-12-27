@@ -85,7 +85,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 	 * @return String
 	 */
 	public String getVersion() {
-		return new String("26.12.2012");
+		return new String("27.12.2012");
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				exactNameMapping };
 	}
 
-	private HashMap<ConceptClass, HashSet<ConceptClass>> ccRestrictionMap = null;
+	private Map<ConceptClass, Set<ConceptClass>> ccRestrictionMap = null;
 
 	@Override
 	public void start() throws InvalidPluginArgumentException {
@@ -170,7 +170,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			for (Object ccPair : validCCMap) {
 				String[] pair = ((String) ccPair).split(",");
 				if (ccRestrictionMap == null) {
-					ccRestrictionMap = new HashMap<ConceptClass, HashSet<ConceptClass>>();
+					ccRestrictionMap = new HashMap<ConceptClass, Set<ConceptClass>>();
 				}
 				ConceptClass fromCC = graph.getMetaData().getConceptClass(
 						pair[0]);
@@ -178,7 +178,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 						.getConceptClass(pair[1]);
 
 				// fwd mapping
-				HashSet<ConceptClass> map = ccRestrictionMap.get(fromCC);
+				Set<ConceptClass> map = ccRestrictionMap.get(fromCC);
 				if (map == null) {
 					map = new HashSet<ConceptClass>();
 					ccRestrictionMap.put(fromCC, map);
@@ -209,8 +209,8 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 		double processed = 0;
 
-		// will contain the ID combinations to be used for relations
-		Map<Integer, Map<Integer, Integer>> relations = new HashMap<Integer, Map<Integer, Integer>>();
+		// will contain the concept combinations to be used for relations
+		Map<ONDEXConcept, Map<ONDEXConcept, Integer>> relations = new HashMap<ONDEXConcept, Map<ONDEXConcept, Integer>>();
 
 		NumberFormat decimalFormat = new DecimalFormat(".00");
 		NumberFormat numberFormat = NumberFormat.getInstance();
@@ -312,8 +312,10 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 										.getConceptNames()) {
 									String compName = LuceneEnv.stripText(
 											cn.getName()).trim();
-									if (compName.equalsIgnoreCase(name)) {
-										foundExact = true;
+									if (!exactSyn || cn.isPreferred()) {
+										if (compName.equalsIgnoreCase(name)) {
+											foundExact = true;
+										}
 									}
 								}
 								if (!foundExact) {
@@ -361,18 +363,17 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 							// restrictions
 							if (evaluateMapping(graph, concept, hitConcept)) {
 
-								Map<Integer, Integer> toToScore = relations
-										.get(hitConcept.getId());
-								if (toToScore == null) {
-									toToScore = new HashMap<Integer, Integer>();
-									relations
-											.put(hitConcept.getId(), toToScore);
+								Map<ONDEXConcept, Integer> toConceptToScore = relations
+										.get(hitConcept);
+								if (toConceptToScore == null) {
+									toConceptToScore = new HashMap<ONDEXConcept, Integer>();
+									relations.put(hitConcept, toConceptToScore);
 								}
 
 								// update score for this specific hitconcept,
 								// concept
 								int score = occurrences.get(hitConcept);
-								toToScore.put(concept.getId(), score);
+								toConceptToScore.put(concept, score);
 
 							} else {
 								if (DEBUG) {
@@ -405,45 +406,41 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		if (DEBUG)
 			System.out.println(relations.size()
 					+ " concepts with hits so far..");
-		for (int fromConceptID : relations.keySet().toArray(new Integer[0])) {
+		for (ONDEXConcept fromConcept : relations.keySet()) {
 
 			// get everything, that was mapped to this concept
-			Map<Integer, Integer> relationHits = relations.get(fromConceptID);
+			Map<ONDEXConcept, Integer> relationHits = relations.get(fromConcept);
 
-			// get toConcept IDs
-			for (int toConceptID : relationHits.keySet()) {
+			// get toConcepts
+			for (ONDEXConcept toConcept : relationHits.keySet()) {
 
 				// check for sufficient score
-				int toScore = relationHits.get(toConceptID);
+				int toScore = relationHits.get(toConcept);
 				if (toScore < threshold) {
 					continue;
 				}
 
 				// check for bidirectional hits
 				if (includeUniDirection
-						|| (relations.containsKey(toConceptID) && relations
-								.get(toConceptID).containsKey(fromConceptID))) {
+						|| (relations.containsKey(toConcept) && relations
+								.get(toConcept).containsKey(fromConcept))) {
 
-					if (!(relations.containsKey(toConceptID) && relations.get(
-							toConceptID).containsKey(fromConceptID))) {
-						Map<Integer, Integer> map = relations.get(toConceptID);
+					if (!(relations.containsKey(toConcept) && relations.get(
+							toConcept).containsKey(fromConcept))) {
+						Map<ONDEXConcept, Integer> map = relations.get(toConcept);
 						if (map == null) {
-							map = new HashMap<Integer, Integer>();
-							relations.put(toConceptID, map);
+							map = new HashMap<ONDEXConcept, Integer>();
+							relations.put(toConcept, map);
 						}
-						map.put(fromConceptID, toScore);
+						map.put(fromConcept, toScore);
 					}
 
 					// check for sufficient score
-					int fromScore = relations.get(toConceptID).get(
-							fromConceptID);
+					int fromScore = relations.get(toConcept).get(
+							fromConcept);
 					if (fromScore < threshold) {
 						continue;
 					}
-
-					// get concepts for ids
-					ONDEXConcept fromConcept = graph.getConcept(fromConceptID);
-					ONDEXConcept toConcept = graph.getConcept(toConceptID);
 
 					// check DataSource conditions
 					DataSource fromDataSource = fromConcept.getElementOf();

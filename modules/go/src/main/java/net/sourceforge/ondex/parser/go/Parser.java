@@ -613,6 +613,8 @@ public class Parser extends ONDEXParser {
 					}
 
 					if (write) {
+						if (xref_name.indexOf(" ") > -1)
+							xref_name = xref_name.substring(0, xref_name.indexOf(" "));
 						accession = concept.createConceptAccession(xref_name,
 								dataSourceAccession, ambiguous);
 					}
@@ -623,7 +625,7 @@ public class Parser extends ONDEXParser {
 
 				// get rid of activity (fillword, EC does not have this word for
 				// their enzyme classes)
-				concept_name = concept_name.trim();
+				concept_name = StringMod.removeUnwanted(concept_name.trim());
 				if (!concept_name.equals(concept_name = StringMod
 						.removeActivity(concept_name))) {
 					activity_chopped++;
