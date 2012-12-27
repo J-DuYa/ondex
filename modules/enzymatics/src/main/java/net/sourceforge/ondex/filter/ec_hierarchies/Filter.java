@@ -27,7 +27,7 @@ import static net.sourceforge.ondex.filter.ec_hierarchies.MetaData.CC_EC;
  */
 @Status(description = "not tested yet", status = StatusType.EXPERIMENTAL)
 @DataSourceRequired(ids = {
-        net.sourceforge.ondex.parser.ec.MetaData.CV_EC})
+        net.sourceforge.ondex.parser.ec.MetaData.DS_EC})
 @ConceptClassRequired(ids = {
         MetaData.CC_EC})
 public class Filter extends ONDEXFilter

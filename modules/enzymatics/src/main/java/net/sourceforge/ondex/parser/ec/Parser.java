@@ -34,7 +34,7 @@ import java.util.List;
 @DatabaseTarget(name = "EXPASY ENZYME", description = "EXPASY ENZYME database", version = "2012/11/28", url = "http://www.expasy.ch/")
 @DataURL(name = "enzclass and enzyme files", description = "enzclass and enzyme, all txt and dat files in directory files", urls = {"ftp://ftp.expasy.org/databases/enzyme"})
 @DataSourceRequired(ids = {
-        MetaData.CV_EC, MetaData.CV_PROTSITE, MetaData.CV_UNIPROTKB})
+        MetaData.DS_EC, MetaData.DS_PROTSITE, MetaData.DS_UNIPROTKB})
 @ConceptClassRequired(ids = {
         MetaData.CC_EC, MetaData.CC_PROTEIN, MetaData.CC_PROTEIN_FAMILY})
 @EvidenceTypeRequired(ids = {MetaData.ET})
@@ -60,7 +60,7 @@ public class Parser extends ONDEXParser
      * @return String
      */
     public String getVersion() {
-        return "07.01.2008";
+        return "27.12.2012";
     }
 
     @Override
@@ -88,7 +88,7 @@ public class Parser extends ONDEXParser
 
         instance = this;
 
-        GeneralOutputEvent goe = new GeneralOutputEvent("Starting EC parsing...", "[Parser - setONDEXGraph]");
+        GeneralOutputEvent goe = new GeneralOutputEvent("Starting EC parsing...", getCurrentMethodName());
         goe.setLog4jLevel(Level.INFO);
         fireEventOccurred(goe);
 
@@ -98,16 +98,16 @@ public class Parser extends ONDEXParser
         }
 
         if (getDeleted) {
-            goe = new GeneralOutputEvent("Parsing also deleted entries.", "[Parser - setONDEXGraph]");
+            goe = new GeneralOutputEvent("Parsing also deleted entries.", getCurrentMethodName());
             goe.setLog4jLevel(Level.INFO);
             fireEventOccurred(goe);
         }
 
         // check DataSource
-        DataSource dataSource_ec = graph.getMetaData().getDataSource(MetaData.CV_EC);
+        DataSource dataSource_ec = graph.getMetaData().getDataSource(MetaData.DS_EC);
         if (dataSource_ec == null) {
             this.fireEventOccurred(new DataSourceMissingEvent(
-                    MetaData.CV_EC, "[Parser - setONDEXGraph]"));
+                    MetaData.DS_EC, getCurrentMethodName()));
             return;
         }
         // check CC
@@ -115,7 +115,7 @@ public class Parser extends ONDEXParser
                 .getConceptClass(MetaData.CC_EC);
         if (cc_ec == null) {
             this.fireEventOccurred(new ConceptClassMissingEvent(
-                    MetaData.CC_EC, "[Parser - setONDEXGraph]"));
+                    MetaData.CC_EC, getCurrentMethodName()));
             return;
         }
 
@@ -123,7 +123,7 @@ public class Parser extends ONDEXParser
                 .getConceptClass(MetaData.CC_PROTEIN_FAMILY);
         if (cc_domain == null) {
             this.fireEventOccurred(new ConceptClassMissingEvent(
-                    MetaData.CC_PROTEIN_FAMILY, "[Parser - setONDEXGraph]"));
+                    MetaData.CC_PROTEIN_FAMILY, getCurrentMethodName()));
             return;
         }
 
@@ -131,7 +131,7 @@ public class Parser extends ONDEXParser
                 .getConceptClass(MetaData.CC_PROTEIN);
         if (cc_protein == null) {
             this.fireEventOccurred(new ConceptClassMissingEvent(
-                    MetaData.CC_PROTEIN, "[Parser - setONDEXGraph]"));
+                    MetaData.CC_PROTEIN, getCurrentMethodName()));
             return;
         }
         // check ET
@@ -139,7 +139,7 @@ public class Parser extends ONDEXParser
                 .getEvidenceType(MetaData.ET);
         if (et == null) {
             this.fireEventOccurred(new EvidenceTypeMissingEvent(
-                    MetaData.ET, "[Parser - setONDEXGraph]"));
+                    MetaData.ET, getCurrentMethodName()));
             return;
         }
         // check RT
@@ -147,7 +147,7 @@ public class Parser extends ONDEXParser
                 .getRelationType(MetaData.RT_IS_A);
         if (rt_is_a == null) {
             this.fireEventOccurred(new RelationTypeMissingEvent(
-                    MetaData.RT_IS_A, "[Parser - setONDEXGraph]"));
+                    MetaData.RT_IS_A, getCurrentMethodName()));
             return;
         }
 
@@ -155,14 +155,14 @@ public class Parser extends ONDEXParser
                 .getRelationType(MetaData.RT_CATALYSEING_CLASS);
         if (cat_c == null) {
             this.fireEventOccurred(new RelationTypeMissingEvent(
-                    MetaData.RT_CATALYSEING_CLASS, "[Parser - setONDEXGraph]"));
+                    MetaData.RT_CATALYSEING_CLASS, getCurrentMethodName()));
             return;
         }
 
         AttributeName taxId = graph.getMetaData().getAttributeName(MetaData.ATT_TAXID);
         if (taxId == null) {
             this.fireEventOccurred(new AttributeNameMissingEvent(
-                    MetaData.ATT_TAXID, "[Parser - setONDEXGraph]"));
+                    MetaData.ATT_TAXID, getCurrentMethodName()));
             return;
         }
 
@@ -210,17 +210,17 @@ public class Parser extends ONDEXParser
 
             Iterator<String> it_acc = entry.getAccessions().keySet().iterator();
             while (it_acc.hasNext()) {
-                String cv = it_acc.next();
-                String[] accessions = entry.getAccessions().get(cv);
+                String ds = it_acc.next();
+                String[] accessions = entry.getAccessions().get(ds);
 
-                if (cv.equalsIgnoreCase(dataSource_ec.getId())) { //ec metadata is pre cached
+                if (ds.equalsIgnoreCase(dataSource_ec.getId())) { //ec metadata is pre cached
                     for (String accession : accessions) {
                         c.createConceptAccession(accession, dataSource_ec, false);
                     }
                 } else {
-                    DataSource accDataSource = graph.getMetaData().getDataSource(cv);
+                    DataSource accDataSource = graph.getMetaData().getDataSource(ds);
                     if (accDataSource == null) {
-                        throw new RuntimeException("DataSource unknown : " + cv);
+                        throw new RuntimeException("DataSource unknown : " + ds);
                     }
                     for (String accession : accessions) {
                         c.createConceptAccession(accession, accDataSource, false);
@@ -294,7 +294,7 @@ public class Parser extends ONDEXParser
             }
         }
 
-        goe = new GeneralOutputEvent("EC parsing finished!", "[Parser - setONDEXGraph]");
+        goe = new GeneralOutputEvent("EC parsing finished!", getCurrentMethodName());
         goe.setLog4jLevel(Level.INFO);
         fireEventOccurred(goe);
     }

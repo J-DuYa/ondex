@@ -19,6 +19,7 @@ import net.sourceforge.ondex.core.ONDEXGraph;
 import net.sourceforge.ondex.event.type.DataFileErrorEvent;
 import net.sourceforge.ondex.event.type.DataFileMissingEvent;
 import net.sourceforge.ondex.event.type.GeneralOutputEvent;
+import net.sourceforge.ondex.parser.ONDEXParser;
 import net.sourceforge.ondex.parser.ec.MetaData;
 import net.sourceforge.ondex.parser.ec.Parser;
 import net.sourceforge.ondex.validator.AbstractONDEXValidator;
@@ -45,14 +46,13 @@ public class Extractor {
 	 * Constructor to initialize parsing.
 	 * 
 	 * @param graph
-	 *            AbstractONDEXGraph
+	 *            ONDEXGraph
 	 * @param path
 	 *            String
 	 * @param getDeleted
 	 *            boolean
 	 */
-	public Extractor(ONDEXGraph graph, String infilesdir,
-			Boolean getDeleted) {
+	public Extractor(ONDEXGraph graph, String infilesdir, Boolean getDeleted) {
 
 		this.getDeleted = getDeleted;
 
@@ -62,7 +62,8 @@ public class Extractor {
 			infilesdir = infilesdir + File.separator;
 
 		GeneralOutputEvent goe = new GeneralOutputEvent(
-				"Reading EC import files...", "[Extractor - constructor]");
+				"Reading EC import files...",
+				ONDEXParser.getCurrentMethodName());
 		goe.setLog4jLevel(Level.INFO);
 		Parser.propagateEventOccurred(goe);
 
@@ -104,12 +105,12 @@ public class Extractor {
 		Map<String, String> nr2name = new TreeMap<String, String>();
 
 		GeneralOutputEvent goe = new GeneralOutputEvent(
-				"Extract enzyme classes...", "[Extractor - extractClasses]");
+				"Extract enzyme classes...", ONDEXParser.getCurrentMethodName());
 		goe.setLog4jLevel(Level.INFO);
 		Parser.propagateEventOccurred(goe);
 
 		goe = new GeneralOutputEvent("Open file " + filename_ec_classes,
-		"[Extractor - extractClasses]");
+				ONDEXParser.getCurrentMethodName());
 		goe.setLog4jLevel(Level.INFO);
 		Parser.propagateEventOccurred(goe);
 
@@ -121,7 +122,7 @@ public class Extractor {
 			// complete lines
 			boolean read = false;
 
-			ArrayList<String> lines = new ArrayList<String>();
+			List<String> lines = new ArrayList<String>();
 			String inputline = in_ec_classes.readLine();
 			while (in_ec_classes.ready()) {
 
@@ -145,7 +146,7 @@ public class Extractor {
 			in_ec_classes.close();
 
 			goe = new GeneralOutputEvent("Successfully read file.",
-			"[Extractor - extractClasses]");
+					ONDEXParser.getCurrentMethodName());
 			goe.setLog4jLevel(Level.INFO);
 			Parser.propagateEventOccurred(goe);
 
@@ -181,7 +182,7 @@ public class Extractor {
 				String is_a_nr = getHigherTerm(ec_nr);
 				Entry entry = new Entry(Entry.Type.EC, ec_nr);
 				entry.setName(ec_name);
-				entry.addAccession(MetaData.CV_EC, new String[] { ec_nr});
+				entry.addAccession(MetaData.DS_EC, new String[] { ec_nr });
 
 				if (!is_a_nr.equals("")) {
 					String is_a_name = nr2name.get(is_a_nr);
@@ -197,16 +198,16 @@ public class Extractor {
 			}
 			goe = new GeneralOutputEvent("Successfully extracted "
 					+ entries.size() + " enzyme classes.",
-			"[Extractor - extractClasses]");
+					ONDEXParser.getCurrentMethodName());
 			goe.setLog4jLevel(Level.INFO);
 			Parser.propagateEventOccurred(goe);
 
 		} catch (FileNotFoundException fnfe) {
 			Parser.propagateEventOccurred(new DataFileMissingEvent(fnfe
-					.getMessage(), "[Extractor - extractClasses]"));
+					.getMessage(), ONDEXParser.getCurrentMethodName()));
 		} catch (IOException ioe) {
 			Parser.propagateEventOccurred(new DataFileErrorEvent(ioe
-					.getMessage(), "[Extractor - extractClasses]"));
+					.getMessage(), ONDEXParser.getCurrentMethodName()));
 		}
 		return nr2name;
 	}
@@ -222,12 +223,12 @@ public class Extractor {
 	private void extractDetails(String filename_ec_enzymes,
 			Map<String, String> nr2name) {
 		GeneralOutputEvent goe = new GeneralOutputEvent(
-				"Extract enzyme details...", "[Extractor - extractDetails]");
+				"Extract enzyme details...", ONDEXParser.getCurrentMethodName());
 		goe.setLog4jLevel(Level.INFO);
 		Parser.propagateEventOccurred(goe);
 
 		goe = new GeneralOutputEvent("Open file " + filename_ec_enzymes,
-		"[Extractor - extractDetails]");
+				ONDEXParser.getCurrentMethodName());
 		goe.setLog4jLevel(Level.INFO);
 		Parser.propagateEventOccurred(goe);
 
@@ -239,7 +240,7 @@ public class Extractor {
 
 			String ec_nr = "";
 			String ec_name = "";
-			ArrayList<String> synonyms = new ArrayList<String>();
+			List<String> synonyms = new ArrayList<String>();
 			String description = "";
 			String description_ca = "";
 			String description_cf = "";
@@ -262,7 +263,7 @@ public class Extractor {
 								description_ca, description_cf, description_cc,
 								nr2name, ready);
 					}
-					
+
 					deletedEntry = false;
 					ec_nr = "";
 					ec_name = "";
@@ -361,12 +362,12 @@ public class Extractor {
 				}
 
 				else if (inputline.startsWith("PR")) {
-					if (!deletedEntry || this.getDeleted) 
+					if (!deletedEntry || this.getDeleted)
 						createDomainReferences(ec_nr, inputline);
 				}
 
 				else if (inputline.startsWith("DR")) {
-					if (!deletedEntry || this.getDeleted) 
+					if (!deletedEntry || this.getDeleted)
 						createProteinReferences(ec_nr, inputline);
 				}
 
@@ -375,22 +376,23 @@ public class Extractor {
 
 			// add the last entry
 			if (!deletedEntry || this.getDeleted) {
-				createECEntry(ec_nr, ec_name, synonyms, description, description_ca,
-						description_cf, description_cc, nr2name, ready);
+				createECEntry(ec_nr, ec_name, synonyms, description,
+						description_ca, description_cf, description_cc,
+						nr2name, ready);
 			}
 			in_ec_enzymes.close();
 
 			goe = new GeneralOutputEvent(
 					"Successfully extracted details and file closed.",
-			"[Extractor - extractDetails]");
+					ONDEXParser.getCurrentMethodName());
 			goe.setLog4jLevel(Level.INFO);
 			Parser.propagateEventOccurred(goe);
 		} catch (FileNotFoundException fnfe) {
 			Parser.propagateEventOccurred(new DataFileMissingEvent(fnfe
-					.getMessage(), "[Extractor - extractDetails]"));
+					.getMessage(), ONDEXParser.getCurrentMethodName()));
 		} catch (IOException ioe) {
 			Parser.propagateEventOccurred(new DataFileErrorEvent(ioe
-					.getMessage(), "[Extractor - extractDetails]"));
+					.getMessage(), ONDEXParser.getCurrentMethodName()));
 		}
 	}
 
@@ -399,16 +401,18 @@ public class Extractor {
 	private void createDomainReferences(String ec_nr, String inputline) {
 		String[] line = inputline.substring(2).split(";");
 
-		if (line.length == 2 && line[0].trim().toUpperCase().equals("PROSITE") && line[1].trim().length() > 0) {
+		if (line.length == 2 && line[0].trim().toUpperCase().equals("PROSITE")
+				&& line[1].trim().length() > 0) {
 			String value = line[1].trim().toUpperCase();
 			if (!domains.keySet().contains(value)) {
 				Entry entry = new Entry(Entry.Type.DOMAIN, value);
-				entry.addAccession(MetaData.CV_PROTSITE, new String[]{value});
+				entry.addAccession(MetaData.DS_PROTSITE, new String[] { value });
 				domains.put(value, entry);
 				entries.add(entry);
 			} else {
 				Entry entry = domains.get(value);
-				entry.addRelation(new Relation(value, ec_nr, MetaData.RT_CATALYSEING_CLASS));
+				entry.addRelation(new Relation(value, ec_nr,
+						MetaData.RT_CATALYSEING_CLASS));
 			}
 		}
 	}
@@ -418,7 +422,7 @@ public class Extractor {
 	private void createProteinReferences(String ec_nr, String inputline) {
 		String[] line = inputline.substring(2).split(";");
 
-		for (String protein: line) {
+		for (String protein : line) {
 			String[] names = protein.split(",");
 			if (names.length == 2) {
 				String uprotac = names[0].trim();
@@ -426,23 +430,27 @@ public class Extractor {
 
 				String speciesCode = uprotid.split("_")[1];
 
-				String taxIdSt = (String) taxValidator.validate((String)speciesCode);
+				String taxIdSt = (String) taxValidator
+						.validate((String) speciesCode);
 
 				if (!proteins.keySet().contains(uprotid)) {
-					
+
 					Entry entry = new Entry(Entry.Type.PROTEIN, uprotid);
 					if (taxIdSt != null) {
 						entry.setTaxid(taxIdSt);
 					}
 
 					proteins.put(uprotid, entry);
-					entry.addAccession(MetaData.CV_UNIPROTKB, new String[]{uprotac});
+					entry.addAccession(MetaData.DS_UNIPROTKB,
+							new String[] { uprotac });
 					entry.setName(uprotid);
-					entry.addRelation(new Relation(uprotid, ec_nr, MetaData.RT_CATALYSEING_CLASS));
+					entry.addRelation(new Relation(uprotid, ec_nr,
+							MetaData.RT_CATALYSEING_CLASS));
 					entries.add(entry);
 				} else {
 					Entry entry = proteins.get(uprotid);
-					entry.addRelation(new Relation(uprotid, ec_nr, MetaData.RT_CATALYSEING_CLASS));
+					entry.addRelation(new Relation(uprotid, ec_nr,
+							MetaData.RT_CATALYSEING_CLASS));
 				}
 
 			}
@@ -526,7 +534,7 @@ public class Extractor {
 	 * @param ec_name
 	 *            String
 	 * @param synonyms
-	 *            ArrayList<String>
+	 *            List<String>
 	 * @param description
 	 *            String
 	 * @param description_ca
@@ -541,10 +549,9 @@ public class Extractor {
 	 *            Set<String>
 	 */
 	private void createECEntry(String ec_nr, String ec_name,
-			ArrayList<String> synonyms, String description,
-			String description_ca, String description_cf,
-			String description_cc, Map<String, String> nr2name,
-			Set<String> ready) {
+			List<String> synonyms, String description, String description_ca,
+			String description_cf, String description_cc,
+			Map<String, String> nr2name, Set<String> ready) {
 
 		// get parent of current ec number
 		String is_a_nr = getHigherTerm(ec_nr);
@@ -555,9 +562,9 @@ public class Extractor {
 		 * If it is a transferred entry: Get the number to which it is
 		 * transferred and get the parent term of this new number Attention: -
 		 * The string of the transferred entry might contain an "EC" - There
-		 * might be more than one new entry - In some case of more than one
-		 * new entries they have also different places in the tree: Then
-		 * take the first one
+		 * might be more than one new entry - In some case of more than one new
+		 * entries they have also different places in the tree: Then take the
+		 * first one
 		 */
 		if (ec_name.startsWith("Transferred entry:")) {
 
@@ -576,7 +583,8 @@ public class Extractor {
 
 			// if this new number is already reported as missing
 			if ((is_a_name == null) && ready.contains(is_a_nr)) {
-				description = (description + " MISSING TERM (in expasy flat files)").trim();
+				description = (description + " MISSING TERM (in expasy flat files)")
+						.trim();
 			}
 		}
 
@@ -584,12 +592,13 @@ public class Extractor {
 			createParent(is_a_nr, nr2name, ready);
 		} else if ((is_a_name == null) && ready.contains(is_a_nr)) {
 			is_a_name = null;
-			description = (description + " MISSING TERM (in expasy flat files)").trim();
+			description = (description + " MISSING TERM (in expasy flat files)")
+					.trim();
 		}
 
 		if (description_ca.length() > 0)
 			description = description + " Reaction catalysed: "
-			+ description_ca;
+					+ description_ca;
 
 		if (description_cf.length() > 0)
 			description = description + " Cofactor(s): " + description_cf;
@@ -602,8 +611,8 @@ public class Extractor {
 		Entry entry = new Entry(Entry.Type.EC, ec_nr);
 		entry.setName(ec_name);
 		entry.setDescription(description);
-		entry.addAccession(MetaData.CV_EC , new String[] { ec_nr});
-		entry.setSynonyms(synonyms);
+		entry.addAccession(MetaData.DS_EC, new String[] { ec_nr });
+		entry.getSynonyms().addAll(synonyms);
 
 		Relation rel = new Relation(ec_nr, is_a_nr, MetaData.RT_IS_A);
 		entry.addRelation(rel);
@@ -633,7 +642,7 @@ public class Extractor {
 		ready.add(is_a_nr);
 
 		Entry entry = new Entry(Entry.Type.EC, is_a_nr);
-		entry.addAccession(MetaData.CV_EC, new String[] { is_a_nr});
+		entry.addAccession(MetaData.DS_EC, new String[] { is_a_nr });
 
 		String is_a_is_a_nr = getHigherTerm(is_a_nr);
 		Relation rel = new Relation(is_a_nr, is_a_is_a_nr, MetaData.RT_IS_A);
