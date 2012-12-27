@@ -406,7 +406,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		if (DEBUG)
 			System.out.println(relations.size()
 					+ " concepts with hits so far..");
-		for (ONDEXConcept fromConcept : relations.keySet()) {
+		for (ONDEXConcept fromConcept : relations.keySet().toArray(new ONDEXConcept[0])) {
 
 			// get everything, that was mapped to this concept
 			Map<ONDEXConcept, Integer> relationHits = relations.get(fromConcept);
