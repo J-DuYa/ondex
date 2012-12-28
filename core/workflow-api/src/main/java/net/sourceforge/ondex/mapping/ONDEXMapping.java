@@ -83,7 +83,8 @@ public abstract class ONDEXMapping extends AbstractONDEXPlugin implements
 			ONDEXConcept c2) throws InvalidPluginArgumentException {
 
 		boolean mapWithinDataSource = false;
-		if (args.getUniqueValue(ArgumentNames.WITHIN_DATASOURCE_ARG) != null) {
+		if (args.hasArgument(ArgumentNames.WITHIN_DATASOURCE_ARG)
+				&& args.getUniqueValue(ArgumentNames.WITHIN_DATASOURCE_ARG) != null) {
 			mapWithinDataSource = (Boolean) args
 					.getUniqueValue(ArgumentNames.WITHIN_DATASOURCE_ARG);
 		}

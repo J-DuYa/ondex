@@ -226,7 +226,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			if (processed > 0 && processed % increments == 0) {
 				fireEventOccurred(new GeneralOutputEvent("Mapping complete on "
 						+ decimalFormat.format(processed / totals * 100d)
-						+ "% (" + numberFormat.format(processed) + " Concepts",
+						+ "% (" + numberFormat.format(processed) + " Concepts)",
 						getCurrentMethodName()));
 				if (processed % 200000 == 0) {
 					System.runFinalization();
