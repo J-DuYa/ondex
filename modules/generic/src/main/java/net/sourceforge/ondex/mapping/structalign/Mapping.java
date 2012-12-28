@@ -2,9 +2,10 @@ package net.sourceforge.ondex.mapping.structalign;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,11 +28,14 @@ import net.sourceforge.ondex.core.EvidenceType;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXRelation;
 import net.sourceforge.ondex.core.RelationType;
+import net.sourceforge.ondex.core.searchable.LuceneConcept;
 import net.sourceforge.ondex.core.searchable.LuceneEnv;
 import net.sourceforge.ondex.core.searchable.LuceneQueryBuilder;
 import net.sourceforge.ondex.event.type.GeneralOutputEvent;
 import net.sourceforge.ondex.mapping.ONDEXMapping;
 
+import org.apache.commons.collections15.Factory;
+import org.apache.commons.collections15.map.LazyMap;
 import org.apache.lucene.search.Query;
 
 /**
@@ -128,11 +132,11 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 		if (args.getOptions().containsKey(DEPTH_ARG)) {
 			fireEventOccurred(new GeneralOutputEvent(
-					"Change depth for neighborhood.. ", getCurrentMethodName()));
+					"Change depth for neighbourhood.. ", getCurrentMethodName()));
 			this.depth = ((Integer) args.getUniqueValue(DEPTH_ARG));
 		}
 		fireEventOccurred(new GeneralOutputEvent(
-				"Use StructAlign based mapping with depth for neighborhood "
+				"Use StructAlign based mapping with depth for neighbourhood "
 						+ this.depth, getCurrentMethodName()));
 
 		if (args.getOptions().containsKey(EXACT_SYN_ARG)) {
@@ -153,22 +157,37 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				MetaData.relType);
 		EvidenceType eviType = graph.getMetaData().getEvidenceType(
 				MetaData.evidence + this.depth);
+		if (eviType == null) {
+			eviType = graph
+					.getMetaData()
+					.getFactory()
+					.createEvidenceType(MetaData.evidence + this.depth,
+							"StuctAlign level " + this.depth);
+		}
 		AttributeName hitAttr = graph.getMetaData().getAttributeName(
 				MetaData.hitAttr);
+		if (hitAttr == null) {
+			hitAttr = graph.getMetaData().getFactory()
+					.createAttributeName(MetaData.hitAttr, Integer.class);
+		}
 
-		// contains hits of similar cc, but different data source using search
-		// with concept names
-		Map<ONDEXConcept, Set<ONDEXConcept>> concept2hitConcepts = new HashMap<ONDEXConcept, Set<ONDEXConcept>>();
+		// contains hits of similar concept class, but different data source
+		// using search with concept names, lazy initialisation
+		Map<ONDEXConcept, Set<ONDEXConcept>> concept2hitConcepts = LazyMap
+				.decorate(new HashMap<ONDEXConcept, Set<ONDEXConcept>>(),
+						new Factory<Set<ONDEXConcept>>() {
+
+							@Override
+							public Set<ONDEXConcept> create() {
+								return new HashSet<ONDEXConcept>();
+							}
+						});
 
 		// iterate over all concepts
 		for (ONDEXConcept concept : graph.getConcepts()) {
 
 			// get actual concept and data source
 			DataSource conceptDataSource = concept.getElementOf();
-
-			// create a new HashSet for hit concepts, even if it will stay empty
-			Set<ONDEXConcept> hitConcepts = new HashSet<ONDEXConcept>();
-			concept2hitConcepts.put(concept, hitConcepts);
 
 			// add all concept names for this concept
 			Set<String> cnames = new HashSet<String>();
@@ -180,7 +199,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 				}
 			}
 
-			// deal with CC mapping
+			// deal with ConceptClass mapping
 			for (ConceptClass cc : getCCtoMapTo(graph, concept.getOfType())) {
 				// iterate over all striped concept names
 				for (String name : cnames) {
@@ -196,11 +215,13 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 						DataSource hitConceptDataSource = hitConcept
 								.getElementOf();
 
-						// CC equal, DataSource not
+						// ConceptClass equal, DataSource not
 						if (!conceptDataSource.equals(hitConceptDataSource)) {
 							if (this.evaluateMapping(graph, hitConcept, concept)) {
 								// add hit concept to set for current concept
-								hitConcepts.add(hitConcept);
+								concept2hitConcepts.get(concept).add(
+										((LuceneConcept) hitConcept)
+												.getParent());
 							}
 						}
 					}
@@ -208,37 +229,62 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 			}
 		}
 
+		// count outcome of concept name search
+		int hits = 0;
+		for (ONDEXConcept c : concept2hitConcepts.keySet()) {
+			if (concept2hitConcepts.get(c).size() > 0) {
+				hits++;
+			}
+		}
+
 		fireEventOccurred(new GeneralOutputEvent(
-				"Finished looking for ConceptName hits.",
+				"Finished looking for ConceptName hits. Found " + hits
+						+ " concepts with at least one hit.",
 				getCurrentMethodName()));
 		fireEventOccurred(new GeneralOutputEvent(
-				"Starting building reachability lists for depth 1.",
-				getCurrentMethodName()));
+				"Start building connectivity list.", getCurrentMethodName()));
 
-		// all pre-calculated connectivity lists
-		Map<ONDEXConcept, Map<RelationType, Set<ONDEXConcept>>> connectivity = new HashMap<ONDEXConcept, Map<RelationType, Set<ONDEXConcept>>>();
+		// all pre-calculated connectivity lists, lazy initialisation
+		Map<ONDEXConcept, Map<RelationType, Set<ONDEXConcept>>> connectivity = LazyMap
+				.decorate(
+						new HashMap<ONDEXConcept, Map<RelationType, Set<ONDEXConcept>>>(),
+						new Factory<Map<RelationType, Set<ONDEXConcept>>>() {
 
-		// reachability may be different from connectivity
-		Map<ONDEXConcept, Map<RelationType, Set<ONDEXConcept>>> reachability = new HashMap<ONDEXConcept, Map<RelationType, Set<ONDEXConcept>>>();
+							@Override
+							public Map<RelationType, Set<ONDEXConcept>> create() {
+								return LazyMap
+										.decorate(
+												new HashMap<RelationType, Set<ONDEXConcept>>(),
+												new Factory<Set<ONDEXConcept>>() {
 
-		// iterate over all relations to fill reachability list of depth 1
+													@Override
+													public Set<ONDEXConcept> create() {
+														return new HashSet<ONDEXConcept>();
+													}
+												});
+							}
+						});
+
+		// iterate over all relations to fill connectivity list
 		Set<ONDEXRelation> itRelations = graph.getRelations();
 
+		// format process progress
 		NumberFormat decimalFormat = new DecimalFormat(".00");
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		int processed = 0;
-		long totals = itRelations.size();
-		double increments = totals / 50;
+		int totals = itRelations.size();
+		int increments = totals / 50;
 		fireEventOccurred(new GeneralOutputEvent("StructAlign mapping on "
 				+ totals + " Relations", getCurrentMethodName()));
+		int nbConnectivity = 0;
 
 		for (ONDEXRelation r : itRelations) {
 
 			if (processed > 0 && processed % increments == 0) {
 				fireEventOccurred(new GeneralOutputEvent(
-						"Building reachability lists complete on "
-								+ decimalFormat.format(processed / totals
-										* 100d) + "% ("
+						"Building connectivity list complete on "
+								+ decimalFormat.format((double) processed
+										/ (double) totals * 100d) + "% ("
 								+ numberFormat.format(processed)
 								+ " Relations)", getCurrentMethodName()));
 				if (processed % 200000 == 0) {
@@ -257,232 +303,139 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 					&& fromConcept.getElementOf().equals(
 							toConcept.getElementOf())) {
 
-				// check if entries for fromConcept already exists, otherwise
-				// init
-				if (!connectivity.containsKey(fromConcept)) {
-					connectivity.put(fromConcept,
-							new HashMap<RelationType, Set<ONDEXConcept>>());
-					reachability.put(fromConcept,
-							new HashMap<RelationType, Set<ONDEXConcept>>());
-				}
-
-				// check if entries for toConcept already exists, otherwise init
-				if (!connectivity.containsKey(toConcept)) {
-					connectivity.put(toConcept,
-							new HashMap<RelationType, Set<ONDEXConcept>>());
-					reachability.put(toConcept,
-							new HashMap<RelationType, Set<ONDEXConcept>>());
-				}
-
-				// get current neighbours of fromConcept
-				Map<RelationType, Set<ONDEXConcept>> neighborsFrom = connectivity
-						.get(fromConcept);
-				Map<RelationType, Set<ONDEXConcept>> reachabilityFrom = reachability
-						.get(fromConcept);
-
-				// get current neighbours of toConcept
-				Map<RelationType, Set<ONDEXConcept>> neighborsTo = connectivity
-						.get(toConcept);
-				Map<RelationType, Set<ONDEXConcept>> reachabilityTo = reachability
-						.get(toConcept);
-
 				RelationType rt = r.getOfType();
 
-				// check if relType already in neighborsFrom
-				if (!neighborsFrom.containsKey(rt)) {
-					neighborsFrom.put(rt, new HashSet<ONDEXConcept>());
-					reachabilityFrom.put(rt, new HashSet<ONDEXConcept>());
-				}
+				// add toConcept for this RelationType to fromConcept
+				connectivity.get(fromConcept).get(rt).add(toConcept);
 
-				// check if relType already in neighborsTo
-				if (!neighborsTo.containsKey(rt)) {
-					neighborsTo.put(rt, new HashSet<ONDEXConcept>());
-					reachabilityTo.put(rt, new HashSet<ONDEXConcept>());
-				}
+				// add fromConcept for this RelationType to toConcept
+				connectivity.get(toConcept).get(rt).add(fromConcept);
 
-				// add toConcept for this RelationType to neighborsFrom
-				neighborsFrom.get(rt).add(toConcept);
-				reachabilityFrom.get(rt).add(toConcept);
-
-				// add fromConcept for this RelationType to neighborsTo
-				neighborsTo.get(rt).add(fromConcept);
-				reachabilityTo.get(rt).add(fromConcept);
+				nbConnectivity++;
 			}
 		}
 
 		fireEventOccurred(new GeneralOutputEvent(
-				"Finished building reachability lists for depth 1.",
+				"Finished building bi-directional connectivity list containing "
+						+ 2 * nbConnectivity + " connections.",
 				getCurrentMethodName()));
 
-		// perform a breadth first search
-		for (int i = 1; i < this.depth; i++) {
-
-			// iterate over all fromConcepts
-			for (ONDEXConcept fromConcept : reachability.keySet()) {
-
-				// find current neighbours for a certain relation type
-				Map<RelationType, Set<ONDEXConcept>> neighbors = reachability
-						.get(fromConcept);
-
-				// iterate over all RelationTypes present
-				for (RelationType relationType : neighbors.keySet()) {
-
-					// iterate over all connected concepts
-					for (ONDEXConcept c : neighbors.get(relationType)) {
-
-						// get neighbours of connected ones
-						Map<RelationType, Set<ONDEXConcept>> connected = connectivity
-								.get(c);
-
-						if (connected != null) {
-
-							// join neighbours according to RelationType
-							for (RelationType rt : connected.keySet()) {
-								Set<ONDEXConcept> newneighbors = connected
-										.get(rt);
-
-								// join sets together
-								if (!neighbors.containsKey(rt)) {
-									neighbors.put(rt,
-											new HashSet<ONDEXConcept>(
-													newneighbors));
-								} else {
-									neighbors.get(rt).addAll(newneighbors);
-								}
-							}
-						}
-					}
-				}
-			}
-
-			fireEventOccurred(new GeneralOutputEvent(
-					"Finished building reachability lists for depth " + (i + 1)
-							+ ".", getCurrentMethodName()));
-		}
-
-		fireEventOccurred(new GeneralOutputEvent(
-				"Finished building reachability lists.", getCurrentMethodName()));
-
 		// will contain the concept combinations to be used for relations
-		Map<ONDEXConcept, Map<ONDEXConcept, Integer>> relations = new HashMap<ONDEXConcept, Map<ONDEXConcept, Integer>>();
+		Map<ONDEXConcept, Map<ONDEXConcept, Integer>> relations = LazyMap
+				.decorate(
+						new HashMap<ONDEXConcept, Map<ONDEXConcept, Integer>>(),
+						new Factory<Map<ONDEXConcept, Integer>>() {
+
+							@Override
+							public Map<ONDEXConcept, Integer> create() {
+								return LazyMap.decorate(
+										new HashMap<ONDEXConcept, Integer>(),
+										new Factory<Integer>() {
+
+											@Override
+											public Integer create() {
+												return Integer.valueOf(0);
+											}
+										});
+							}
+						});
+
+		int nbMatches = 0;
 
 		// iterate over all concepts
 		for (ONDEXConcept fromConcept : concept2hitConcepts.keySet()) {
 
-			// get hit set for current concept
-			Set<ONDEXConcept> hitConcepts = concept2hitConcepts
-					.get(fromConcept);
+			List<Map<RelationType, Set<ONDEXConcept>>> fromTypeConcepts = getReachableRelationTypeConcepts(
+					connectivity, fromConcept);
 
-			// for non-empty hit concepts proceed
-			if (!hitConcepts.isEmpty()) {
+			// look at hits for current concept
+			for (ONDEXConcept toConcept : concept2hitConcepts.get(fromConcept)) {
 
-				// get neighbours for current concept
-				Map<RelationType, Set<ONDEXConcept>> rt2reachableConcepts = reachability
-						.get(fromConcept);
+				// get intersection of relation types for current pair of
+				// concepts
+				List<Set<RelationType>> intersection = new ArrayList<Set<RelationType>>();
+				List<Map<RelationType, Set<ONDEXConcept>>> toTypeConcepts = getReachableRelationTypeConcepts(
+						connectivity, toConcept);
 
-				if (rt2reachableConcepts != null) {
+				for (int i = 0; i < depth; i++) {
+					// intersection calculated level wise
+					Set<RelationType> levelIntersect = new HashSet<RelationType>();
+					levelIntersect.addAll(toTypeConcepts.get(i).keySet());
+					levelIntersect.retainAll(fromTypeConcepts.get(i).keySet());
+					if (!levelIntersect.isEmpty())
+						intersection.add(levelIntersect);
+				}
 
-					// look at hits for current concept
-					for (ONDEXConcept toConcept : hitConcepts) {
+				// check if concepts can be reached by the same relType across
+				// all levels
+				if (intersection.size() == depth) {
 
-						// get neighbours for each hit
-						Map<RelationType, Set<ONDEXConcept>> rt2reachableHitConcepts = reachability
-								.get(toConcept);
+					// collect all possible neighbours via same relation types
+					Set<ONDEXConcept> fromAllConcepts = new HashSet<ONDEXConcept>();
+					Set<ONDEXConcept> toAllConcepts = new HashSet<ONDEXConcept>();
 
-						if (rt2reachableHitConcepts != null) {
+					// iterate over intersection levels of relTypes
+					for (int i = 0; i < depth; i++) {
 
-							// get intersection of relation types for current
-							// pair of concepts
-							Set<RelationType> intersection = new HashSet<RelationType>();
-							intersection.addAll(rt2reachableHitConcepts
-									.keySet());
-							intersection.retainAll(rt2reachableConcepts
-									.keySet());
+						// neighbours at current level
+						Map<RelationType, Set<ONDEXConcept>> fromConcepts = fromTypeConcepts
+								.get(i);
+						Map<RelationType, Set<ONDEXConcept>> toConcepts = toTypeConcepts
+								.get(i);
 
-							// check if concepts can be reached by the same
-							// relType
-							if (!intersection.isEmpty()) {
+						// collapse levels
+						for (RelationType rt : intersection.get(i)) {
+							fromAllConcepts.addAll(fromConcepts.get(rt));
+							toAllConcepts.addAll(toConcepts.get(rt));
+						}
+					}
 
-								// iterate over intersections of relTypes
-								for (RelationType rt : intersection) {
+					// compare neighbourhoods for concept name matches
+					for (ONDEXConcept reachableFromConcept : fromAllConcepts) {
 
-									// get all reachable concepts for current
-									// relType
-									Set<ONDEXConcept> reachableConcepts = rt2reachableConcepts
-											.get(rt);
-									Set<ONDEXConcept> reachableHitConcepts = rt2reachableHitConcepts
-											.get(rt);
+						// make sure concept had hits
+						if (!concept2hitConcepts
+								.containsKey(reachableFromConcept))
+							continue;
 
-									// compare neighbourhoods for concept name
-									// matches
-									for (ONDEXConcept reachableConcept : reachableConcepts) {
+						// build intersection between concept name matches
+						Set<ONDEXConcept> hitIntersection = new HashSet<ONDEXConcept>();
+						hitIntersection.addAll(concept2hitConcepts
+								.get(reachableFromConcept));
+						hitIntersection.retainAll(toAllConcepts);
 
-										// build intersection between concept
-										// name matches
-										Set<ONDEXConcept> hitIntersection = new HashSet<ONDEXConcept>();
-										hitIntersection
-												.addAll(concept2hitConcepts
-														.get(reachableConcept));
-										hitIntersection
-												.retainAll(reachableHitConcepts);
+						// if intersection not empty create relation
+						if (!hitIntersection.isEmpty()) {
 
-										// if intersection not empty create
-										// relation
-										if (!hitIntersection.isEmpty()) {
+							nbMatches++;
 
-											// check DataSource conditions
-											DataSource fromDataSource = fromConcept
-													.getElementOf();
-											DataSource toDataSource = toConcept
-													.getElementOf();
-											if (dataSourceMapping.size() > 0
-													&& !toDataSource
-															.equals(dataSourceMapping
-																	.get(fromDataSource))) {
-												continue;
-											}
+							// check DataSource conditions
+							DataSource fromDataSource = fromConcept
+									.getElementOf();
+							DataSource toDataSource = toConcept.getElementOf();
+							if (dataSourceMapping.size() > 0
+									&& !toDataSource.equals(dataSourceMapping
+											.get(fromDataSource))) {
+								continue;
+							}
 
-											// check ConceptClass conditions
-											ConceptClass fromCC = fromConcept
-													.getOfType();
-											ConceptClass toCC = toConcept
-													.getOfType();
-											if (ccMapping.size() > 0
-													&& !toCC.equals(ccMapping
-															.get(fromCC))) {
-												continue;
-											}
+							// check ConceptClass conditions
+							ConceptClass fromCC = fromConcept.getOfType();
+							ConceptClass toCC = toConcept.getOfType();
+							if (ccMapping.size() > 0
+									&& !toCC.equals(ccMapping.get(fromCC))) {
+								continue;
+							}
 
-											// between different DataSource
-											if (!fromConcept.getElementOf()
-													.equals(toConcept
-															.getElementOf())) {
+							// between different DataSource
+							if (!fromConcept.getElementOf().equals(
+									toConcept.getElementOf())) {
 
-												// check if fromConcept already
-												// contained
-												if (relations.get(fromConcept) == null) {
-													relations
-															.put(fromConcept,
-																	new HashMap<ONDEXConcept, Integer>());
-												}
-
-												// get all relations for
-												// fromConcept
-												Map<ONDEXConcept, Integer> relationHits = relations
-														.get(fromConcept);
-
-												// get old hits for toConcept
-												// and increment
-												int hits = relationHits
-														.get(toConcept) + 1;
-
-												// store new hit value
-												relationHits.put(toConcept,
-														hits);
-											}
-										}
-									}
-								}
+								// store increment hit value
+								relations.get(fromConcept).put(
+										toConcept,
+										relations.get(fromConcept).get(
+												toConcept) + 1);
 							}
 						}
 					}
@@ -491,20 +444,17 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		}
 
 		fireEventOccurred(new GeneralOutputEvent(
-				"Finished graph neighborhood alignment.",
-				getCurrentMethodName()));
+				"Finished graph neighborhood alignment. Found " + nbMatches
+						+ " possible matches.", getCurrentMethodName()));
 
 		int unidirectional = 0;
 
 		// iterator over all found relations
 		for (ONDEXConcept fromConcept : relations.keySet()) {
 
-			Map<ONDEXConcept, Integer> relationHits = relations
-					.get(fromConcept);
-
 			// get toConcept
-			for (ONDEXConcept toConcept : relationHits.keySet()) {
-				int score = relationHits.get(toConcept);
+			for (ONDEXConcept toConcept : relations.get(fromConcept).keySet()) {
+				Integer score = relations.get(fromConcept).get(toConcept);
 
 				// check for bidirectional hits
 				if (relations.containsKey(toConcept)
@@ -542,6 +492,57 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		fireEventOccurred(new GeneralOutputEvent(
 				"Uni directional hits excluded = " + unidirectional,
 				getCurrentMethodName()));
+	}
+
+	/**
+	 * Performs a breadth first search to get each connected relation type and
+	 * set of concepts ordered by depth.
+	 * 
+	 * @param connectivity
+	 * @param root
+	 * @return
+	 */
+	private List<Map<RelationType, Set<ONDEXConcept>>> getReachableRelationTypeConcepts(
+			Map<ONDEXConcept, Map<RelationType, Set<ONDEXConcept>>> connectivity,
+			ONDEXConcept root) {
+
+		List<Map<RelationType, Set<ONDEXConcept>>> result = new ArrayList<Map<RelationType, Set<ONDEXConcept>>>();
+
+		Map<RelationType, Set<ONDEXConcept>> neighbours = connectivity
+				.get(root);
+
+		// breadth first search
+		for (int i = 0; i < depth; i++) {
+
+			result.add(neighbours);
+
+			Map<RelationType, Set<ONDEXConcept>> newNeighbours = LazyMap
+					.decorate(new HashMap<RelationType, Set<ONDEXConcept>>(),
+							new Factory<Set<ONDEXConcept>>() {
+
+								@Override
+								public Set<ONDEXConcept> create() {
+									return new HashSet<ONDEXConcept>();
+								}
+							});
+
+			// iterate over all current connections
+			for (RelationType rt : neighbours.keySet()) {
+				for (ONDEXConcept to : neighbours.get(rt)) {
+
+					// this is next level down
+					for (RelationType rt2 : connectivity.get(to).keySet()) {
+						for (ONDEXConcept n : connectivity.get(to).get(rt2)) {
+							newNeighbours.get(rt2).add(n);
+						}
+					}
+				}
+			}
+
+			neighbours = newNeighbours;
+		}
+
+		return result;
 	}
 
 	public String[] requiresValidators() {

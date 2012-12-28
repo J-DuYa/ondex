@@ -207,7 +207,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		AttributeName hitAttr = graph.getMetaData().getAttributeName(
 				MetaData.synHits);
 
-		double processed = 0;
+
 
 		// will contain the concept combinations to be used for relations
 		Map<ONDEXConcept, Map<ONDEXConcept, Integer>> relations = new HashMap<ONDEXConcept, Map<ONDEXConcept, Integer>>();
@@ -216,8 +216,9 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		NumberFormat numberFormat = NumberFormat.getInstance();
 
 		Set<ONDEXConcept> itConcept = graph.getConcepts();
-		double totals = itConcept.size();
-		double increments = totals / 50;
+		int processed = 0;
+		int totals = itConcept.size();
+		int increments = totals / 50;
 		fireEventOccurred(new GeneralOutputEvent("Name based mapping on "
 				+ totals + " Concepts", getCurrentMethodName()));
 
@@ -225,8 +226,9 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 			if (processed > 0 && processed % increments == 0) {
 				fireEventOccurred(new GeneralOutputEvent("Mapping complete on "
-						+ decimalFormat.format(processed / totals * 100d)
-						+ "% (" + numberFormat.format(processed) + " Concepts)",
+						+ decimalFormat.format((double) processed
+								/ (double) totals * 100d) + "% ("
+						+ numberFormat.format(processed) + " Concepts)",
 						getCurrentMethodName()));
 				if (processed % 200000 == 0) {
 					System.runFinalization();
@@ -406,10 +408,12 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 		if (DEBUG)
 			System.out.println(relations.size()
 					+ " concepts with hits so far..");
-		for (ONDEXConcept fromConcept : relations.keySet().toArray(new ONDEXConcept[0])) {
+		for (ONDEXConcept fromConcept : relations.keySet().toArray(
+				new ONDEXConcept[0])) {
 
 			// get everything, that was mapped to this concept
-			Map<ONDEXConcept, Integer> relationHits = relations.get(fromConcept);
+			Map<ONDEXConcept, Integer> relationHits = relations
+					.get(fromConcept);
 
 			// get toConcepts
 			for (ONDEXConcept toConcept : relationHits.keySet()) {
@@ -422,12 +426,13 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 				// check for bidirectional hits
 				if (includeUniDirection
-						|| (relations.containsKey(toConcept) && relations
-								.get(toConcept).containsKey(fromConcept))) {
+						|| (relations.containsKey(toConcept) && relations.get(
+								toConcept).containsKey(fromConcept))) {
 
 					if (!(relations.containsKey(toConcept) && relations.get(
 							toConcept).containsKey(fromConcept))) {
-						Map<ONDEXConcept, Integer> map = relations.get(toConcept);
+						Map<ONDEXConcept, Integer> map = relations
+								.get(toConcept);
 						if (map == null) {
 							map = new HashMap<ONDEXConcept, Integer>();
 							relations.put(toConcept, map);
@@ -436,8 +441,7 @@ public class Mapping extends ONDEXMapping implements ArgumentNames {
 					}
 
 					// check for sufficient score
-					int fromScore = relations.get(toConcept).get(
-							fromConcept);
+					int fromScore = relations.get(toConcept).get(fromConcept);
 					if (fromScore < threshold) {
 						continue;
 					}
