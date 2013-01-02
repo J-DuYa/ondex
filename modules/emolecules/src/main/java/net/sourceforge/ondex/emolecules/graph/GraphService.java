@@ -7,6 +7,7 @@ import net.sourceforge.ondex.emolecules.io.RelationsTypes;
 import net.sourceforge.ondex.emolecules.io.Smile;
 import net.sourceforge.ondex.emolecules.io.SmilesIteratorFactory;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,18 +36,29 @@ public class GraphService implements Serializable {
         log.info("run main parsing");
 
         Iterator<Smile> smiterator = smifac.iterator();
-        while (smiterator.hasNext()) {
-            Smile smi = smiterator.next();
+        Transaction tx = gm.getDatabase().beginTx();
 
-            // buid current smi Node
-            Node current = gm.createNode(smi.getId());
-            current.setProperty("smile", smi.getSmile());
+        try {
+            while (smiterator.hasNext()) {
+                Smile smi = smiterator.next();
+                log.debug("found smiles: " + smi);
 
-            // get parent node
-            Node parent = gm.createNode(smi.getParent());
+                // buid current smi Node
+                Node current = gm.createNode(smi.getId());
+                current.setProperty("smile", smi.getSmile());
 
-            // put parent to child
-            current.createRelationshipTo(parent, RelationsTypes.HAS_PARENT);
+                // get parent node
+                Node parent = gm.createNode(smi.getParent());
+
+                // put parent to child
+                current.createRelationshipTo(parent, RelationsTypes.HAS_PARENT);
+            }
+            
+            tx.success();
+        } catch (Exception e) {
+            tx.failure();
+        } finally {
+            tx.finish();
         }
     }
 

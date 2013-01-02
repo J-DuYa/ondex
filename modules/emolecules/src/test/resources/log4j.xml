@@ -14,6 +14,10 @@
         <level value="debug" />
     </logger>
     
+    <logger name="net.sourceforge.ondex.emolecules.graph">
+        <level value="trace"/>
+    </logger>
+    
     <root>
         <priority value="info"/>
         <appender-ref ref="console"/>
