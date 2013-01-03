@@ -215,9 +215,9 @@ public class ContextHandler extends DefaultHandler {
 			if (r != null) {
 				// add context to part_of relation
 				r.addTag(pathwayC);
-			} else
-				System.err.println("Missing relation " + path.getRDFId()
-						+ " to " + pathwayC.getPID());
+			} //else
+			//	System.err.println("Missing relation " + path.getRDFId()
+			//			+ " to " + pathwayC.getPID());
 		}
 	}
 
