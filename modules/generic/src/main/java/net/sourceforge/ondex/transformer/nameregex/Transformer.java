@@ -14,6 +14,13 @@ import net.sourceforge.ondex.event.type.DataSourceMissingEvent;
 import net.sourceforge.ondex.event.type.GeneralOutputEvent;
 import net.sourceforge.ondex.transformer.ONDEXTransformer;
 
+/**
+ * Modifies concept names using a given regular expression with replacement and
+ * optionally copies result as a concept accession.
+ * 
+ * @author taubertj
+ * 
+ */
 public class Transformer extends ONDEXTransformer implements ArgumentNames {
 
 	@Override
@@ -28,7 +35,7 @@ public class Transformer extends ONDEXTransformer implements ArgumentNames {
 
 	@Override
 	public String getVersion() {
-		return "03.02.2012";
+		return "04.01.2013";
 	}
 
 	@Override
@@ -57,13 +64,12 @@ public class Transformer extends ONDEXTransformer implements ArgumentNames {
 				DataSource ds = graph.getMetaData().getDataSource(dsId);
 				if (ds == null) {
 					fireEventOccurred(new DataSourceMissingEvent("DataSource "
-							+ dsId + " not found.", "[Transformer - start]"));
+							+ dsId + " not found.", getCurrentMethodName()));
 				} else {
 					// keep only concepts of data source
 					concepts.addAll(graph.getConceptsOfDataSource(ds));
 					fireEventOccurred(new GeneralOutputEvent(
-							"Adding DataSource " + dsId,
-							"[Transformer - start]"));
+							"Adding DataSource " + dsId, getCurrentMethodName()));
 				}
 			}
 		}
@@ -75,13 +81,13 @@ public class Transformer extends ONDEXTransformer implements ArgumentNames {
 				if (cc == null) {
 					fireEventOccurred(new ConceptClassMissingEvent(
 							"ConceptClass " + ccId + " not found.",
-							"[Transformer - start]"));
+							getCurrentMethodName()));
 				} else {
 					// only keep concepts of concept class
 					retain.addAll(graph.getConceptsOfConceptClass(cc));
 					fireEventOccurred(new GeneralOutputEvent(
 							"Adding ConceptClass " + ccId,
-							"[Transformer - start]"));
+							getCurrentMethodName()));
 				}
 			}
 		}
@@ -93,7 +99,7 @@ public class Transformer extends ONDEXTransformer implements ArgumentNames {
 		// get data source
 		String dsID = (String) args.getUniqueValue(COPYAS_ARG);
 		DataSource ds = null;
-		if (dsID != null) {
+		if (dsID != null && dsID.trim().length() > 0) {
 			ds = graph.getMetaData().getDataSource(dsID);
 			if (ds == null)
 				ds = graph.getMetaData().getFactory().createDataSource(dsID);
@@ -115,10 +121,17 @@ public class Transformer extends ONDEXTransformer implements ArgumentNames {
 				// delete old one and create new one
 				c.deleteConceptName(oldname);
 				String name = oldname.replaceAll(regex, replace);
-				c.createConceptName(name, preferred);
-				// if data source is specified create concept accession
-				if (ds != null && oldname.matches(regex) && c.getConceptAccession(name, ds) == null) {
-					c.createConceptAccession(name, ds, false);
+				// check if new name is not empty
+				if (name.trim().length() > 0) {
+					c.createConceptName(name, preferred);
+					// if data source is specified create concept accession
+					if (ds != null && oldname.matches(regex)
+							&& c.getConceptAccession(name, ds) == null) {
+						c.createConceptAccession(name, ds, false);
+					}
+				} else {
+					// revert back if new name would be empty
+					c.createConceptName(oldname, preferred);
 				}
 			}
 		}
