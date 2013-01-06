@@ -120,10 +120,14 @@ public class Transformer extends ONDEXTransformer implements ArgumentNames {
 				boolean preferred = cn.isPreferred();
 				// delete old one and create new one
 				c.deleteConceptName(oldname);
-				String name = oldname.replaceAll(regex, replace);
+				String name = oldname.replaceAll(regex, replace).trim();
 				// check if new name is not empty
-				if (name.trim().length() > 0) {
-					c.createConceptName(name, preferred);
+				if (name.length() > 0) {
+					if (c.getConceptName(name) != null) {
+						c.getConceptName(name).setPreferred(preferred);
+					} else {
+						c.createConceptName(name, preferred);
+					}
 					// if data source is specified create concept accession
 					if (ds != null && oldname.matches(regex)
 							&& c.getConceptAccession(name, ds) == null) {
