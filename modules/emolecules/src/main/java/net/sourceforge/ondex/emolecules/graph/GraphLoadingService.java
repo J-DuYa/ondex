@@ -8,6 +8,7 @@ import net.sourceforge.ondex.emolecules.io.Smile;
 import net.sourceforge.ondex.emolecules.io.SmilesIteratorFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.Index;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,14 +16,16 @@ import org.slf4j.LoggerFactory;
  *
  * @author grzebyta
  */
-public class GraphService implements Serializable {
+public class GraphLoadingService implements Serializable {
 
     private static final long serialVersionUID = 8156652691906253293L;
     private Logger log = LoggerFactory.getLogger(getClass());
     private GraphManager gm;
     private SmilesIteratorFactory smifac;
+    private Index<Node> chemicalIdIndex;
+    private Index<Node> chemicalSmileIndex;
 
-    public GraphService(Configuration conf) throws IOException {
+    public GraphLoadingService(Configuration conf) throws IOException {
         log.debug("configure service");
 
         // build smiterator
@@ -30,6 +33,10 @@ public class GraphService implements Serializable {
 
         // build Neo4j graph manager
         gm = GraphManager.instantiate(conf);
+        
+        // create chemical index
+        chemicalIdIndex = gm.getDatabase().index().forNodes("chemicalId");
+        chemicalSmileIndex = gm.getDatabase().index().forNodes("chemicalSmile");
     }
 
     public void run() {
@@ -44,11 +51,16 @@ public class GraphService implements Serializable {
                 log.debug("found smiles: " + smi);
 
                 // buid current smi Node
-                Node current = gm.createNode(smi.getId());
+                Node current = gm.createChemicalNode(smi.getId());
                 current.setProperty("smile", smi.getSmile());
+                
+                chemicalIdIndex.add(current, "id", smi.getId());
+                chemicalSmileIndex.add(current, "smile", smi.getSmile());
 
                 // get parent node
-                Node parent = gm.createNode(smi.getParent());
+                Node parent = gm.createChemicalNode(smi.getParent());
+                chemicalIdIndex.add(parent, "id", smi.getParent());
+                
 
                 // put parent to child
                 current.createRelationshipTo(parent, RelationsTypes.HAS_PARENT);

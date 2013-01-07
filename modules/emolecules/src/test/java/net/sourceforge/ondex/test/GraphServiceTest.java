@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.ondex.emolecules.graph.Configuration;
-import net.sourceforge.ondex.emolecules.graph.GraphService;
+import net.sourceforge.ondex.emolecules.graph.GraphLoadingService;
+import net.sourceforge.ondex.test.utils.DefaultConfiguration;
+import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -28,15 +31,10 @@ public class GraphServiceTest {
     private static Logger log = LoggerFactory.getLogger(GraphServiceTest.class);
     private static Configuration conf;
     
-    public static final String TEST_DATA_FILE = "target/test-classes/version.smi.gz";
-    public static final String INDEX_GRAPH_DIR = "target/";
-    
     @BeforeClass
     public static void init() throws Exception {
         log.info("build configuration");
-        conf = new Configuration()
-                .setIndexDirectoryPath(INDEX_GRAPH_DIR, true)
-                .setInputFilePath(TEST_DATA_FILE);
+        conf = DefaultConfiguration.instantiate();
     }
     
     @Test
@@ -53,7 +51,7 @@ public class GraphServiceTest {
     public void testGraph() throws Exception {
         log.info("build test graph");
         
-        GraphService gs = new GraphService(conf);
+        GraphLoadingService gs = new GraphLoadingService(conf);
         gs.run();
         GraphDatabaseService gdb = gs.getGraphManager().getDatabase();
         Assert.assertNotNull("database service musn't be null", gdb);
@@ -62,7 +60,6 @@ public class GraphServiceTest {
         Assert.assertTrue("empty list is wrong result. found: " + allNodes.size()
                 ,allNodes.size() > 0);
         log.info("number of nodes: " + allNodes.size());
-        log.info("node id: " + allNodes.get(0).getId());
         
         gdb.shutdown();
     }
@@ -81,12 +78,17 @@ public class GraphServiceTest {
         IteratorUtil.addToCollection(resIter, toReturn);
         
         for (Node node :toReturn) {
-            log.debug("\tnode: " + node);
+            log.debug(String.format("\tnode: %s\t id: %d", node, node.getProperty("id", 0)));
         }
         
         return toReturn;
     }
     
-            
-    
+    @AfterClass
+    public static void finish() throws Exception {
+        log.info("finish test");
+
+        FileUtils.deleteDirectory(conf.getIndexDirectoryPath());
+    }
+     
 }

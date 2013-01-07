@@ -1,8 +1,6 @@
 package net.sourceforge.ondex.emolecules.io;
 
 import java.io.Serializable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -14,7 +12,6 @@ public class Smile implements Serializable {
     private String smile;
     private Long parent;
     private Long id;
-    private Logger log = LoggerFactory.getLogger(getClass() + "@" + hashCode());
 
     public String getSmile() {
         return smile;

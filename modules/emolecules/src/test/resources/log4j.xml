@@ -14,7 +14,7 @@
         <level value="debug" />
     </logger>
     
-    <logger name="net.sourceforge.ondex.emolecules.graph">
+    <logger name="net.sourceforge.ondex.emolecules.io">
         <level value="trace"/>
     </logger>
     

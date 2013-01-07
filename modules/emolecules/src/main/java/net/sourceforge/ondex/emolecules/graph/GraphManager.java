@@ -79,6 +79,11 @@ public class GraphManager implements Serializable {
 
     }
     
+    /**
+     * Method took directly from 
+     * <a href="http://docs.neo4j.org/chunked/milestone/tutorials-java-embedded-setup.html#tutorials-java-embedded-setup-startstop">Neo4J manual</a>.
+     * @param graphDb
+     */
     // START SNIPPET: shutdownHook
     private static void registerShutdownHook(final GraphDatabaseService graphDb) {
         // Registers a shutdown hook for the Neo4j instance so that it
@@ -103,13 +108,16 @@ public class GraphManager implements Serializable {
      * @param id
      * @return 
      */
-    public Node createNode(Long id) {
+    public Node createChemicalNode(Long id) {
         log.debug("create a node with id: " + id);
         if (maps.containsKey(id)) {
             return maps.get(id);
         } else {
             Node node = graphDb.createNode();
             node.setProperty("id", id);
+            
+            // set node type
+            node.setProperty("type", "chemical");
             
             maps.put(id, node);
             return node;

@@ -1,5 +1,6 @@
 package net.sourceforge.ondex.emolecules.io;
 
+import com.google.common.collect.AbstractIterator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -54,31 +55,35 @@ public class SmilesIteratorFactory implements Iterable<Smile> {
     }
     
     public Iterator<Smile> iterator() {
-        // to ommit first line
-        li.nextLine();
-        
         log.debug("prepare iterator");
-        return new Iterator<Smile>() {
-            public boolean hasNext() {
-                return li.hasNext();
+        
+        return new AbstractIterator<Smile>() {
+
+            @Override
+            protected Smile computeNext() {
+                while(li.hasNext()) {
+                    String line = ((String) li.next()).trim();
+                    try {
+                        String[] splited = line.split("\\s");
+                        String smile = splited[0];
+                        Long id = Long.valueOf(splited[1]);
+                        Long parent = Long.valueOf(splited[2]);
+                        
+                        Smile value = new Smile();
+                        value.setSmile(smile);
+                        value.setId(id);
+                        value.setParent(parent);
+                        
+                        return value;
+                    } catch (NumberFormatException e) {
+                        // do nothing
+                        // just omit the step
+                        log.trace(String.format("handled exception: %s. No actinon", e));
+                    }
+                }
+                return endOfData();
             }
             
-            public Smile next() {
-                String line = li.nextLine();
-                String[] records = line.split("\\s");
-                
-                Smile toReturn = new Smile();
-                toReturn.setSmile(records[0]);
-                toReturn.setId(Long.valueOf(records[1]));
-                toReturn.setParent(Long.valueOf(records[2]));
-                
-                return toReturn;
-            }
-            
-            public void remove() {
-                // not supported
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
         };
     }
 }
