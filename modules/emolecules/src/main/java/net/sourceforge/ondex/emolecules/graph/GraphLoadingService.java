@@ -3,7 +3,7 @@ package net.sourceforge.ondex.emolecules.graph;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Iterator;
-import net.sourceforge.ondex.emolecules.io.RelationsTypes;
+import net.sourceforge.ondex.emolecules.cdk.CdkCalculator;
 import net.sourceforge.ondex.emolecules.io.Smile;
 import net.sourceforge.ondex.emolecules.io.SmilesIteratorFactory;
 import org.neo4j.graphdb.Node;
@@ -24,6 +24,8 @@ public class GraphLoadingService implements Serializable {
     private SmilesIteratorFactory smifac;
     private Index<Node> chemicalIdIndex;
     private Index<Node> chemicalSmileIndex;
+    
+    private CdkCalculator calc;
 
     public GraphLoadingService(Configuration conf) throws IOException {
         log.debug("configure service");
@@ -37,6 +39,9 @@ public class GraphLoadingService implements Serializable {
         // create chemical index
         chemicalIdIndex = gm.getDatabase().index().forNodes("chemicalId");
         chemicalSmileIndex = gm.getDatabase().index().forNodes("chemicalSmile");
+        
+        // instantiate calculator
+        calc = new CdkCalculator();
     }
 
     public void run() {
@@ -52,10 +57,13 @@ public class GraphLoadingService implements Serializable {
 
                 // buid current smi Node
                 Node current = gm.createChemicalNode(smi.getId());
-                current.setProperty("smile", smi.getSmile());
+                String smile = smi.getSmile();
+                
+                current.setProperty("smile", smile);
+                current.setProperty("m", calc.getMolecularMass(smile));
                 
                 chemicalIdIndex.add(current, "id", smi.getId());
-                chemicalSmileIndex.add(current, "smile", smi.getSmile());
+                chemicalSmileIndex.add(current, "smile", smile);
 
                 // get parent node
                 Node parent = gm.createChemicalNode(smi.getParent());

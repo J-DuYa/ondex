@@ -14,7 +14,7 @@
         <level value="debug" />
     </logger>
     
-    <logger name="net.sourceforge.ondex.emolecules.io">
+    <logger name="net.sourceforge.ondex.emolecules.cdk.CdkCalculator">
         <level value="trace"/>
     </logger>
     

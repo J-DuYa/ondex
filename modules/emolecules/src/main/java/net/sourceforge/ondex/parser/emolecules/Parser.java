@@ -1,5 +1,5 @@
 package net.sourceforge.ondex.parser.emolecules;
-
+/*
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.FileArgumentDefinition;
 import net.sourceforge.ondex.core.ConceptClass;
@@ -11,6 +11,7 @@ import net.sourceforge.ondex.parser.ONDEXParser;
  *
  * @author grzebyta
  */
+/**
 public class Parser extends ONDEXParser{
 
     public String getId() {
@@ -29,6 +30,8 @@ public class Parser extends ONDEXParser{
      * This specifies the input file to the parser
      * @return 
      */
+
+/**
     public ArgumentDefinition<?>[] getArgumentDefinitions() {
         
         FileArgumentDefinition fad = new FileArgumentDefinition(
@@ -61,3 +64,5 @@ public class Parser extends ONDEXParser{
     }
     
 }
+**/
+

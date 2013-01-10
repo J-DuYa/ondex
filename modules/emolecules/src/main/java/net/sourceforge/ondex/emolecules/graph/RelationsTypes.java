@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.emolecules.io;
+package net.sourceforge.ondex.emolecules.graph;
 
 import org.neo4j.graphdb.RelationshipType;
 

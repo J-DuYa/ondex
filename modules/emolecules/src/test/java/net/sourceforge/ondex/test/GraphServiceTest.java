@@ -78,7 +78,12 @@ public class GraphServiceTest {
         IteratorUtil.addToCollection(resIter, toReturn);
         
         for (Node node :toReturn) {
-            log.debug(String.format("\tnode: %s\t id: %d", node, node.getProperty("id", 0)));
+            if (node.getId() != 0) {
+            log.debug(String.format("\tnode: %s\t id: %d\tm: %s", node, node.getProperty("id", 0)
+                    , node.getProperty("m", 0)));
+            } else {
+                log.debug(String.format("\tnode: %s\t id: %d\t", node, node.getProperty("id", 0)));
+            }
         }
         
         return toReturn;
