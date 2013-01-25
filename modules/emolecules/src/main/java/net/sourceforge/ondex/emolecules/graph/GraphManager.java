@@ -2,11 +2,17 @@ package net.sourceforge.ondex.emolecules.graph;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,21 +31,22 @@ public class GraphManager implements Serializable {
     private GraphManager(Configuration c) throws IllegalArgumentException, IOException {
         this.config = c;
     }
-    
+
     /**
      * Main factory method. It calls {@link #init() } method.
+     *
      * @param conf
      * @return
      * @throws IllegalArgumentException
-     * @throws IOException 
+     * @throws IOException
      */
-    public static GraphManager instantiate(Configuration conf) 
+    public static GraphManager instantiate(Configuration conf)
             throws IllegalArgumentException, IOException {
         GraphManager toReturn = new GraphManager(conf);
         toReturn.init();
         return toReturn;
     }
-    
+
     /**
      * Builds graph database based on configuration
      */
@@ -60,8 +67,9 @@ public class GraphManager implements Serializable {
 
     /**
      * Creates database directory
+     *
      * @throws IOException
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      */
     private void createDbPath() throws IOException, IllegalArgumentException {
         if (!config.isValid()) {
@@ -78,10 +86,12 @@ public class GraphManager implements Serializable {
         }
 
     }
-    
+
     /**
-     * Method took directly from 
-     * <a href="http://docs.neo4j.org/chunked/milestone/tutorials-java-embedded-setup.html#tutorials-java-embedded-setup-startstop">Neo4J manual</a>.
+     * Method took directly from <a
+     * href="http://docs.neo4j.org/chunked/milestone/tutorials-java-embedded-setup.html#tutorials-java-embedded-setup-startstop">Neo4J
+     * manual</a>.
+     *
      * @param graphDb
      */
     // START SNIPPET: shutdownHook
@@ -97,16 +107,17 @@ public class GraphManager implements Serializable {
         });
     }
     // END SNIPPET: shutdownHook
-    
+
     public GraphDatabaseService getDatabase() {
         return graphDb;
     }
-    
+
     /**
-     * Creates a new node with set id. 
-     * Also puts a node to local memory index or returns from it if was created earlier.
+     * Creates a new node with set id. Also puts a node to local memory index or
+     * returns from it if was created earlier.
+     *
      * @param id
-     * @return 
+     * @return
      */
     public Node createChemicalNode(Long id) {
         log.debug("create a node with id: " + id);
@@ -115,12 +126,46 @@ public class GraphManager implements Serializable {
         } else {
             Node node = graphDb.createNode();
             node.setProperty("id", id);
-            
+
             // set node type
             node.setProperty("type", "chemical");
-            
+
             maps.put(id, node);
             return node;
         }
+    }
+
+    /**
+     * Return all nodes from the graph.
+     * @param gs
+     * @return 
+     */
+    public List<Node> getAllNodes() {
+        GraphDatabaseService gs = getDatabase();
+        log.debug("get all nodes");
+
+        String q = "START n=node(*) RETURN n;";
+        ExecutionEngine ee = new ExecutionEngine(gs);
+        ExecutionResult result = ee.execute(q);
+
+        Iterator<Node> resIter = result.columnAs("n");
+        log.debug("list of columns: " + result.columns());
+
+        ArrayList<Node> toReturn = new ArrayList<Node>(0);
+        IteratorUtil.addToCollection(resIter, toReturn);
+
+        for (Node node : toReturn) {
+            if (node.getId() != 0) {
+                log.debug(String.format("\tnode: %s\t id: %d\tm: %s", node, node.getProperty("id", 0), node.getProperty("m", 0)));
+            } else {
+                log.debug(String.format("\tnode: %s\t id: %d\t", node, node.getProperty("id", 0)));
+            }
+        }
+
+        return toReturn;
+    }
+    
+    public void shutdown() {
+        graphDb.shutdown();
     }
 }

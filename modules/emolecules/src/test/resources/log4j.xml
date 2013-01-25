@@ -14,10 +14,13 @@
         <level value="debug" />
     </logger>
     
-    <logger name="net.sourceforge.ondex.emolecules.cdk.CdkCalculator">
+    <logger name="net.sourceforge.ondex.parser.emolecules">
         <level value="trace"/>
     </logger>
     
+    <logger name="net.sourceforge.ondex.emolecules.graph.GraphLoadingService">
+        <level value="trace"/>
+    </logger>
     <root>
         <priority value="info"/>
         <appender-ref ref="console"/>

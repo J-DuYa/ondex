@@ -1,11 +1,13 @@
 package net.sourceforge.ondex.emolecules.cdk;
 
+import java.util.BitSet;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.openscience.cdk.DefaultChemObjectBuilder;
+import org.openscience.cdk.Molecule;
 import org.openscience.cdk.exception.CDKException;
 import org.openscience.cdk.exception.InvalidSmilesException;
-import org.openscience.cdk.interfaces.IMolecule;
+import org.openscience.cdk.fingerprint.Fingerprinter;
 import org.openscience.cdk.qsar.DescriptorEngine;
 import org.openscience.cdk.qsar.DescriptorSpecification;
 import org.openscience.cdk.qsar.DescriptorValue;
@@ -19,6 +21,7 @@ import org.openscience.cdk.smiles.SmilesParser;
 public class CdkCalculator {
     private Logger log = Logger.getLogger(getClass());
     private DescriptorEngine de = CustomMolecularDescriptorEngineFactory.instantiate();
+    private Fingerprinter fp = new Fingerprinter();
     
     
 
@@ -30,10 +33,8 @@ public class CdkCalculator {
      */
     public Map<Object, Object> describe(String smiles)
             throws InvalidSmilesException, CDKException {
-        log.info("describe molecule: " + smiles);
-        
-        SmilesParser sp = new SmilesParser(DefaultChemObjectBuilder.getInstance());
-        IMolecule m = sp.parseSmiles(smiles);
+        log.debug("describe molecule: " + smiles);
+        Molecule m = getMolecule(smiles);
         
         log.debug(m.getClass());
 
@@ -62,5 +63,15 @@ public class CdkCalculator {
         } 
         
         return 0;
+    }
+    
+    private Molecule getMolecule(String smiles) throws InvalidSmilesException {
+        SmilesParser sp = new SmilesParser(DefaultChemObjectBuilder.getInstance());
+        
+        return (Molecule) sp.parseSmiles(smiles);
+    }
+    
+    public BitSet getFingerprint(String smiles) throws CDKException {
+        return fp.getFingerprint(getMolecule(smiles));
     }
 }

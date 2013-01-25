@@ -1,9 +1,11 @@
 package net.sourceforge.ondex.test;
 
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.Map;
 import net.sourceforge.ondex.emolecules.cdk.CdkCalculator;
+import net.sourceforge.ondex.emolecules.utils.BitSetUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,6 +48,7 @@ public class CdkCalculatorTest {
         log.info("simple test");
         
         Map<Object, Object> props = calc.describe(smile);
+        BitSet fp = calc.getFingerprint(smile);
         
         log.info("print description " + props.size());
         for (Object k: props.keySet()) {
@@ -53,6 +56,7 @@ public class CdkCalculatorTest {
             DescriptorValue vob = (DescriptorValue) props.get(k);
             log.info("description: " + kob.getImplementationTitle());
             log.info("\tvalue: " + vob.getValue().toString());
+            log.info("fingerprint: "+BitSetUtils.toString(fp));
         }
     }
 }
