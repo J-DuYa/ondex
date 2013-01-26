@@ -10,12 +10,15 @@
 			<source>target/${artifactId}-${project.version}.jar</source>
 			<outputDirectory></outputDirectory>
 			<destName>${artifactId}-${project.version}.jar</destName>
+			<fileMode>0644</fileMode>
 		</file>
 	</files>
 	<fileSets>
 		<fileSet>
 			<directory>${basedir}/target/dependency</directory>
 			<outputDirectory>lib</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0644</fileMode>
 			<includes>
 				<include>**/*.*</include>
 				<include>**/*</include>

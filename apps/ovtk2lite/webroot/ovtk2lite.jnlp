@@ -2,14 +2,12 @@
 <jnlp spec="1.0+" codebase="" href="">
     <information>
         <title>Ondex Web</title>
-        <vendor>Ondex Team</vendor>
+        <vendor>Rothamsted Research</vendor>
     </information>
     <resources>
         <!-- Application Resources -->
-        <j2se version="1.6+"
-            href="http://java.sun.com/products/autodl/j2se" />
+        <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se" />
         <jar href="ovtk2lite-0.5.0-SNAPSHOT.jar" main="true" />
-
     </resources>
     <applet-desc 
          name="Ondex Web Applet"

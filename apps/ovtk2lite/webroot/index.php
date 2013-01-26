@@ -1,17 +1,19 @@
 <html>
 <head>
-<title>ONDEX Applet Test</title>
+<title>Ondex Web Test</title>
 </head>
+
 <body bgcolor=WHITE>
-<h3>ONDEX Applet Test</h3>
-<p>The ONDEX Applet is still under development and huge in size at the moment. 
+<h3>Ondex Web</h3>
+<p>The Ondex Web applet is still under development and huge in size at the moment. 
 Please be patient while loading.
 JAVA6 is required to run this applet and JavaScript needs to be enabled.<br>
 For usage information see <a href="README">README</a>.</p>
 
 <script src="js/deployJava.js"></script>
 <script> 
-    var attributes = {code:'net.sourceforge.ondex.ovtk2lite.Main',  width:800, height:620}; 
+    var attributes = {codebase:'<?php print $_SERVER{'HTTP_HOST'}; ?>',
+    	code:'net.sourceforge.ondex.ovtk2lite.Main',  width:800, height:620}; 
     var parameters = {jnlp_href: 'ovtk2lite.jnlp'}; 
     deployJava.runApplet(attributes, parameters, '1.6'); 
 </script>
