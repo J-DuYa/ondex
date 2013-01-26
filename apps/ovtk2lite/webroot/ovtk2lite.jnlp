@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="" href="">
+    <information>
+        <title>Ondex Web</title>
+        <vendor>Ondex Team</vendor>
+    </information>
+    <resources>
+        <!-- Application Resources -->
+        <j2se version="1.6+"
+            href="http://java.sun.com/products/autodl/j2se" />
+        <jar href="ovtk2lite-0.5.0-SNAPSHOT.jar" main="true" />
+
+    </resources>
+    <applet-desc 
+         name="Ondex Web Applet"
+         main-class="net.sourceforge.ondex.ovtk2lite.Main"
+         width="800"
+         height="620">
+         <param name="ondex.dir" value="data"/>
+         <param name="ovtk.dir" value="config"/>
+         <param name="antialiased" value="true"/>
+         <param name="nodes.labels" value="true"/>
+         <param name="edges.lables" value="true"/>
+         <param name="filename" value="config/examples/testGraph.xml"/>
+     </applet-desc>
+     <update check="background"/>
+</jnlp>
