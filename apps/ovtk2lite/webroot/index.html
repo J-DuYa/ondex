@@ -12,8 +12,8 @@ For usage information see <a href="README">README</a>.</p>
 
 <script src="js/deployJava.js"></script>
 <script> 
-    var attributes = {codebase:'<?php print $_SERVER{'HTTP_HOST'}; ?>',
-    	code:'net.sourceforge.ondex.ovtk2lite.Main',  width:800, height:620}; 
+    var attributes = {code:'net.sourceforge.ondex.ovtk2lite.Main',  width:800, height:620}; 
+    attributes.codebase = window.location.protocol + "://" + window.location.host + "/" + window.location.pathname; 
     var parameters = {jnlp_href: 'ovtk2lite.jnlp'}; 
     deployJava.runApplet(attributes, parameters, '1.6'); 
 </script>
