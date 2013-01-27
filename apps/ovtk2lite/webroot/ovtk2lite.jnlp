@@ -3,6 +3,7 @@
     <information>
         <title>Ondex Web</title>
         <vendor>Rothamsted Research</vendor>
+        <homepage href="http://www.ondex.org"/>
     </information>
     <resources>
         <!-- Application Resources -->
