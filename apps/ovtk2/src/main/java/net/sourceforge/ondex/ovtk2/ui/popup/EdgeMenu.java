@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -100,6 +101,8 @@ public class EdgeMenu extends JPopupMenu implements
 					OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException fnfe) {
 			ErrorDialog.show(fnfe);
+		} catch (MalformedURLException mue) {
+			ErrorDialog.show(mue);
 		}
 
 		// order filters by name
@@ -134,6 +137,8 @@ public class EdgeMenu extends JPopupMenu implements
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (InstantiationException e1) {
+			e1.printStackTrace();
+		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		}
 

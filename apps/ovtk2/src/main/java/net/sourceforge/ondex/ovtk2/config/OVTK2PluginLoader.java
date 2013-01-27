@@ -54,8 +54,9 @@ public class OVTK2PluginLoader {
 	 * singleton getter.
 	 * 
 	 * @return the singleton instance of this class.
+	 * @throws MalformedURLException 
 	 */
-	public static OVTK2PluginLoader getInstance() throws FileNotFoundException {
+	public static OVTK2PluginLoader getInstance() throws FileNotFoundException, MalformedURLException {
 		if (instance == null) {
 			instance = new OVTK2PluginLoader();
 		}
@@ -94,8 +95,9 @@ public class OVTK2PluginLoader {
 
 	/**
 	 * singleton constructor.
+	 * @throws MalformedURLException 
 	 */
-	private OVTK2PluginLoader() throws FileNotFoundException {
+	private OVTK2PluginLoader() throws FileNotFoundException, MalformedURLException {
 		reload();
 	}
 
@@ -549,32 +551,32 @@ public class OVTK2PluginLoader {
 	 * @param urls
 	 * @param classRegisterBuilder
 	 * @param path
+	 * @throws MalformedURLException
 	 */
 	private void loadFromPath(Vector<URL> urls,
-			StringBuilder classRegisterBuilder, String path) {
+			StringBuilder classRegisterBuilder, String path)
+			throws MalformedURLException {
 		// loading from URL for applet
-		try {
-			URL url = new URL(path);
-			urls.add(url);
-			scanClasses(classRegisterBuilder, url);
-			scanConfig(url);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+		URL url = new URL(path);
+		urls.add(url);
+		scanClasses(classRegisterBuilder, url);
+		scanConfig(url);
 	}
 
 	/**
 	 * rescans the plugins directory and registers all found plugins with the
 	 * class loader.
 	 * 
-	 * @throws ONDEXConfigurationException
+	 * @throws MalformedURLException
+	 * @throws FileNotFoundException
 	 */
-	public void reload() throws FileNotFoundException {
+	public void reload() throws FileNotFoundException, MalformedURLException {
 
 		Vector<URL> urls = new Vector<URL>();
 		StringBuilder classRegisterBuilder = new StringBuilder();
 
-		if (Config.ovtkDir.contains("://")) {
+		if (Config.ovtkDir.contains("://")
+				|| Config.ovtkDir.startsWith("file:/")) {
 			System.out.println("Scanning http lib directory for plugins");
 
 			// TODO: this is a big hack and need changing
@@ -592,33 +594,9 @@ public class OVTK2PluginLoader {
 			// make sure directory exists.
 			File pluginDir = new File(PLUGIN_DIR);
 			if (!pluginDir.exists()) {
-				// trying scanning for lib directory
-				String libPath = Config.ovtkDir.substring(0,
-						Config.ovtkDir.lastIndexOf("config"))
-						+ "lib";
-				File libDir = new File(libPath);
-				if (libDir.exists()) {
-					// load for applet default and experimental modules
-					boolean found = false;
-					for (File file : libDir.listFiles()) {
-						if (file.getName().contains("ovtk2-default-")
-								|| file.getName().contains(
-										"ovtk2-experimental-")) {
-							loadFromPath(urls, classRegisterBuilder,
-									file.getAbsolutePath());
-							found = true;
-						}
-					}
-					if (!found) {
-						throw new FileNotFoundException(
-								"No default plugin found in directory: "
-										+ libDir.getAbsoluteFile());
-					}
-				} else {
-					throw new FileNotFoundException(
-							"Could not find plugin directory: "
-									+ pluginDir.getAbsoluteFile());
-				}
+				throw new FileNotFoundException(
+						"Could not find plugin directory: "
+								+ pluginDir.getAbsoluteFile());
 			}
 
 			// register urls

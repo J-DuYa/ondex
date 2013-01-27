@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
@@ -15,6 +16,7 @@ import net.sourceforge.ondex.core.ConceptClass;
 import net.sourceforge.ondex.core.DataSource;
 import net.sourceforge.ondex.core.EvidenceType;
 import net.sourceforge.ondex.core.RelationType;
+import net.sourceforge.ondex.ovtk2.util.ErrorDialog;
 
 /**
  * Class provides methods to access the program configuration.
@@ -334,6 +336,8 @@ public class Config {
 						.println("Could not find plugins directory. Please create one.");
 				e.printStackTrace();
 				System.exit(1);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
 			}
 		}
 

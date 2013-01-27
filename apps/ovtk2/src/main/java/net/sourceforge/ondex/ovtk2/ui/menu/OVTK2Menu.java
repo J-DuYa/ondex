@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -347,6 +348,8 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace(); // TODO: log?
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
 			}
 
 			String help = Config.language.getProperty("Help." + name);
@@ -817,6 +820,8 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 										.getFilterClassNames());
 			} catch (FileNotFoundException e) {
 				ErrorDialog.show(e);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
 			}
 
 		ArrayList<JMenuItem> moreComp = new ArrayList<JMenuItem>();
@@ -840,6 +845,8 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 				}
 			} catch (FileNotFoundException e) {
 				ErrorDialog.show(e);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
 			}
 
 			String help = Config.language.getProperty("Help." + name);
@@ -1010,6 +1017,8 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace(); // TODO: log?
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
 			}
 
 			String help = Config.language.getProperty("Help." + name);

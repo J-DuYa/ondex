@@ -3,6 +3,7 @@ package net.sourceforge.ondex.ovtk2.ui.menu.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 
 import javax.swing.JOptionPane;
 
@@ -41,6 +42,8 @@ public class EditMenuAction implements ActionListener {
 			Thread.currentThread().setContextClassLoader(
 					OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
+			ErrorDialog.show(e);
+		} catch (MalformedURLException e) {
 			ErrorDialog.show(e);
 		}
 
@@ -162,6 +165,8 @@ public class EditMenuAction implements ActionListener {
 					try {
 						t.setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 					} catch (FileNotFoundException e) {
+						ErrorDialog.show(e);
+					} catch (MalformedURLException e) {
 						ErrorDialog.show(e);
 					}
 

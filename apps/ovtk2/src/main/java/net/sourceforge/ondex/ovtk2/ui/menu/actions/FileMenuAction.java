@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -110,6 +111,8 @@ public class FileMenuAction implements ActionListener {
 			Thread.currentThread().setContextClassLoader(
 					OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
+			ErrorDialog.show(e);
+		} catch (MalformedURLException e) {
 			ErrorDialog.show(e);
 		}
 
@@ -227,6 +230,8 @@ public class FileMenuAction implements ActionListener {
 																.getInstance().ucl);
 									} catch (FileNotFoundException e) {
 										ErrorDialog.show(e);
+									} catch (MalformedURLException e) {
+										ErrorDialog.show(e);
 									}
 
 									// name of new graph
@@ -269,6 +274,8 @@ public class FileMenuAction implements ActionListener {
 														OVTK2PluginLoader
 																.getInstance().ucl);
 									} catch (FileNotFoundException e) {
+										ErrorDialog.show(e);
+									} catch (MalformedURLException e) {
 										ErrorDialog.show(e);
 									}
 
@@ -335,6 +342,8 @@ public class FileMenuAction implements ActionListener {
 													OVTK2PluginLoader
 															.getInstance().ucl);
 								} catch (FileNotFoundException e) {
+									ErrorDialog.show(e);
+								} catch (MalformedURLException e) {
 									ErrorDialog.show(e);
 								}
 
@@ -454,6 +463,8 @@ public class FileMenuAction implements ActionListener {
 							.getInstance().ucl);
 				} catch (FileNotFoundException e) {
 					ErrorDialog.show(e);
+				} catch (MalformedURLException e) {
+					ErrorDialog.show(e);
 				}
 				thread.start();
 			} else {
@@ -545,6 +556,8 @@ public class FileMenuAction implements ActionListener {
 				}
 			} catch (FileNotFoundException e) {
 				ErrorDialog.show(e);
+			} catch (MalformedURLException e) {
+				ErrorDialog.show(e);
 			}
 
 			// handle error
@@ -579,6 +592,8 @@ public class FileMenuAction implements ActionListener {
 								Thread.currentThread().setContextClassLoader(
 										OVTK2PluginLoader.getInstance().ucl);
 							} catch (FileNotFoundException e) {
+								ErrorDialog.show(e);
+							} catch (MalformedURLException e) {
 								ErrorDialog.show(e);
 							}
 
@@ -654,6 +669,8 @@ public class FileMenuAction implements ActionListener {
 										OVTK2PluginLoader.getInstance().ucl);
 							} catch (FileNotFoundException e) {
 								ErrorDialog.show(e);
+							} catch (MalformedURLException e) {
+								ErrorDialog.show(e);
 							}
 
 							// new generic import
@@ -723,6 +740,8 @@ public class FileMenuAction implements ActionListener {
 					}
 				} catch (FileNotFoundException e) {
 					ErrorDialog.show(e);
+				} catch (MalformedURLException e) {
+					ErrorDialog.show(e);
 				}
 
 				// handle error
@@ -767,6 +786,8 @@ public class FileMenuAction implements ActionListener {
 								Thread.currentThread().setContextClassLoader(
 										OVTK2PluginLoader.getInstance().ucl);
 							} catch (FileNotFoundException e) {
+								ErrorDialog.show(e);
+							} catch (MalformedURLException e) {
 								ErrorDialog.show(e);
 							}
 

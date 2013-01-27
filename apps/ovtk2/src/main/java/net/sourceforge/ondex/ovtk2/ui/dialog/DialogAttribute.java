@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyVetoException;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -318,6 +319,8 @@ public class DialogAttribute extends OVTK2Dialog {
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JInternalFrame;
@@ -96,6 +97,8 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 					OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
 			ErrorDialog.show(e);
+		} catch (MalformedURLException e) {
+			ErrorDialog.show(e);
 		}
 
 		// handle Layouter calls
@@ -145,6 +148,8 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 													OVTK2PluginLoader
 															.getInstance().ucl);
 								} catch (FileNotFoundException e) {
+									ErrorDialog.show(e);
+								} catch (MalformedURLException e) {
 									ErrorDialog.show(e);
 								}
 

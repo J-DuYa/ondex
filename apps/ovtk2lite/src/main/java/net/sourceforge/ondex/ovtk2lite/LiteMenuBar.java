@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -641,6 +642,8 @@ public class LiteMenuBar extends JMenuBar {
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace(); // TODO: log?
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
 			}
 
 			String display = realNameToDisplayName.get(name);
@@ -705,6 +708,8 @@ public class LiteMenuBar extends JMenuBar {
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace(); // TODO: log?
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
 			}
 
 			String display = Config.language.getProperty("Name." + name);

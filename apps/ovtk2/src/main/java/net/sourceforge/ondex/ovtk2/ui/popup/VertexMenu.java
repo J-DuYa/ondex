@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -217,6 +218,8 @@ public class VertexMenu extends JPopupMenu implements
 					OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException fnfe) {
 			ErrorDialog.show(fnfe);
+		} catch (MalformedURLException e) {
+			ErrorDialog.show(e);
 		}
 
 		// order filters by name
@@ -255,6 +258,8 @@ public class VertexMenu extends JPopupMenu implements
 			e1.printStackTrace();
 		} catch (InstantiationException e1) {
 			e1.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 
 		// add non-empty menus to popup

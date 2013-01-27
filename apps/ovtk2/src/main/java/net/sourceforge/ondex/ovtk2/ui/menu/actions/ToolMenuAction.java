@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -114,6 +115,8 @@ public class ToolMenuAction implements ActionListener, InternalFrameListener {
 			Thread.currentThread().setContextClassLoader(
 					OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
+			ErrorDialog.show(e);
+		} catch (MalformedURLException e) {
 			ErrorDialog.show(e);
 		}
 		
