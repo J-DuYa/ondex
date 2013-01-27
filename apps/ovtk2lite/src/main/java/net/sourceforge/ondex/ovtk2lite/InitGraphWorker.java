@@ -7,11 +7,13 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
+import javax.jnlp.BasicService;
+import javax.jnlp.ServiceManager;
+import javax.jnlp.UnavailableServiceException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import net.sourceforge.ondex.ONDEXPluginArguments;
-import net.sourceforge.ondex.args.FileArgumentDefinition;
 import net.sourceforge.ondex.core.ONDEXGraph;
 import net.sourceforge.ondex.core.memory.MemoryONDEXGraph;
 import net.sourceforge.ondex.ovtk2.graph.ONDEXJUNGGraph;
@@ -83,11 +85,28 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 
 		main.getStatusLabel().setText("Initialising config...");
 
+		// in case applet is started via JNLP, get codebase
+		URL codeBase = null;
+		try {
+			BasicService bs = (BasicService) ServiceManager
+					.lookup("javax.jnlp.BasicService");
+			codeBase = bs.getCodeBase();
+		} catch (UnavailableServiceException e1) {
+			e1.printStackTrace();
+		}
+
+		String ondexDir = main.getParameter("ondex.dir");
+		String ovtkDir = main.getParameter("ovtk.dir");
+		// in case of relative paths
+		if (codeBase != null && !ondexDir.contains("://")
+				&& !ovtkDir.contains("://")) {
+			ondexDir = codeBase.toExternalForm() + "/" + ondexDir;
+			ovtkDir = codeBase.toExternalForm() + "/" + ovtkDir;
+		}
+
 		// set data directories
-		net.sourceforge.ondex.config.Config.ondexDir = main
-				.getParameter("ondex.dir");
-		net.sourceforge.ondex.ovtk2.config.Config.ovtkDir = main
-				.getParameter("ovtk.dir");
+		net.sourceforge.ondex.config.Config.ondexDir = ondexDir;
+		net.sourceforge.ondex.ovtk2.config.Config.ovtkDir = ovtkDir;
 
 		// important to load configuration from file!
 		try {
@@ -110,7 +129,17 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 		ONDEXGraph aog = new MemoryONDEXGraph("ONDEX Graph");
 
 		String filename = main.getParameter("filename");
+		// in case of relative paths
+		if (codeBase != null && filename != null && !filename.contains("://")) {
+			filename = codeBase.toExternalForm() + "/" + filename;
+		}
+
 		String xgmml = main.getParameter("xgmml");
+		// in case of relative paths
+		if (codeBase != null && xgmml != null && !xgmml.contains("://")) {
+			xgmml = codeBase.toExternalForm() + "/" + xgmml;
+		}
+
 		if (filename != null) {
 			// load from file
 			try {
