@@ -544,6 +544,26 @@ public class OVTK2PluginLoader {
 	}
 
 	/**
+	 * Loads plugins from given path
+	 * 
+	 * @param urls
+	 * @param classRegisterBuilder
+	 * @param path
+	 */
+	private void loadFromPath(Vector<URL> urls,
+			StringBuilder classRegisterBuilder, String path) {
+		// loading from URL for applet
+		try {
+			URL url = new URL(path);
+			urls.add(url);
+			scanClasses(classRegisterBuilder, url);
+			scanConfig(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * rescans the plugins directory and registers all found plugins with the
 	 * class loader.
 	 * 
@@ -554,39 +574,51 @@ public class OVTK2PluginLoader {
 		Vector<URL> urls = new Vector<URL>();
 		StringBuilder classRegisterBuilder = new StringBuilder();
 
-		if (Config.ovtkDir.startsWith("http")) {
+		if (Config.ovtkDir.contains("://")) {
 			System.out.println("Scanning http lib directory for plugins");
 
 			// TODO: this is a big hack and need changing
 			String defaultPath = Config.ovtkDir.substring(0,
 					Config.ovtkDir.lastIndexOf("config"))
 					+ "lib/ovtk2-default-0.5.0-SNAPSHOT.jar";
+			loadFromPath(urls, classRegisterBuilder, defaultPath);
 			String experimentalPath = Config.ovtkDir.substring(0,
 					Config.ovtkDir.lastIndexOf("config"))
 					+ "lib/ovtk2-experimental-0.5.0-SNAPSHOT.jar";
-
-			// loading from URL for applet
-			try {
-				URL url = new URL(defaultPath);
-				urls.add(url);
-				scanClasses(classRegisterBuilder, url);
-				scanConfig(url);
-				url = new URL(experimentalPath);
-				urls.add(url);
-				scanClasses(classRegisterBuilder, url);
-				scanConfig(url);
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
+			loadFromPath(urls, classRegisterBuilder, experimentalPath);
 
 		} else {
 
 			// make sure directory exists.
 			File pluginDir = new File(PLUGIN_DIR);
 			if (!pluginDir.exists()) {
-				throw new FileNotFoundException(
-						"Could not find plugin directory: "
-								+ pluginDir.getAbsoluteFile());
+				// trying scanning for lib directory
+				String libPath = Config.ovtkDir.substring(0,
+						Config.ovtkDir.lastIndexOf("config"))
+						+ "lib";
+				File libDir = new File(libPath);
+				if (libDir.exists()) {
+					// load for applet default and experimental modules
+					boolean found = false;
+					for (File file : libDir.listFiles()) {
+						if (file.getName().contains("ovtk2-default-")
+								|| file.getName().contains(
+										"ovtk2-experimental-")) {
+							loadFromPath(urls, classRegisterBuilder,
+									file.getAbsolutePath());
+							found = true;
+						}
+					}
+					if (!found) {
+						throw new FileNotFoundException(
+								"No default plugin found in directory: "
+										+ libDir.getAbsoluteFile());
+					}
+				} else {
+					throw new FileNotFoundException(
+							"Could not find plugin directory: "
+									+ pluginDir.getAbsoluteFile());
+				}
 			}
 
 			// register urls

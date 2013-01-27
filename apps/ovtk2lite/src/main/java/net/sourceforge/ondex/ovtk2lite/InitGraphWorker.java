@@ -100,8 +100,8 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 		// in case of relative paths
 		if (codeBase != null && !ondexDir.contains("://")
 				&& !ovtkDir.contains("://")) {
-			ondexDir = codeBase.toExternalForm() + "/" + ondexDir;
-			ovtkDir = codeBase.toExternalForm() + "/" + ovtkDir;
+			ondexDir = codeBase.toExternalForm() + ondexDir;
+			ovtkDir = codeBase.toExternalForm() + ovtkDir;
 		}
 
 		// set data directories
@@ -131,13 +131,13 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 		String filename = main.getParameter("filename");
 		// in case of relative paths
 		if (codeBase != null && filename != null && !filename.contains("://")) {
-			filename = codeBase.toExternalForm() + "/" + filename;
+			filename = codeBase.toExternalForm() + filename;
 		}
 
 		String xgmml = main.getParameter("xgmml");
 		// in case of relative paths
 		if (codeBase != null && xgmml != null && !xgmml.contains("://")) {
-			xgmml = codeBase.toExternalForm() + "/" + xgmml;
+			xgmml = codeBase.toExternalForm() + xgmml;
 		}
 
 		if (filename != null) {
