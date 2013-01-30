@@ -86,7 +86,6 @@
 				<configuration>
 					<descriptors>
 						<descriptor>${basedir}/zip_distro.xml</descriptor>
-						<descriptor>${basedir}/data_distro.xml</descriptor>
 					</descriptors>
 				</configuration>
 				<executions>
