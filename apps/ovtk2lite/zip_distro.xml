@@ -24,5 +24,41 @@
 				<include>**/*</include>
 			</includes>
 		</fileSet>
+		<fileSet>
+			<directory>${basedir}/webroot</directory>
+			<outputDirectory></outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0644</fileMode>
+			<includes>
+				<include>**/*.*</include>
+				<include>**/*</include>
+			</includes>
+			<excludes>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/config</directory>
+			<outputDirectory>config</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0644</fileMode>
+			<includes>
+				<include>**/*.*</include>
+				<include>**/*</include>
+			</includes>
+			<excludes>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/data</directory>
+			<outputDirectory>data</outputDirectory>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0644</fileMode>
+			<includes>
+				<include>**/config.xml</include>
+				<include>**/log4j.properties</include>
+			</includes>
+			<excludes>
+			</excludes>
+		</fileSet>
 	</fileSets>
 </assembly>
