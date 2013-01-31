@@ -51,7 +51,7 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 		// make sure there is a taxId in the graph
 		anTaxid = aog.getMetaData().getAttributeName("TAXID");
 
-		if (!Config.ondexDir.startsWith("http")
+		if (!Config.ondexDir.contains(":/")
 				&& !ValidatorRegistry.validators
 						.containsKey("scientificspeciesname")) {
 			if (loadNCBI && anTaxid != null) {
@@ -124,7 +124,7 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 			writeList(extract(c.getEvidence()), "Evidence: ", b);
 
 			// check if organism can be derived
-			if (!Config.ondexDir.startsWith("http")
+			if (!Config.ondexDir.contains(":/")
 					&& ValidatorRegistry.validators
 							.containsKey("scientificspeciesname")
 					&& anTaxid != null) {

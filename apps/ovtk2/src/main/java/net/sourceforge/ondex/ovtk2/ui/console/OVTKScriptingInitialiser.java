@@ -382,7 +382,7 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 			CommandProcess m = new CommandProcess(this, evt);
 			m.start();
 			JFrame parent = null;
-			if (!Config.ondexDir.startsWith("http:"))
+			if (!Config.ondexDir.contains(":/"))
 				parent = OVTK2Desktop.getInstance().getMainFrame();
 			OVTKProgressMonitor.start(parent, "Please wait...", m);
 		}
