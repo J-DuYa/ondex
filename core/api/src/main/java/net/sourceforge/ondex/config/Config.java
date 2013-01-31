@@ -121,7 +121,7 @@ public class Config {
 		URL urlLog4j;
 
 		// required for Ondex applet when loading from web server
-		if (ondexDir.startsWith("http:") || ondexDir.startsWith("file:")) {
+		if (isApplet) {
 			urlConfig = new URL(ondexDir + "/" + "config.xml");
 			urlLog4j = new URL(ondexDir + "/" + "log4j.properties");
 		} else {
