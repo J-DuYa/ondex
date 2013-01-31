@@ -71,11 +71,11 @@
 
 		<!-- Dependencies required for the lib directory, promoted from 'provided' 
 			to 'runtime' -->
-                        <!--
+                        
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-		</dependency>-->
+		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.collections</groupId>
 			<artifactId>collections-generic</artifactId>
