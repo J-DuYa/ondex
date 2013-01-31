@@ -105,7 +105,9 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 		}
 
 		// set data directories
+		net.sourceforge.ondex.config.Config.isApplet = true;
 		net.sourceforge.ondex.config.Config.ondexDir = ondexDir;
+		net.sourceforge.ondex.ovtk2.config.Config.isApplet = true;
 		net.sourceforge.ondex.ovtk2.config.Config.ovtkDir = ovtkDir;
 
 		// important to load configuration from file!

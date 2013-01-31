@@ -58,7 +58,7 @@ public class ConfigTool extends DefaultHandler {
 
 		// load given filename
 		InputStream inputStream = null;
-		if (filename.startsWith("http:")) {
+		if (filename.startsWith("http:") || filename.startsWith("file:") || filename.startsWith("https:")) {
 
 			// special case for applet
 			try {

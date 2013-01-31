@@ -30,7 +30,7 @@ public class StringPlugin extends AbstractContentDisplayPlugin {
 		if (g != null && g.getValue() instanceof String) {
 			String string = (String) g.getValue();
 			// make hyper-links explicit for PLUGINS-52
-			if (string.startsWith("http://")) {
+			if (string.startsWith("http://") || string.startsWith("https://")) {
 				string = "<a href=\"" + string + "\">" + string + "</a>";
 			}
 			String name = att.getFullname();

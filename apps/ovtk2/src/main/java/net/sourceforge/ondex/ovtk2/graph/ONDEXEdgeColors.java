@@ -100,7 +100,7 @@ public class ONDEXEdgeColors implements Transformer<ONDEXRelation, Paint> {
 			} else if (strategy == EdgeColorSelection.EVIDENCETYPE) {
 				Config.visual.setProperty(GRAPH_COLORING_RELATION_STRATEGY, ET);
 			}
-			if (!Config.ovtkDir.startsWith("http"))
+			if (!Config.isApplet)
 				Config.saveVisual();
 		}
 	}

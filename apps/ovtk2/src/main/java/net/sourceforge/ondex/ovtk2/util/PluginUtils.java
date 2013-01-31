@@ -39,7 +39,7 @@ public class PluginUtils {
 	public static void initPluginRegistry() throws ClassNotFoundException,
 			NoSuchMethodException, IllegalAccessException,
 			InvocationTargetException {
-		if (!Config.ovtkDir.startsWith("http")) {
+		if (!Config.isApplet) {
 			String pluginsDirOndex = new File(new File(
 					net.sourceforge.ondex.config.Config.ondexDir)
 					.getAbsoluteFile().getParent()

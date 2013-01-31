@@ -68,6 +68,9 @@ public class Config {
 
 	// ovtkDir set as working director/config if not specified
 	public static String ovtkDir = null;
+	
+	// same as in Ondex config
+	public static boolean isApplet = false;
 
 	// contains mapping of visual attributes
 	public static final Properties visual = new Properties();
@@ -347,7 +350,7 @@ public class Config {
 
 			// load local config files next
 			URL urlProperties, urlEnglish, urlVisual;
-			if (ovtkDir.startsWith("http:") || ovtkDir.startsWith("file:")) {
+			if (isApplet) {
 				// when loading from a server
 				urlProperties = new URL(ovtkDir + "/" + "config.xml");
 				urlEnglish = new URL(ovtkDir + "/" + "english.xml");

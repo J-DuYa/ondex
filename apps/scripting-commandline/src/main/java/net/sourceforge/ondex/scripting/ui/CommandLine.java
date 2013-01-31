@@ -571,7 +571,7 @@ public class CommandLine extends JTextArea implements KeyListener,
 
 		// special case when reading from URL in applet
 		InputStream in;
-		if (f.startsWith("http:")) {
+		if (f.startsWith("http:") || f.startsWith("https:") || f.startsWith("file:")) {
 			URL url = new URL(f);
 			in = url.openStream();
 		} else {

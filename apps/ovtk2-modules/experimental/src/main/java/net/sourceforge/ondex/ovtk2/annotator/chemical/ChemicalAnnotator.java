@@ -167,7 +167,7 @@ public class ChemicalAnnotator extends OVTK2Annotator implements ActionListener 
 				.setVertexShapeTransformer(vertexShapeTransformer);
 		viewer.getVisualizationViewer().getModel().fireStateChanged();
 		viewer.getVisualizationViewer().repaint();
-		if (!Config.ovtkDir.startsWith("http"))
+		if (!Config.isApplet)
 			OVTK2Desktop.getInstance().getOVTK2Menu().updateMenuBar(viewer);
 	}
 

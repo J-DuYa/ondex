@@ -310,7 +310,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 
 			// draw histogram
 			JLabel graphic = new Histogram(targets.get(0));
-			if (Config.ovtkDir.startsWith("http")) {
+			if (Config.isApplet) {
 				if (frame != null) {
 					frame.setVisible(false);
 					frame.dispose();

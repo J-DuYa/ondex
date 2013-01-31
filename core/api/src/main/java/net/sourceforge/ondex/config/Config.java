@@ -39,6 +39,11 @@ public class Config {
 	 * Contains all merged properties for ONDEX load from XMLs.
 	 */
 	public final static Properties properties = new Properties();
+	
+	/**
+	 * indicates when used within applet 
+	 */
+	public static boolean isApplet = false;
 
 	/**
 	 * Get the properties for ONDEX from XML.

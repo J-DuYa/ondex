@@ -128,7 +128,7 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 
 						// different case when running in applet
 						String popupPath;
-						if (Config.ovtkDir.startsWith("http:")) {
+						if (Config.isApplet) {
 							popupPath = Config.ovtkDir + "/popupMenu/";
 						} else {
 							popupPath = CustomPopupItemBean.getPopupPath()
@@ -208,7 +208,7 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 		boolean accepts = false;
 
 		// special case for applet
-		if (Config.ovtkDir.startsWith("http:")) {
+		if (Config.isApplet) {
 			if (Config.config.getProperty("PopupEditor.Scripts") != null) {
 				// System.out.println(Config.config
 				// .getProperty("PopupEditor.Scripts"));
@@ -256,7 +256,7 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 		if (regex.equals("\\"))
 			regex = "\\\\";
 		// special case for applet URL processing
-		if (Config.ovtkDir.startsWith("http:"))
+		if (Config.isApplet)
 			regex = "/";
 
 		String[] split = menuItem.getQualifiedName().split(regex);

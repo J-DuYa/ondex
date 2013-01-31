@@ -132,7 +132,7 @@ public class Parser extends ONDEXParser {
 
 		// do decided where file is coming from
 		URL url;
-		if (filename.startsWith("http:") || filename.startsWith("file:")) {
+		if (filename.startsWith("http:") || filename.startsWith("file:") || filename.startsWith("https:")) {
 			// when loading from a server
 			url = new URL(filename);
 		} else {

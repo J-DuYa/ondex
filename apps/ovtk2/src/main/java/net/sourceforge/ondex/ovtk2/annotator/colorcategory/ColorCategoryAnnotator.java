@@ -224,7 +224,7 @@ public class ColorCategoryAnnotator extends OVTK2Annotator implements
 			}
 		}
 		legend = new LegendFrame(this);
-		if (Config.ovtkDir.startsWith("http")) {
+		if (Config.isApplet) {
 			// close old legend
 			if (frame != null) {
 				frame.setVisible(false);

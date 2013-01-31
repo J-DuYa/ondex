@@ -127,7 +127,7 @@ public class ONDEXNodeFillPaint implements Transformer<ONDEXConcept, Paint> {
 			} else if (strategy == NodeFillPaintSelection.EVIDENCETYPE) {
 				Config.visual.setProperty(GRAPH_COLORING_CONCEPT_STRATEGY, ET);
 			}
-			if (!Config.ovtkDir.startsWith("http"))
+			if (!Config.isApplet)
 				Config.saveVisual();
 		}
 	}

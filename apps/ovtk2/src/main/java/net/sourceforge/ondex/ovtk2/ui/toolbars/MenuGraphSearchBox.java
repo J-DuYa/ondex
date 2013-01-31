@@ -855,7 +855,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 	 * @return
 	 */
 	private URL makeFileURL(String first, String... parts) {
-		if (first.startsWith("http")) {
+		if (first.startsWith("http") || first.startsWith("https") || first.startsWith("file")) {
 			for (String p : parts) {
 				first += "/" + p;
 			}
