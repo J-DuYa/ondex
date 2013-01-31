@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
-
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
 import net.sourceforge.ondex.annotations.Status;
@@ -32,7 +31,6 @@ import net.sourceforge.ondex.event.type.GeneralOutputEvent;
 import net.sourceforge.ondex.event.type.InconsistencyEvent;
 import net.sourceforge.ondex.parser.ONDEXParser;
 import net.sourceforge.ondex.tools.data.ChemicalStructure;
-
 import org.openscience.cdk.ChemFile;
 import org.openscience.cdk.ChemObject;
 import org.openscience.cdk.DefaultChemObjectBuilder;
@@ -48,265 +46,261 @@ import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
 
 /**
  * Parser for the ChEMBL database
- * 
+ *
  * @author taubertj
- * 
+ *
  */
-@Authors(authors = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
-@Custodians(custodians = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
+@Authors(authors = {"Jan Taubert"}, emails = {"jantaubert at users.sourceforge.net"})
+@Custodians(custodians = {"Jan Taubert"}, emails = {"jantaubert at users.sourceforge.net"})
 @Status(status = StatusType.STABLE, description = "Tested October 2012 (Jan Taubert)")
 public class Parser extends ONDEXParser implements MetaData {
 
-	private static final String ONLY_REFERENCED = "OnlyReferenced";
+    private static final String ONLY_REFERENCED = "OnlyReferenced";
+    private static final String CHEMBL_ID = "chembl_id";
+    private static final String CHEBI_ID = "chebi_id";
+    AttributeName anChemicalStructure;
+    IChemObjectBuilder builder = DefaultChemObjectBuilder.getInstance();
+    DataSource dsCHEMBL, dsCHEBI;
+    EvidenceType evidencetype;
+    ConceptClass ofType;
+    // track unmapped keys
+    Set<String> unmappedKeys = new HashSet<String>();
 
-	private static final String CHEMBL_ID = "chembl_id";
+    @Override
+    public ArgumentDefinition<?>[] getArgumentDefinitions() {
+        return new ArgumentDefinition<?>[]{
+                    new FileArgumentDefinition(FileArgumentDefinition.INPUT_FILE,
+                    FileArgumentDefinition.INPUT_FILE_DESC, true, true,
+                    false),
+                    new BooleanArgumentDefinition(ONLY_REFERENCED,
+                    "Import only referenced ChEMBL entries", false, false)};
+    }
 
-	private static final String CHEBI_ID = "chebi_id";
+    @Override
+    public String getId() {
+        return "chembl";
+    }
 
-	AttributeName anChemicalStructure;
+    @Override
+    public String getName() {
+        return "ChEMBLdb";
+    }
 
-	IChemObjectBuilder builder = DefaultChemObjectBuilder.getInstance();
+    @Override
+    public String getVersion() {
+        return "31.01.2013";
+    }
 
-	DataSource dsCHEMBL, dsCHEBI;
+    /**
+     * initialise Ondex meta-data
+     */
+    private void initMetaData() {
 
-	EvidenceType evidencetype;
+        // basic concept meta data
+        dsCHEMBL = graph.getMetaData().getDataSource(DS_CHEMBL);
+        dsCHEBI = graph.getMetaData().getDataSource(DS_CHEBI);
+        ofType = graph.getMetaData().getConceptClass(CC_COMP);
+        evidencetype = graph.getMetaData().getEvidenceType(ET_IMPD);
 
-	ConceptClass ofType;
+        // ChemicalStruture attribute
+        anChemicalStructure = graph.getMetaData().getAttributeName(
+                ATTR_CHEMICAL_STRUCTURE);
+        if (anChemicalStructure == null) {
+            anChemicalStructure = graph
+                    .getMetaData()
+                    .getFactory()
+                    .createAttributeName(ATTR_CHEMICAL_STRUCTURE,
+                    ATTR_CHEMICAL_STRUCTURE, ChemicalStructure.class);
+        }
+    }
 
-	// track unmapped keys
-	Set<String> unmappedKeys = new HashSet<String>();
+    @Override
+    public String[] requiresValidators() {
+        return new String[0];
+    }
 
-	@Override
-	public ArgumentDefinition<?>[] getArgumentDefinitions() {
-		return new ArgumentDefinition<?>[] {
-				new FileArgumentDefinition(FileArgumentDefinition.INPUT_FILE,
-						FileArgumentDefinition.INPUT_FILE_DESC, true, true,
-						false),
-				new BooleanArgumentDefinition(ONLY_REFERENCED,
-						"Import only referenced ChEMBL entries", false, false) };
-	}
+    @Override
+    public void start() throws Exception {
 
-	@Override
-	public String getId() {
-		return "chembl";
-	}
+        // setup meta data
+        initMetaData();
 
-	@Override
-	public String getName() {
-		return "ChEMBLdb";
-	}
+        // option to parse only referenced entries
+        Boolean referenced = (Boolean) args.getUniqueValue(ONLY_REFERENCED);
 
-	@Override
-	public String getVersion() {
-		return "03.11.2011";
-	}
+        // parse all accessions contained in graph
+        Set<String> accessions = new HashSet<String>();
+        if (referenced) {
+            for (ONDEXConcept c : graph.getConcepts()) {
+                for (ConceptAccession ca : c.getConceptAccessions()) {
+                    accessions.add(ca.getAccession());
+                }
+            }
+        }
 
-	/**
-	 * initialise Ondex meta-data
-	 */
-	private void initMetaData() {
+        // file name of file to parse
+        File file = new File(
+                (String) args.getUniqueValue(FileArgumentDefinition.INPUT_FILE));
+        fireEventOccurred(new GeneralOutputEvent("Reading: "
+                + file.getAbsolutePath(), getCurrentMethodName()));
 
-		// basic concept meta data
-		dsCHEMBL = graph.getMetaData().getDataSource(DS_CHEMBL);
-		dsCHEBI = graph.getMetaData().getDataSource(DS_CHEBI);
-		ofType = graph.getMetaData().getConceptClass(CC_COMP);
-		evidencetype = graph.getMetaData().getEvidenceType(ET_IMPD);
+        // open file as stream, handle compressed files
+        InputStream inputStream = new FileInputStream(file);
+        if (file.getAbsolutePath().endsWith(".gz")) {
+            inputStream = new GZIPInputStream(inputStream);
+        }
 
-		// ChemicalStruture attribute
-		anChemicalStructure = graph.getMetaData().getAttributeName(
-				ATTR_CHEMICAL_STRUCTURE);
-		if (anChemicalStructure == null)
-			anChemicalStructure = graph
-					.getMetaData()
-					.getFactory()
-					.createAttributeName(ATTR_CHEMICAL_STRUCTURE,
-							ATTR_CHEMICAL_STRUCTURE, ChemicalStructure.class);
-	}
+        // read SDF file one by one
+        BufferedReader reader = new BufferedReader(new InputStreamReader(
+                inputStream));
 
-	@Override
-	public String[] requiresValidators() {
-		return new String[0];
-	}
+        // guess format of file and construct reader
+        ISimpleChemObjectReader chemReader = new MDLV2000Reader();
 
-	@Override
-	public void start() throws Exception {
+        // build up each single compound to save memory
+        int count = 0;
+        StringBuilder sb = new StringBuilder();
+        while (reader.ready()) {
+            String line = reader.readLine();
+            // marks the end of one compound
+            if (line.startsWith("$$$$")) {
+                sb.append(line + "\n");
 
-		// setup meta data
-		initMetaData();
+                // reuse old reader object to save memory
+                chemReader.setReader(new ByteArrayInputStream(sb.toString()
+                        .getBytes()));
 
-		// option to parse only referenced entries
-		Boolean referenced = (Boolean) args.getUniqueValue(ONLY_REFERENCED);
+                // check that file contains molecules
+                if (chemReader.accepts(Molecule.class)) {
 
-		// parse all accessions contained in graph
-		Set<String> accessions = new HashSet<String>();
-		if (referenced) {
-			for (ONDEXConcept c : graph.getConcepts()) {
-				for (ConceptAccession ca : c.getConceptAccessions()) {
-					accessions.add(ca.getAccession());
-				}
-			}
-		}
+                    // read content of file
+                    ChemFile content = (ChemFile) chemReader
+                            .read((ChemObject) new ChemFile());
 
-		// file name of file to parse
-		File file = new File(
-				(String) args.getUniqueValue(FileArgumentDefinition.INPUT_FILE));
-		fireEventOccurred(new GeneralOutputEvent("Reading: "
-				+ file.getAbsolutePath(), getCurrentMethodName()));
+                    // list all molecules
+                    List<IAtomContainer> containersList = ChemFileManipulator
+                            .getAllAtomContainers(content);
+                    for (IAtomContainer ac : containersList) {
+                        if (!referenced
+                                || accessions.contains(ac
+                                .getProperty(CHEMBL_ID))) {
+                            addMolecule(ac);
+                            count++;
+                        }
+                    }
+                }
 
-		// open file as stream, handle compressed files
-		InputStream inputStream = new FileInputStream(file);
-		if (file.getAbsolutePath().endsWith(".gz")) {
-			inputStream = new GZIPInputStream(inputStream);
-		}
+                // empty StringBuffer
+                sb.delete(0, sb.length());
+            } else {
+                sb.append(line + "\n");
+            }
+        }
+        reader.close();
 
-		// read SDF file one by one
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				inputStream));
+        fireEventOccurred(new GeneralOutputEvent("Total molecules parsed:"
+                + count, getCurrentMethodName()));
 
-		// guess format of file and construct reader
-		ISimpleChemObjectReader chemReader = new MDLV2000Reader();
+        fireEventOccurred(new GeneralOutputEvent("Missing mappings for: "
+                + unmappedKeys, getCurrentMethodName()));
+    }
 
-		// build up each single compound to save memory
-		int count = 0;
-		StringBuilder sb = new StringBuilder();
-		while (reader.ready()) {
-			String line = reader.readLine();
-			// marks the end of one compound
-			if (line.startsWith("$$$$")) {
-				sb.append(line + "\n");
+    /**
+     * Converts IAtomContainer to ONDEXConcept
+     *
+     * @param ac IAtomContainer
+     */
+    private void addMolecule(IAtomContainer ac) {
+        // there should be a ChEMBL ID
+        String id = "";
+        if (ac.getProperties().containsKey(CHEMBL_ID)) {
+            id = (String) ac.getProperty(CHEMBL_ID);
+        } else {
+            fireEventOccurred(new InconsistencyEvent(
+                    "ChEMBLdb ID missing for: " + ac, getCurrentMethodName()));
+        }
 
-				// reuse old reader object to save memory
-				chemReader.setReader(new ByteArrayInputStream(sb.toString()
-						.getBytes()));
+        // create concept prototype
+        ONDEXConcept c = graph.getFactory().createConcept(id, dsCHEMBL,
+                ofType, evidencetype);
 
-				// check that file contains molecules
-				if (chemReader.accepts(Molecule.class)) {
+        // parse all properties of molecule
+        for (Entry<Object, Object> entry : ac.getProperties().entrySet()) {
 
-					// read content of file
-					ChemFile content = (ChemFile) chemReader
-							.read((ChemObject) new ChemFile());
+            // cast key and value to String
+            String key = (String) entry.getKey();
+            String value = (String) entry.getValue();
 
-					// list all molecules
-					List<IAtomContainer> containersList = ChemFileManipulator
-							.getAllAtomContainers(content);
-					for (IAtomContainer ac : containersList) {
-						if (!referenced
-								|| accessions.contains(ac
-										.getProperty(CHEMBL_ID))) {
-							addMolecule(ac);
-							count++;
-						}
-					}
-				}
+            // add primary concept accession
+            if (key.equals(CHEMBL_ID)) {
+                laodConcept(c, value, dsCHEMBL, false);
+            } // add secondary concept accession
+            else if (key.equals(CHEBI_ID)) {
+                // one ID per line
+                for (String s : value.split("\n")) {
+                    laodConcept(c, s, dsCHEMBL, true);
+                }
+            } // no mapping yet
+            else if (!key.startsWith("cdk")) {
+                if (!dataSourceMapping.containsKey(key)) {
+                    unmappedKeys.add(key);
+                } else {
+                    // check data source
+                    DataSource ds = graph.getMetaData().getDataSource(
+                            dataSourceMapping.get(key));
+                    if (ds != null) {
+                        // multiple accessions
+                        for (String s : value.split("\n")) {
+                            laodConcept(c, s, ds, true);
+                        }
+                    } else {
+                        fireEventOccurred(new DataSourceMissingEvent(
+                                "Mapping: " + key + " to "
+                                + dataSourceMapping.get(key),
+                                getCurrentMethodName()));
+                    }
+                }
+            }
+        }
 
-				// empty StringBuffer
-				sb.delete(0, sb.length());
-			} else {
-				sb.append(line + "\n");
-			}
-		}
-		reader.close();
+        try {
+            // add chemical structure to concept
+            ChemicalStructure cs = new ChemicalStructure();
 
-		fireEventOccurred(new GeneralOutputEvent("Total molecules parsed:"
-				+ count, getCurrentMethodName()));
+            // construct chemical structure in MOL format
+            StringWriter molString = new StringWriter();
+            MDLV2000Writer mw = new MDLV2000Writer(molString);
+            mw.write(ac);
+            mw.close();
+            cs.setMOL(molString.toString());
 
-		fireEventOccurred(new GeneralOutputEvent("Missing mappings for: "
-				+ unmappedKeys, getCurrentMethodName()));
-	}
+            // construct SMILE string for molecule
+            StringWriter smilesString = new StringWriter();
+            SMILESWriter sw = new SMILESWriter(smilesString);
+            sw.write(ac);
+            sw.close();
+            cs.setSMILES(smilesString.toString());
 
-	/**
-	 * Converts IAtomContainer to ONDEXConcept
-	 * 
-	 * @param ac
-	 *            IAtomContainer
-	 */
-	private void addMolecule(IAtomContainer ac) {
-		// there should be a ChEMBL ID
-		String id = "";
-		if (ac.getProperties().containsKey(CHEMBL_ID))
-			id = (String) ac.getProperty(CHEMBL_ID);
-		else
-			fireEventOccurred(new InconsistencyEvent(
-					"ChEMBLdb ID missing for: " + ac, getCurrentMethodName()));
+            // add attribute
+            c.createAttribute(anChemicalStructure, cs, false);
+        } catch (CDKException cdk) {
+            fireEventOccurred(new InconsistencyEvent(
+                    "CDK Problem constructing MOL and SMILES for: "
+                    + ac.getProperty(CHEMBL_ID), getCurrentMethodName()));
+            cdk.printStackTrace();
+        } catch (IOException e) {
+            fireEventOccurred(new InconsistencyEvent(
+                    "IO Problem constructing MOL and SMILES for: "
+                    + ac.getProperty(CHEMBL_ID), getCurrentMethodName()));
+            e.printStackTrace();
+        }
+    }
 
-		// create concept prototype
-		ONDEXConcept c = graph.getFactory().createConcept(id, dsCHEMBL,
-				ofType, evidencetype);
-
-		// parse all properties of molecule
-		for (Entry<Object, Object> entry : ac.getProperties().entrySet()) {
-
-			// cast key and value to String
-			String key = (String) entry.getKey();
-			String value = (String) entry.getValue();
-
-			// add primary concept accession
-			if (key.equals(CHEMBL_ID)) {
-				c.createConceptAccession(value, dsCHEMBL, false);
-			}
-
-			// add secondary concept accession
-			else if (key.equals(CHEBI_ID)) {
-				// one ID per line
-				for (String s : value.split("\n")) {
-					c.createConceptAccession(s, dsCHEBI, true);
-				}
-			}
-
-			// no mapping yet
-			else if (!key.startsWith("cdk")) {
-				if (!dataSourceMapping.containsKey(key))
-					unmappedKeys.add(key);
-				else {
-					// check data source
-					DataSource ds = graph.getMetaData().getDataSource(
-							dataSourceMapping.get(key));
-					if (ds != null) {
-						// multiple accessions
-						for (String s : value.split("\n")) {
-							c.createConceptAccession(s, ds, true);
-						}
-					} else {
-						fireEventOccurred(new DataSourceMissingEvent(
-								"Mapping: " + key + " to "
-										+ dataSourceMapping.get(key),
-								getCurrentMethodName()));
-					}
-				}
-			}
-		}
-
-		try {
-			// add chemical structure to concept
-			ChemicalStructure cs = new ChemicalStructure();
-
-			// construct chemical structure in MOL format
-			StringWriter molString = new StringWriter();
-			MDLV2000Writer mw = new MDLV2000Writer(molString);
-			mw.write(ac);
-			mw.close();
-			cs.setMOL(molString.toString());
-
-			// construct SMILE string for molecule
-			StringWriter smilesString = new StringWriter();
-			SMILESWriter sw = new SMILESWriter(smilesString);
-			sw.write(ac);
-			sw.close();
-			cs.setSMILES(smilesString.toString());
-
-			// add attribute
-			c.createAttribute(anChemicalStructure, cs, false);
-		} catch (CDKException cdk) {
-			fireEventOccurred(new InconsistencyEvent(
-					"CDK Problem constructing MOL and SMILES for: "
-							+ ac.getProperty(CHEMBL_ID), getCurrentMethodName()));
-			cdk.printStackTrace();
-		} catch (IOException e) {
-			fireEventOccurred(new InconsistencyEvent(
-					"IO Problem constructing MOL and SMILES for: "
-							+ ac.getProperty(CHEMBL_ID), getCurrentMethodName()));
-			e.printStackTrace();
-		}
-	}
-
+    private void laodConcept(ONDEXConcept c, String accession, DataSource elementOf, boolean ambiguous) {
+        // check accession
+        String newAcc = accession.trim();
+        for (String p : accession.split(",")) {
+            c.createConceptAccession(p.trim(), elementOf, ambiguous);
+        }
+    }
 }
