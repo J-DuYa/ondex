@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.JOptionPane;
-
 import net.sourceforge.ondex.core.Attribute;
 import net.sourceforge.ondex.core.AttributeName;
 import net.sourceforge.ondex.core.ConceptClass;
@@ -21,131 +19,139 @@ import net.sourceforge.ondex.ovtk2.util.chemical.SimilarityDocumentFilter;
 import net.sourceforge.ondex.parser.chemblactivity.Parser;
 import net.sourceforge.ondex.parser.chemblactivity.Parser.EXMODE;
 import net.sourceforge.ondex.tools.data.ChemicalStructure;
-
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 /**
  * Ondex queries the ChEMBL webservice with the compound(s) SMILE for
  * similarity.
- * 
+ *
  * @author taubertj
- * 
+ *
  */
 public class LinkChEMBLCompSimilarityItem extends EntityMenuItem<ONDEXConcept> {
 
-	@Override
-	public boolean accepts() {
+    private Logger log = Logger.getLogger(getClass());
 
-		// get meta data
-		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
-		ConceptClass ccComp = graph.getMetaData().getConceptClass("Comp");
-		AttributeName anChemicalStructure = graph.getMetaData()
-				.getAttributeName("ChemicalStructure");
-		if (anChemicalStructure == null)
-			return false;
+    @Override
+    public boolean accepts() {
 
-		// look at all selected chemical compounds
-		for (ONDEXConcept c : entities) {
-			if (c.getOfType().equals(ccComp)
-					&& c.getAttribute(anChemicalStructure) != null) {
-				return true;
-			}
-		}
+        // get meta data
+        ONDEXGraph graph = viewer.getONDEXJUNGGraph();
+        ConceptClass ccComp = graph.getMetaData().getConceptClass("Comp");
+        AttributeName anChemicalStructure = graph.getMetaData()
+                .getAttributeName("ChemicalStructure");
+        if (anChemicalStructure == null) {
+            return false;
+        }
 
-		return false;
-	}
+        // look at all selected chemical compounds
+        for (ONDEXConcept c : entities) {
+            if (c.getOfType().equals(ccComp)
+                    && c.getAttribute(anChemicalStructure) != null) {
+                return true;
+            }
+        }
 
-	@Override
-	protected void doAction() {
+        return false;
+    }
 
-		// get meta data
-		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
-		ONDEXConcept center = null;
-		ConceptClass ccComp = graph.getMetaData().getConceptClass("Comp");
-		AttributeName anChemicalStructure = graph.getMetaData()
-				.getAttributeName("ChemicalStructure");
+    @Override
+    protected void doAction() {
 
-		// parse all accessions contained in graph
-		Map<String, Set<ONDEXConcept>> accessions = new HashMap<String, Set<ONDEXConcept>>();
-		for (ONDEXConcept c : entities) {
-			if (c.getOfType().equals(ccComp)
-					&& c.getAttribute(anChemicalStructure) != null) {
-				Attribute attr = c.getAttribute(anChemicalStructure);
-				ChemicalStructure cs = (ChemicalStructure) attr.getValue();
-				String smiles = cs.getSMILES();
-				if (!accessions.containsKey(smiles))
-					accessions.put(smiles, new HashSet<ONDEXConcept>());
-				accessions.get(smiles).add(c);
-				center = c;
-			}
-		}
+        // get meta data
+        ONDEXGraph graph = viewer.getONDEXJUNGGraph();
+        ONDEXConcept center = null;
+        ConceptClass ccComp = graph.getMetaData().getConceptClass("Comp");
+        AttributeName anChemicalStructure = graph.getMetaData()
+                .getAttributeName("ChemicalStructure");
 
-		Parser activities = new Parser();
-		activities.setONDEXGraph(graph);
-		activities.initMetaData();
-		try {
-			EXMODE mode = EXMODE.CompSimilarity;
+        // parse all accessions contained in graph
+        Map<String, Set<ONDEXConcept>> accessions = new HashMap<String, Set<ONDEXConcept>>();
+        for (ONDEXConcept c : entities) {
+            if (c.getOfType().equals(ccComp)
+                    && c.getAttribute(anChemicalStructure) != null) {
+                Attribute attr = c.getAttribute(anChemicalStructure);
+                ChemicalStructure cs = (ChemicalStructure) attr.getValue();
+                String smiles = cs.getSMILES();
+                if (!accessions.containsKey(smiles)) {
+                    accessions.put(smiles, new HashSet<ONDEXConcept>());
+                }
+                accessions.get(smiles).add(c);
+                center = c;
+            }
+        }
 
-			Map<String, Document> docs = activities.retrieveXML(accessions,
-					mode);
-			
-			SimilarityDocumentFilter filter = new SimilarityDocumentFilter(
-					docs, mode);
+        Parser activities = new Parser();
 
-			// ask user for filter
-			int option = JOptionPane.showConfirmDialog((Component) viewer,
-					filter, "Filter on properties",
-					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			if (option == JOptionPane.OK_OPTION) {
+        log.debug("--- parser: " + activities.getClass().getCanonicalName());
+        activities.setONDEXGraph(graph);
+        activities.initMetaData();
+        try {
+            EXMODE mode = EXMODE.CompSimilarity;
 
-				docs = filter.getFiltered();
+            // get XML document from rest service
+            Map<String, Document> docs = activities.retrieveXML(accessions,
+                    mode);
 
-				Set<ONDEXConcept> created = activities.parseActivities(docs,
-						accessions, mode);
-				System.out
-						.println("Added " + created.size() + " new concepts.");
+            SimilarityDocumentFilter filter = new SimilarityDocumentFilter(
+                    docs, mode);
 
-				// make new concepts visible
-				viewer.getONDEXJUNGGraph().setVisibility(created, true);
-				for (ONDEXConcept c : created) {
-					// set something like default attributes
-					viewer.getNodeColors().updateColor(c,
-							Config.getColorForConceptClass(c.getOfType()));
-					viewer.getNodeDrawPaint().updateColor(c, Color.BLACK);
-					viewer.getNodeShapes().updateShape(c);
+            // ask user for filter
+            int option = JOptionPane.showConfirmDialog((Component) viewer,
+                    filter, "Filter on properties",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (option == JOptionPane.OK_OPTION) {
 
-					// make all relations visible
-					viewer.getONDEXJUNGGraph().setVisibility(
-							graph.getRelationsOfConcept(c), true);
-				}
+                docs = filter.getFiltered();
 
-				// layout nodes on big circle
-				LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(),
-						center, created);
+                Set<ONDEXConcept> created = activities.parseActivities(docs,
+                        accessions, mode);
+                System.out
+                        .println("Added " + created.size() + " new concepts.");
 
-				if (viewer.getMetaGraph() != null)
-					viewer.getMetaGraph().updateMetaData();
-			}
+                // make new concepts visible
+                viewer.getONDEXJUNGGraph().setVisibility(created, true);
+                for (ONDEXConcept c : created) {
+                    // set something like default attributes
+                    viewer.getNodeColors().updateColor(c,
+                            Config.getColorForConceptClass(c.getOfType()));
+                    viewer.getNodeDrawPaint().updateColor(c, Color.BLACK);
+                    viewer.getNodeShapes().updateShape(c);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+                    // make all relations visible
+                    viewer.getONDEXJUNGGraph().setVisibility(
+                            graph.getRelationsOfConcept(c), true);
+                }
 
-	}
+                // layout nodes on big circle
+                LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(),
+                        center, created);
 
-	@Override
-	public MENUCATEGORY getCategory() {
-		return MENUCATEGORY.LINK;
-	}
+                if (viewer.getMetaGraph() != null) {
+                    viewer.getMetaGraph().updateMetaData();
+                }
+            }
 
-	@Override
-	protected String getMenuPropertyName() {
-		return "Viewer.VertexMenu.LinkChEMBLCompSimilarity";
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	@Override
-	protected String getUndoPropertyName() {
-		return "";
-	}
+    }
+
+    @Override
+    public MENUCATEGORY getCategory() {
+        return MENUCATEGORY.LINK;
+    }
+
+    @Override
+    protected String getMenuPropertyName() {
+        return "Viewer.VertexMenu.LinkChEMBLCompSimilarity";
+    }
+
+    @Override
+    protected String getUndoPropertyName() {
+        return "";
+    }
 
 }
