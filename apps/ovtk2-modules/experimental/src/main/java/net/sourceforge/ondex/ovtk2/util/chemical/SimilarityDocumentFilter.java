@@ -134,7 +134,7 @@ public class SimilarityDocumentFilter extends JPanel implements ActionListener {
 		// panel for providing a matching value
 		JPanel valuePanel = new JPanel(new BorderLayout());
 		this.add(valuePanel);
-		valuePanel.add(new JLabel("Enter cut-off (>90):"), BorderLayout.WEST);
+		valuePanel.add(new JLabel("Enter cut-off (>0.9 and <1.0):"), BorderLayout.WEST);
 		numberField = new JTextField(20);
 		numberField.addActionListener(this);
 		valuePanel.add(numberField, BorderLayout.EAST);
