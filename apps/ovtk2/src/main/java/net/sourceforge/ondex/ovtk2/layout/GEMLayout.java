@@ -45,7 +45,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  * @author Hacked by taubertj for OVTK2
  */
 public class GEMLayout extends OVTK2Layouter implements ChangeListener,
-		Monitorable {
+Monitorable {
 
 	/**
 	 * Class containing properties per node.
@@ -113,7 +113,7 @@ public class GEMLayout extends OVTK2Layouter implements ChangeListener,
 	private int nodeCount;
 
 	// use clustered approach
-	private boolean clustered = false;
+	private boolean clustered = true;
 
 	// number of clusters
 	private int nbClusters = 1;
