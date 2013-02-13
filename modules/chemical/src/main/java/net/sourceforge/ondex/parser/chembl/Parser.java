@@ -233,12 +233,12 @@ public class Parser extends ONDEXParser implements MetaData {
 
             // add primary concept accession
             if (key.equals(CHEMBL_ID)) {
-                laodConcept(c, value, dsCHEMBL, false);
+                loadConcept(c, value, dsCHEMBL, false);
             } // add secondary concept accession
             else if (key.equals(CHEBI_ID)) {
                 // one ID per line
                 for (String s : value.split("\n")) {
-                    laodConcept(c, s, dsCHEMBL, true);
+                    loadConcept(c, s, dsCHEMBL, true);
                 }
             } // no mapping yet
             else if (!key.startsWith("cdk")) {
@@ -251,7 +251,7 @@ public class Parser extends ONDEXParser implements MetaData {
                     if (ds != null) {
                         // multiple accessions
                         for (String s : value.split("\n")) {
-                            laodConcept(c, s, ds, true);
+                            loadConcept(c, s, ds, true);
                         }
                     } else {
                         fireEventOccurred(new DataSourceMissingEvent(
@@ -296,10 +296,10 @@ public class Parser extends ONDEXParser implements MetaData {
         }
     }
 
-    private void laodConcept(ONDEXConcept c, String accession, DataSource elementOf, boolean ambiguous) {
+    private void loadConcept(ONDEXConcept c, String accession, DataSource elementOf, boolean ambiguous) {
         // check accession
         String newAcc = accession.trim();
-        for (String p : accession.split(",")) {
+        for (String p : newAcc.split(",")) {
             c.createConceptAccession(p.trim(), elementOf, ambiguous);
         }
     }
