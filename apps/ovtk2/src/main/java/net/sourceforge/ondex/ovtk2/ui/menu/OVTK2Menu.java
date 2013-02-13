@@ -234,10 +234,8 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 	 *            internal command
 	 * @return JCheckBoxMenuItem
 	 */
-	private JCheckBoxMenuItem makeCheckBoxMenuItem(String key,
-			String actionCommand) {
-		JCheckBoxMenuItem item = new JCheckBoxMenuItem(
-				Config.language.getProperty(key));
+	private JCheckBoxMenuItem makeCheckBoxMenuItem(String key, String actionCommand) {
+		JCheckBoxMenuItem item = new JCheckBoxMenuItem(Config.language.getProperty(key));
 		item.setActionCommand(actionCommand);
 		item.addActionListener(desktop);
 		return item;
@@ -254,8 +252,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		JMenu menu = new JMenu(Config.language.getProperty(key));
 		String value = Config.language.getProperty(key);
 		if (value == null) {
-			throw new RuntimeException("Key \"" + key
-					+ "\" is missing from the language file");
+			throw new RuntimeException("Key \"" + key + "\" is missing from the language file");
 		}
 		menu.setMnemonic(value.charAt(0));
 		return menu;
@@ -273,8 +270,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 	private JMenuItem makeMenuItem(String key, String actionCommand) {
 		String value = Config.language.getProperty(key);
 		if (value == null) {
-			throw new RuntimeException("Key \"" + key
-					+ "\" is missing from the language file");
+			throw new RuntimeException("Key \"" + key + "\" is missing from the language file");
 		}
 		JMenuItem item = new JMenuItem(value);
 		item.setActionCommand(actionCommand);
@@ -289,18 +285,13 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 	 *            JMenu "Annotator submenu"
 	 */
 	private void populateAnnoMenu(JMenu anno) {
-
+		
 		Set<String> exceptions = new HashSet<String>();
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.annotator.scalecolorconcept.ScaleColorConceptAnnotator");
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.annotator.scaleconcept.ScaleConceptAnnotator");
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.annotator.colorcategory.ColorCategoryAnnotator");
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.annotator.scalecolorrelation.ScaleColorRelationAnnotator");
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.annotator.shapeconcept.ShapeConceptAnnotator");
+		exceptions.add("net.sourceforge.ondex.ovtk2.annotator.scalecolorconcept.ScaleColorConceptAnnotator");
+		exceptions.add("net.sourceforge.ondex.ovtk2.annotator.scaleconcept.ScaleConceptAnnotator");
+		exceptions.add("net.sourceforge.ondex.ovtk2.annotator.colorcategory.ColorCategoryAnnotator");
+		exceptions.add("net.sourceforge.ondex.ovtk2.annotator.scalecolorrelation.ScaleColorRelationAnnotator");
+		exceptions.add("net.sourceforge.ondex.ovtk2.annotator.shapeconcept.ShapeConceptAnnotator");
 
 		// make sure annotator menu action is handled
 		AnnotatorMenuAction listener = new AnnotatorMenuAction();
@@ -321,9 +312,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		}
 
 		// question icon
-		String path = "config/themes/"
-				+ Config.config.getProperty("Program.Theme")
-				+ "/icons/question.png";
+		String path = "config/themes/" + Config.config.getProperty("Program.Theme") + "/icons/question.png";
 
 		// order annotators by name
 		String[] ordered = entries.toArray(new String[entries.size()]);
@@ -341,10 +330,14 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		for (String name : ordered) {
 			String clazz = Config.config.getProperty(name);
 			try {
-				if (!OVTK2PluginLoader.getInstance().getAnnotatorClassNames()
-						.contains(clazz)) {
-					if (!exceptions.contains(clazz))
+				if (!OVTK2PluginLoader.getInstance().getAnnotatorClassNames().contains(clazz)) {
+					try {
+						Class.forName(clazz);
+					} catch (ClassNotFoundException e) {
+						if (DEBUG)
+							System.err.println("Class not found: " + clazz);
 						continue;
+					}
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace(); // TODO: log?
@@ -388,16 +381,13 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		JMenu labels = makeMenu("Menu.Appearance.Labels");
 		appearance.add(labels);
 
-		JCheckBoxMenuItem nodelabels = makeCheckBoxMenuItem(
-				"Menu.Appearance.ConceptLabels", "nodelabels");
+		JCheckBoxMenuItem nodelabels = makeCheckBoxMenuItem("Menu.Appearance.ConceptLabels", "nodelabels");
 		labels.add(nodelabels);
 
-		JCheckBoxMenuItem edgelabels = makeCheckBoxMenuItem(
-				"Menu.Appearance.RelationLabels", "edgelabels");
+		JCheckBoxMenuItem edgelabels = makeCheckBoxMenuItem("Menu.Appearance.RelationLabels", "edgelabels");
 		labels.add(edgelabels);
 
-		JCheckBoxMenuItem bothlabels = makeCheckBoxMenuItem(
-				"Menu.Appearance.BothLabels", "bothlabels");
+		JCheckBoxMenuItem bothlabels = makeCheckBoxMenuItem("Menu.Appearance.BothLabels", "bothlabels");
 		labels.add(bothlabels);
 
 		// layout sub-menu
@@ -406,174 +396,113 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		populateLayoutMenu(layout);
 
 		// sub-menu for colour concepts
-		JMenu subMenuConceptColor = new JMenu(
-				Config.language.getProperty("Menu.Appearance.ColourConcepts"));
+		JMenu subMenuConceptColor = new JMenu(Config.language.getProperty("Menu.Appearance.ColourConcepts"));
 		ButtonGroup groupConcept = new ButtonGroup();
-		JRadioButtonMenuItem colorConceptOnDS = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ColorOnCV"));
-		colorConceptOnDS
-				.setActionCommand(AppearanceMenuAction.COLOR_CONCEPT_BY_SOURCE);
+		JRadioButtonMenuItem colorConceptOnDS = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ColorOnCV"));
+		colorConceptOnDS.setActionCommand(AppearanceMenuAction.COLOR_CONCEPT_BY_SOURCE);
 		colorConceptOnDS.addActionListener(desktop);
-		colorConceptOnDS.setSelected(Config.visual.getProperty(
-				ONDEXNodeFillPaint.GRAPH_COLORING_CONCEPT_STRATEGY).equals(
-				ONDEXNodeFillPaint.DS));
+		colorConceptOnDS.setSelected(Config.visual.getProperty(ONDEXNodeFillPaint.GRAPH_COLORING_CONCEPT_STRATEGY).equals(ONDEXNodeFillPaint.DS));
 		groupConcept.add(colorConceptOnDS);
 		subMenuConceptColor.add(colorConceptOnDS);
-		JRadioButtonMenuItem colorConceptOnCC = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ColorOnCC"));
-		colorConceptOnCC
-				.setActionCommand(AppearanceMenuAction.COLOR_CONCEPT_BY_CLASS);
+		JRadioButtonMenuItem colorConceptOnCC = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ColorOnCC"));
+		colorConceptOnCC.setActionCommand(AppearanceMenuAction.COLOR_CONCEPT_BY_CLASS);
 		colorConceptOnCC.addActionListener(desktop);
-		colorConceptOnCC.setSelected(Config.visual.getProperty(
-				ONDEXNodeFillPaint.GRAPH_COLORING_CONCEPT_STRATEGY).equals(
-				ONDEXNodeFillPaint.CC));
+		colorConceptOnCC.setSelected(Config.visual.getProperty(ONDEXNodeFillPaint.GRAPH_COLORING_CONCEPT_STRATEGY).equals(ONDEXNodeFillPaint.CC));
 		groupConcept.add(colorConceptOnCC);
 		subMenuConceptColor.add(colorConceptOnCC);
-		JRadioButtonMenuItem colorConceptOnET = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ColorOnET"));
-		colorConceptOnET
-				.setActionCommand(AppearanceMenuAction.COLOR_CONCEPT_BY_EVIDENCE);
+		JRadioButtonMenuItem colorConceptOnET = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ColorOnET"));
+		colorConceptOnET.setActionCommand(AppearanceMenuAction.COLOR_CONCEPT_BY_EVIDENCE);
 		colorConceptOnET.addActionListener(desktop);
-		colorConceptOnET.setSelected(Config.visual.getProperty(
-				ONDEXNodeFillPaint.GRAPH_COLORING_CONCEPT_STRATEGY).equals(
-				ONDEXNodeFillPaint.ET));
+		colorConceptOnET.setSelected(Config.visual.getProperty(ONDEXNodeFillPaint.GRAPH_COLORING_CONCEPT_STRATEGY).equals(ONDEXNodeFillPaint.ET));
 		groupConcept.add(colorConceptOnET);
 		subMenuConceptColor.add(colorConceptOnET);
 		appearance.add(subMenuConceptColor);
 
 		// sub-menu for colour relations
-		JMenu subMenuRelationColor = new JMenu(
-				Config.language.getProperty("Menu.Appearance.ColourRelations"));
+		JMenu subMenuRelationColor = new JMenu(Config.language.getProperty("Menu.Appearance.ColourRelations"));
 		ButtonGroup groupRelation = new ButtonGroup();
-		JRadioButtonMenuItem colorRelationOnRT = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ColorRelOnRT"));
-		colorRelationOnRT
-				.setActionCommand(AppearanceMenuAction.COLOR_RELATION_BY_TYPE);
+		JRadioButtonMenuItem colorRelationOnRT = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ColorRelOnRT"));
+		colorRelationOnRT.setActionCommand(AppearanceMenuAction.COLOR_RELATION_BY_TYPE);
 		colorRelationOnRT.addActionListener(desktop);
-		colorRelationOnRT.setSelected(Config.visual.getProperty(
-				ONDEXEdgeColors.GRAPH_COLORING_RELATION_STRATEGY).equals(
-				ONDEXEdgeColors.RT));
+		colorRelationOnRT.setSelected(Config.visual.getProperty(ONDEXEdgeColors.GRAPH_COLORING_RELATION_STRATEGY).equals(ONDEXEdgeColors.RT));
 		groupRelation.add(colorRelationOnRT);
 		subMenuRelationColor.add(colorRelationOnRT);
-		JRadioButtonMenuItem colorRelationOnET = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ColorRelOnET"));
-		colorRelationOnET
-				.setActionCommand(AppearanceMenuAction.COLOR_RELATION_BY_EVIDECE);
+		JRadioButtonMenuItem colorRelationOnET = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ColorRelOnET"));
+		colorRelationOnET.setActionCommand(AppearanceMenuAction.COLOR_RELATION_BY_EVIDECE);
 		colorRelationOnET.addActionListener(desktop);
-		colorRelationOnET.setSelected(Config.visual.getProperty(
-				ONDEXEdgeColors.GRAPH_COLORING_RELATION_STRATEGY).equals(
-				ONDEXEdgeColors.ET));
+		colorRelationOnET.setSelected(Config.visual.getProperty(ONDEXEdgeColors.GRAPH_COLORING_RELATION_STRATEGY).equals(ONDEXEdgeColors.ET));
 		groupRelation.add(colorRelationOnET);
 		subMenuRelationColor.add(colorRelationOnET);
 		appearance.add(subMenuRelationColor);
 
 		// sub-menu for shape relations
-		JMenu subMenuEdgeShapes = new JMenu(
-				Config.language.getProperty("Menu.Appearance.ShapeRelations"));
+		JMenu subMenuEdgeShapes = new JMenu(Config.language.getProperty("Menu.Appearance.ShapeRelations"));
 		ButtonGroup groupShape = new ButtonGroup();
-		JRadioButtonMenuItem shapeQuad = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ShapeQuad"));
+		JRadioButtonMenuItem shapeQuad = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ShapeQuad"));
 		shapeQuad.setActionCommand(AppearanceMenuAction.SHAPE_QUAD);
 		shapeQuad.addActionListener(desktop);
-		shapeQuad.setSelected(Config.visual.getProperty(
-				ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(
-				ONDEXEdgeShapes.KEYQUAD));
+		shapeQuad.setSelected(Config.visual.getProperty(ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(ONDEXEdgeShapes.KEYQUAD));
 		groupShape.add(shapeQuad);
 		subMenuEdgeShapes.add(shapeQuad);
-		JRadioButtonMenuItem shapeCubic = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ShapeCubic"));
+		JRadioButtonMenuItem shapeCubic = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ShapeCubic"));
 		shapeCubic.setActionCommand(AppearanceMenuAction.SHAPE_CUBIC);
 		shapeCubic.addActionListener(desktop);
-		shapeCubic.setSelected(Config.visual.getProperty(
-				ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(
-				ONDEXEdgeShapes.KEYCUBIC));
+		shapeCubic.setSelected(Config.visual.getProperty(ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(ONDEXEdgeShapes.KEYCUBIC));
 		groupShape.add(shapeCubic);
 		subMenuEdgeShapes.add(shapeCubic);
-		JRadioButtonMenuItem shapeBent = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ShapeBent"));
+		JRadioButtonMenuItem shapeBent = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ShapeBent"));
 		shapeBent.setActionCommand(AppearanceMenuAction.SHAPE_BENT);
 		shapeBent.addActionListener(desktop);
-		shapeBent.setSelected(Config.visual.getProperty(
-				ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(
-				ONDEXEdgeShapes.KEYBENT));
+		shapeBent.setSelected(Config.visual.getProperty(ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(ONDEXEdgeShapes.KEYBENT));
 		groupShape.add(shapeBent);
 		subMenuEdgeShapes.add(shapeBent);
-		JRadioButtonMenuItem shapeLine = new JRadioButtonMenuItem(
-				Config.language
-						.getProperty("Menu.Appearance.Default.ShapeLine"));
+		JRadioButtonMenuItem shapeLine = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Appearance.Default.ShapeLine"));
 		shapeLine.setActionCommand(AppearanceMenuAction.SHAPE_LINE);
 		shapeLine.addActionListener(desktop);
-		shapeLine.setSelected(Config.visual.getProperty(
-				ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(
-				ONDEXEdgeShapes.KEYLINE));
+		shapeLine.setSelected(Config.visual.getProperty(ONDEXEdgeShapes.GRAPH_EDGE_SHAPES).equals(ONDEXEdgeShapes.KEYLINE));
 		groupShape.add(shapeLine);
 		subMenuEdgeShapes.add(shapeLine);
 
-		JCheckBoxMenuItem edgearrow = makeCheckBoxMenuItem(
-				"Menu.Appearance.EdgeArrow", "edgearrow");
+		JCheckBoxMenuItem edgearrow = makeCheckBoxMenuItem("Menu.Appearance.EdgeArrow", "edgearrow");
 		edgearrow.setSelected(true);
 		subMenuEdgeShapes.add(edgearrow);
 		appearance.add(subMenuEdgeShapes);
 
-		JCheckBoxMenuItem antialiased = makeCheckBoxMenuItem(
-				"Menu.Appearance.SmoothRelations", "antialiased");
+		JCheckBoxMenuItem antialiased = makeCheckBoxMenuItem("Menu.Appearance.SmoothRelations", "antialiased");
 		appearance.add(antialiased);
 
-		JCheckBoxMenuItem showMouseOver = makeCheckBoxMenuItem(
-				"Menu.Appearance.ShowMouseOver",
-				AppearanceMenuAction.SHOWMOUSEOVER);
+		JCheckBoxMenuItem showMouseOver = makeCheckBoxMenuItem("Menu.Appearance.ShowMouseOver", AppearanceMenuAction.SHOWMOUSEOVER);
 		appearance.add(showMouseOver);
 
-		JMenuItem update = makeMenuItem("Menu.Appearance.UpdateDisplay",
-				"update");
+		JMenuItem update = makeMenuItem("Menu.Appearance.UpdateDisplay", "update");
 		appearance.add(update);
 
 		// sub-menu for loading visual attributes on the graph
 		JMenu load = makeMenu("Menu.Appearance.Load");
 		appearance.add(load);
 
-		JMenuItem loadAll = makeMenuItem("Menu.Appearance.LoadAll",
-				AppearanceMenuAction.LOADAPPEARANCE);
+		JMenuItem loadAll = makeMenuItem("Menu.Appearance.LoadAll", AppearanceMenuAction.LOADAPPEARANCE);
 		load.add(loadAll);
 
-		JCheckBoxMenuItem loadNodeColor = makeCheckBoxMenuItem(
-				"Menu.Appearance.LoadConceptColours",
-				AppearanceMenuAction.NODECOLOR);
+		JCheckBoxMenuItem loadNodeColor = makeCheckBoxMenuItem("Menu.Appearance.LoadConceptColours", AppearanceMenuAction.NODECOLOR);
 		load.add(loadNodeColor);
 
-		JCheckBoxMenuItem loadNodeShape = makeCheckBoxMenuItem(
-				"Menu.Appearance.LoadConceptShapes",
-				AppearanceMenuAction.NODESHAPE);
+		JCheckBoxMenuItem loadNodeShape = makeCheckBoxMenuItem("Menu.Appearance.LoadConceptShapes", AppearanceMenuAction.NODESHAPE);
 		load.add(loadNodeShape);
 
-		JCheckBoxMenuItem loadEdgeColor = makeCheckBoxMenuItem(
-				"Menu.Appearance.LoadRelationColours",
-				AppearanceMenuAction.EDGECOLOR);
+		JCheckBoxMenuItem loadEdgeColor = makeCheckBoxMenuItem("Menu.Appearance.LoadRelationColours", AppearanceMenuAction.EDGECOLOR);
 		load.add(loadEdgeColor);
 
-		JCheckBoxMenuItem loadEdgeSize = makeCheckBoxMenuItem(
-				"Menu.Appearance.LoadRelationWidths",
-				AppearanceMenuAction.EDGESIZE);
+		JCheckBoxMenuItem loadEdgeSize = makeCheckBoxMenuItem("Menu.Appearance.LoadRelationWidths", AppearanceMenuAction.EDGESIZE);
 		load.add(loadEdgeSize);
 
-		JMenuItem save = makeMenuItem("Menu.Appearance.Save",
-				AppearanceMenuAction.SAVEAPPEARANCE);
+		JMenuItem save = makeMenuItem("Menu.Appearance.Save", AppearanceMenuAction.SAVEAPPEARANCE);
 		appearance.add(save);
 
-		JMenuItem center = makeMenuItem("Menu.Appearance.CenterNetwork",
-				"center");
+		JMenuItem center = makeMenuItem("Menu.Appearance.CenterNetwork", "center");
 		appearance.add(center);
 
-		JMenuItem refresh = makeMenuItem("Menu.Appearance.RefreshLayout",
-				"refresh");
+		JMenuItem refresh = makeMenuItem("Menu.Appearance.RefreshLayout", "refresh");
 		appearance.add(refresh);
 
 		// zoom sub-menu
@@ -628,8 +557,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		JMenuItem nfont = makeMenuItem("Menu.Edit.ConceptLabelFonts", "Nfont");
 		labelsConcepts.add(nfont);
 
-		JMenuItem conceptLabel = makeMenuItem(
-				"Menu.Edit.CompositionConceptLabels", "ConceptLabel");
+		JMenuItem conceptLabel = makeMenuItem("Menu.Edit.CompositionConceptLabels", "ConceptLabel");
 		labelsConcepts.add(conceptLabel);
 
 		JMenu labelsRelations = makeMenu("Menu.Edit.LabelsRelations");
@@ -647,37 +575,30 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		JMenu actions = makeMenu("Menu.Edit.ConceptRelation");
 		edit.add(actions);
 
-		JMenuItem actionNew = makeMenuItem("Menu.Edit.ConceptRelationNew",
-				"add");
+		JMenuItem actionNew = makeMenuItem("Menu.Edit.ConceptRelationNew", "add");
 		actions.add(actionNew);
 
-		JMenuItem actionEdit = makeMenuItem("Menu.Edit.ConceptRelationEdit",
-				"edit");
+		JMenuItem actionEdit = makeMenuItem("Menu.Edit.ConceptRelationEdit", "edit");
 		actions.add(actionEdit);
 
-		JMenuItem actionDelete = makeMenuItem(
-				"Menu.Edit.ConceptRelationDelete", "delete");
+		JMenuItem actionDelete = makeMenuItem("Menu.Edit.ConceptRelationDelete", "delete");
 		actions.add(actionDelete);
 
 		// sub menu for mouse mode
-		JMenu subMenuMouse = new JMenu(
-				Config.language.getProperty("Menu.Edit.MouseMode"));
+		JMenu subMenuMouse = new JMenu(Config.language.getProperty("Menu.Edit.MouseMode"));
 		ButtonGroup groupConcept = new ButtonGroup();
-		JRadioButtonMenuItem modeTransforming = new JRadioButtonMenuItem(
-				Config.language.getProperty("Menu.Edit.MouseModeTransforming"));
+		JRadioButtonMenuItem modeTransforming = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Edit.MouseModeTransforming"));
 		modeTransforming.setActionCommand(OVTK2ToolBar.TRANSFORMING_MODE);
 		modeTransforming.addActionListener(desktop);
 		groupConcept.add(modeTransforming);
 		subMenuMouse.add(modeTransforming);
-		JRadioButtonMenuItem modePicking = new JRadioButtonMenuItem(
-				Config.language.getProperty("Menu.Edit.MouseModePicking"));
+		JRadioButtonMenuItem modePicking = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Edit.MouseModePicking"));
 		modePicking.setActionCommand(OVTK2ToolBar.PICKING_MODE);
 		modePicking.setSelected(true);
 		modePicking.addActionListener(desktop);
 		groupConcept.add(modePicking);
 		subMenuMouse.add(modePicking);
-		JRadioButtonMenuItem modeAnnotation = new JRadioButtonMenuItem(
-				Config.language.getProperty("Menu.Edit.MouseModeAnnotating"));
+		JRadioButtonMenuItem modeAnnotation = new JRadioButtonMenuItem(Config.language.getProperty("Menu.Edit.MouseModeAnnotating"));
 		modeAnnotation.setActionCommand(OVTK2ToolBar.ANNOTATION_MODE);
 		modeAnnotation.addActionListener(desktop);
 		groupConcept.add(modeAnnotation);
@@ -710,28 +631,23 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		file.add(open);
 
 		// use config.xml to enable/disable webservice
-		if (Boolean
-				.parseBoolean(Config.config.getProperty("Webservice.Enable"))) {
+		if (Boolean.parseBoolean(Config.config.getProperty("Webservice.Enable"))) {
 			JMenuItem load = makeMenuItem("Menu.File.WebserviceLoad", "load");
 			file.add(load);
 
-			JMenuItem upload = makeMenuItem("Menu.File.WebserviceUpload",
-					"upload");
+			JMenuItem upload = makeMenuItem("Menu.File.WebserviceUpload", "upload");
 			file.add(upload);
 		}
 
 		// use config.xml to enable/disable SQL graph
 		if (Boolean.parseBoolean(Config.config.getProperty("SQL.Enable"))) {
-			JMenuItem importsql2 = makeMenuItem("Menu.File.SqlLoad",
-					"importSQL2");
+			JMenuItem importsql2 = makeMenuItem("Menu.File.SqlLoad", "importSQL2");
 			file.add(importsql2);
 		}
 
 		// use config.xml to enable/disable import wizard
-		if (Boolean.parseBoolean(Config.config
-				.getProperty("ImportWizard.Enable"))) {
-			JMenuItem impo = makeMenuItem("Menu.File.ImportWizard",
-					"importwizard");
+		if (Boolean.parseBoolean(Config.config.getProperty("ImportWizard.Enable"))) {
+			JMenuItem impo = makeMenuItem("Menu.File.ImportWizard", "importwizard");
 			file.add(impo);
 		}
 
@@ -767,10 +683,8 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 
 		Set<String> exceptions = new HashSet<String>();
 		exceptions.add("net.sourceforge.ondex.ovtk2.filter.tag.TagFilter");
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.filter.relationneighbours.RelationNeighboursFilter");
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.filter.unconnected.UnconnectedFilter");
+		exceptions.add("net.sourceforge.ondex.ovtk2.filter.relationneighbours.RelationNeighboursFilter");
+		exceptions.add("net.sourceforge.ondex.ovtk2.filter.unconnected.UnconnectedFilter");
 
 		// make sure filter menu action is handled
 		FilterMenuAction listener = new FilterMenuAction();
@@ -791,9 +705,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 			System.err.println("Filters with menu entries: " + entries);
 
 		// question icon
-		String path = "config/themes/"
-				+ Config.config.getProperty("Program.Theme")
-				+ "/icons/question.png";
+		String path = "config/themes/" + Config.config.getProperty("Program.Theme") + "/icons/question.png";
 
 		// order filters by name
 		String[] ordered = entries.toArray(new String[entries.size()]);
@@ -804,8 +716,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 			realNameToDisplayName.put(name, display);
 		}
 		if (DEBUG)
-			System.err.println("real to display names: "
-					+ realNameToDisplayName);
+			System.err.println("real to display names: " + realNameToDisplayName);
 
 		Arrays.sort(ordered, new MapSorter(realNameToDisplayName));
 
@@ -814,10 +725,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 
 		if (DEBUG)
 			try {
-				System.err
-						.println("getFilterClassNames() "
-								+ OVTK2PluginLoader.getInstance()
-										.getFilterClassNames());
+				System.err.println("getFilterClassNames() " + OVTK2PluginLoader.getInstance().getFilterClassNames());
 			} catch (FileNotFoundException e) {
 				ErrorDialog.show(e);
 			} catch (MalformedURLException e) {
@@ -831,15 +739,12 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 			if (DEBUG)
 				System.err.println("class mapping: " + name + " ->  " + clazz);
 			try {
-				if (!OVTK2PluginLoader.getInstance().getFilterClassNames()
-						.contains(clazz)) {
-					if (DEBUG)
-						System.err.println("Not in getFilterClassNames");
-					// exception case for included filters
-					if (!exceptions.contains(clazz)) {
+				if (!OVTK2PluginLoader.getInstance().getFilterClassNames().contains(clazz)) {
+					try {
+						Class.forName(clazz);
+					} catch (ClassNotFoundException e) {
 						if (DEBUG)
-							System.err.println("no exception for filter: "
-									+ clazz);
+							System.err.println("Class not found: " + clazz);
 						continue;
 					}
 				}
@@ -906,9 +811,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		help.add(about);
 
 		// get language specific help file
-		File hsFile = new File(Config.docuDir + "/help/"
-				+ Config.config.getProperty("Program.Language")
-				+ "/javahelp/jhelpset.hs");
+		File hsFile = new File(Config.docuDir + "/help/" + Config.config.getProperty("Program.Language") + "/javahelp/jhelpset.hs");
 
 		// initialise help system
 		HelpSet hs = null;
@@ -917,14 +820,12 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 			URL hsURL = hsFile.toURI().toURL();
 			hs = new HelpSet(null, hsURL);
 		} catch (Exception ee) {
-			System.out.println("HelpSet " + hsFile.getAbsolutePath()
-					+ " not found");
+			System.out.println("HelpSet " + hsFile.getAbsolutePath() + " not found");
 		}
 
 		// create menu entry only when help found
 		if (hs != null) {
-			SwingHelpUtilities
-					.setContentViewerUI("net.sourceforge.ondex.ovtk2.util.OVTKBasicNativeContentViewerUI");
+			SwingHelpUtilities.setContentViewerUI("net.sourceforge.ondex.ovtk2.util.OVTKBasicNativeContentViewerUI");
 
 			hb = hs.createHelpBroker();
 
@@ -936,8 +837,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 			hb.enableHelpKey(rootpane, "top", null);
 
 			// create menu entry for help system
-			JMenuItem contents = new JMenuItem(
-					Config.language.getProperty("Menu.Help.Contents"));
+			JMenuItem contents = new JMenuItem(Config.language.getProperty("Menu.Help.Contents"));
 			contents.addActionListener(new CSH.DisplayHelpFromSource(hb));
 			help.add(contents);
 		}
@@ -968,8 +868,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 	private void populateLayoutMenu(JMenu layout) {
 
 		Set<String> exceptions = new HashSet<String>();
-		exceptions
-				.add("net.sourceforge.ondex.ovtk2.layout.ConceptClassCircleLayout");
+		exceptions.add("net.sourceforge.ondex.ovtk2.layout.ConceptClassCircleLayout");
 		exceptions.add("net.sourceforge.ondex.ovtk2.layout.StaticLayout");
 		exceptions.add("net.sourceforge.ondex.ovtk2.layout.GEMLayout");
 
@@ -989,9 +888,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		}
 
 		// question icon
-		String path = "config/themes/"
-				+ Config.config.getProperty("Program.Theme")
-				+ "/icons/question.png";
+		String path = "config/themes/" + Config.config.getProperty("Program.Theme") + "/icons/question.png";
 
 		// order layouts by name
 		String[] ordered = entries.toArray(new String[entries.size()]);
@@ -1009,11 +906,14 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		for (String name : ordered) {
 			String clazz = Config.config.getProperty(name);
 			try {
-				if (!OVTK2PluginLoader.getInstance().getLayoutClassNames()
-						.contains(clazz)) {
-					// exception case for included layouts
-					if (!exceptions.contains(clazz))
+				if (!OVTK2PluginLoader.getInstance().getLayoutClassNames().contains(clazz)) {
+					try {
+						Class.forName(clazz);
+					} catch (ClassNotFoundException e) {
+						if (DEBUG)
+							System.err.println("Class not found: " + clazz);
 						continue;
+					}
 				}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace(); // TODO: log?
@@ -1031,10 +931,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 			item.setActionCommand(name);
 			item.addActionListener(desktop);
 			item.addMouseListener(mouseListener);
-			if (!clazz
-					.equals("net.sourceforge.ondex.ovtk2.layout.ConceptClassCircleLayout")
-					&& !clazz
-							.equals("net.sourceforge.ondex.ovtk2.layout.GEMLayout")) {
+			if (!clazz.equals("net.sourceforge.ondex.ovtk2.layout.ConceptClassCircleLayout") && !clazz.equals("net.sourceforge.ondex.ovtk2.layout.GEMLayout")) {
 				more.add(item);
 			} else {
 				layout.add(item);
@@ -1043,8 +940,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 
 		layout.add(more);
 
-		JCheckBoxMenuItem options = makeCheckBoxMenuItem("Menu.Layout.Options",
-				"options");
+		JCheckBoxMenuItem options = makeCheckBoxMenuItem("Menu.Layout.Options", "options");
 		layout.add(options);
 
 	}
@@ -1061,20 +957,16 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		SelectingMenuAction listener = new SelectingMenuAction();
 		desktop.addActionListener(listener);
 
-		JMenuItem allnodes = makeMenuItem("Menu.Selecting.SelectAllNodes",
-				"allnodes");
+		JMenuItem allnodes = makeMenuItem("Menu.Selecting.SelectAllNodes", "allnodes");
 		selecting.add(allnodes);
 
-		JMenuItem alledges = makeMenuItem("Menu.Selecting.SelectAllEdges",
-				"alledges");
+		JMenuItem alledges = makeMenuItem("Menu.Selecting.SelectAllEdges", "alledges");
 		selecting.add(alledges);
 
-		JMenuItem inversenodes = makeMenuItem(
-				"Menu.Selecting.InvertSelectionNodes", "inversenodes");
+		JMenuItem inversenodes = makeMenuItem("Menu.Selecting.InvertSelectionNodes", "inversenodes");
 		selecting.add(inversenodes);
 
-		JMenuItem inverseedges = makeMenuItem(
-				"Menu.Selecting.InvertSelectionEdges", "inverseedges");
+		JMenuItem inverseedges = makeMenuItem("Menu.Selecting.InvertSelectionEdges", "inverseedges");
 		selecting.add(inverseedges);
 	}
 
@@ -1092,8 +984,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		desktop.addInternalFrameListener(listener);
 
 		try {
-			JMenuItem m_launch = makeMenuItem("Menu.Tools.Integrator",
-					"launcher");
+			JMenuItem m_launch = makeMenuItem("Menu.Tools.Integrator", "launcher");
 			tools.add(m_launch);
 		} catch (Exception e) {
 			// No launcher then
@@ -1117,10 +1008,8 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		JMenuItem console = makeMenuItem("Menu.Tools.Console", "console");
 		tools.add(console);
 
-		if (Boolean.parseBoolean(Config.config
-				.getProperty("PopupEditor.Enable"))) {
-			JMenuItem popupeditor = makeMenuItem("Menu.Tools.PopupEditor",
-					"popupeditor");
+		if (Boolean.parseBoolean(Config.config.getProperty("PopupEditor.Enable"))) {
+			JMenuItem popupeditor = makeMenuItem("Menu.Tools.PopupEditor", "popupeditor");
 			tools.add(popupeditor);
 		}
 
@@ -1142,8 +1031,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		}
 		String value = Config.language.getProperty("Menu.Taverna");
 		if (value == null) {
-			throw new RuntimeException(
-					"Key \"Menu.Taverna\" is missing from the language file");
+			throw new RuntimeException("Key \"Menu.Taverna\" is missing from the language file");
 		}
 		JMenu tavernaMenu = new JMenu(value);
 		this.add(tavernaMenu);
@@ -1170,31 +1058,25 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 			e.printStackTrace();
 			System.err.println("No TavernaWrapper found. ");
 			System.err.println(e.getMessage());
-			JMenuItem missing = makeMenuItem("Menu.Taverna.Missing",
-					"TavernaMissing");
+			JMenuItem missing = makeMenuItem("Menu.Taverna.Missing", "TavernaMissing");
 			NoTavernaMenuAction helpListener = new NoTavernaMenuAction();
 			desktop.addActionListener(helpListener);
 			tavernaMenu.add(missing);
 			return;
 		}
 		try {
-			Constructor<TavernaApi> constructor = clazz
-					.getConstructor(parentFrame.getClass());
+			Constructor<TavernaApi> constructor = clazz.getConstructor(parentFrame.getClass());
 			TavernaApi travernaApi = constructor.newInstance(parentFrame);
 			// TavernaApi handles the loading of menu bar and the actions.
 			travernaApi.attachMenu(tavernaMenu);
 			// The Home files can be set from the config file.
 			// tavernaApi ignore nulls and emptys
 			// An Exception is throw is a non emplty string is incorrect.
-			travernaApi.setTavernaHome(Config.config
-					.getProperty("Taverna.TravenaHome"));
-			travernaApi.setDataViewerHome(Config.config
-					.getProperty("Taverna.DataViewerHomer"));
-			File dataDir = new File(
-					net.sourceforge.ondex.config.Config.ondexDir);
+			travernaApi.setTavernaHome(Config.config.getProperty("Taverna.TravenaHome"));
+			travernaApi.setDataViewerHome(Config.config.getProperty("Taverna.DataViewerHomer"));
+			File dataDir = new File(net.sourceforge.ondex.config.Config.ondexDir);
 			travernaApi.setRootDirectory(dataDir);
-			Icon icon = new ImageIcon(
-					"config/toolbarButtonGraphics/taverna/taverna.jpeg");
+			Icon icon = new ImageIcon("config/toolbarButtonGraphics/taverna/taverna.jpeg");
 		} catch (Exception e) {
 			ErrorDialog.show(e);
 		}
@@ -1214,38 +1096,31 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		desktop.addActionListener(listener);
 		desktop.addInternalFrameListener(listener);
 
-		JCheckBoxMenuItem meta = makeCheckBoxMenuItem("Menu.View.Metagraph",
-				"metagraph");
+		JCheckBoxMenuItem meta = makeCheckBoxMenuItem("Menu.View.Metagraph", "metagraph");
 		view.add(meta);
 
-		JCheckBoxMenuItem legend = makeCheckBoxMenuItem("Menu.View.Legend",
-				"legend");
+		JCheckBoxMenuItem legend = makeCheckBoxMenuItem("Menu.View.Legend", "legend");
 		view.add(legend);
 
-		JCheckBoxMenuItem contentsdisplay = makeCheckBoxMenuItem(
-				"Menu.View.ItemInfo", "contentsdisplay");
+		JCheckBoxMenuItem contentsdisplay = makeCheckBoxMenuItem("Menu.View.ItemInfo", "contentsdisplay");
 		view.add(contentsdisplay);
 
 		JMenu list = makeMenu("Menu.View.List");
 		view.add(list);
 
-		JCheckBoxMenuItem nodevisible = makeCheckBoxMenuItem(
-				"Menu.View.ConceptList", "nodevisible");
+		JCheckBoxMenuItem nodevisible = makeCheckBoxMenuItem("Menu.View.ConceptList", "nodevisible");
 		list.add(nodevisible);
 
-		JCheckBoxMenuItem edgevisible = makeCheckBoxMenuItem(
-				"Menu.View.RelationList", "edgevisible");
+		JCheckBoxMenuItem edgevisible = makeCheckBoxMenuItem("Menu.View.RelationList", "edgevisible");
 		list.add(edgevisible);
 
 		JMenuItem editor = makeMenuItem("Menu.View.TabularEditor", "editor");
 		view.add(editor);
 
-		JCheckBoxMenuItem satellite = makeCheckBoxMenuItem(
-				"Menu.View.SatelliteView", "satellite");
+		JCheckBoxMenuItem satellite = makeCheckBoxMenuItem("Menu.View.SatelliteView", "satellite");
 		view.add(satellite);
 
-		JInternalFrameSelector frameSelector = new JInternalFrameSelector(
-				Config.language.getProperty("Menu.Windows"));
+		JInternalFrameSelector frameSelector = new JInternalFrameSelector(Config.language.getProperty("Menu.Windows"));
 		view.add(frameSelector);
 		try {
 			frameSelector.setMnemonic(frameSelector.getText().charAt(0));
@@ -1311,13 +1186,10 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 							item.setSelected(activeViewer.isRelayoutOnResize());
 						} else if (cmd.equals("antialiased")) {
 							item.setSelected(activeViewer.isAntiAliased());
-						} else if (cmd
-								.equals(AppearanceMenuAction.SHOWMOUSEOVER)) {
+						} else if (cmd.equals(AppearanceMenuAction.SHOWMOUSEOVER)) {
 							// get current mouse over state
-							OVTK2GraphMouse mouse = (OVTK2GraphMouse) activeViewer
-									.getVisualizationViewer().getGraphMouse();
-							OVTK2PickingMousePlugin picking = mouse
-									.getOVTK2PickingMousePlugin();
+							OVTK2GraphMouse mouse = (OVTK2GraphMouse) activeViewer.getVisualizationViewer().getGraphMouse();
+							OVTK2PickingMousePlugin picking = mouse.getOVTK2PickingMousePlugin();
 							if (picking != null)
 								item.setSelected(picking.isShowMouseOver());
 						} else if (cmd.equals("nodelabels")) {
@@ -1325,24 +1197,18 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 						} else if (cmd.equals("edgelabels")) {
 							item.setSelected(activeViewer.isShowEdgeLabels());
 						} else if (cmd.equals("bothlabels")) {
-							item.setSelected(activeViewer.isShowEdgeLabels()
-									&& activeViewer.isShowNodeLabels());
+							item.setSelected(activeViewer.isShowEdgeLabels() && activeViewer.isShowNodeLabels());
 						} else if (cmd.equals(AppearanceMenuAction.EDGECOLOR)) {
-							item.setSelected(activeViewer.getEdgeColors()
-									.getEdgeColorSelection() == EdgeColorSelection.MANUAL);
+							item.setSelected(activeViewer.getEdgeColors().getEdgeColorSelection() == EdgeColorSelection.MANUAL);
 						} else if (cmd.equals(AppearanceMenuAction.EDGESIZE)) {
-							item.setSelected(activeViewer.getEdgeStrokes()
-									.getEdgeSizeTransformer() != null);
+							item.setSelected(activeViewer.getEdgeStrokes().getEdgeSizeTransformer() != null);
 						} else if (cmd.equals(AppearanceMenuAction.NODECOLOR)) {
-							item.setSelected(activeViewer.getNodeColors()
-									.getFillPaintSelection() == NodeFillPaintSelection.MANUAL);
+							item.setSelected(activeViewer.getNodeColors().getFillPaintSelection() == NodeFillPaintSelection.MANUAL);
 						} else if (cmd.equals(AppearanceMenuAction.NODESHAPE)) {
-							item.setSelected(activeViewer.getNodeShapes()
-									.getNodeShapeSelection() == NodeShapeSelection.MANUAL);
+							item.setSelected(activeViewer.getNodeShapes().getNodeShapeSelection() == NodeShapeSelection.MANUAL);
 						} else if (cmd.equals("edgearrow")) {
 							// relation arrow
-							item.setSelected(activeViewer.getEdgeArrows()
-									.isShowArrow());
+							item.setSelected(activeViewer.getEdgeArrows().isShowArrow());
 						}
 					}
 
@@ -1351,45 +1217,27 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 						JRadioButtonMenuItem item = (JRadioButtonMenuItem) c;
 						String cmd = item.getActionCommand();
 						// concept colouring
-						if (activeViewer.getNodeColors()
-								.getFillPaintSelection() == ONDEXNodeFillPaint.NodeFillPaintSelection.CONCEPTCLASS
-								&& cmd.equals(AppearanceMenuAction.COLOR_CONCEPT_BY_CLASS)) {
+						if (activeViewer.getNodeColors().getFillPaintSelection() == ONDEXNodeFillPaint.NodeFillPaintSelection.CONCEPTCLASS && cmd.equals(AppearanceMenuAction.COLOR_CONCEPT_BY_CLASS)) {
 							item.setSelected(true);
-						} else if (activeViewer.getNodeColors()
-								.getFillPaintSelection() == ONDEXNodeFillPaint.NodeFillPaintSelection.DATASOURCE
-								&& cmd.equals(AppearanceMenuAction.COLOR_CONCEPT_BY_SOURCE)) {
+						} else if (activeViewer.getNodeColors().getFillPaintSelection() == ONDEXNodeFillPaint.NodeFillPaintSelection.DATASOURCE && cmd.equals(AppearanceMenuAction.COLOR_CONCEPT_BY_SOURCE)) {
 							item.setSelected(true);
-						} else if (activeViewer.getNodeColors()
-								.getFillPaintSelection() == ONDEXNodeFillPaint.NodeFillPaintSelection.EVIDENCETYPE
-								&& cmd.equals(AppearanceMenuAction.COLOR_CONCEPT_BY_EVIDENCE)) {
+						} else if (activeViewer.getNodeColors().getFillPaintSelection() == ONDEXNodeFillPaint.NodeFillPaintSelection.EVIDENCETYPE && cmd.equals(AppearanceMenuAction.COLOR_CONCEPT_BY_EVIDENCE)) {
 							item.setSelected(true);
 						}
 						// relation colouring
-						if (activeViewer.getEdgeColors()
-								.getEdgeColorSelection() == ONDEXEdgeColors.EdgeColorSelection.RELATIONTYPE
-								&& cmd.equals(AppearanceMenuAction.COLOR_RELATION_BY_TYPE)) {
+						if (activeViewer.getEdgeColors().getEdgeColorSelection() == ONDEXEdgeColors.EdgeColorSelection.RELATIONTYPE && cmd.equals(AppearanceMenuAction.COLOR_RELATION_BY_TYPE)) {
 							item.setSelected(true);
-						} else if (activeViewer.getEdgeColors()
-								.getEdgeColorSelection() == ONDEXEdgeColors.EdgeColorSelection.EVIDENCETYPE
-								&& cmd.equals(AppearanceMenuAction.COLOR_RELATION_BY_EVIDECE)) {
+						} else if (activeViewer.getEdgeColors().getEdgeColorSelection() == ONDEXEdgeColors.EdgeColorSelection.EVIDENCETYPE && cmd.equals(AppearanceMenuAction.COLOR_RELATION_BY_EVIDECE)) {
 							item.setSelected(true);
 						}
 						// relation shapes
-						if (activeViewer.getEdgeShapes().getEdgeShape()
-								.equals(ONDEXEdgeShapes.EdgeShape.QUAD)
-								&& cmd.equals(AppearanceMenuAction.SHAPE_QUAD)) {
+						if (activeViewer.getEdgeShapes().getEdgeShape().equals(ONDEXEdgeShapes.EdgeShape.QUAD) && cmd.equals(AppearanceMenuAction.SHAPE_QUAD)) {
 							item.setSelected(true);
-						} else if (activeViewer.getEdgeShapes().getEdgeShape()
-								.equals(ONDEXEdgeShapes.EdgeShape.CUBIC)
-								&& cmd.equals(AppearanceMenuAction.SHAPE_CUBIC)) {
+						} else if (activeViewer.getEdgeShapes().getEdgeShape().equals(ONDEXEdgeShapes.EdgeShape.CUBIC) && cmd.equals(AppearanceMenuAction.SHAPE_CUBIC)) {
 							item.setSelected(true);
-						} else if (activeViewer.getEdgeShapes().getEdgeShape()
-								.equals(ONDEXEdgeShapes.EdgeShape.BENT)
-								&& cmd.equals(AppearanceMenuAction.SHAPE_BENT)) {
+						} else if (activeViewer.getEdgeShapes().getEdgeShape().equals(ONDEXEdgeShapes.EdgeShape.BENT) && cmd.equals(AppearanceMenuAction.SHAPE_BENT)) {
 							item.setSelected(true);
-						} else if (activeViewer.getEdgeShapes().getEdgeShape()
-								.equals(ONDEXEdgeShapes.EdgeShape.LINE)
-								&& cmd.equals(AppearanceMenuAction.SHAPE_LINE)) {
+						} else if (activeViewer.getEdgeShapes().getEdgeShape().equals(ONDEXEdgeShapes.EdgeShape.LINE) && cmd.equals(AppearanceMenuAction.SHAPE_LINE)) {
 							item.setSelected(true);
 						}
 					}
@@ -1397,8 +1245,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 					// enqueue for breadth first search
 					if (c instanceof JMenu) {
 						menu = (JMenu) c;
-						components.addAll(Arrays.asList(menu
-								.getMenuComponents()));
+						components.addAll(Arrays.asList(menu.getMenuComponents()));
 					}
 				}
 			}
@@ -1426,8 +1273,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 					} else if (cmd.equals("legend")) {
 						item.setSelected(ViewMenuAction.isLegendShown());
 					} else if (cmd.equals("contentsdisplay")) {
-						item.setSelected(ViewMenuAction
-								.isContentsDisplayShown());
+						item.setSelected(ViewMenuAction.isContentsDisplayShown());
 					}
 				}
 
@@ -1437,20 +1283,11 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 					String cmd = item.getActionCommand();
 
 					// mouse mode selection
-					if (cmd.equals(OVTK2ToolBar.ANNOTATION_MODE)
-							&& OVTK2ToolBar.ANNOTATION_MODE.equals(OVTK2Desktop
-									.getDesktopResources().getToolBar()
-									.getMouseMode())) {
+					if (cmd.equals(OVTK2ToolBar.ANNOTATION_MODE) && OVTK2ToolBar.ANNOTATION_MODE.equals(OVTK2Desktop.getDesktopResources().getToolBar().getMouseMode())) {
 						item.setSelected(true);
-					} else if (cmd.equals(OVTK2ToolBar.PICKING_MODE)
-							&& OVTK2ToolBar.PICKING_MODE.equals(OVTK2Desktop
-									.getDesktopResources().getToolBar()
-									.getMouseMode())) {
+					} else if (cmd.equals(OVTK2ToolBar.PICKING_MODE) && OVTK2ToolBar.PICKING_MODE.equals(OVTK2Desktop.getDesktopResources().getToolBar().getMouseMode())) {
 						item.setSelected(true);
-					} else if (cmd.equals(OVTK2ToolBar.TRANSFORMING_MODE)
-							&& OVTK2ToolBar.TRANSFORMING_MODE
-									.equals(OVTK2Desktop.getDesktopResources()
-											.getToolBar().getMouseMode())) {
+					} else if (cmd.equals(OVTK2ToolBar.TRANSFORMING_MODE) && OVTK2ToolBar.TRANSFORMING_MODE.equals(OVTK2Desktop.getDesktopResources().getToolBar().getMouseMode())) {
 						item.setSelected(true);
 					}
 				}
