@@ -48,9 +48,8 @@ import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
  * @author taubertj
  * @version 27.05.2008
  */
-public class OVTK2PickingMousePlugin extends
-		PickingGraphMousePlugin<ONDEXConcept, ONDEXRelation> {
-
+public class OVTK2PickingMousePlugin extends PickingGraphMousePlugin<ONDEXConcept, ONDEXRelation> {
+	//TODO the timer thread used here is the cause of random graph visualisation corruption and should be removed
 	/**
 	 * Waits a second and compares if still at some node.
 	 * 
@@ -59,39 +58,29 @@ public class OVTK2PickingMousePlugin extends
 	 */
 	class CountDown {
 		public CountDown(final ONDEXConcept n) {
-
+			
 			timer.schedule(new TimerTask() {
 				public void run() {
 					// just being paranoid
 					cleanPopups();
-					if (showMouseOver && vv.isShowing() && onNode
-							&& n.equals(currentNode)
-							&& !activePopups.containsKey(n)) {
+					if (showMouseOver && vv.isShowing() && onNode && n.equals(currentNode) && !activePopups.containsKey(n)) {
 						ConceptClass cc = n.getOfType();
-						if (cc.getId().equals("Comp")
-								|| (cc.getSpecialisationOf() != null && cc
-										.getSpecialisationOf().getId()
-										.equals("Comp"))) {
+						if (cc.getId().equals("Comp") || (cc.getSpecialisationOf() != null && cc.getSpecialisationOf().getId().equals("Comp"))) {
 							for (Attribute attr : n.getAttributes()) {
 								Object o = attr.getValue();
 								if (o instanceof ChemicalStructure) {
 									// use Attribute Editor as a hack
-									JComponent c = AttributePanel
-											.findEditor(attr);
+									JComponent c = AttributePanel.findEditor(attr);
 
 									if (c != null) {
-										c.setBorder(BorderFactory
-												.createEtchedBorder());
-										c.setPreferredSize(new Dimension(150,
-												150));
+										c.setBorder(BorderFactory.createEtchedBorder());
+										c.setPreferredSize(new Dimension(150, 150));
 
 										Point location = calculatePopupLocation(c);
 
 										// show popup
-										PopupFactory popupFactory = PopupFactory
-												.getSharedInstance();
-										Popup popup = popupFactory.getPopup(vv,
-												c, location.x, location.y);
+										PopupFactory popupFactory = PopupFactory.getSharedInstance();
+										Popup popup = popupFactory.getPopup(vv, c, location.x, location.y);
 
 										// just being paranoid
 										if (!activePopups.containsKey(n)) {
@@ -112,8 +101,7 @@ public class OVTK2PickingMousePlugin extends
 	 * Track all popups, in case something hangs around, needs to be
 	 * synchronized because of time tasks
 	 */
-	Map<ONDEXConcept, Popup> activePopups = Collections
-			.synchronizedMap(new HashMap<ONDEXConcept, Popup>());
+	Map<ONDEXConcept, Popup> activePopups = Collections.synchronizedMap(new HashMap<ONDEXConcept, Popup>());
 
 	/**
 	 * last found node
@@ -181,8 +169,7 @@ public class OVTK2PickingMousePlugin extends
 	 * @param vv
 	 *            VisualizationViewer<ONDEXNode, ONDEXEdge>
 	 */
-	public OVTK2PickingMousePlugin(
-			VisualizationViewer<ONDEXConcept, ONDEXRelation> vv) {
+	public OVTK2PickingMousePlugin(VisualizationViewer<ONDEXConcept, ONDEXRelation> vv) {
 		super();
 		this.vv = vv;
 	}
@@ -310,8 +297,7 @@ public class OVTK2PickingMousePlugin extends
 		Point2D p = me.getPoint();
 
 		// is pick support available
-		GraphElementAccessor<ONDEXConcept, ONDEXRelation> pickSupport = vv
-				.getPickSupport();
+		GraphElementAccessor<ONDEXConcept, ONDEXRelation> pickSupport = vv.getPickSupport();
 
 		// layout important to find node or edge
 		Layout<ONDEXConcept, ONDEXRelation> layout = vv.getGraphLayout();
@@ -338,15 +324,10 @@ public class OVTK2PickingMousePlugin extends
 		if (!dragged && onNode) {
 			oldNodeLabels = vv.getRenderContext().getVertexLabelTransformer();
 			oldEdgeLabels = vv.getRenderContext().getEdgeLabelTransformer();
-			oldAntiAliased = vv.getRenderingHints()
-					.get(RenderingHints.KEY_ANTIALIASING)
-					.equals(RenderingHints.VALUE_ANTIALIAS_ON);
-			vv.getRenderContext().setVertexLabelTransformer(
-					new ConstantTransformer(null));
-			vv.getRenderContext().setEdgeLabelTransformer(
-					new ConstantTransformer(null));
-			vv.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_OFF);
+			oldAntiAliased = vv.getRenderingHints().get(RenderingHints.KEY_ANTIALIASING).equals(RenderingHints.VALUE_ANTIALIAS_ON);
+			vv.getRenderContext().setVertexLabelTransformer(new ConstantTransformer(null));
+			vv.getRenderContext().setEdgeLabelTransformer(new ConstantTransformer(null));
+			vv.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			dragged = true;
 		}
 	}
@@ -364,8 +345,7 @@ public class OVTK2PickingMousePlugin extends
 		p = me.getPoint();
 
 		// is pick support available
-		GraphElementAccessor<ONDEXConcept, ONDEXRelation> pickSupport = vv
-				.getPickSupport();
+		GraphElementAccessor<ONDEXConcept, ONDEXRelation> pickSupport = vv.getPickSupport();
 
 		// layout important to find node or edge
 		Layout<ONDEXConcept, ONDEXRelation> layout = vv.getGraphLayout();
@@ -376,39 +356,36 @@ public class OVTK2PickingMousePlugin extends
 			if (VertexMenu.INSTANCE != null && VertexMenu.INSTANCE.isShowing()) {
 				cleanPopups();
 			} else {
-
-				// first check if its a node
-				ONDEXConcept n = pickSupport.getVertex(layout, p.getX(),
-						p.getY());
-				if (n != null) {
-					JComponent c = (JComponent) me.getSource();
-					c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					// did node change?
-					if (!n.equals(currentNode)) {
-						cleanPopups();
-						new CountDown(n);
-					}
-					currentNode = n;
-					onNode = true;
-				} else {
-					// hide possible popups
-					cleanPopups();
-					onNode = false;
-					currentNode = null;
-					timer.cancel();
-					timer = new Timer();
-					// maybe its an edge
-					ONDEXRelation e = pickSupport.getEdge(layout, p.getX(),
-							p.getY());
-					if (e != null) {
+				if (layout.getGraph().getVertexCount() < 5000 && layout.getGraph().getEdgeCount() < 7000) {
+					// first check if its a node
+					ONDEXConcept n = pickSupport.getVertex(layout, p.getX(), p.getY());
+					if (n != null) {
 						JComponent c = (JComponent) me.getSource();
-						c.setCursor(Cursor
-								.getPredefinedCursor(Cursor.HAND_CURSOR));
+						c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+						// did node change?
+						if (!n.equals(currentNode)) {
+							cleanPopups();
+							new CountDown(n);
+						}
+						currentNode = n;
+						onNode = true;
 					} else {
-						// OK back to normal
-						JComponent c = (JComponent) me.getSource();
-						c.setCursor(Cursor
-								.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+						// hide possible popups
+						cleanPopups();
+						onNode = false;
+						currentNode = null;
+						timer.cancel();
+						timer = new Timer();
+						// maybe its an edge
+						ONDEXRelation e = pickSupport.getEdge(layout, p.getX(), p.getY());
+						if (e != null) {
+							JComponent c = (JComponent) me.getSource();
+							c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+						} else {
+							// OK back to normal
+							JComponent c = (JComponent) me.getSource();
+							c.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+						}
 					}
 				}
 			}
@@ -429,13 +406,13 @@ public class OVTK2PickingMousePlugin extends
 
 		// hide possible popups
 		cleanPopups();
-
+		JComponent c = (JComponent) e.getSource();
+		c.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		if (dragged) {
 			vv.getRenderContext().setVertexLabelTransformer(oldNodeLabels);
 			vv.getRenderContext().setEdgeLabelTransformer(oldEdgeLabels);
 			if (oldAntiAliased)
-				vv.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
+				vv.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			dragged = false;
 		}
 	}
