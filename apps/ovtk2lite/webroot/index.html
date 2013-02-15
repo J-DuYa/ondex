@@ -1,21 +1,83 @@
-<html>
+<html lang="en">
 <head>
-<title>Ondex Web Test</title>
+<meta charset="utf-8" />
+<title>Ondex Web Demo</title>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+<link rel="stylesheet" htef="css/main.css" />
+<script>
+	$(function() {
+		$("#tabs").tabs();
+	});
+</script>
+<script src="js/deployJava.js"></script>
 </head>
 
-<body bgcolor=WHITE>
-<h3>Ondex Web</h3>
-<p>The Ondex Web applet is still under development and huge in size at the moment. 
-Please be patient while loading.
-JAVA6 is required to run this applet and JavaScript needs to be enabled.<br>
-For usage information see <a href="readme.html">README</a>.</p>
+<body>
 
-<script src="js/deployJava.js"></script>
-<script> 
-    var attributes = {width:800, height:620}; 
-    var parameters = {jnlp_href: 'ovtk2lite.jnlp', filename: 'config/examples/testGraph.xml'}; 
-    deployJava.runApplet(attributes, parameters, '1.6'); 
-</script>
+	<div class="header">
+		<div class="heading">Ondex Web</div>
+		<div class="link1">
+			<a href="http://ondex.rothamsted.ac.uk/nexus/service/local/artifact/maven/redirect?r=snapshots&g=net.sourceforge.ondex.apps&a=ovtk2lite&v=0.5.0-SNAPSHOT&e=zip&c=packaged-distro">Download</a>
+		</div>
+		<div class="link2">
+			<a href="readme.html">Getting started</a>
+		</div>
+	</div>
+
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Simple Test Graph</a></li>
+			<li><a href="#tabs-2">Gene Network</a></li>
+			<li><a href="#tabs-3">S48 differential network</a></li>
+		</ul>
+		<div id="tabs-1">
+			<div class="subheading">Simple Test Graph</div>
+			<script>
+				var attributes = {
+					width : 800,
+					height : 620
+				};
+				var parameters = {
+					jnlp_href : 'ovtk2lite.jnlp',
+					filename : 'config/examples/testGraph.xml'
+				};
+				deployJava.runApplet(attributes, parameters, '1.6');
+			</script>
+		</div>
+		<div id="tabs-2">
+			<div class="subheading">Gene Network</div>
+			<script>
+				var attributes = {
+					width : 800,
+					height : 620
+				};
+				var parameters = {
+					jnlp_href : 'ovtk2lite.jnlp',
+					filename : 'config/examples/GeneNetwork.oxl'
+				};
+				deployJava.runApplet(attributes, parameters, '1.6');
+			</script>
+		</div>
+		<div id="tabs-3">
+			<div class="subheading">S48 differential network</div>
+			<script>
+				var attributes = {
+					width : 800,
+					height : 620
+				};
+				var parameters = {
+					jnlp_href : 'ovtk2lite.jnlp',
+					filename : 'config/examples/S48_diff_enriched_small.oxl'
+				};
+				deployJava.runApplet(attributes, parameters, '1.6');
+			</script>
+		</div>
+	</div>
+
+	JAVA6 is required to run this applet and JavaScript needs to be	enabled.
 
 </body>
 </html>
