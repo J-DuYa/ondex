@@ -1,17 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<parent>
 		<artifactId>apps</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
 		<version>0.5.0-SNAPSHOT</version>
 	</parent>
-	
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.ondex.apps</groupId>
 	<artifactId>qtlnetminer</artifactId>
 	<packaging>pom</packaging>
 	<name>QTLNetMiner</name>
-	
+
 	<modules>
 		<module>arabidopsis</module>
 		<module>common</module>
@@ -24,7 +25,18 @@
 		<module>chicken</module>
 		<module>cow</module>
 	</modules>
-	
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>apache-log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.15</version>
+				<type>jar</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<reporting>
 		<plugins>
 			<plugin>
@@ -61,12 +73,16 @@
 					<stylesheet>maven</stylesheet>
 					<additionalparam>
 						-link http://java.sun.com/javase/6/docs/api/
-						-link http://www.oracle.com/technology/documentation/berkeley-db/je/java
+						-link
+						http://www.oracle.com/technology/documentation/berkeley-db/je/java
 						-link http://junit.sourceforge.net/javadoc/
-						-link http://ondex.rothamsted.ac.uk/ondex/core/apidocs/
-						-link http://ondex.rothamsted.ac.uk/ondex/modules/apidocs/
-						-link http://ondex.rothamsted.ac.uk/ondex/ovtk2/apidocs/
-                    </additionalparam>
+						-link
+						http://ondex.rothamsted.ac.uk/ondex/core/apidocs/
+						-link
+						http://ondex.rothamsted.ac.uk/ondex/modules/apidocs/
+						-link
+						http://ondex.rothamsted.ac.uk/ondex/ovtk2/apidocs/
+					</additionalparam>
 				</configuration>
 			</plugin>
 		</plugins>
