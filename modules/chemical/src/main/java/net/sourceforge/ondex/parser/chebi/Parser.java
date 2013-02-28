@@ -366,7 +366,11 @@ public class Parser extends ONDEXParser implements MetaData {
 
 				// add Mass as attribute
 				else if (key.equals(MASS)) {
-					c.createAttribute(anMass, Double.valueOf(value), false);
+					try {
+						c.createAttribute(anMass, Double.valueOf(value), false);
+					} catch (NumberFormatException nfe) {
+						nfe.printStackTrace();
+					}
 				}
 
 				// add last modified as attribute
