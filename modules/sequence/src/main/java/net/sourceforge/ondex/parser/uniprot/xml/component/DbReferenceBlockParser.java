@@ -54,9 +54,28 @@ public class DbReferenceBlockParser extends AccessionBlockParser {
                         property_type = staxXmlReader.getAttributeValue(i);
                     }
                 }
-                if (property_type != null && property_type.equalsIgnoreCase("evidence")) {
-                    dblink.addEvidence(property_value);
+                if (property_type != null) {
+                	if (property_type.equalsIgnoreCase("evidence")) {
+                		dblink.addEvidence(property_value);
+                	} 
+                	
+                	//105092739     <property type="protein sequence ID" value="ENSP00000269305"/>
+                    else if (property_type.equalsIgnoreCase("protein sequence ID")) {
+                    	DbLink ensemblProtein = new DbLink();
+                    	ensemblProtein.setDbName(dblink.getDbName());
+                    	ensemblProtein.setAccession(property_value);
+                    	Protein.getInstance().addDbReference(ensemblProtein);
+                    }
+                	
+                	//105092740     <property type="gene ID" value="ENSG00000141510"/>
+                    else if (property_type.equalsIgnoreCase("gene ID")) {
+                    	DbLink ensemblGene = new DbLink();
+                    	ensemblGene.setDbName(dblink.getDbName());
+                    	ensemblGene.setAccession(property_value);
+                    	Protein.getInstance().addDbReference(ensemblGene);	
+                    }
                 }
+                
 
             } else if (event == XMLStreamConstants.END_ELEMENT
                     && staxXmlReader.getLocalName().equals("dbReference")) {
