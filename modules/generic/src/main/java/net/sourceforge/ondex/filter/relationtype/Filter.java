@@ -188,7 +188,8 @@ public class Filter extends ONDEXFilter implements ArgumentNames {
 					ConceptClass fromCC = fromConcept.getOfType();
 					ConceptClass toCC = toConcept.getOfType();
 					if (ccMapping.size() > 0
-							&& !ccMapping.get(fromCC).contains(toCC)) {
+							&& (!ccMapping.containsKey(fromCC) || 
+							!ccMapping.get(fromCC).contains(toCC))) {
 						continue;
 					}
 
