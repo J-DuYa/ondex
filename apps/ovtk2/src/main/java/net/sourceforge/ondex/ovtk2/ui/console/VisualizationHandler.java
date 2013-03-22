@@ -37,8 +37,7 @@ public class VisualizationHandler implements ProcessingCheckpoint {
 
 	public synchronized void processingStarted() {
 		try {
-			OVTK2PropertiesAggregator v = OVTK2Desktop.getDesktopResources()
-					.getSelectedViewer();
+			OVTK2PropertiesAggregator v = OVTK2Desktop.getDesktopResources().getSelectedViewer();
 			graphs.put(v, v.getONDEXJUNGGraph());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,11 +53,9 @@ public class VisualizationHandler implements ProcessingCheckpoint {
 	public synchronized void processingFinished() {
 		try {
 
-			for (Entry<OVTK2PropertiesAggregator, ONDEXJUNGGraph> ent : graphs
-					.entrySet()) {
+			for (Entry<OVTK2PropertiesAggregator, ONDEXJUNGGraph> ent : graphs.entrySet()) {
 
-				OVTK2ResourceAssesor resources = OVTK2Desktop
-						.getDesktopResources();
+				OVTK2ResourceAssesor resources = OVTK2Desktop.getDesktopResources();
 
 				// put graph into viewer
 				// OVTK2PropertiesAggregator viewer =
@@ -69,14 +66,13 @@ public class VisualizationHandler implements ProcessingCheckpoint {
 				resources.setSelectedViewer(viewer);
 
 				// decide when to display viewer immediately
-				if (Math.max(ent.getValue().getConcepts().size(), ent
-						.getValue().getRelations().size()) < 2000) {
+				if (Math.max(ent.getValue().getConcepts().size(), ent.getValue().getRelations().size()) < 2000) {
 
 					// we can display everything here
 					viewer.getONDEXJUNGGraph().setEverythingVisible();
 
 					// make sure layout is set
-					//VisualisationUtils.relayout(viewer);
+					// VisualisationUtils.relayout(viewer);
 				}
 
 				// update all visual attributes of graph
@@ -89,7 +85,7 @@ public class VisualizationHandler implements ProcessingCheckpoint {
 						ErrorDialog.show(e);
 					}
 				}
-				
+
 				// update UI
 				viewer.getVisualizationViewer().fireStateChanged();
 				viewer.getVisualizationViewer().repaint();
@@ -121,11 +117,9 @@ public class VisualizationHandler implements ProcessingCheckpoint {
 	/**
 	 * Makes the select subset visible in the graph
 	 */
-	public void setSelectedSubset(ONDEXGraph graph, Set<ONDEXConcept> cs,
-			Set<ONDEXRelation> rs) {
+	public void setSelectedSubset(ONDEXGraph graph, Set<ONDEXConcept> cs, Set<ONDEXRelation> rs) {
 		Set<OVTK2PropertiesAggregator> vs = new HashSet<OVTK2PropertiesAggregator>();
-		for (Entry<OVTK2PropertiesAggregator, ONDEXJUNGGraph> ent : graphs
-				.entrySet()) {
+		for (Entry<OVTK2PropertiesAggregator, ONDEXJUNGGraph> ent : graphs.entrySet()) {
 			if (ent.getKey().getONDEXJUNGGraph().equals(graph)) {
 				vs.add(ent.getKey());
 			}
@@ -133,12 +127,9 @@ public class VisualizationHandler implements ProcessingCheckpoint {
 		for (OVTK2PropertiesAggregator viewer : vs) {
 			StateEdit edit = null;
 			if (viewer instanceof OVTK2PropertiesAggregator) {
-				edit = new StateEdit(new VisibilityUndo(
-						viewer.getONDEXJUNGGraph()),
-						Config.language.getProperty("Undo.HideSelection"));
+				edit = new StateEdit(new VisibilityUndo(viewer.getONDEXJUNGGraph()), Config.language.getProperty("Undo.HideSelection"));
 				viewer.getUndoManager().addEdit(edit);
-				OVTK2Desktop.getInstance().getOVTK2Menu()
-						.updateUndoRedo(viewer);
+				OVTK2Desktop.getInstance().getOVTK2Menu().updateUndoRedo(viewer);
 			}
 			ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
 
