@@ -49,32 +49,38 @@ import org.apache.commons.collections15.map.LazyMap;
  * @author lysenkoa
  */
 public class StandardFunctions {
-	
-	public static ONDEXRelation getConnectingEdge(ONDEXGraph graph, ONDEXConcept a, ONDEXConcept b, RelationType rt){
-		ONDEXRelation r = null;
-		for(ONDEXRelation z : graph.getRelationsOfConcept(a)){
-			if(z.getOfType().equals(rt)){
-				if(b.equals(getOtherNode(a, z))){
-					r = z;
-					break;
-				}
+
+
+	public static String getAccession(ONDEXConcept c, DataSource cv) {
+		for (ConceptAccession ac : c.getConceptAccessions()) {
+			if (ac.getElementOf().equals(cv)) {
+				return ac.getAccession();
 			}
 		}
-		return r;
+		return null;
 	}
-	
-	public static Set<ONDEXRelation> getAllConnectingEdges(ONDEXGraph graph, ONDEXConcept a, ONDEXConcept b){
+
+	public static Set<String> getAccessions(ONDEXConcept c, DataSource cv) {
+		Set<String> set = new HashSet<String>();
+		for (ConceptAccession ac : c.getConceptAccessions()) {
+			if (ac.getElementOf().equals(cv)) {
+				set.add(ac.getAccession());
+			}
+		}
+		return set;
+	}
+
+	public static Set<ONDEXRelation> getAllConnectingEdges(ONDEXGraph graph, ONDEXConcept a, ONDEXConcept b) {
 		Set<ONDEXRelation> rs = new HashSet<ONDEXRelation>();
-		for(ONDEXRelation z : graph.getRelationsOfConcept(a)){
-			if(b.equals(getOtherNode(a, z))){
+		for (ONDEXRelation z : graph.getRelationsOfConcept(a)) {
+			if (b.equals(getOtherNode(a, z))) {
 				rs.add(z);
 			}
 		}
 		return rs;
 	}
 
-	public static Set<ONDEXConcept> getOtherNodesIncoming(ONDEXGraph graph,
-			ONDEXConcept c, RelationType... types) {
+	public static Set<ONDEXConcept> getOtherNodesIncoming(ONDEXGraph graph, ONDEXConcept c, RelationType... types) {
 		Set<RelationType> restriction = new HashSet<RelationType>();
 		boolean performCheck = false;
 		if (types != null && types.length > 0) {
@@ -96,8 +102,7 @@ public class StandardFunctions {
 
 	// TODO
 
-	public static void changeRelationDirection(ONDEXGraph graph,
-			String originaRT, String newRT) {
+	public static void changeRelationDirection(ONDEXGraph graph, String originaRT, String newRT) {
 		ONDEXGraphMetaData meta = graph.getMetaData();
 		RelationType original = meta.getRelationType(originaRT);
 		String invName = original.getInverseName();
@@ -146,9 +151,7 @@ public class StandardFunctions {
 	 *            the cv of accessions to seach in (can be null)
 	 * @author hindlem
 	 */
-	public static final Set<ONDEXConcept> filterConceptsOnAcessionRegex(
-			String regex, ONDEXGraph graph, boolean exclusive, ConceptClass cc,
-			DataSource concept_dataSource, DataSource accession_dataSource) {
+	public static final Set<ONDEXConcept> filterConceptsOnAcessionRegex(String regex, ONDEXGraph graph, boolean exclusive, ConceptClass cc, DataSource concept_dataSource, DataSource accession_dataSource) {
 
 		BitSet conceptsFound = new BitSet();
 
@@ -161,15 +164,12 @@ public class StandardFunctions {
 		}
 
 		if (concept_dataSource != null) {
-			BitSetFunctions.and(concepts,
-					graph.getConceptsOfDataSource(concept_dataSource));
+			BitSetFunctions.and(concepts, graph.getConceptsOfDataSource(concept_dataSource));
 		}
 
 		for (ONDEXConcept concept : concepts) {
 			for (ConceptAccession accession : concept.getConceptAccessions()) {
-				if (accession_dataSource != null
-						&& !accession.getElementOf().equals(
-								accession_dataSource)) {
+				if (accession_dataSource != null && !accession.getElementOf().equals(accession_dataSource)) {
 					continue;
 				}
 				if (pattern.matcher(accession.getAccession()).matches()) {
@@ -179,8 +179,7 @@ public class StandardFunctions {
 			}
 		}
 
-		Set<ONDEXConcept> matchedConcepts = BitSetFunctions.create(graph,
-				ONDEXConcept.class, conceptsFound);
+		Set<ONDEXConcept> matchedConcepts = BitSetFunctions.create(graph, ONDEXConcept.class, conceptsFound);
 
 		if (exclusive)
 			return BitSetFunctions.andNot(graph.getConcepts(), matchedConcepts);
@@ -188,16 +187,13 @@ public class StandardFunctions {
 			return matchedConcepts;
 	}
 
-	public static Set<ONDEXConcept> filteroutUnconnected(ONDEXGraph graph,
-			Set<ONDEXConcept> setOfConcepts, Set<ONDEXRelation> validRelations) {
+	public static Set<ONDEXConcept> filteroutUnconnected(ONDEXGraph graph, Set<ONDEXConcept> setOfConcepts, Set<ONDEXRelation> validRelations) {
 		BitSet resultSet = new BitSet();
 		for (ONDEXConcept c : setOfConcepts) {
-			if (BitSetFunctions.and(graph.getRelationsOfConcept(c),
-					validRelations).size() > 0)
+			if (BitSetFunctions.and(graph.getRelationsOfConcept(c), validRelations).size() > 0)
 				resultSet.set(c.getId());
 		}
-		Set<ONDEXConcept> result = BitSetFunctions.create(graph,
-				ONDEXConcept.class, resultSet);
+		Set<ONDEXConcept> result = BitSetFunctions.create(graph, ONDEXConcept.class, resultSet);
 		return result;
 	}
 
@@ -209,8 +205,7 @@ public class StandardFunctions {
 	 * @param attributeName
 	 * @return
 	 */
-	public static final SortedMap<Integer, Object> gdsRanking(ONDEXGraph graph,
-			Set<ONDEXConcept> concepts, String attributeName) {
+	public static final SortedMap<Integer, Object> gdsRanking(ONDEXGraph graph, Set<ONDEXConcept> concepts, String attributeName) {
 		AttributeName att = graph.getMetaData().getAttributeName(attributeName);
 		if (att == null)
 			return new TreeMap<Integer, Object>();
@@ -224,16 +219,15 @@ public class StandardFunctions {
 				counts.put(attribute.getValue(), ++count);
 			}
 		}
-		SortedMap<Integer, Object> sorted = new TreeMap<Integer, Object>(
-				new Comparator<Integer>() {
-					public int compare(Integer o1, Integer o2) {
-						if (o1 > o2)
-							return 1;
-						if (o1 < o2)
-							return -1;
-						return 0;
-					}
-				});
+		SortedMap<Integer, Object> sorted = new TreeMap<Integer, Object>(new Comparator<Integer>() {
+			public int compare(Integer o1, Integer o2) {
+				if (o1 > o2)
+					return 1;
+				if (o1 < o2)
+					return -1;
+				return 0;
+			}
+		});
 		for (Entry<Object, Integer> ent : counts.entrySet()) {
 			sorted.put(ent.getValue(), ent.getKey());
 		}
@@ -250,8 +244,7 @@ public class StandardFunctions {
 	 *            - type of accesions to extract
 	 * @return
 	 */
-	public static final List<String> getAccessionsOfType(ONDEXConcept c,
-			DataSource type) {
+	public static final List<String> getAccessionsOfType(ONDEXConcept c, DataSource type) {
 		List<String> accs = new LinkedList<String>();
 		for (ConceptAccession a : c.getConceptAccessions()) {
 			if (a.getElementOf().equals(type)) {
@@ -270,8 +263,7 @@ public class StandardFunctions {
 	 * @param setOfTraversableRelations
 	 * @return
 	 */
-	public static BitSet[] getAllConnected(ONDEXConcept seed,
-			ONDEXGraph graph, Set<ONDEXRelation> setOfTraversableRelations) {
+	public static BitSet[] getAllConnected(ONDEXConcept seed, ONDEXGraph graph, Set<ONDEXRelation> setOfTraversableRelations) {
 		BitSet[] result = new BitSet[2];
 		result[0] = new BitSet(); // concepts
 		result[0].set(seed.getId());
@@ -280,9 +272,8 @@ public class StandardFunctions {
 		toProcess.set(seed.getId());
 		while (toProcess.cardinality() > 0) {
 			BitSet toProcessNext = new BitSet();
-			for(int i=toProcess.nextSetBit(0); i>=0; i=toProcess.nextSetBit(i+1)) {
-				BitSet[] temp = getNeighbours(i, graph,
-						setOfTraversableRelations);
+			for (int i = toProcess.nextSetBit(0); i >= 0; i = toProcess.nextSetBit(i + 1)) {
+				BitSet[] temp = getNeighbours(i, graph, setOfTraversableRelations);
 				temp[0].andNot(result[0]);
 				temp[1].andNot(result[1]);
 				result[0].or(temp[0]);
@@ -302,10 +293,8 @@ public class StandardFunctions {
 	 *         Result returned as a map of concept to its betweennes centrality
 	 *         value.
 	 */
-	public static final Map<ONDEXConcept, Double> getBetweenessCentrality(
-			ONDEXGraph aog) throws NullValueException, AccessDeniedException {
-		return getBetweenessCentrality(aog.getConcepts(), aog.getRelations(),
-				aog);
+	public static final Map<ONDEXConcept, Double> getBetweenessCentrality(ONDEXGraph aog) throws NullValueException, AccessDeniedException {
+		return getBetweenessCentrality(aog.getConcepts(), aog.getRelations(), aog);
 	}
 
 	/**
@@ -316,19 +305,16 @@ public class StandardFunctions {
 	 *         Result returned as a map of concept to its betweennes centrality
 	 *         value.
 	 */
-	public static final Map<ONDEXConcept, Double> getBetweenessCentrality(
-			Set<ONDEXConcept> itc, Set<ONDEXRelation> incomingr, ONDEXGraph aog)
-			throws NullValueException, AccessDeniedException {
+	public static final Map<ONDEXConcept, Double> getBetweenessCentrality(Set<ONDEXConcept> itc, Set<ONDEXRelation> incomingr, ONDEXGraph aog) throws NullValueException, AccessDeniedException {
 		boolean filter = incomingr.size() != aog.getRelations().size();
 
 		// CB[v] <- 0, v e V
-		Map<ONDEXConcept, Double> CB = LazyMap.decorate(
-				new HashMap<ONDEXConcept, Double>(), new Factory<Double>() {
-					@Override
-					public Double create() {
-						return Double.valueOf(0.0);
-					}
-				});
+		Map<ONDEXConcept, Double> CB = LazyMap.decorate(new HashMap<ONDEXConcept, Double>(), new Factory<Double>() {
+			@Override
+			public Double create() {
+				return Double.valueOf(0.0);
+			}
+		});
 
 		// iterate over all concepts
 		for (ONDEXConcept concept : itc) {
@@ -340,27 +326,23 @@ public class StandardFunctions {
 			Map<ONDEXConcept, List<ONDEXConcept>> P = new Hashtable<ONDEXConcept, List<ONDEXConcept>>();
 
 			// rho[t] <- 0, t e V
-			Map<ONDEXConcept, Integer> rho = LazyMap.decorate(
-					new HashMap<ONDEXConcept, Integer>(),
-					new Factory<Integer>() {
-						@Override
-						public Integer create() {
-							return Integer.valueOf(0);
-						}
-					});
+			Map<ONDEXConcept, Integer> rho = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(), new Factory<Integer>() {
+				@Override
+				public Integer create() {
+					return Integer.valueOf(0);
+				}
+			});
 
 			// rho[s] <- 1
 			rho.put(concept, 1);
 
 			// d[t] <- -1, t e V
-			Map<ONDEXConcept, Integer> d = LazyMap.decorate(
-					new HashMap<ONDEXConcept, Integer>(),
-					new Factory<Integer>() {
-						@Override
-						public Integer create() {
-							return Integer.valueOf(-1);
-						}
-					});
+			Map<ONDEXConcept, Integer> d = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(), new Factory<Integer>() {
+				@Override
+				public Integer create() {
+					return Integer.valueOf(-1);
+				}
+			});
 
 			// d[s] <- 0
 			d.put(concept, 0);
@@ -422,13 +404,12 @@ public class StandardFunctions {
 			}
 
 			// delta[v] <- 0, v e V
-			Map<ONDEXConcept, Double> delta = LazyMap.decorate(
-					new HashMap<ONDEXConcept, Double>(), new Factory<Double>() {
-						@Override
-						public Double create() {
-							return Double.valueOf(0.0);
-						}
-					});
+			Map<ONDEXConcept, Double> delta = LazyMap.decorate(new HashMap<ONDEXConcept, Double>(), new Factory<Double>() {
+				@Override
+				public Double create() {
+					return Double.valueOf(0.0);
+				}
+			});
 
 			// S returns vertices in order of non-increasing distance from s
 			// while S not empty do
@@ -443,9 +424,7 @@ public class StandardFunctions {
 
 						// delta[v] <- delta[v] + rho[v] / rho[w] * (1 +
 						// delta[w])
-						delta.put(v, delta.get(v)
-								+ ((double) rho.get(v) / (double) rho.get(w))
-								* (1.0 + delta.get(w)));
+						delta.put(v, delta.get(v) + ((double) rho.get(v) / (double) rho.get(w)) * (1.0 + delta.get(w)));
 					}
 				}
 
@@ -487,15 +466,12 @@ public class StandardFunctions {
 	 *            - string concept class ids
 	 * @return ondex view of concepts
 	 */
-	public static Set<ONDEXConcept> getConceptsByClassId(ONDEXGraph graph,
-			String... ids) {
-		Set<ONDEXConcept> result = BitSetFunctions.create(graph,
-				ONDEXConcept.class, new BitSet());
+	public static Set<ONDEXConcept> getConceptsByClassId(ONDEXGraph graph, String... ids) {
+		Set<ONDEXConcept> result = BitSetFunctions.create(graph, ONDEXConcept.class, new BitSet());
 		if (ids == null)
 			return result;
 		for (int i = 0; i < ids.length; i++) {
-			result.addAll(graph.getConceptsOfConceptClass(createCC(graph,
-					ids[i])));
+			result.addAll(graph.getConceptsOfConceptClass(createCC(graph, ids[i])));
 		}
 		return result;
 	}
@@ -507,8 +483,7 @@ public class StandardFunctions {
 	 * 
 	 * @return - a set of concept classes.
 	 */
-	public static final Set<ConceptClass> getContainedConceptClasses(
-			Set<ONDEXConcept> concepts) {
+	public static final Set<ConceptClass> getContainedConceptClasses(Set<ONDEXConcept> concepts) {
 		Set<ConceptClass> result = new HashSet<ConceptClass>();
 		for (ONDEXConcept c : concepts) {
 			result.add(c.getOfType());
@@ -524,8 +499,7 @@ public class StandardFunctions {
 	 * @throws AccessDeniedException
 	 * @throws NullValueException
 	 */
-	public static final Map<ONDEXConcept, Double> getDegreeCentrality(
-			ONDEXGraph aog) throws NullValueException, AccessDeniedException {
+	public static final Map<ONDEXConcept, Double> getDegreeCentrality(ONDEXGraph aog) throws NullValueException, AccessDeniedException {
 		return getDegreeCentrality(aog.getConcepts(), aog.getRelations(), aog);
 	}
 
@@ -537,19 +511,14 @@ public class StandardFunctions {
 	 * @throws AccessDeniedException
 	 * @throws NullValueException
 	 */
-	public static final Map<ONDEXConcept, Double> getDegreeCentrality(
-			Set<ONDEXConcept> itc, Set<ONDEXRelation> itr, ONDEXGraph aog)
-			throws NullValueException, AccessDeniedException {
+	public static final Map<ONDEXConcept, Double> getDegreeCentrality(Set<ONDEXConcept> itc, Set<ONDEXRelation> itr, ONDEXGraph aog) throws NullValueException, AccessDeniedException {
 		Map<ONDEXConcept, Double> conceptToDegree = new HashMap<ONDEXConcept, Double>();
 		double normalisationFactor = itc.size() - 1;
 		for (ONDEXConcept c : itc) {
 			if (itr.size() == aog.getRelations().size())
-				conceptToDegree.put(c, aog.getRelationsOfConcept(c).size()
-						/ normalisationFactor);
+				conceptToDegree.put(c, aog.getRelationsOfConcept(c).size() / normalisationFactor);
 			else
-				conceptToDegree.put(c,
-						BitSetFunctions.and(aog.getRelationsOfConcept(c), itr)
-								.size() / normalisationFactor);
+				conceptToDegree.put(c, BitSetFunctions.and(aog.getRelationsOfConcept(c), itr).size() / normalisationFactor);
 		}
 		return conceptToDegree;
 	}
@@ -566,15 +535,12 @@ public class StandardFunctions {
 	 * @return - set of relations
 	 */
 
-	public static final Set<ONDEXRelation> getIncomingRelations(
-			ONDEXGraph graph, ONDEXConcept c, RelationType... exclude) {
+	public static final Set<ONDEXRelation> getIncomingRelations(ONDEXGraph graph, ONDEXConcept c, RelationType... exclude) {
 		Set<ONDEXRelation> it = graph.getRelationsOfConcept(c);
-		Set<RelationType> toExclude = new HashSet<RelationType>(
-				Arrays.asList(exclude));
+		Set<RelationType> toExclude = new HashSet<RelationType>(Arrays.asList(exclude));
 		Set<ONDEXRelation> result = new HashSet<ONDEXRelation>();
 		for (ONDEXRelation r : it) {
-			if (r.getToConcept().equals(c)
-					&& !toExclude.contains(r.getOfType()))
+			if (r.getToConcept().equals(c) && !toExclude.contains(r.getOfType()))
 				result.add(r);
 		}
 		return result;
@@ -590,15 +556,12 @@ public class StandardFunctions {
 	 *            - concept
 	 * @return - set of relations
 	 */
-	public static final Set<ONDEXRelation> getIncomingRelationsToConceptClass(
-			ONDEXGraph graph, ONDEXConcept c, ConceptClass... ccs) {
+	public static final Set<ONDEXRelation> getIncomingRelationsToConceptClass(ONDEXGraph graph, ONDEXConcept c, ConceptClass... ccs) {
 		Set<ONDEXRelation> it = graph.getRelationsOfConcept(c);
 		Set<ONDEXRelation> result = new HashSet<ONDEXRelation>();
 		Set<ConceptClass> test = new HashSet<ConceptClass>(Arrays.asList(ccs));
 		for (ONDEXRelation r : it) {
-			if (r.getToConcept().equals(c)
-					&& (test.size() == 0 || test.contains(r.getToConcept()
-							.getOfType())))
+			if (r.getToConcept().equals(c) && (test.size() == 0 || test.contains(r.getToConcept().getOfType())))
 				result.add(r);
 		}
 		return result;
@@ -613,8 +576,7 @@ public class StandardFunctions {
 	 * @param two
 	 * @return
 	 */
-	public static final BitSet[] getIntersection(BitSet one,
-			BitSet two) {
+	public static final BitSet[] getIntersection(BitSet one, BitSet two) {
 		BitSet[] result = new BitSet[3];
 		result[0] = new BitSet();
 		result[0].or(one);
@@ -652,8 +614,7 @@ public class StandardFunctions {
 	 *            - concept classes to match
 	 * @return - matching first level neighbourhood as a subgraph
 	 */
-	public static Subgraph getNeighbourhood(ONDEXGraph graph, ONDEXConcept c,
-			RelationType[] rts, ConceptClass[] ccs) {
+	public static Subgraph getNeighbourhood(ONDEXGraph graph, ONDEXConcept c, RelationType[] rts, ConceptClass[] ccs) {
 		Subgraph result = new Subgraph(graph);
 
 		Set<RelationType> restrictionRT = new HashSet<RelationType>();
@@ -674,8 +635,7 @@ public class StandardFunctions {
 			if (!performRTCheck || restrictionRT.contains(r.getOfType())) {
 				result.addRelation(r);
 				ONDEXConcept other = getOtherNode(c, r);
-				if (!performCCCheck
-						|| restrictionCC.contains(other.getOfType())) {
+				if (!performCCCheck || restrictionCC.contains(other.getOfType())) {
 					result.addConcept(other);
 				}
 			}
@@ -695,8 +655,7 @@ public class StandardFunctions {
 		return getNeighbours(graph.getConcept(conceptID), graph);
 	}
 
-	public static BitSet[] getNeighbours(int conceptID, ONDEXGraph graph,
-			Set<ONDEXRelation> validRelations) {
+	public static BitSet[] getNeighbours(int conceptID, ONDEXGraph graph, Set<ONDEXRelation> validRelations) {
 		return getNeighbours(graph.getConcept(conceptID), graph, validRelations);
 	}
 
@@ -708,8 +667,7 @@ public class StandardFunctions {
 	 * @param graph
 	 * @return
 	 */
-	public static BitSet[] getNeighbours(ONDEXConcept seed,
-			ONDEXGraph graph) {
+	public static BitSet[] getNeighbours(ONDEXConcept seed, ONDEXGraph graph) {
 		BitSet[] result = new BitSet[2];
 		result[0] = new BitSet(); // concepts
 		result[1] = new BitSet(); // relations
@@ -728,8 +686,7 @@ public class StandardFunctions {
 	 * @param validRelations
 	 * @return
 	 */
-	public static BitSet[] getNeighbours(ONDEXConcept seed,
-			ONDEXGraph graph, Set<ONDEXRelation> validRelations) {
+	public static BitSet[] getNeighbours(ONDEXConcept seed, ONDEXGraph graph, Set<ONDEXRelation> validRelations) {
 		BitSet[] result = new BitSet[2];
 		result[0] = new BitSet(); // concepts
 		result[1] = new BitSet(); // relations
@@ -751,8 +708,7 @@ public class StandardFunctions {
 	 * @param graph
 	 * @return
 	 */
-	public static BitSet[] getNeighboursAtLevel(ONDEXConcept seed,
-			ONDEXGraph graph, int level) {
+	public static BitSet[] getNeighboursAtLevel(ONDEXConcept seed, ONDEXGraph graph, int level) {
 		BitSet[] result = new BitSet[2];
 		result[0] = new BitSet(); // concepts
 		result[1] = new BitSet(); // relations
@@ -760,7 +716,7 @@ public class StandardFunctions {
 		toProcess.set(seed.getId());
 		while (level > 0) {
 			BitSet toProcessNext = new BitSet();
-			for(int i=toProcess.nextSetBit(0); i>=0; i=toProcess.nextSetBit(i+1)) {
+			for (int i = toProcess.nextSetBit(0); i >= 0; i = toProcess.nextSetBit(i + 1)) {
 				BitSet[] temp = getNeighbours(i, graph);
 				temp[0].andNot(result[0]);
 				temp[1].andNot(result[1]);
@@ -786,9 +742,7 @@ public class StandardFunctions {
 	 * @param graph
 	 * @return
 	 */
-	public static BitSet[] getNeighboursAtLevel(ONDEXConcept seed,
-			ONDEXGraph graph, Set<ONDEXRelation> setOfTraversableRelations,
-			int level) {
+	public static BitSet[] getNeighboursAtLevel(ONDEXConcept seed, ONDEXGraph graph, Set<ONDEXRelation> setOfTraversableRelations, int level) {
 		BitSet[] result = new BitSet[2];
 		result[0] = new BitSet(); // concepts
 		result[1] = new BitSet(); // relations
@@ -796,9 +750,8 @@ public class StandardFunctions {
 		toProcess.set(seed.getId());
 		while (level > 0) {
 			BitSet toProcessNext = new BitSet();
-			for(int i=toProcess.nextSetBit(0); i>=0; i=toProcess.nextSetBit(i+1)) {
-				BitSet[] temp = getNeighbours(i, graph,
-						setOfTraversableRelations);
+			for (int i = toProcess.nextSetBit(0); i >= 0; i = toProcess.nextSetBit(i + 1)) {
+				BitSet[] temp = getNeighbours(i, graph, setOfTraversableRelations);
 				result[0].or(temp[0]);
 				result[1].or(temp[1]);
 				toProcessNext.or(temp[0]);
@@ -822,8 +775,7 @@ public class StandardFunctions {
 	 *            - concept classes
 	 * @return - an array of concepts that satisfy this condition
 	 */
-	public static ONDEXConcept[] getNodesByConceptClass(ONDEXRelation r,
-			Collection<ConceptClass> ccs) {
+	public static ONDEXConcept[] getNodesByConceptClass(ONDEXRelation r, Collection<ConceptClass> ccs) {
 		Set<ONDEXConcept> set = new HashSet<ONDEXConcept>();
 		ONDEXConcept c = r.getFromConcept();
 		if (ccs.contains(c.getOfType()))
@@ -864,8 +816,7 @@ public class StandardFunctions {
 	 *            - seed concept
 	 * @return - set of concepts directly connected to the seed concept
 	 */
-	public static Set<ONDEXConcept> getOtherNodes(ONDEXGraph graph,
-			ONDEXConcept c, RelationType... types) {
+	public static Set<ONDEXConcept> getOtherNodes(ONDEXGraph graph, ONDEXConcept c, RelationType... types) {
 		Set<RelationType> restriction = new HashSet<RelationType>();
 		boolean performCheck = false;
 		if (types != null && types.length > 0) {
@@ -892,14 +843,11 @@ public class StandardFunctions {
 	 *            - ignore retalions of these types
 	 * @return - set of relations
 	 */
-	public static final Set<ONDEXRelation> getOutgoingRelations(
-			ONDEXGraph graph, ONDEXConcept c, RelationType... exclude) {
-		Set<RelationType> toExclude = new HashSet<RelationType>(
-				Arrays.asList(exclude));
+	public static final Set<ONDEXRelation> getOutgoingRelations(ONDEXGraph graph, ONDEXConcept c, RelationType... exclude) {
+		Set<RelationType> toExclude = new HashSet<RelationType>(Arrays.asList(exclude));
 		Set<ONDEXRelation> result = new HashSet<ONDEXRelation>();
 		for (ONDEXRelation r : graph.getRelationsOfConcept(c)) {
-			if (r.getFromConcept().equals(c)
-					&& !toExclude.contains(r.getOfType()))
+			if (r.getFromConcept().equals(c) && !toExclude.contains(r.getOfType()))
 				result.add(r);
 		}
 		return result;
@@ -915,14 +863,11 @@ public class StandardFunctions {
 	 *            - concept
 	 * @return - set of relations
 	 */
-	public static final Set<ONDEXRelation> getOutgoingRelationsToConceptClass(
-			ONDEXGraph graph, ONDEXConcept c, ConceptClass... ccs) {
+	public static final Set<ONDEXRelation> getOutgoingRelationsToConceptClass(ONDEXGraph graph, ONDEXConcept c, ConceptClass... ccs) {
 		Set<ONDEXRelation> result = new HashSet<ONDEXRelation>();
 		Set<ConceptClass> test = new HashSet<ConceptClass>(Arrays.asList(ccs));
 		for (ONDEXRelation r : graph.getRelationsOfConcept(c)) {
-			if (r.getFromConcept().equals(c)
-					&& (test.size() == 0 || test.contains(r.getToConcept()
-							.getOfType())))
+			if (r.getFromConcept().equals(c) && (test.size() == 0 || test.contains(r.getToConcept().getOfType())))
 				result.add(r);
 		}
 		return result;
@@ -939,10 +884,8 @@ public class StandardFunctions {
 	 *            determine which relation to include in the view.
 	 * @return - resulting view
 	 */
-	public static Set<ONDEXRelation> getRelationsByTypes(ONDEXGraph graph,
-			List<String> types) {
-		Set<ONDEXRelation> result = BitSetFunctions.create(graph,
-				ONDEXRelation.class, new BitSet());
+	public static Set<ONDEXRelation> getRelationsByTypes(ONDEXGraph graph, List<String> types) {
+		Set<ONDEXRelation> result = BitSetFunctions.create(graph, ONDEXRelation.class, new BitSet());
 		ONDEXGraphMetaData meta = graph.getMetaData();
 		for (String type : types) {
 			RelationType rt = meta.getRelationType(type);
@@ -964,8 +907,7 @@ public class StandardFunctions {
 	 * 
 	 * @return - a list of subgraphs that answer the query.
 	 */
-	public static List<Subgraph> getSubgraphMatch(ONDEXGraph graph,
-			String[]... ccsRts) {
+	public static List<Subgraph> getSubgraphMatch(ONDEXGraph graph, String[]... ccsRts) {
 		List<Subgraph> result = new ArrayList<Subgraph>();
 		if (ccsRts == null || ccsRts.length == 0)
 			return result;
@@ -983,9 +925,7 @@ public class StandardFunctions {
 				}
 				Set<ONDEXConcept> newCandidates = new HashSet<ONDEXConcept>();
 				for (ONDEXConcept newSeed : candidates) {
-					Subgraph temp = getNeighbourhood(graph, newSeed,
-							convertRelationTypes(graph, relationTypes),
-							convertConceptClasses(graph, conceptClasses));
+					Subgraph temp = getNeighbourhood(graph, newSeed, convertRelationTypes(graph, relationTypes), convertConceptClasses(graph, conceptClasses));
 					newCandidates.addAll(temp.getConcepts());
 					sg.add(temp);
 				}
@@ -1007,8 +947,7 @@ public class StandardFunctions {
 	 *            - collection that will be checked for the presence of matches
 	 * @return true if an element was found , false otherwise
 	 */
-	public static final boolean hasMatch(Collection<?> toMatch,
-			Collection<?> toCheck) {
+	public static final boolean hasMatch(Collection<?> toMatch, Collection<?> toCheck) {
 		for (Object o : toCheck) {
 			if (toMatch.contains(o))
 				return true;
@@ -1042,8 +981,7 @@ public class StandardFunctions {
 	 *            - set of relations
 	 * @return - set of source concepts
 	 */
-	public static final Set<ONDEXConcept> relationsToSources(
-			Set<ONDEXRelation> rs) {
+	public static final Set<ONDEXConcept> relationsToSources(Set<ONDEXRelation> rs) {
 		Set<ONDEXConcept> result = new HashSet<ONDEXConcept>();
 		for (ONDEXRelation r : rs) {
 			ONDEXConcept from = r.getFromConcept();
@@ -1063,8 +1001,7 @@ public class StandardFunctions {
 	 *            - set of relations
 	 * @return - set of target concepts
 	 */
-	public static final Set<ONDEXConcept> relationsToTargets(
-			Set<ONDEXRelation> rs) {
+	public static final Set<ONDEXConcept> relationsToTargets(Set<ONDEXRelation> rs) {
 		Set<ONDEXConcept> result = new HashSet<ONDEXConcept>();
 		for (ONDEXRelation r : rs) {
 			ONDEXConcept from = r.getFromConcept();
