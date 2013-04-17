@@ -13,7 +13,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPOutputStream;
 
+import javanet.staxutils.IndentingXMLStreamWriter;
+
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.args.ArgumentDefinition;
@@ -28,8 +32,6 @@ import net.sourceforge.ondex.exception.type.AccessDeniedException;
 import net.sourceforge.ondex.exception.type.NullValueException;
 import net.sourceforge.ondex.export.ONDEXExport;
 
-import org.codehaus.stax2.XMLOutputFactory2;
-import org.codehaus.stax2.XMLStreamWriter2;
 
 /**
  * Exporter for the SBML format level 2.1
@@ -97,7 +99,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	// private static final String RDF_NS =
 	// "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
-	private void buildDocument(final XMLStreamWriter2 xmlw, final ONDEXGraph og)
+	private void buildDocument(final XMLStreamWriter xmlw, final ONDEXGraph og)
 			throws XMLStreamException, NullValueException,
 			AccessDeniedException {
 		xmlw.writeStartDocument("UTF-8", "1.0");
@@ -115,7 +117,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	}
 
 	@SuppressWarnings("unused")
-	private void buildDocument(XMLStreamWriter2 xmlw,
+	private void buildDocument(XMLStreamWriter xmlw,
 			Set<ONDEXConcept> concepts, Set<ONDEXRelation> relations)
 			throws XMLStreamException, NullValueException,
 			AccessDeniedException {
@@ -126,7 +128,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	}
 
 	@SuppressWarnings("unused")
-	private void buildMetaDataDocument(XMLStreamWriter2 xmlw,
+	private void buildMetaDataDocument(XMLStreamWriter xmlw,
 			ONDEXGraphMetaData md) {
 		System.err.println("MetaData Export not supported for class: "
 				+ this.getClass().toString());
@@ -392,7 +394,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * @throws NullValueException
 	 * @throws AccessDeniedException
 	 */
-	private void listOfReactions(XMLStreamWriter2 xmlw)
+	private void listOfReactions(XMLStreamWriter xmlw)
 			throws XMLStreamException, NullValueException,
 			AccessDeniedException {
 
@@ -482,7 +484,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * @throws NullValueException
 	 * @throws AccessDeniedException
 	 */
-	private void listOfSpecies(XMLStreamWriter2 xmlw)
+	private void listOfSpecies(XMLStreamWriter xmlw)
 			throws XMLStreamException, NullValueException,
 			AccessDeniedException {
 
@@ -559,9 +561,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 			InvalidPluginArgumentException {
 
 		// get the XML factory and file to write to
-		XMLOutputFactory2 xmlw = (XMLOutputFactory2) XMLOutputFactory2
-				.newInstance();
-		xmlw.configureForXmlConformance();
+		XMLOutputFactory xmlof = XMLOutputFactory.newInstance();
 		File file = new File((String) args
 				.getUniqueValue(FileArgumentDefinition.EXPORT_FILE));
 
@@ -593,9 +593,9 @@ public class Export extends ONDEXExport implements ArgumentNames {
 				// output file writer
 				outStream = new FileOutputStream(file);
 			}
-
-			XMLStreamWriter2 xmlStreamWriter = (XMLStreamWriter2) xmlw
-					.createXMLStreamWriter(outStream, "UTF-8");
+			
+			XMLStreamWriter xmlStreamWriter = new IndentingXMLStreamWriter(xmlof.createXMLStreamWriter(outStream , "UTF-8"));
+			//XMLStreamWriter xmlStreamWriter = (XMLStreamWriter) xmlw.createXMLStreamWriter(outStream, "UTF-8");
 
 			// start document build here
 			buildDocument(xmlStreamWriter, graph);
@@ -624,7 +624,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            XML stream
 	 * @throws XMLStreamException
 	 */
-	private void writeCompartments(XMLStreamWriter2 xmlw)
+	private void writeCompartments(XMLStreamWriter xmlw)
 			throws XMLStreamException {
 
 		// list contains only one element
@@ -645,7 +645,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * @throws NullValueException
 	 * @throws AccessDeniedException
 	 */
-	private void writeModel(XMLStreamWriter2 xmlw) throws XMLStreamException,
+	private void writeModel(XMLStreamWriter xmlw) throws XMLStreamException,
 			NullValueException, AccessDeniedException {
 
 		// info for model
@@ -672,7 +672,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            XML stream
 	 * @throws XMLStreamException
 	 */
-	private void writeNotes(XMLStreamWriter2 xmlw) throws XMLStreamException {
+	private void writeNotes(XMLStreamWriter xmlw) throws XMLStreamException {
 
 		xmlw.writeStartElement("notes");
 
@@ -704,7 +704,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            possible modifiers
 	 * @throws XMLStreamException
 	 */
-	private void writeReaction(XMLStreamWriter2 xmlw, String id, String name,
+	private void writeReaction(XMLStreamWriter xmlw, String id, String name,
 			String[][] lists) throws XMLStreamException {
 
 		// reaction specific info
@@ -729,7 +729,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 		xmlw.writeAttribute("xmlns", "http://www.w3.org/1998/Math/MathML");
 		xmlw.writeStartElement("cn");
 		xmlw.writeAttribute("type", "integer");
-		xmlw.writeRaw("1");
+		xmlw.writeCharacters("1");
 
 		xmlw.writeEndElement();// cn
 		xmlw.writeEndElement();// math
@@ -748,7 +748,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            current species id
 	 * @throws XMLStreamException
 	 */
-	private void writeSpecies(XMLStreamWriter2 xmlw, String name, String id,
+	private void writeSpecies(XMLStreamWriter xmlw, String name, String id,
 			String sbo) throws XMLStreamException {
 
 		// species info
@@ -775,7 +775,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            the actual list of species IDs
 	 * @throws XMLStreamException
 	 */
-	private void writeSpeciesRefs(XMLStreamWriter2 xmlw, String name,
+	private void writeSpeciesRefs(XMLStreamWriter xmlw, String name,
 			String[] list) throws XMLStreamException {
 		xmlw.writeStartElement(name);
 
