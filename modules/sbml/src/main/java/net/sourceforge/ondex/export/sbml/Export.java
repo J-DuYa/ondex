@@ -182,7 +182,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	public ArgumentDefinition<?>[] getArgumentDefinitions() {
 		return new ArgumentDefinition[] {
 				new FileArgumentDefinition(FileArgumentDefinition.EXPORT_FILE,
-						"SBML export file", true, true, false, false),
+						"SBML export file", true, false, false, false),
 				new FileArgumentDefinition(CONFIG_FILE_ARG,
 						CONFIG_FILE_ARG_DESC, false, true, false),
 				new CompressResultsArguementDefinition(EXPORT_AS_ZIP_FILE,
