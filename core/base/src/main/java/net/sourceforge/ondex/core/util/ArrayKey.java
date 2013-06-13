@@ -53,4 +53,9 @@ public class ArrayKey<T extends Object> {
     public boolean equals(Object key) {
         return key instanceof ArrayKey && Arrays.equals(array, ((ArrayKey<?>) key).getArray());
     }
+    
+    @Override
+    public String toString(){
+    	return Arrays.asList(array).toString();
+    }
 }
