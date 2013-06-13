@@ -314,6 +314,21 @@ public class MdHelper {
         }
         return result;
     }
+    
+    /**
+     * Return an array of EvidenceTypes that correspond to the ids in the metadata.
+     *
+     * @param graph  - ondex graph
+     * @param strIds - array of ids
+     * @return
+     */
+    public static AttributeName[] convertAttributeNames(final ONDEXGraph graph, final String[] strIds, final Class cls) {
+        final AttributeName[] result = new AttributeName[strIds.length];
+        for (int i = 0; i < strIds.length; i++) {
+            result[i] = createAttName(graph, strIds[i], cls);
+        }
+        return result;
+    }
 
     /**
      * Converts a collection of ids to a set of respective concepts
