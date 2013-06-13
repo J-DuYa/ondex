@@ -46,7 +46,11 @@
 			<version>4.01</version>
 			<scope>compile</scope>
 		</dependency>
-
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>12.0</version>
+		</dependency>
 		<!-- ONDEX deps -->
 		<dependency>
 			<groupId>net.sourceforge.ondex.core</groupId>
