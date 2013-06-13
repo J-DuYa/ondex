@@ -316,7 +316,7 @@ public class OVTK2PickingMousePlugin extends PickingGraphMousePlugin<ONDEXConcep
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		super.mouseDragged(e);
+		
 
 		// hide possible popups
 		cleanPopups();
@@ -330,6 +330,7 @@ public class OVTK2PickingMousePlugin extends PickingGraphMousePlugin<ONDEXConcep
 			vv.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			dragged = true;
 		}
+		super.mouseDragged(e);
 	}
 
 	/**

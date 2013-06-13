@@ -57,10 +57,8 @@ import edu.uci.ics.jung.visualization.control.ViewScalingControl;
  * @author taubertj, lysenkoa
  * @version 27.05.2008
  */
-public class OVTK2DefaultModalGraphMouse extends
-		AnnotatingModalGraphMouse<ONDEXConcept, ONDEXRelation> implements
-		ActionListener, OVTK2GraphMouse {
-	
+public class OVTK2DefaultModalGraphMouse extends AnnotatingModalGraphMouse<ONDEXConcept, ONDEXRelation> implements ActionListener, OVTK2GraphMouse {
+
 	public static final String KEY = "graphmouse";
 
 	private PopupVertexEdgeMenuMousePlugin<ONDEXConcept, ONDEXRelation> myPlugin = null;
@@ -72,7 +70,7 @@ public class OVTK2DefaultModalGraphMouse extends
 	private JInternalFrame toolBar = null;
 
 	private OVTK2Viewer viewer = null;
-	
+
 	/**
 	 * Initialises plugins for a given OVTK2Viewer. Every viewer has its own
 	 * mouse.
@@ -80,11 +78,8 @@ public class OVTK2DefaultModalGraphMouse extends
 	 * @param viewer
 	 *            current OVTK2Viewer
 	 */
-	public OVTK2DefaultModalGraphMouse(
-			OVTK2Viewer viewer,
-			AnnotatingGraphMousePlugin<ONDEXConcept, ONDEXRelation> annotatingPlugin) {
-		super(viewer.getVisualizationViewer().getRenderContext(),
-				annotatingPlugin);
+	public OVTK2DefaultModalGraphMouse(OVTK2Viewer viewer, AnnotatingGraphMousePlugin<ONDEXConcept, ONDEXRelation> annotatingPlugin) {
+		super(viewer.getVisualizationViewer().getRenderContext(), annotatingPlugin);
 		this.viewer = viewer;
 		modeMenu = null;
 		modeMenu = this.getModeMenu();
@@ -103,8 +98,7 @@ public class OVTK2DefaultModalGraphMouse extends
 		this.add(myPlugin); // Add our new producer to the mouse
 
 		// picking mouse producer with mouse over highlighting
-		this.pickingPlugin = new OVTK2PickingMousePlugin(
-				viewer.getVisualizationViewer());
+		this.pickingPlugin = new OVTK2PickingMousePlugin(viewer.getVisualizationViewer());
 
 		// set default behaviour
 		setViewScaling(false);
@@ -126,8 +120,7 @@ public class OVTK2DefaultModalGraphMouse extends
 		// System.out.println(graph.getAnnotations());
 
 		// pass annotations to AnnotationControls
-		if (cmd.equals("load") && graph.getAnnotations() != null
-				&& graph.getAnnotations().containsKey(KEY)) {
+		if (cmd.equals("load") && graph.getAnnotations() != null && graph.getAnnotations().containsKey(KEY)) {
 
 			// get current annotation from graph
 			String xml = graph.getAnnotations().get(KEY);
@@ -138,19 +131,15 @@ public class OVTK2DefaultModalGraphMouse extends
 			Set<Annotation> annos = new HashSet<Annotation>();
 
 			// configure XML input
-			System.setProperty("javax.xml.stream.XMLInputFactory",
-					"com.ctc.wstx.stax.WstxInputFactory");
-			XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2
-					.newInstance();
+			System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+			XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2.newInstance();
 			xmlInput.configureForSpeed();
 
 			// parse from a String
-			final ByteArrayInputStream inStream = new ByteArrayInputStream(
-					xml.getBytes());
+			final ByteArrayInputStream inStream = new ByteArrayInputStream(xml.getBytes());
 			try {
 				// configure Parser
-				XMLStreamReader2 xmlReadStream = (XMLStreamReader2) xmlInput
-						.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
+				XMLStreamReader2 xmlReadStream = (XMLStreamReader2) xmlInput.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
 
 				// de-serialise annotations from XML
 				AnnotationXMLReader.read(xmlReadStream, annos);
@@ -175,33 +164,27 @@ public class OVTK2DefaultModalGraphMouse extends
 		else if (cmd.equals("save")) {
 
 			// annotations of lower layer
-			AnnotationPaintable lower = manager
-					.getAnnotationPaintable(Annotation.Layer.LOWER);
+			AnnotationPaintable lower = manager.getAnnotationPaintable(Annotation.Layer.LOWER);
 
 			// annotations of upper layer
-			AnnotationPaintable upper = manager
-					.getAnnotationPaintable(Annotation.Layer.UPPER);
+			AnnotationPaintable upper = manager.getAnnotationPaintable(Annotation.Layer.UPPER);
 
 			// all annotations of lower layer
-			Set<Annotation> annos = new HashSet<Annotation>(
-					lower.getAnnotations());
+			Set<Annotation> annos = new HashSet<Annotation>(lower.getAnnotations());
 
 			// all annotations of upper layer
 			annos.addAll(upper.getAnnotations());
 
 			// configure XML output
-			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2
-					.newInstance();
+			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
 			xmlOutput.configureForSpeed();
-			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES,
-					false);
+			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES, false);
 
 			// output goes into a String
 			final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 			try {
 				// configure writer
-				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput
-						.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
+				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
 
 				// serialise Annotations to XML
 				AnnotationXMLWriter.write(xmlWriteStream, annos);
@@ -242,25 +225,19 @@ public class OVTK2DefaultModalGraphMouse extends
 		}
 		if (e.getSource() instanceof VisualizationViewer<?, ?>) {
 
-			Layout<ONDEXConcept, ONDEXRelation> layout = viewer
-					.getVisualizationViewer().getGraphLayout();
-			if (super.mode == Mode.TRANSFORMING
-					|| super.mode == Mode.ANNOTATING) {
+			Layout<ONDEXConcept, ONDEXRelation> layout = viewer.getVisualizationViewer().getGraphLayout();
+			if (super.mode == Mode.TRANSFORMING || super.mode == Mode.ANNOTATING) {
 				super.mousePressed(e);
 				return;
 			}
 			restoreMode = true;
 			Point2D p = e.getPoint();
 			// is pick support available
-			GraphElementAccessor<ONDEXConcept, ONDEXRelation> pickSupport = viewer
-					.getVisualizationViewer().getPickSupport();
-			if (pickSupport != null
-					&& (pickSupport.getEdge(layout, p.getX(), p.getY()) == null && pickSupport
-							.getVertex(layout, p.getX(), p.getY()) == null)) {
+			GraphElementAccessor<ONDEXConcept, ONDEXRelation> pickSupport = viewer.getVisualizationViewer().getPickSupport();
+			if (pickSupport != null && (pickSupport.getEdge(layout, p.getX(), p.getY()) == null && pickSupport.getVertex(layout, p.getX(), p.getY()) == null)) {
 				viewer.getVisualizationViewer().getPickedVertexState().clear();
 				viewer.getVisualizationViewer().getPickedEdgeState().clear();
-				((ModalGraphMouse) viewer.getVisualizationViewer()
-						.getGraphMouse()).setMode(Mode.TRANSFORMING);
+				((ModalGraphMouse) viewer.getVisualizationViewer().getGraphMouse()).setMode(Mode.TRANSFORMING);
 			}
 		}
 		super.mousePressed(e);
@@ -271,8 +248,7 @@ public class OVTK2DefaultModalGraphMouse extends
 		if (restoreMode == true) {
 			restoreMode = false;
 			if (e.getSource() instanceof VisualizationViewer<?, ?>) {
-				VisualizationViewer<?, ?> vv = (VisualizationViewer<?, ?>) e
-						.getSource();
+				VisualizationViewer<?, ?> vv = (VisualizationViewer<?, ?>) e.getSource();
 				((ModalGraphMouse) vv.getGraphMouse()).setMode(Mode.PICKING);
 			}
 		}
@@ -299,16 +275,11 @@ public class OVTK2DefaultModalGraphMouse extends
 		} else if (mode == Mode.PICKING) {
 			this.add(myPlugin);
 		} else if (mode == Mode.ANNOTATING) {
-			viewer.getVisualizationViewer().setCursor(
-					this.annotatingPlugin.getCursor());
+			viewer.getVisualizationViewer().setCursor(this.annotatingPlugin.getCursor());
 
-			AnnotationControls<ONDEXConcept, ONDEXRelation> annotationControls = new AnnotationControls<ONDEXConcept, ONDEXRelation>(
-					annotatingPlugin);
+			AnnotationControls<ONDEXConcept, ONDEXRelation> annotationControls = new AnnotationControls<ONDEXConcept, ONDEXRelation>(annotatingPlugin);
 
-			toolBar = new JInternalFrame(
-					Config.language
-							.getProperty("Viewer.ToolBar.AnnotationControls"),
-					false, true, false, true);
+			toolBar = new JInternalFrame(Config.language.getProperty("Viewer.ToolBar.AnnotationControls"), false, true, false, true);
 			toolBar.setLayout(new FlowLayout());
 			toolBar.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 			toolBar.add(annotationControls.getAnnotationsToolBar());
@@ -327,7 +298,8 @@ public class OVTK2DefaultModalGraphMouse extends
 	}
 
 	/**
-	 * @param scaler the scaler to set
+	 * @param scaler
+	 *            the scaler to set
 	 */
 	@Override
 	public void setScaler(ScalingControl scaler) {
