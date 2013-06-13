@@ -108,7 +108,7 @@ public class Parser extends net.sourceforge.ondex.parser.sbml2.Parser {
     public ArgumentDefinition<?>[] getArgumentDefinitions() {
         return new ArgumentDefinition<?>[]{
                 new FileArgumentDefinition(METADATA_ARG, METADATA_ARG_DESC,true, true, false, true),
-                new FileArgumentDefinition(DATASOURCE_ARG, DATA_ARG_DESC,  true, true, false, true),
+                new FileArgumentDefinition(DATA_ARG, DATA_ARG_DESC,  true, true, false, true),
                 new StringArgumentDefinition(IMPD_FULLNAME_ARG, IMPD_FULLNAME_ARG_DESC, true, "IMPD", false),
                 new StringArgumentDefinition(IMPD_DESCRIPTION_ARG, IMPD_DESCRIPTION_ARG_DESC, true, "", false),
                 new StringArgumentDefinition(DATASOURCE_ARG, DATASOURCE_ARG_DESC, true, "unknown", false)
@@ -154,7 +154,7 @@ public class Parser extends net.sourceforge.ondex.parser.sbml2.Parser {
 
         log("SBML2a anStoch created");
 
-        List<String> fileNames = args.getObjectValueList(FileArgumentDefinition.INPUT_FILE, String.class);
+        List<String> fileNames = args.getObjectValueList(DATA_ARG, String.class);
 
         // unable to find any files to process
         if (fileNames == null || fileNames.size() == 0) {
@@ -234,8 +234,8 @@ public class Parser extends net.sourceforge.ondex.parser.sbml2.Parser {
                 concept.createAttribute(compartmentTypeA, compartment.getCompartmentType(), true);
             }
 
-            // compartment spatal dimensions as an attribute
-            concept.createAttribute(spatialDimensionsA, compartment.getSpatialDimensions(), false);
+            //compartment spatal dimensions as an attribute
+            concept.createAttribute(spatialDimensionsA, (long)compartment.getSpatialDimensions(), false);
 
             // compartment size as an attribute
             if (compartment.isSetSize()) {
@@ -264,10 +264,10 @@ public class Parser extends net.sourceforge.ondex.parser.sbml2.Parser {
     private Map<String, ONDEXConcept> processSpecies() throws PluginConfigurationException {
         Map<String, ONDEXConcept> speciesById = new HashMap<String, ONDEXConcept>();
 
-        AttributeName initialAmount = mdu.safeFetchAttributeName("initialAmount", String.class);
-        AttributeName initialConcentration = mdu.safeFetchAttributeName("initialConcentration", String.class);
-        AttributeName constantAmount = mdu.safeFetchAttributeName("constantAmount", String.class);
-        AttributeName boundaryCondition = mdu.safeFetchAttributeName("boundaryCondition", String.class);
+        AttributeName initialAmount = mdu.safeFetchAttributeName("initialAmount", Double.class);
+        AttributeName initialConcentration = mdu.safeFetchAttributeName("initialConcentration", Double.class);
+        AttributeName constantAmount = mdu.safeFetchAttributeName("constantAmount", Boolean.class);
+        AttributeName boundaryCondition = mdu.safeFetchAttributeName("boundaryCondition", Boolean.class);
         RelationType locatedIn = mdu.safeFetchRelationType("located_in", "located_in");
         DataSource dataSourceMips = mdu.safeFetchDataSource("MIPS");
 
@@ -344,8 +344,8 @@ public class Parser extends net.sourceforge.ondex.parser.sbml2.Parser {
 
             ConceptClass cc = determineCC(reaction, TypeOfConcept.REACTION);
             RelationType hasReactantR = determineRT(reaction, TypeOfRelation.REACTANT);
-            RelationType hasProductR = determineRT(reaction, TypeOfRelation.MODIFIER);
-            RelationType modifiesR = determineRT(reaction, TypeOfRelation.PRODUCT);
+            RelationType hasProductR = determineRT(reaction, TypeOfRelation.PRODUCT);
+            RelationType modifiesR = determineRT(reaction, TypeOfRelation.MODIFIER);
 
             if (cc != null) {
                 ONDEXConcept reactionC = graph.getFactory().createConcept(reaction.getId(), dataSourceSBML, cc, etSBML);

@@ -12,7 +12,7 @@ package net.sourceforge.ondex.parser.sbml2a;
 public enum TypeOfRelation {
     REACTANT("taken","consumed_by"),
     PRODUCT("modifies","produced_by"),
-    MODIFIER("given","modified_by");
+    MODIFIER("given","modifies");
 
     private String modifier;
 
