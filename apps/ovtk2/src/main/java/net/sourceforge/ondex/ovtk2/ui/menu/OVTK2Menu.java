@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
@@ -33,13 +34,13 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JRootPane;
 
-import net.sourceforge.ondex.core.ONDEXGraph;
 import net.sourceforge.ondex.ovtk2.config.Config;
 import net.sourceforge.ondex.ovtk2.config.OVTK2PluginLoader;
 import net.sourceforge.ondex.ovtk2.graph.ONDEXEdgeColors;
@@ -49,10 +50,8 @@ import net.sourceforge.ondex.ovtk2.graph.ONDEXNodeFillPaint;
 import net.sourceforge.ondex.ovtk2.graph.ONDEXNodeFillPaint.NodeFillPaintSelection;
 import net.sourceforge.ondex.ovtk2.graph.ONDEXNodeShapes.NodeShapeSelection;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2Desktop;
-import net.sourceforge.ondex.ovtk2.ui.OVTK2Desktop.Position;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2MenuBar;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2PropertiesAggregator;
-import net.sourceforge.ondex.ovtk2.ui.OVTK2Viewer;
 import net.sourceforge.ondex.ovtk2.ui.dialog.WelcomeDialog;
 import net.sourceforge.ondex.ovtk2.ui.menu.FileHistory.IFileHistory;
 import net.sourceforge.ondex.ovtk2.ui.menu.actions.AnnotatorMenuAction;
@@ -663,23 +662,30 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		file.add(save);
 		
 		try {
-			final Class cls = Class.forName("net.sourceforge.ondex.ovtk2.io.TestSpreadsheet");
+			final Class cls = Class.forName("net.sourceforge.ondex.ovtk2.io.FlatFileNetworkImporter");
 			System.err.println("Found class");
-			JMenuItem item = new JMenuItem("Import table");
+			JMenuItem item = new JMenuItem("Import network as flat file");
 			file.add(item);
 			item.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
 						Object obj = cls.newInstance();
-						Method m = cls.getMethod("setVisible", new Class[]{boolean.class});
-						m.invoke(obj, new Object[]{true});
-						JFrame frame = (JFrame)obj;
+						JInternalFrame frame = (JInternalFrame)obj;
 						Rectangle visible =  OVTK2Desktop.getInstance().getDesktopPane().getVisibleRect();
 						Dimension size = frame.getSize();
 						frame.setLocation((visible.width / 2) - (size.width / 2), (visible.height / 2) - (size.height / 2));
 						if (size.height > visible.height)
 							frame.setLocation(frame.getX(), 0);
+						frame.setVisible(true);
+						
+						desktop.getDesktopPane().add(frame);
+						try {
+							frame.setSelected(true);
+						} catch (PropertyVetoException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					} catch (InstantiationException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -689,13 +695,7 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 					} catch (SecurityException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} catch (NoSuchMethodException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					} catch (IllegalArgumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (InvocationTargetException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
