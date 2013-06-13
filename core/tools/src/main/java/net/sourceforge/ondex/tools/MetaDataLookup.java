@@ -85,7 +85,9 @@ public final class MetaDataLookup<M extends MetaData> extends HashMap<String, M>
             }
         }
         if (size() == 0) {
-            throw new IOException("section " + type + " empty or missing in file " + file + "!");
+        	if(!type.equals(MetaDataType.RELATION_TYPE)){
+        		throw new IOException("section " + type + " empty or missing in file " + file + "!");
+        	}
         }
     }
 
