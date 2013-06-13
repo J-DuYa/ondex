@@ -32,23 +32,21 @@ import net.sourceforge.ondex.exception.type.AccessDeniedException;
 import net.sourceforge.ondex.exception.type.NullValueException;
 import net.sourceforge.ondex.export.ONDEXExport;
 
-
 /**
  * Exporter for the SBML format level 2.1
  * 
- * @author lysenkoa
  * @date 13.06.07
  */
 public class Export extends ONDEXExport implements ArgumentNames {
 
 	public static final String COMPARTMENT = "compartment";
-	
+
 	public static final String REACTION = "reaction";
 
 	public static final String SPECIES = "species";
 
 	public static final String LISTOFCOMPARTMENTS = "listOfCompartments";
-	
+
 	public static final String LISTOFREACTIONS = "listOfReactions";
 
 	public static final String LISTOFSPECIES = "listOfSpecies";
@@ -99,9 +97,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	// private static final String RDF_NS =
 	// "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
-	private void buildDocument(final XMLStreamWriter xmlw, final ONDEXGraph og)
-			throws XMLStreamException, NullValueException,
-			AccessDeniedException {
+	private void buildDocument(final XMLStreamWriter xmlw, final ONDEXGraph og) throws XMLStreamException, NullValueException, AccessDeniedException {
 		xmlw.writeStartDocument("UTF-8", "1.0");
 		xmlw.writeStartElement("sbml");
 		xmlw.writeDefaultNamespace(SBML_NS); // this will be xmlns prefix
@@ -117,10 +113,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	}
 
 	@SuppressWarnings("unused")
-	private void buildDocument(XMLStreamWriter xmlw,
-			Set<ONDEXConcept> concepts, Set<ONDEXRelation> relations)
-			throws XMLStreamException, NullValueException,
-			AccessDeniedException {
+	private void buildDocument(XMLStreamWriter xmlw, Set<ONDEXConcept> concepts, Set<ONDEXRelation> relations) throws XMLStreamException, NullValueException, AccessDeniedException {
 		sourceConcepts = concepts;
 		sourceRelations = relations;
 		proc_subset = true;
@@ -128,10 +121,8 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	}
 
 	@SuppressWarnings("unused")
-	private void buildMetaDataDocument(XMLStreamWriter xmlw,
-			ONDEXGraphMetaData md) {
-		System.err.println("MetaData Export not supported for class: "
-				+ this.getClass().toString());
+	private void buildMetaDataDocument(XMLStreamWriter xmlw, ONDEXGraphMetaData md) {
+		System.err.println("MetaData Export not supported for class: " + this.getClass().toString());
 	}
 
 	/**
@@ -180,13 +171,8 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * @return Returns arguments for the exporter
 	 */
 	public ArgumentDefinition<?>[] getArgumentDefinitions() {
-		return new ArgumentDefinition[] {
-				new FileArgumentDefinition(FileArgumentDefinition.EXPORT_FILE,
-						"SBML export file", true, false, false, false),
-				new FileArgumentDefinition(CONFIG_FILE_ARG,
-						CONFIG_FILE_ARG_DESC, false, true, false),
-				new CompressResultsArguementDefinition(EXPORT_AS_ZIP_FILE,
-						EXPORT_AS_ZIP_FILE_DESC, false, false) };
+		return new ArgumentDefinition[] { new FileArgumentDefinition(FileArgumentDefinition.EXPORT_FILE, "SBML export file", true, false, false, false), new FileArgumentDefinition(CONFIG_FILE_ARG, CONFIG_FILE_ARG_DESC, false, true, false),
+				new CompressResultsArguementDefinition(EXPORT_AS_ZIP_FILE, EXPORT_AS_ZIP_FILE_DESC, false, false) };
 	}
 
 	/**
@@ -219,15 +205,11 @@ public class Export extends ONDEXExport implements ArgumentNames {
 				if (relationType == null)
 					relationType = r.getOfType().getId();
 
-				String targetRelationType = getTarget(r).getOfType()
-						.getFullname();
+				String targetRelationType = getTarget(r).getOfType().getFullname();
 				if (targetRelationType == null)
 					targetRelationType = getTarget(r).getOfType().getId();
 
-				if (relationTypeToRegArc.contains(relationType)
-						&& !relationTypeToAnnotation.contains(relationType)
-						&& !getTarget(r).equals(c)
-						&& !conceptClassToReaction.contains(targetRelationType)) {
+				if (relationTypeToRegArc.contains(relationType) && !relationTypeToAnnotation.contains(relationType) && !getTarget(r).equals(c) && !conceptClassToReaction.contains(targetRelationType)) {
 					output.add(r);
 				}
 			}
@@ -250,8 +232,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 				if (relationType == null)
 					relationType = r.getOfType().getId();
 
-				if (relationTypeToRegArc.contains(relationType)
-						&& !getSource(r).equals(c)) {
+				if (relationTypeToRegArc.contains(relationType) && !getSource(r).equals(c)) {
 					output.add(getSource(r));
 				}
 			}
@@ -321,9 +302,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 				if (relationType == null)
 					relationType = r.getOfType().getId();
 
-				if (!relationTypeToRegArc.contains(relationType)
-						&& !relationTypeToAnnotation.contains(relationType)
-						&& !getSource(r).equals(c)) {
+				if (!relationTypeToRegArc.contains(relationType) && !relationTypeToAnnotation.contains(relationType) && !getSource(r).equals(c)) {
 					output.add(getSource(r));
 				}
 			}
@@ -358,8 +337,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            ONDEXConcept
 	 * @return connecting target concepts
 	 */
-	private Set<ONDEXConcept> getTargets(ONDEXConcept c)
-			throws NullValueException, AccessDeniedException {
+	private Set<ONDEXConcept> getTargets(ONDEXConcept c) throws NullValueException, AccessDeniedException {
 		Set<ONDEXConcept> output = new HashSet<ONDEXConcept>();
 		for (ONDEXRelation r : graph.getRelationsOfConcept(c)) {
 			if (!proc_subset || sourceRelations.contains(r)) {
@@ -367,9 +345,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 				if (relationType == null)
 					relationType = r.getOfType().getId();
 
-				if (!relationTypeToRegArc.contains(relationType)
-						&& !relationTypeToAnnotation.contains(relationType)
-						&& !getTarget(r).equals(c)) {
+				if (!relationTypeToRegArc.contains(relationType) && !relationTypeToAnnotation.contains(relationType) && !getTarget(r).equals(c)) {
 					output.add(getTarget(r));
 				}
 			}
@@ -394,9 +370,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * @throws NullValueException
 	 * @throws AccessDeniedException
 	 */
-	private void listOfReactions(XMLStreamWriter xmlw)
-			throws XMLStreamException, NullValueException,
-			AccessDeniedException {
+	private void listOfReactions(XMLStreamWriter xmlw) throws XMLStreamException, NullValueException, AccessDeniedException {
 
 		// every species or reaction needs an ID
 		int id_num = 1;
@@ -428,8 +402,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 			processedRelations.addAll(graph.getRelationsOfConcept(c));
 
 			// write reaction to SBML
-			String[][] lists = new String[][] { sourceIds, targetIds,
-					modifierIds };
+			String[][] lists = new String[][] { sourceIds, targetIds, modifierIds };
 			writeReaction(xmlw, "r" + (id_num++), generateName(c), lists);
 		}
 
@@ -449,25 +422,17 @@ public class Export extends ONDEXExport implements ArgumentNames {
 			if (relationType == null)
 				relationType = r.getOfType().getId();
 
-			if (relationTypeToRegArc.contains(relationType)
-					&& !processedRelations.contains(r)) {
+			if (relationTypeToRegArc.contains(relationType) && !processedRelations.contains(r)) {
 
 				// QUESTION: Why do we need a dummy source here?
-				String[][] lists = new String[][] {
-						new String[] { "s" + dummy_source_id++ },
-						new String[] { "m" + getTarget(r).getId() },
-						new String[] { "m" + getSource(r).getId() } };
+				String[][] lists = new String[][] { new String[] { "s" + dummy_source_id++ }, new String[] { "m" + getTarget(r).getId() }, new String[] { "m" + getSource(r).getId() } };
 				writeReaction(xmlw, "r" + (id_num++), relationType, lists);
 			}
 
-			else if (!relationTypeToAnnotation.contains(relationType)
-					&& !processedRelations.contains(r)) {
+			else if (!relationTypeToAnnotation.contains(relationType) && !processedRelations.contains(r)) {
 
 				// simplest reaction with source and target, no modifier
-				String[][] lists = new String[][] {
-						new String[] { "m" + getSource(r).getId() },
-						new String[] { "m" + getTarget(r).getId() },
-						new String[] {} };
+				String[][] lists = new String[][] { new String[] { "m" + getSource(r).getId() }, new String[] { "m" + getTarget(r).getId() }, new String[] {} };
 				writeReaction(xmlw, "r" + (id_num++), relationType, lists);
 			}
 		}
@@ -484,9 +449,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * @throws NullValueException
 	 * @throws AccessDeniedException
 	 */
-	private void listOfSpecies(XMLStreamWriter xmlw)
-			throws XMLStreamException, NullValueException,
-			AccessDeniedException {
+	private void listOfSpecies(XMLStreamWriter xmlw) throws XMLStreamException, NullValueException, AccessDeniedException {
 
 		// every species needs an ID
 		int dummy_species_id = 1;
@@ -523,13 +486,11 @@ public class Export extends ONDEXExport implements ArgumentNames {
 
 				// here is a reaction without any reactant, create a dummy
 				if (getSources(c).size() < 1)
-					writeSpecies(xmlw, "Unknown reactant", "d"
-							+ (dummy_species_id++), sbo);
+					writeSpecies(xmlw, "Unknown reactant", "d" + (dummy_species_id++), sbo);
 
 				// here is a reaction without any product, create a dummy
 				if (getTargets(c).size() < 1)
-					writeSpecies(xmlw, "Unknown product", "d"
-							+ (dummy_species_id++), sbo);
+					writeSpecies(xmlw, "Unknown product", "d" + (dummy_species_id++), sbo);
 
 				// mark this concept as a reaction
 				conceptsToReactions.add(c);
@@ -557,18 +518,15 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * Starts the export process.
 	 */
 	@Override
-	public void start() throws NullValueException, AccessDeniedException,
-			InvalidPluginArgumentException {
+	public void start() throws NullValueException, AccessDeniedException, InvalidPluginArgumentException {
 
 		// get the XML factory and file to write to
 		XMLOutputFactory xmlof = XMLOutputFactory.newInstance();
-		File file = new File((String) args
-				.getUniqueValue(FileArgumentDefinition.EXPORT_FILE));
+		File file = new File((String) args.getUniqueValue(FileArgumentDefinition.EXPORT_FILE));
 
 		// is optional
 		if (args.getOptions().containsKey(CONFIG_FILE_ARG)) {
-			ConfigReader config = new ConfigReader((String) args
-					.getUniqueValue(CONFIG_FILE_ARG));
+			ConfigReader config = new ConfigReader((String) args.getUniqueValue(CONFIG_FILE_ARG));
 			conceptClassToReaction = config.getConceptClassToReaction();
 			conceptClassToAnnotation = config.getConceptClassToAnnotation();
 			relationTypeToRegArc = config.getRelationTypeToRegArc();
@@ -593,9 +551,10 @@ public class Export extends ONDEXExport implements ArgumentNames {
 				// output file writer
 				outStream = new FileOutputStream(file);
 			}
-			
-			XMLStreamWriter xmlStreamWriter = new IndentingXMLStreamWriter(xmlof.createXMLStreamWriter(outStream , "UTF-8"));
-			//XMLStreamWriter xmlStreamWriter = (XMLStreamWriter) xmlw.createXMLStreamWriter(outStream, "UTF-8");
+
+			XMLStreamWriter xmlStreamWriter = new IndentingXMLStreamWriter(xmlof.createXMLStreamWriter(outStream, "UTF-8"));
+			// XMLStreamWriter xmlStreamWriter = (XMLStreamWriter)
+			// xmlw.createXMLStreamWriter(outStream, "UTF-8");
 
 			// start document build here
 			buildDocument(xmlStreamWriter, graph);
@@ -624,8 +583,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            XML stream
 	 * @throws XMLStreamException
 	 */
-	private void writeCompartments(XMLStreamWriter xmlw)
-			throws XMLStreamException {
+	private void writeCompartments(XMLStreamWriter xmlw) throws XMLStreamException {
 
 		// list contains only one element
 		xmlw.writeStartElement(LISTOFCOMPARTMENTS);
@@ -645,8 +603,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 * @throws NullValueException
 	 * @throws AccessDeniedException
 	 */
-	private void writeModel(XMLStreamWriter xmlw) throws XMLStreamException,
-			NullValueException, AccessDeniedException {
+	private void writeModel(XMLStreamWriter xmlw) throws XMLStreamException, NullValueException, AccessDeniedException {
 
 		// info for model
 		xmlw.writeStartElement("model");
@@ -682,8 +639,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 
 		// some provenance info here
 		xmlw.writeStartElement("p");
-		xmlw
-				.writeCharacters("Written as part of an ONDEX (url http://ondex.org/) export");
+		xmlw.writeCharacters("Written as part of an ONDEX (url http://ondex.org/) export");
 
 		xmlw.writeEndElement();// p
 		xmlw.writeEndElement();// body
@@ -704,8 +660,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            possible modifiers
 	 * @throws XMLStreamException
 	 */
-	private void writeReaction(XMLStreamWriter xmlw, String id, String name,
-			String[][] lists) throws XMLStreamException {
+	private void writeReaction(XMLStreamWriter xmlw, String id, String name, String[][] lists) throws XMLStreamException {
 
 		// reaction specific info
 		xmlw.writeStartElement(REACTION);
@@ -748,8 +703,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            current species id
 	 * @throws XMLStreamException
 	 */
-	private void writeSpecies(XMLStreamWriter xmlw, String name, String id,
-			String sbo) throws XMLStreamException {
+	private void writeSpecies(XMLStreamWriter xmlw, String name, String id, String sbo) throws XMLStreamException {
 
 		// species info
 		xmlw.writeStartElement(SPECIES);
@@ -775,8 +729,7 @@ public class Export extends ONDEXExport implements ArgumentNames {
 	 *            the actual list of species IDs
 	 * @throws XMLStreamException
 	 */
-	private void writeSpeciesRefs(XMLStreamWriter xmlw, String name,
-			String[] list) throws XMLStreamException {
+	private void writeSpeciesRefs(XMLStreamWriter xmlw, String name, String[] list) throws XMLStreamException {
 		xmlw.writeStartElement(name);
 
 		// decide what type it is
