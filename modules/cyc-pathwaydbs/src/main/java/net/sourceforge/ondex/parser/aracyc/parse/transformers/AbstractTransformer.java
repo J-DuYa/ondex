@@ -224,6 +224,7 @@ public abstract class AbstractTransformer {
 	}
 
 	private static Pattern htmlTags = Pattern.compile("<.*?>");
+	//htmlTags.matcher(node.getUniqueId()).replaceAll("");
 
 	/**
 	 * adds common details to a concept. Such as uniqueId, commonname,
