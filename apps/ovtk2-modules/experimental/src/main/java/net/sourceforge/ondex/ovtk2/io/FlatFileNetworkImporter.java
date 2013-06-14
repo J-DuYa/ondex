@@ -14,6 +14,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import net.sourceforge.ondex.core.AttributeName;
 import net.sourceforge.ondex.core.ConceptAccession;
@@ -178,7 +180,10 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
                 "A", "B", "C", "D"
             }
         ));
+        tblNodes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         jScrollPane1.setViewportView(tblNodes);
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         jLabel1.setText("File to import (tab-delimited):");
 
@@ -420,6 +425,8 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
             }
         ));
         jScrollPane5.setViewportView(tblEdges);
+        jScrollPane5.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane5.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         chkEdgesCreateEdges.setText("create edges if missing");
 		 chkEdgesCreateEdges.addActionListener(new java.awt.event.ActionListener() {
@@ -752,6 +759,14 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
 		 Class [] cls = new Class[title.length];
 		 while((line = br.readLine()) != null && finished == false){
 			 String [] data = line.split("\t");
+			 if(data.length < title.length){
+				 data = Arrays.copyOf(data, title.length);
+				 for(int i = 0; i < title.length; i++){
+					 if(data[i] == null){
+						 data[i] = "";
+					 }
+				 }
+			 }
 			 for(int i = 1; i < title.length; i++){
 				 if(cls[i] == null){
 					 if(!data[i].trim().equals("")){
@@ -835,6 +850,14 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
 				 SetMultimap<Integer, String> ext =  Multimaps.newSetMultimap(Maps.<Integer, Collection<String>> newHashMap(), DefaultSuppliers.set(String.class));
 				 while((line = br.readLine()) != null){
 					 String [] data = line.split("\t");
+					 if(data.length < title.length){
+						 data = Arrays.copyOf(data, title.length);
+						 for(int i = 0; i < title.length; i++){
+							 if(data[i] == null){
+								 data[i] = "";
+							 }
+						 }
+					 }
 					 for(Integer i : columns){
 						 if(!data[i].equals("")){
 							 ext.put(i, data[i]); 
@@ -861,6 +884,14 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
 		 line = br.readLine();
 		 while((line = br.readLine()) != null){
 			 String [] data = line.split("\t");
+			 if(data.length < title.length){
+				 data = Arrays.copyOf(data, title.length);
+				 for(int i = 0; i < title.length; i++){
+					 if(data[i] == null){
+						 data[i] = "";
+					 }
+				 }
+			 }
 			 if(!data[0].trim().equals("")){
 				 Set<ONDEXConcept> set = index.get(data[0]);
 				 if(set == null){
@@ -968,6 +999,12 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
 		 Class [] cls = new Class[title.length];
 		 while((line = br.readLine()) != null && finished == false){
 			 String [] data = line.split("\t");
+			 if(data.length < title.length){
+				 data = Arrays.copyOf(data, title.length);
+				 for(int i = data.length-1; i < title.length; i++){
+					 data[i] = "";
+				 }
+			 }
 			 for(int i = 2; i < title.length; i++){
 				 if(cls[i] == null){
 					 if(!data[i].trim().equals("")){
@@ -1048,6 +1085,14 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
 		 List<ONDEXConcept> set1 = new ArrayList<ONDEXConcept>();
 		 while((line = br.readLine()) != null){
 			 String [] data = line.split("\t");
+			 if(data.length < title.length){
+				 data = Arrays.copyOf(data, title.length);
+				 for(int i = 0; i < title.length; i++){
+					 if(data[i] == null){
+						 data[i] = "";
+					 }
+				 }
+			 }
 			 if(!data[0].trim().equals("")){
 				 Set<ONDEXConcept> temp = index.get(data[0]);
 				 
