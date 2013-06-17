@@ -72,6 +72,7 @@
 <entry key="Welcome.Show">true</entry>
 <entry key="Menu.Annotator.ShapeConcept">net.sourceforge.ondex.ovtk2.annotator.shapeconcept.ShapeConceptAnnotator</entry>
 <entry key="PopupEditor.Enable">true</entry>
+<entry key="ImportWizard2.Enable">true</entry>
 <entry key="Program.Author">The ONDEX Project</entry>
 <entry key="JIRA.URL">http://ondex.rothamsted.ac.uk/tracking/rpc/xmlrpc</entry>
 <entry key="Viewer.VertexMenu.HideNodeConceptClassItem">net.sourceforge.ondex.ovtk2.ui.popup.items.HideNodeConceptClassItem</entry>
