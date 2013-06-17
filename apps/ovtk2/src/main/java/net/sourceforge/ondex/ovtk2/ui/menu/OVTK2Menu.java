@@ -662,50 +662,55 @@ public class OVTK2Menu extends JMenuBar implements IFileHistory, OVTK2MenuBar {
 		file.add(save);
 		
 		try {
-			final Class cls = Class.forName("net.sourceforge.ondex.ovtk2.io.FlatFileNetworkImporter");
-			System.err.println("Found class");
-			JMenuItem item = new JMenuItem("Import network as flat file");
-			file.add(item);
-			item.addActionListener(new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						Object obj = cls.newInstance();
-						JInternalFrame frame = (JInternalFrame)obj;
-						Rectangle visible =  OVTK2Desktop.getInstance().getDesktopPane().getVisibleRect();
-						Dimension size = frame.getSize();
-						frame.setLocation((visible.width / 2) - (size.width / 2), (visible.height / 2) - (size.height / 2));
-						if (size.height > visible.height)
-							frame.setLocation(frame.getX(), 0);
-						frame.setVisible(true);
-						
-						desktop.getDesktopPane().add(frame);
+			if (Boolean.parseBoolean(Config.config.getProperty("ImportWizard2.Enable"))) {
+				final Class cls = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.ovtk2.io.FlatFileNetworkImporter");
+				JMenuItem item = new JMenuItem("Import network as flat file");
+				file.add(item);
+				item.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
 						try {
-							frame.setSelected(true);
-						} catch (PropertyVetoException e1) {
+							Object obj = cls.newInstance();
+							JInternalFrame frame = (JInternalFrame)obj;
+							Rectangle visible =  OVTK2Desktop.getInstance().getDesktopPane().getVisibleRect();
+							Dimension size = frame.getSize();
+							frame.setLocation((visible.width / 2) - (size.width / 2), (visible.height / 2) - (size.height / 2));
+							if (size.height > visible.height)
+								frame.setLocation(frame.getX(), 0);
+							frame.setVisible(true);
+							
+							desktop.getDesktopPane().add(frame);
+							try {
+								frame.setSelected(true);
+							} catch (PropertyVetoException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						} catch (InstantiationException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IllegalAccessException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SecurityException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IllegalArgumentException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					} catch (InstantiationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IllegalAccessException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (SecurityException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IllegalArgumentException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
-				}
-			});
-			Object o = cls.newInstance();
+				});
+				Object o = cls.newInstance();
+			}
+			
 			
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			
-		} catch (Exception e){} 
+		} catch (Exception e){
+			e.printStackTrace();
+		} 
 
 		JMenuItem saveImage = makeMenuItem("Menu.File.SaveImage", "image");
 		file.add(saveImage);
