@@ -131,11 +131,11 @@ public class EntityURIMenuItem extends JMenuItem {
 		AttributeName attType = MdHelper.createAttName(graph, "TYPE_URI",
 				String.class);
 
-		Set<ONDEXConcept> cs = viewer.getPickedNodes();
+		Set<ONDEXConcept> cs = new HashSet<ONDEXConcept>(viewer.getPickedNodes());
 		if (n != null) {
 			cs.add(n);
 		}
-		Set<ONDEXRelation> rs = viewer.getPickedEdges();
+		Set<ONDEXRelation> rs = new HashSet<ONDEXRelation>(viewer.getPickedEdges());
 		if (e != null) {
 			rs.add(e);
 		}
