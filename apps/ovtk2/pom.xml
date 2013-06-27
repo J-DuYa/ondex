@@ -29,7 +29,7 @@
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 						<manifestEntries>
-							<Permissions>all-permissions</Permissions>
+							<Permissions>sandbox</Permissions>
 							<Codebase>*</Codebase>
 						</manifestEntries>
 					</archive>
