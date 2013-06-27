@@ -23,4 +23,7 @@
          <param name="filename" value="config/examples/testGraph.xml"/>
      </applet-desc>
      <update check="background"/>
+     <security>
+     	<all-permissions/>
+	 </security> 
 </jnlp>
