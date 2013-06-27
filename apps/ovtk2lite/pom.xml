@@ -32,6 +32,8 @@
 						</manifest>
 						<manifestEntries>
 							<Trusted-Only>true</Trusted-Only>
+							<Permissions>all-permissions</Permissions>
+							<Codebase>*</Codebase>
 						</manifestEntries>
 					</archive>
 				</configuration>
