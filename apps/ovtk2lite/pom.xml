@@ -32,7 +32,7 @@
 						</manifest>
 						<manifestEntries>
 							<Trusted-Only>true</Trusted-Only>
-							<Permissions>all-permissions</Permissions>
+							<Permissions>sandbox</Permissions>
 							<Codebase>*</Codebase>
 						</manifestEntries>
 					</archive>
