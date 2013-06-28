@@ -31,7 +31,7 @@
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 						<manifestEntries>
-							<Trusted-Only>true</Trusted-Only>
+							<Trusted-Library>true</Trusted-Library>
 							<Permissions>all-permissions</Permissions>
 							<Codebase>*</Codebase>
 						</manifestEntries>
