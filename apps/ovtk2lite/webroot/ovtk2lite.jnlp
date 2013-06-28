@@ -16,7 +16,7 @@
         <jar href="lib/jfreechart-1.0.11.jar" main="false" /> 
         <jar href="lib/jcommon-1.0.12.jar" main="false" /> 
         <jar href="lib/epsgraphics-1.2.jar" main="false" /> 
-        <jar href="lib/jung-ap i-2.0.1.jar" main="false" /> 
+        <jar href="lib/jung-api-2.0.1.jar" main="false" /> 
         <jar href="lib/collections-generic-4.01.jar" main="false" /> 
         <jar href="lib/jung-jai-2.0.1.jar" main="false" /> 
         <jar href="lib/jung-visualization-2.0.1.jar" main="false" /> 
