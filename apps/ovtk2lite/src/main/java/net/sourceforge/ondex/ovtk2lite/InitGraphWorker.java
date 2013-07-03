@@ -115,7 +115,10 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 			net.sourceforge.ondex.config.Config.loadConfig();
 			net.sourceforge.ondex.ovtk2.config.Config.loadConfig(true);
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(main, e.getMessage(),
+			JOptionPane.showMessageDialog(main, e.getMessage() +
+					"\nCodebase is " + codeBase +
+					"\nondex.dir is " + ondexDir +
+					"\novtk.dir is " + ovtkDir,
 					"Error while initialising config.",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
@@ -148,7 +151,9 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 				OXLImport imp = new OXLImport(aog, filename, true);
 				imp.start();
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(main, e.getMessage(),
+				JOptionPane.showMessageDialog(main, e.getMessage() +
+						"\nCodebase is " + codeBase +
+						"\nFilename is " + filename,
 						"Error while loading from filename.",
 						JOptionPane.ERROR_MESSAGE);
 				return false;
@@ -173,7 +178,9 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 				parser.setONDEXGraph(aog);
 				parser.start(xgmml);
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(main, e.getMessage(),
+				JOptionPane.showMessageDialog(main, e.getMessage() +
+						"\nCodebase is " + codeBase +
+						"\nFilename is " + filename,
 						"Error while loading from filename.",
 						JOptionPane.ERROR_MESSAGE);
 				return false;
