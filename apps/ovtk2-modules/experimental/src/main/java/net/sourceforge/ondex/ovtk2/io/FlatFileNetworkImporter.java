@@ -1103,7 +1103,7 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
 					 set1 = new ArrayList<ONDEXConcept>(temp);
 				 }
 				 if(set1.isEmpty() && chkEdgesCreateNodes.isSelected()){
-					 ONDEXConcept c = graph.getFactory().createConcept(data[0], uc, cc, ev);
+					 ONDEXConcept c = graph.getFactory().createConcept(data[0], cv, cc, ev);
 					 set1.add(c);
 					 if(cmbEdgesMapping.getSelectedIndex() == 1){
 						 c.createConceptAccession(data[0], cv, false);
@@ -1130,7 +1130,7 @@ public class FlatFileNetworkImporter extends javax.swing.JInternalFrame {
 					 set2 = new ArrayList<ONDEXConcept>(temp);
 				 }
 				 if(set2.isEmpty() && chkEdgesCreateNodes.isSelected()){
-					 ONDEXConcept c = graph.getFactory().createConcept(data[1], uc, cc, ev);
+					 ONDEXConcept c = graph.getFactory().createConcept(data[1], cv1, cc1, ev);
 					 set2.add(c);
 					 if(cmbEdgesMapping.getSelectedIndex() == 1){
 						 c.createConceptAccession(data[1], cv, false);
