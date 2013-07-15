@@ -90,11 +90,11 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 		String cmd = ae.getActionCommand();
 		OVTK2ResourceAssesor resources = OVTK2Desktop.getDesktopResources();
 		final OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
+		
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
 			ErrorDialog.show(e);
 		} catch (MalformedURLException e) {
@@ -108,22 +108,19 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 
 				// get new instance of layout
 				int index = className.lastIndexOf(".");
-				String name = className
-						.substring(index + 1, className.length());
+				String name = className.substring(index + 1, className.length());
 
 				try {
-					final OVTK2Layouter layouter_new = OVTK2PluginLoader
-							.getInstance().loadLayouter(name, viewer);
+					((OVTK2Layouter)viewer.getVisualizationViewer().getGraphLayout()).cleanUp();
+					final OVTK2Layouter layouter_new = OVTK2PluginLoader.getInstance().loadLayouter(name, viewer);
 
 					if (layouter_new instanceof Monitorable) {
 						// layout knows about its progress
 						Monitorable p = (Monitorable) layouter_new;
-						OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-								.getMainFrame(), "Running Layout...", p);
+						OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Running Layout...", p);
 						Thread t = new Thread() {
 							public void run() {
-								VisualisationUtils.runLayout(layouter_new,
-										viewer);
+								VisualisationUtils.runLayout(layouter_new,	viewer);
 								if (options != null) {
 									options.setLayouter(layouter_new);
 								}
@@ -131,8 +128,7 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 						};
 						// for coping with plug-in Attribute data types
 						try {
-							t.setContextClassLoader(OVTK2PluginLoader
-									.getInstance().ucl);
+							t.setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 						} catch (FileNotFoundException e) {
 							ErrorDialog.show(e);
 						}
@@ -153,8 +149,7 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 									ErrorDialog.show(e);
 								}
 
-								VisualisationUtils.runLayout(layouter_new,
-										viewer);
+								VisualisationUtils.runLayout(layouter_new,	viewer);
 								if (options != null) {
 									options.setLayouter(layouter_new);
 								}
@@ -162,14 +157,12 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 						};
 
 						// set layout
-						OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-								.getMainFrame(), "Running Layout...", p);
+						OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Running Layout...", p);
 						p.start();
 					}
 
 					// central handling of scaling
-					OVTK2GraphMouse mouse = (OVTK2GraphMouse) viewer
-							.getVisualizationViewer().getGraphMouse();
+					OVTK2GraphMouse mouse = (OVTK2GraphMouse) viewer.getVisualizationViewer().getGraphMouse();
 					if (name.equals("StaticLayout")) {
 						// static layout should stay static
 						mouse.setViewScaling(true);

@@ -189,5 +189,10 @@ public class ConnectivityLayout extends OVTK2Layouter {
 	public void reset() {
 		initialize();
 	}
+	
+	@Override 
+	public void cleanUp(){
+		oldLayouter = null;
+	}
 
 }

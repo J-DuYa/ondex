@@ -177,4 +177,9 @@ public class StaticLayout extends OVTK2Layouter implements Monitorable {
 	public void setCancelled(boolean c) {
 		cancelled = c;
 	}
+	
+	@Override 
+	public void cleanUp(){
+		oldLayouter = null;
+	}
 }
