@@ -20,8 +20,8 @@
 		echo "</form>\n";
 	} else {
 		print("
-		<applet code=\"net.sourceforge.ondex.ovtk2lite.Main\" 
-		        archive=\"http://ondex.rothamsted.ac.uk/OndexWeb/OndexWeb-0.5.0.jar\"
+		<applet code=\"net.sourceforge.ondex.web.Main\" 
+		        archive=\"http://ondex.rothamsted.ac.uk/OndexWeb/OndexWeb-0.5.0-SNAPSHOT.jar\"
 		        width=\"600\" height=\"400\">\n
 		    \n
 		    <!-- general configuration -->\n

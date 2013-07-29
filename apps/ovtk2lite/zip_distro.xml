@@ -7,9 +7,9 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<files>
 		<file>
-			<source>target/${project.name}-${project.version}.jar</source>
+			<source>target/${project.artifactId}-${project.version}.jar</source>
 			<outputDirectory></outputDirectory>
-			<destName>${project.name}-${project.version}.jar</destName>
+			<destName>${project.artifactId}-${project.version}.jar</destName>
 			<fileMode>0644</fileMode>
 		</file>
 	</files>

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jnlp spec="1.0+" codebase="" href="">
     <information>
-        <title>Ondex Web</title>
+        <title>OndexWeb</title>
         <vendor>Rothamsted Research</vendor>
         <homepage href="http://www.ondex.org"/>
     </information>
     <resources>
         <!-- Application Resources -->
         <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se" />
-        <jar href="ovtk2lite-0.5.0-SNAPSHOT.jar" main="true" />
+        <jar href="OndexWeb-0.5.0-SNAPSHOT.jar" main="true" />
         <jar href="lib/commons-lang-2.1.jar" main="false" /> 
         <jar href="lib/plexus-utils-1.1.jar" main="false" /> 
         <jar href="lib/ovtk2-0.5.0-SNAPSHOT.jar" main="false" /> 
@@ -149,8 +149,8 @@
  		<jar href="lib/jnlp-1.6.0_26.jar" main="false" />     
     </resources>
     <applet-desc 
-         name="Ondex Web Applet"
-         main-class="net.sourceforge.ondex.ovtk2lite.Main"
+         name="OndexWeb Applet"
+         main-class="net.sourceforge.ondex.web.Main"
          width="800"
          height="620">
          <param name="ondex.dir" value="data"/>
