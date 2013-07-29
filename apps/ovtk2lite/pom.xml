@@ -12,8 +12,8 @@
 		<version>0.5.0-SNAPSHOT</version>
 	</parent>
 
-	<name>ONDEX OVTK2lite</name>
-	<description>ONDEX OVTK2lite</description>
+	<name>OndexWeb</name>
+	<description>Ondex web application for </description>
 
 	<build>
 		<plugins>
@@ -103,7 +103,7 @@
 
 		</plugins>
 
-		<finalName>${project.artifactId}-${project.version}</finalName>
+		<finalName>${project.name}-${project.version}</finalName>
 	</build>
 
 	<dependencies>

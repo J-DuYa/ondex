@@ -1,9 +1,9 @@
 <html>
 <head>
-<title>ONDEX Applet Test</title>
+<title>OndexWeb Test</title>
 </head>
 <body>
-<h3>ONDEX Applet Test</h3>
+<h3>OndexWeb Test</h3>
 
 <?php
 
@@ -21,7 +21,7 @@
 	} else {
 		print("
 		<applet code=\"net.sourceforge.ondex.ovtk2lite.Main\" 
-		        archive=\"http://ondex.rothamsted.ac.uk/applet/ovtk2lite.jar\"
+		        archive=\"http://ondex.rothamsted.ac.uk/OndexWeb/OndexWeb-0.5.0.jar\"
 		        width=\"600\" height=\"400\">\n
 		    \n
 		    <!-- general configuration -->\n
