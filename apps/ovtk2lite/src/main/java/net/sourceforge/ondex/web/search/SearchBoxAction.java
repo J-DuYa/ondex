@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite.search;
+package net.sourceforge.ondex.web.search;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

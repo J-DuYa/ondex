@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite;
+package net.sourceforge.ondex.web;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import net.sourceforge.ondex.ovtk2.graph.ONDEXJUNGGraph;
 import net.sourceforge.ondex.ovtk2.io.OXLImport;
 import net.sourceforge.ondex.ovtk2.io.WebserviceImport;
 import net.sourceforge.ondex.ovtk2.ui.toolbars.MenuGraphSearchBox;
-import net.sourceforge.ondex.ovtk2lite.search.SearchBoxAction;
+import net.sourceforge.ondex.web.search.SearchBoxAction;
 import net.sourceforge.ondex.webservice.client.WSGraph;
 import net.sourceforge.ondex.webservice.client.WebserviceException_Exception;
 

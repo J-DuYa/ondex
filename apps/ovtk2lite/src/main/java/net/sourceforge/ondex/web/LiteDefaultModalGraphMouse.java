@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite;
+package net.sourceforge.ondex.web;
 
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -11,8 +11,8 @@ import net.sourceforge.ondex.ovtk2.ui.OVTK2PropertiesAggregator;
 import net.sourceforge.ondex.ovtk2.ui.mouse.OVTK2GraphMouse;
 import net.sourceforge.ondex.ovtk2.ui.mouse.OVTK2PickingMousePlugin;
 import net.sourceforge.ondex.ovtk2.ui.popup.PopupVertexEdgeMenuMousePlugin;
-import net.sourceforge.ondex.ovtk2lite.popup.EdgeMenu;
-import net.sourceforge.ondex.ovtk2lite.popup.VertexMenu;
+import net.sourceforge.ondex.web.popup.EdgeMenu;
+import net.sourceforge.ondex.web.popup.VertexMenu;
 import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;

@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite.search;
+package net.sourceforge.ondex.web.search;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -41,10 +41,9 @@ import net.sourceforge.ondex.ovtk2.config.Config;
 import net.sourceforge.ondex.ovtk2.graph.ONDEXJUNGGraph;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2PropertiesAggregator;
 import net.sourceforge.ondex.ovtk2.ui.mouse.OVTK2PickingMousePlugin;
-import net.sourceforge.ondex.ovtk2.ui.toolbars.ChemicalSearch;
-import net.sourceforge.ondex.ovtk2.util.ErrorDialog;
+import net.sourceforge.ondex.ovtk2.ui.toolbars.ToolBarSearch;
 import net.sourceforge.ondex.ovtk2.util.IdLabel;
-import net.sourceforge.ondex.ovtk2lite.LiteDefaultModalGraphMouse;
+import net.sourceforge.ondex.web.LiteDefaultModalGraphMouse;
 
 import org.apache.log4j.Logger;
 
@@ -56,8 +55,8 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
  * @author taubertj
  * @version 14.07.2008
  */
-public class DialogChemicalSearch extends JFrame implements ActionListener,
-		ListSelectionListener, MouseListener {
+public class DialogSearchResult extends JFrame implements ActionListener,
+		MouseListener, ListSelectionListener {
 
 	private class FilterJob {
 		Set<ONDEXConcept> concepts;
@@ -84,7 +83,7 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 			if (depth > 5) {
 				int option = JOptionPane
 						.showConfirmDialog(
-								DialogChemicalSearch.this,
+								DialogSearchResult.this,
 								Config.language
 										.getProperty("Dialog.SearchResult.DepthWarning"),
 								Config.language
@@ -113,7 +112,7 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 			if (deleted)
 				JOptionPane
 						.showMessageDialog(
-								DialogChemicalSearch.this,
+								DialogSearchResult.this,
 								Config.language
 										.getProperty("Dialog.SearchResult.DeletedWarning"),
 								Config.language
@@ -124,7 +123,7 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 			if (targets.size() == 0) {
 				JOptionPane
 						.showMessageDialog(
-								DialogChemicalSearch.this,
+								DialogSearchResult.this,
 								Config.language
 										.getProperty("Dialog.SearchResult.SelectWarning"),
 								Config.language
@@ -272,12 +271,12 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 	}
 
 	private static final Logger LOG = Logger
-			.getLogger(DialogChemicalSearch.class);
+			.getLogger(DialogSearchResult.class);
 
 	// generated
 	private static final long serialVersionUID = 2208353118937547502L;
 
-	// current OVTK2PropertiesAggregator
+	// current OVTK2Viewer
 	private OVTK2PropertiesAggregator viewer = null;
 
 	// current table model for results
@@ -296,7 +295,7 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 	private JCheckBox hideAllOthers;
 
 	// performs the search
-	private ChemicalSearch search;
+	private ToolBarSearch search;
 
 	/**
 	 * Constructs user input to view search results.
@@ -304,24 +303,22 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 	 * @param viewer
 	 *            current OVTK2Viewer to search in
 	 * @param s
-	 *            search stringe
+	 *            search string
+	 * @param isRegex
+	 *            use as regex
+	 * @param isCaseSensitive
+	 *            search case sensitive
 	 * @param conceptClass
 	 *            possible concept class restriction
 	 * @param dataSource
 	 *            possible DataSource restriction
 	 * @param context
 	 *            possible context concept restriction
-	 * @param searchMode
-	 *            InChI or SMILES
-	 * @param percentSimilarity
-	 *            tanimoto similarity
-	 * @param useChEMBL
-	 *            query ChEMBL
 	 */
-	public DialogChemicalSearch(OVTK2PropertiesAggregator viewer, String s,
+	public DialogSearchResult(OVTK2PropertiesAggregator viewer, String s,
+			boolean isRegex, boolean isCaseSensitive,
 			ConceptClass conceptClass, DataSource dataSource,
-			ONDEXConcept context, String searchMode, int percentSimilarity,
-			boolean useChEMBL) {
+			ONDEXConcept context) {
 		super(Config.language.getProperty("Dialog.SearchResult.Title"));
 		// set dialog behaviour and closing operation
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -330,8 +327,8 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 		// set internal variables
 		this.viewer = viewer;
 
-		search = new ChemicalSearch(viewer, s, conceptClass, dataSource,
-				context, searchMode, percentSimilarity, useChEMBL);
+		search = new ToolBarSearch(viewer, s, isRegex, isCaseSensitive,
+				conceptClass, dataSource, context);
 
 		JPanel south = new JPanel(new GridLayout(3, 1));
 
@@ -405,7 +402,6 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 				new FilterJob().callFilter();
 			} catch (Exception e) {
 				e.printStackTrace();
-				ErrorDialog.show(e);
 			}
 		}
 
@@ -424,7 +420,7 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 
 		// init properties layout
 		final JPanel properties = new JPanel();
-		final DialogChemicalSearch instance = this;
+		final DialogSearchResult instance = this;
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
 		TitledBorder propertiesBorder = BorderFactory
@@ -434,15 +430,7 @@ public class DialogChemicalSearch extends JFrame implements ActionListener,
 		properties.add(new JLabel("Searching..."));
 
 		// perform search
-		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		try {
-			data = search.search();
-		} catch (Exception e) {
-			e.printStackTrace();
-			properties.removeAll();
-			properties.add(new JLabel("CDK Error while searching."));
-			return properties;
-		}
+		Vector<Vector<Object>> data = search.search();
 		model = new ResultTableModel(data);
 
 		// setup table

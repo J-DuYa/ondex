@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite.popup;
+package net.sourceforge.ondex.web.popup;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -54,8 +54,8 @@ import net.sourceforge.ondex.ovtk2.ui.popup.items.ShowNodeNeighbourhoodRelationT
 import net.sourceforge.ondex.ovtk2.ui.popup.items.ShowNodeRelationsVisibleItem;
 import net.sourceforge.ondex.ovtk2.ui.popup.items.ShowNodeSameTagItem;
 import net.sourceforge.ondex.ovtk2.ui.popup.items.ShowNodeTagItem;
-import net.sourceforge.ondex.ovtk2lite.Main;
 import net.sourceforge.ondex.validator.htmlaccessionlink.Condition;
+import net.sourceforge.ondex.web.Main;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.picking.PickedState;
 

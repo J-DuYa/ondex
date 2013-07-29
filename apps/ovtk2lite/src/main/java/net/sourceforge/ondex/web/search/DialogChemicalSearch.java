@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite.search;
+package net.sourceforge.ondex.web.search;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -31,6 +31,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
+import net.sourceforge.ondex.core.ConceptClass;
+import net.sourceforge.ondex.core.DataSource;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXGraph;
 import net.sourceforge.ondex.core.ONDEXRelation;
@@ -39,10 +41,10 @@ import net.sourceforge.ondex.ovtk2.config.Config;
 import net.sourceforge.ondex.ovtk2.graph.ONDEXJUNGGraph;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2PropertiesAggregator;
 import net.sourceforge.ondex.ovtk2.ui.mouse.OVTK2PickingMousePlugin;
-import net.sourceforge.ondex.ovtk2.ui.toolbars.UniProtSearch;
+import net.sourceforge.ondex.ovtk2.ui.toolbars.ChemicalSearch;
 import net.sourceforge.ondex.ovtk2.util.ErrorDialog;
 import net.sourceforge.ondex.ovtk2.util.IdLabel;
-import net.sourceforge.ondex.ovtk2lite.LiteDefaultModalGraphMouse;
+import net.sourceforge.ondex.web.LiteDefaultModalGraphMouse;
 
 import org.apache.log4j.Logger;
 
@@ -54,7 +56,7 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
  * @author taubertj
  * @version 14.07.2008
  */
-public class DialogProteinSearch extends JFrame implements ActionListener,
+public class DialogChemicalSearch extends JFrame implements ActionListener,
 		ListSelectionListener, MouseListener {
 
 	private class FilterJob {
@@ -82,7 +84,7 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 			if (depth > 5) {
 				int option = JOptionPane
 						.showConfirmDialog(
-								DialogProteinSearch.this,
+								DialogChemicalSearch.this,
 								Config.language
 										.getProperty("Dialog.SearchResult.DepthWarning"),
 								Config.language
@@ -111,7 +113,7 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 			if (deleted)
 				JOptionPane
 						.showMessageDialog(
-								DialogProteinSearch.this,
+								DialogChemicalSearch.this,
 								Config.language
 										.getProperty("Dialog.SearchResult.DeletedWarning"),
 								Config.language
@@ -122,7 +124,7 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 			if (targets.size() == 0) {
 				JOptionPane
 						.showMessageDialog(
-								DialogProteinSearch.this,
+								DialogChemicalSearch.this,
 								Config.language
 										.getProperty("Dialog.SearchResult.SelectWarning"),
 								Config.language
@@ -270,7 +272,7 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 	}
 
 	private static final Logger LOG = Logger
-			.getLogger(DialogProteinSearch.class);
+			.getLogger(DialogChemicalSearch.class);
 
 	// generated
 	private static final long serialVersionUID = 2208353118937547502L;
@@ -294,7 +296,7 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 	private JCheckBox hideAllOthers;
 
 	// performs the search
-	private UniProtSearch search;
+	private ChemicalSearch search;
 
 	/**
 	 * Constructs user input to view search results.
@@ -316,7 +318,10 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 	 * @param useChEMBL
 	 *            query ChEMBL
 	 */
-	public DialogProteinSearch(OVTK2PropertiesAggregator viewer, String s) {
+	public DialogChemicalSearch(OVTK2PropertiesAggregator viewer, String s,
+			ConceptClass conceptClass, DataSource dataSource,
+			ONDEXConcept context, String searchMode, int percentSimilarity,
+			boolean useChEMBL) {
 		super(Config.language.getProperty("Dialog.SearchResult.Title"));
 		// set dialog behaviour and closing operation
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -325,7 +330,8 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 		// set internal variables
 		this.viewer = viewer;
 
-		search = new UniProtSearch(viewer, s);
+		search = new ChemicalSearch(viewer, s, conceptClass, dataSource,
+				context, searchMode, percentSimilarity, useChEMBL);
 
 		JPanel south = new JPanel(new GridLayout(3, 1));
 
@@ -418,7 +424,7 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 
 		// init properties layout
 		final JPanel properties = new JPanel();
-		final DialogProteinSearch instance = this;
+		final DialogChemicalSearch instance = this;
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
 		TitledBorder propertiesBorder = BorderFactory
@@ -434,7 +440,7 @@ public class DialogProteinSearch extends JFrame implements ActionListener,
 		} catch (Exception e) {
 			e.printStackTrace();
 			properties.removeAll();
-			properties.add(new JLabel("UniProt Error while searching."));
+			properties.add(new JLabel("CDK Error while searching."));
 			return properties;
 		}
 		model = new ResultTableModel(data);

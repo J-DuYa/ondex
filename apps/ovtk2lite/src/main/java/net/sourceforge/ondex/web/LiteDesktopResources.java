@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite;
+package net.sourceforge.ondex.web;
 
 import javax.swing.JDesktopPane;
 

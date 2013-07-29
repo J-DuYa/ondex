@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite;
+package net.sourceforge.ondex.web;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

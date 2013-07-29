@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.ovtk2lite.popup;
+package net.sourceforge.ondex.web.popup;
 
 import java.util.Set;
 
