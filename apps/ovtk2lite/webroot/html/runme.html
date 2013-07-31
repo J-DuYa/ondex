@@ -17,16 +17,17 @@
 
 <body>
 
-<h1>OndexWeb</h1>
+<h1>OndexWeb - Visualization of different network formats</h1>
 
 	<div id="tabs">
 		<ul>
-			<li><a href="#tabs-1">Simple Test Graph</a></li>
-			<li><a href="#tabs-2">Gene Network</a></li>
-			<li><a href="#tabs-3">S48 differential network</a></li>
+			<li><a href="#tabs-1">OXL Network</a></li>
+			<li><a href="#tabs-2">NWB Network</a></li>
+			<li><a href="#tabs-3">CYS Network</a></li>
+			<li><a href="#tabs-4">NET Network</a></li>
 		</ul>
 		<div id="tabs-1">
-			<div class="subheading">Simple Test Graph</div>
+			<div class="subheading">OXL Network</div>
 			<script>
 				var attributes = {
 					width : 800,
@@ -34,27 +35,14 @@
 				};
 				var parameters = {
 					jnlp_href : 'OndexWeb.jnlp',
-					filename : 'config/examples/testGraph.xml'
-				};
-				deployJava.runApplet(attributes, parameters, '1.6');
-			</script>
-		</div>
-		<div id="tabs-2">
-			<div class="subheading">Gene Network</div>
-			<script>
-				var attributes = {
-					width : 800,
-					height : 620
-				};
-				var parameters = {
-					jnlp_href : 'OndexWeb.jnlp',
+					loadappearance : true,
 					filename : 'config/examples/GeneNetwork.oxl'
 				};
 				deployJava.runApplet(attributes, parameters, '1.6');
 			</script>
 		</div>
-		<div id="tabs-3">
-			<div class="subheading">S48 differential network</div>
+		<div id="tabs-2">
+			<div class="subheading">NWB Network</div>
 			<script>
 				var attributes = {
 					width : 800,
@@ -62,7 +50,35 @@
 				};
 				var parameters = {
 					jnlp_href : 'OndexWeb.jnlp',
-					filename : 'config/examples/S48_diff_enriched_small.oxl'
+					filename : 'config/examples/example1.nwb'
+				};
+				deployJava.runApplet(attributes, parameters, '1.6');
+			</script>
+		</div>
+		<div id="tabs-3">
+			<div class="subheading">CYS Network</div>
+			<script>
+				var attributes = {
+					width : 800,
+					height : 620
+				};
+				var parameters = {
+					jnlp_href : 'OndexWeb.jnlp',
+					filename : 'config/examples/GalFiltered.cys'
+				};
+				deployJava.runApplet(attributes, parameters, '1.6');
+			</script>
+		</div>
+		<div id="tabs-4">
+			<div class="subheading">NET Network</div>
+			<script>
+				var attributes = {
+					width : 800,
+					height : 620
+				};
+				var parameters = {
+					jnlp_href : 'OndexWeb.jnlp',
+					filename : 'config/examples/numbers.net'
 				};
 				deployJava.runApplet(attributes, parameters, '1.6');
 			</script>
