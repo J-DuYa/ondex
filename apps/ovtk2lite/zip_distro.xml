@@ -12,6 +12,11 @@
 			<destName>${project.artifactId}-${project.version}.jar</destName>
 			<fileMode>0644</fileMode>
 		</file>
+		<file>
+			<source>${basedir}/webroot/html/runme.html</source>
+			<outputDirectory></outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
 	</files>
 	<fileSets>
 		<fileSet>
@@ -33,27 +38,7 @@
 				<include>**/runme.html</include>
 				<include>**/OndexWeb.jnlp</include>
 				<include>**/log4j.xml</include>
-			</includes>
-			<excludes>
-			</excludes>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/webroot/js</directory>
-			<outputDirectory>js</outputDirectory>
-			<directoryMode>0755</directoryMode>
-			<fileMode>0644</fileMode>
-			<includes>
 				<include>**/deployJava.js</include>
-			</includes>
-			<excludes>
-			</excludes>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/webroot/css</directory>
-			<outputDirectory>css</outputDirectory>
-			<directoryMode>0755</directoryMode>
-			<fileMode>0644</fileMode>
-			<includes>
 				<include>**/main.css</include>
 			</includes>
 			<excludes>
