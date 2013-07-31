@@ -13,7 +13,27 @@
 			<fileMode>0644</fileMode>
 		</file>
 		<file>
-			<source>${basedir}/webroot/html/runme.html</source>
+			<source>${basedir}/webroot/html/index.html</source>
+			<outputDirectory></outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
+		<file>
+			<source>${basedir}/webroot/html/example1.html</source>
+			<outputDirectory></outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
+		<file>
+			<source>${basedir}/webroot/html/example2.html</source>
+			<outputDirectory></outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
+		<file>
+			<source>${basedir}/webroot/html/example3.html</source>
+			<outputDirectory></outputDirectory>
+			<fileMode>0644</fileMode>
+		</file>
+		<file>
+			<source>${basedir}/webroot/html/example4.html</source>
 			<outputDirectory></outputDirectory>
 			<fileMode>0644</fileMode>
 		</file>
