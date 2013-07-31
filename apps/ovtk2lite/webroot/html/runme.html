@@ -23,8 +23,8 @@
 		<ul>
 			<li><a href="#tabs-1">OXL Network</a></li>
 			<li><a href="#tabs-2">NWB Network</a></li>
-			<li><a href="#tabs-3">CYS Network</a></li>
-			<li><a href="#tabs-4">NET Network</a></li>
+			<li><a href="#tabs-3">XGMML Network</a></li>
+			<li><a href="#tabs-4">Pajek Network</a></li>
 		</ul>
 		<div id="tabs-1">
 			<div class="subheading">OXL Network</div>
@@ -50,7 +50,7 @@
 				};
 				var parameters = {
 					jnlp_href : 'OndexWeb.jnlp',
-					filename : 'config/examples/example1.nwb'
+					nwb : 'config/examples/example1.nwb'
 				};
 				deployJava.runApplet(attributes, parameters, '1.6');
 			</script>
@@ -71,7 +71,7 @@
 			</script>
 		</div>
 		<div id="tabs-4">
-			<div class="subheading">NET Network</div>
+			<div class="subheading">Pajek Network</div>
 			<script>
 				var attributes = {
 					width : 800,
@@ -79,7 +79,7 @@
 				};
 				var parameters = {
 					jnlp_href : 'OndexWeb.jnlp',
-					filename : 'config/examples/numbers.net'
+					pajek : 'config/examples/numbers.net'
 				};
 				deployJava.runApplet(attributes, parameters, '1.6');
 			</script>

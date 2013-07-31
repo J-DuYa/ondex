@@ -158,7 +158,6 @@
          <param name="antialiased" value="true"/>
          <param name="nodes.labels" value="true"/>
          <param name="edges.lables" value="true"/>
-         <param name="filename" value="config/examples/testGraph.xml"/>
      </applet-desc>
      <update check="background"/>
      <security>

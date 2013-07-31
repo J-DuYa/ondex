@@ -101,6 +101,14 @@ public class Main extends JApplet {
 						"URL",
 						"path to XGMML file, has to be reachable from applet, relative to code base, can be empty" },
 				{
+						"pajek",
+						"URL",
+						"path to Pajek .net file, has to be reachable from applet, relative to code base, can be empty" },
+				{
+						"nwb",
+						"URL",
+						"path to Network Workbench .nwb file, has to be reachable from applet, relative to code base, can be empty" },
+				{
 						"webservice",
 						"URL",
 						"URL of webservice, e.g. http://rpc274.cs.man.ac.uk:8080/ondex/services/ondex-graph?wsdl" },

@@ -2,7 +2,10 @@ package net.sourceforge.ondex.ovtk2.io;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -164,8 +167,7 @@ public class NWBImport implements OVTK2IO {
 		return Object.class;
 	}
 
-	@Override
-	public void start(File file) throws Exception {
+	public void parseFile(InputStream inStream) throws Exception {
 		Map<String, Integer> nodeKey = new HashMap<String, Integer>();
 		Map<String, Integer> edgeKey = new HashMap<String, Integer>();
 		Map<AttributeName, Integer> gds = new HashMap<AttributeName, Integer>();
@@ -201,7 +203,7 @@ public class NWBImport implements OVTK2IO {
 			}
 		}
 
-		BufferedReader br = new BufferedReader(new FileReader(file));
+		BufferedReader br = new BufferedReader(new InputStreamReader(inStream));
 		String strLine;
 		dataSource = aog.getMetaData().getDataSource("UC");
 		if (dataSource == null) {
@@ -365,6 +367,11 @@ public class NWBImport implements OVTK2IO {
 	public void setGraph(ONDEXGraph graph) {
 		this.aog = graph;
 	}
+	
+	@Override
+	public void start(File file) throws Exception {
+		parseFile(new FileInputStream(file));
+	}
 
 	@Override
 	public String getExt() {
@@ -374,5 +381,28 @@ public class NWBImport implements OVTK2IO {
 	@Override
 	public boolean isImport() {
 		return true;
+	}
+	
+	/**
+	 * Work-around method for reuse in applet.
+	 * 
+	 * @param filename
+	 * @throws Exception
+	 */
+	public void start(String filename) throws Exception {
+		// do decided where file is coming from
+		URL url;
+		if (filename.startsWith("http:") || filename.startsWith("file:")
+				|| filename.startsWith("https:")) {
+			// when loading from a server
+			url = new URL(filename);
+		} else {
+			File file = new File(filename);
+			url = file.toURI().toURL();
+		}
+
+		InputStream inStream = (InputStream) url.getContent();
+		
+		parseFile(inStream);
 	}
 }

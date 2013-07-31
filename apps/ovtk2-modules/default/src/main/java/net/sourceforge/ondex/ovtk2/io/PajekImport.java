@@ -6,7 +6,10 @@ package net.sourceforge.ondex.ovtk2.io;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -34,7 +37,7 @@ public class PajekImport implements OVTK2IO {
 	/**
 	 * Parses the content of file in PAJEK format.
 	 */
-	public void parseFile(File file) throws Exception {
+	public void parseFile(InputStream inStream) throws Exception {
 
 		// check for/create cv
 		DataSource dataSource = og.getMetaData().getDataSource("PAJEK");
@@ -74,7 +77,8 @@ public class PajekImport implements OVTK2IO {
 		Map<Integer, Integer> idMapping = new Hashtable<Integer, Integer>();
 
 		// open reader for file
-		BufferedReader reader = new BufferedReader(new FileReader(file));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				inStream));
 		while (reader.ready()) {
 			String line = reader.readLine();
 
@@ -169,7 +173,7 @@ public class PajekImport implements OVTK2IO {
 
 	@Override
 	public void start(File file) throws Exception {
-		parseFile(file);
+		parseFile(new FileInputStream(file));
 	}
 
 	@Override
@@ -180,5 +184,28 @@ public class PajekImport implements OVTK2IO {
 	@Override
 	public boolean isImport() {
 		return true;
+	}
+
+	/**
+	 * Work-around method for reuse in applet.
+	 * 
+	 * @param filename
+	 * @throws Exception
+	 */
+	public void start(String filename) throws Exception {
+		// do decided where file is coming from
+		URL url;
+		if (filename.startsWith("http:") || filename.startsWith("file:")
+				|| filename.startsWith("https:")) {
+			// when loading from a server
+			url = new URL(filename);
+		} else {
+			File file = new File(filename);
+			url = file.toURI().toURL();
+		}
+
+		InputStream inStream = (InputStream) url.getContent();
+		
+		parseFile(inStream);
 	}
 }

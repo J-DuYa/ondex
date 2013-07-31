@@ -134,16 +134,16 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 		ONDEXGraph aog = new MemoryONDEXGraph("ONDEX Graph");
 
 		String filename = main.getParameter("filename");
-		// in case of relative paths
-		if (codeBase != null && filename != null && !filename.contains("://")) {
-			filename = codeBase.toExternalForm() + filename;
-		}
+		filename = externalizeURL(codeBase, filename);
 
 		String xgmml = main.getParameter("xgmml");
-		// in case of relative paths
-		if (codeBase != null && xgmml != null && !xgmml.contains("://")) {
-			xgmml = codeBase.toExternalForm() + xgmml;
-		}
+		xgmml = externalizeURL(codeBase, xgmml);
+		
+		String pajek = main.getParameter("pajek");
+		pajek = externalizeURL(codeBase, pajek);
+		
+		String nwb = main.getParameter("nwb");
+		nwb = externalizeURL(codeBase, nwb);
 
 		if (filename != null) {
 			// load from file
@@ -177,6 +177,36 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 				parser.setArguments(args);
 				parser.setONDEXGraph(aog);
 				parser.start(xgmml);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(main, e.getMessage() +
+						"\nCodebase is " + codeBase +
+						"\nFilename is " + filename,
+						"Error while loading from filename.",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} else if (pajek != null) {
+			// load from pajek .net
+			net.sourceforge.ondex.ovtk2.io.PajekImport parser = new net.sourceforge.ondex.ovtk2.io.PajekImport();
+			
+			try {
+				parser.setGraph(aog);
+				parser.start(pajek);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(main, e.getMessage() +
+						"\nCodebase is " + codeBase +
+						"\nFilename is " + filename,
+						"Error while loading from filename.",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} else if (nwb != null) {
+			// load from nwb
+			net.sourceforge.ondex.ovtk2.io.NWBImport parser = new net.sourceforge.ondex.ovtk2.io.NWBImport();
+			
+			try {
+				parser.setGraph(aog);
+				parser.start(nwb);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(main, e.getMessage() +
 						"\nCodebase is " + codeBase +
@@ -250,6 +280,14 @@ public class InitGraphWorker extends SwingWorker<Boolean, Void> {
 		main.setSearchBox(searchBox);
 
 		return true;
+	}
+
+	private String externalizeURL(URL codeBase, String filename) {
+		// in case of relative paths
+		if (codeBase != null && filename != null && !filename.contains("://")) {
+			filename = codeBase.toExternalForm() + filename;
+		}
+		return filename;
 	}
 
 	public void done() {

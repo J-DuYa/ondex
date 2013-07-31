@@ -35,7 +35,6 @@
 			<directoryMode>0755</directoryMode>
 			<fileMode>0644</fileMode>
 			<includes>
-				<include>**/runme.html</include>
 				<include>**/OndexWeb.jnlp</include>
 				<include>**/log4j.xml</include>
 				<include>**/deployJava.js</include>
