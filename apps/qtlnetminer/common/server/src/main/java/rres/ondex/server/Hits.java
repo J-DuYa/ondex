@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.apache.lucene.queryParser.ParseException;
+
 import net.sourceforge.ondex.core.ONDEXConcept;
 
 public class Hits {	
@@ -23,6 +25,9 @@ public class Hits {
 			this.luceneCandidateGenes = ondexProvider.searchGenome(keyword);			
 		} 
 		catch (IOException e) {			
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -67,7 +67,10 @@ import net.sourceforge.ondex.tools.ondex.ONDEXGraphCloner;
 
 import org.apache.commons.collections15.BidiMap;
 import org.apache.commons.collections15.bidimap.DualHashBidiMap;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.util.Version;
 
 /**
  * Parent class to all ondex service provider classes implementing organism
@@ -397,8 +400,9 @@ public class OndexServiceProvider {
 	 *            user-specified keyword
 	 * @return set of genes related to the keyword
 	 * @throws IOException
+	 * @throws ParseException 
 	 */
-	public HashMap<ONDEXConcept, Float> searchGenome(String keywords) throws IOException {
+	public HashMap<ONDEXConcept, Float> searchGenome(String keywords) throws IOException, ParseException {
 
 		Set<AttributeName> atts = graph.getMetaData().getAttributeNames();		
 		String[] datasources = {"PFAM", "IPRO", "UNIPROTKB", "EMBL", "KEGG", "EC", "GO", "TO", "NLM", "TAIR", "ENSEMBLGENE"};
@@ -410,9 +414,17 @@ public class OndexServiceProvider {
 
 			// search concept attributes
 			for (AttributeName att : atts) {
-				Query qAtt = LuceneQueryBuilder.searchConceptByConceptAttributeExact(att, keyword);
+//				Query qAtt = LuceneQueryBuilder.searchConceptByConceptAttributeExact(att, keyword);
+//				ScoredHits<ONDEXConcept> sHits = lenv.searchTopConcepts(qAtt, 100);
+//				mergeHits(hit2score, sHits);
+
+				String fieldName = getFieldName("ConceptAttribute", att.getId());
+			    QueryParser parser = new QueryParser(Version.LUCENE_36, fieldName , lenv.DEFAULTANALYZER);
+			    Query qAtt = parser.parse(keyword);
 				ScoredHits<ONDEXConcept> sHits = lenv.searchTopConcepts(qAtt, 100);
 				mergeHits(hit2score, sHits);
+
+			    
 			}
 
 			// search concept names
@@ -1356,6 +1368,15 @@ public class OndexServiceProvider {
 		}	
 		
 		return geneCount;
+	}
+	
+	public String getFieldName(String name, String value){
+		
+		if(value == null){ 
+			return name;
+		}else{
+			return name + "_" + value;
+		}
 	}
 	
 	
