@@ -8,7 +8,7 @@ public class QTL {
 	public String end;
 	public String label;
 	public String significance;
-	//test
+	//test2
 	public QTL(int chrIndex, String chrName, String start, String end, String label, String significance) {
 		this.chrIndex = chrIndex;
 		this.chrName = chrName;
