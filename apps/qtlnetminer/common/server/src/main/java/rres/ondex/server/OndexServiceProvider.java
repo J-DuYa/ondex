@@ -67,6 +67,8 @@ import net.sourceforge.ondex.tools.ondex.ONDEXGraphCloner;
 
 import org.apache.commons.collections15.BidiMap;
 import org.apache.commons.collections15.bidimap.DualHashBidiMap;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Query;
@@ -410,8 +412,11 @@ public class OndexServiceProvider {
 		
 		HashMap<ONDEXConcept, Float> hit2score = new HashMap<ONDEXConcept, Float>();
 		
-		for (String keyword : keywords.split("\\|")) {
+		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_36);
 
+		
+		String keyword = keywords;
+		
 			// search concept attributes
 			for (AttributeName att : atts) {
 //				Query qAtt = LuceneQueryBuilder.searchConceptByConceptAttributeExact(att, keyword);
@@ -419,34 +424,51 @@ public class OndexServiceProvider {
 //				mergeHits(hit2score, sHits);
 
 				String fieldName = getFieldName("ConceptAttribute", att.getId());
-			    QueryParser parser = new QueryParser(Version.LUCENE_36, fieldName , lenv.DEFAULTANALYZER);
+			    QueryParser parser = new QueryParser(Version.LUCENE_36, fieldName , analyzer);
 			    Query qAtt = parser.parse(keyword);
 				ScoredHits<ONDEXConcept> sHits = lenv.searchTopConcepts(qAtt, 100);
 				mergeHits(hit2score, sHits);
-
 			    
+			}
+			for (String dsAc : dsAcc) {
+				// search concept accessions
+				//Query qAccessions = LuceneQueryBuilder.searchConceptByConceptAccessionExact(keyword, false, dsAcc);
+				String fieldName = getFieldName("ConceptAccessions",dsAc);
+			    QueryParser parser = new QueryParser(Version.LUCENE_36, fieldName , analyzer);
+			    Query qAccessions = parser.parse(keyword);
+				ScoredHits<ONDEXConcept> sHitsAcc = lenv.searchTopConcepts(qAccessions, 100);
+				mergeHits(hit2score, sHitsAcc);				
 			}
 
 			// search concept names
-			Query qNames = LuceneQueryBuilder.searchConceptByConceptNameExact(keyword);
+			//Query qNames = LuceneQueryBuilder.searchConceptByConceptNameExact(keyword);
+			String fieldNameCN = getFieldName("ConceptName",null);
+		    QueryParser parserCN = new QueryParser(Version.LUCENE_36, fieldNameCN , analyzer);
+		    Query qNames = parserCN.parse(keyword);
 			ScoredHits<ONDEXConcept> sHitsNames = lenv.searchTopConcepts(qNames, 100);
 			mergeHits(hit2score, sHitsNames);
 			
-			// search concept accessions
-			Query qAccessions = LuceneQueryBuilder.searchConceptByConceptAccessionExact(keyword, false, dsAcc);
-			ScoredHits<ONDEXConcept> sHitsAcc = lenv.searchTopConcepts(qAccessions, 100);
-			mergeHits(hit2score, sHitsAcc);
 			
 			// search concept description
-			Query qDesc = LuceneQueryBuilder.searchConceptByDescriptionExact(keyword);
+			//Query qDesc = LuceneQueryBuilder.searchConceptByDescriptionExact(keyword);
+			String fieldNameD = getFieldName("Description",null);
+		    QueryParser parserD = new QueryParser(Version.LUCENE_36, fieldNameD , analyzer);
+		    Query qDesc = parserD.parse(keyword);
 			ScoredHits<ONDEXConcept> sHitsDesc = lenv.searchTopConcepts(qDesc, 100);
 			mergeHits(hit2score, sHitsDesc);
 			
 			// search concept annotation			
-			Query qAnno = LuceneQueryBuilder.searchConceptByAnnotationExact(keyword);
-			ScoredHits<ONDEXConcept> sHitsAnno = lenv.searchTopConcepts(qAnno, 100);
+			//Query qAnno = LuceneQueryBuilder.searchConceptByAnnotationExact(keyword);
+			String fieldNameCA = getFieldName("Annotation",null);
+		    QueryParser parserCA = new QueryParser(Version.LUCENE_36, fieldNameCA , analyzer);
+		    Query qAnno = parserCA.parse(keyword);
+			ScoredHits<ONDEXConcept> sHitsAnno = lenv.searchTopConcepts(qAnno, 100);		
 			mergeHits(hit2score, sHitsAnno);
-		}			
+			
+			System.out.println("Query: "+qAnno.toString(fieldNameCA));
+			System.out.println("Annotation hits: "+sHitsAnno.getOndexHits().size());
+			
+			
 		return hit2score;		
 	}
 	
