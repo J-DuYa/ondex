@@ -200,6 +200,7 @@ function searchKeyword(){
 				else {
 					var splitedResponse = response.split(":");  
 					var results = splitedResponse[3];
+					var docSize = splitedResponse[4];
 					var candidateGenes = parseInt(results);
 					var genomicViewTitle = '<div id="pGViewer_title">In total '+results+' genes were found. Query was found in '+docSize+' documents<br /></div>'
 					var genomicView = '<div id="pGViewer" class="resultViewer"><p class="margin_left">Shift+Click on a gene to see its knowledge network.</p>';
