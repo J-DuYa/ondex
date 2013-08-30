@@ -290,9 +290,11 @@ public class ClientWorker implements Runnable {
 							MultiThreadServer.props.getProperty("AnnotationPath")
 							+ fileTxt);
 					System.out.println("2.) table ");
+					//Document count
+					int docSize = qtlnetminerResults.getLuceneCandidateGenes().size();
 					// We have annotation and table file				
 					if (xmlIsCreated && txtIsCreated) {
-						request = "FileCreated:"+fileGViewer+":"+fileTxt+":"+genes.size();
+						request = "FileCreated:"+fileGViewer+":"+fileTxt+":"+genes.size()+":"+docSize;
 						System.out.println("request is "+request);
 					}
 				}											
