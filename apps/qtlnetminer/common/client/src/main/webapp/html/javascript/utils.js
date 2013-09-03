@@ -401,18 +401,32 @@ function createTable(tableUrl, keyword, rows){
 				    var score = '<td>'+values[6]+'</td>';
 				    var withinQTL = '<td>'+values[7]+'</td>';
 				    var usersList = '<td>'+values[8]+'</td>';
+					
 					// Foreach evidence show the images - start
 					var evidence = '<td>';
 					var values_evidence = values[9];
-					var evidences = values_evidence.split(" ");
+					var evidences = values_evidence.split("||");
 					if(evidences.length >0){
-						for (var count_i = 0; count_i < (evidences.length-1); count_i++) {
-							var evidence_elements = evidences[count_i].split(":");
-							evidence = evidence+'<div class="evidence_item evidence_item_'+evidence_elements[0]+'" title="'+evidence_elements[0]+'">'+evidence_elements[1]+'</div>';						
+						for (var count_i = 0; count_i < (evidences.length); count_i++) {
+							//Shows the icons
+							var evidence_elements = evidences[count_i].split("//");
+							evidence = evidence+'<div class="evidence_item evidence_item_'+evidence_elements[0]+'" title="'+evidence_elements[0]+'" ><span onclick="$(\'#evidence_box_'+values[1]+evidence_elements[0]+'\').slideDown(300);" style="cursor:pointer;">'+((evidence_elements.length)-1)+'</span>';	
+								//Builds the evidence box
+								evidence = evidence+'<div id="evidence_box_'+values[1]+evidence_elements[0]+'" class="evidence_box" style="display:none"><a class="evidence_box_close" href="javascript:;" onclick="$(\'#evidence_box_'+values[1]+evidence_elements[0]+'\').slideUp(100);"></a>';
+								evidence = evidence+'<p><div class="evidence_item evidence_item_'+evidence_elements[0]+'"></div> <span>'+evidence_elements[0]+'</span></p>';
+								for (var count_eb = 1; count_eb < (evidence_elements.length); count_eb++) {
+									evidence = evidence+'<p>'+evidence_elements[count_eb]+'</p>';
+								}
+								evidence = evidence+'</div>';
+							evidence = evidence+'</div>';
+									
+							
+										
 						}
 					}
 					evidence = evidence+'</td>';
 					// Foreach evidence show the images - end
+					
 				    var select = '<td><input type="checkbox" name= "candidates" value="'+values[1]+'"></td>';
 				    //table = table + gene + chr + start + end + score + withinQTL + usersList + evidence + select;
 					table = table + gene + chr + start + score + withinQTL + usersList + evidence + select;

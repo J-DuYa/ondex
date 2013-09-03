@@ -325,6 +325,10 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 .evidence_item_TO {background:url(../image/Trait_ontology.png) no-repeat;}
 .evidence_item_Phenotype {background:url(../image/Phenotype.png) no-repeat;}
 
+.evidence_box {position:absolute; width:185px; top:0px; left:25px; border: solid 3px #C0C0C0;background-color:#FFFFFF;padding:0px 9px;z-index:2;text-align:left;}
+.evidence_box span {font-size:17px; color:#003399;}
+.evidence_box_close {position:absolute;top:-10px;left:-12px;background:url(../image/close.png) no-repeat;height:18px;width:18px}
+
 /* Legend */
 #legend_picture {position:relative;width:100%;padding-top:25px;}
 #legend_picture #legend_container {position:relative;margin:auto;width:500px;height:88px;}
