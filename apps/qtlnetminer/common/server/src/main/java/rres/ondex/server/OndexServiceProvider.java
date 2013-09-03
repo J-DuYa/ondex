@@ -53,6 +53,7 @@ import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXGraph;
 import net.sourceforge.ondex.core.ONDEXGraphMetaData;
 import net.sourceforge.ondex.core.ONDEXRelation;
+import net.sourceforge.ondex.core.base.ConceptAccessionImpl;
 import net.sourceforge.ondex.core.memory.MemoryONDEXGraph;
 import net.sourceforge.ondex.core.searchable.LuceneConcept;
 import net.sourceforge.ondex.core.searchable.LuceneEnv;
@@ -1212,25 +1213,28 @@ public class OndexServiceProvider {
 				Set<Integer> luceneHits = mapGene2HitConcept.get(id);
 				
 				//organise by concept class
-				HashMap<String, Integer> cc2count = new HashMap<String, Integer>(); 
+				HashMap<String, String> cc2name = new HashMap<String, String>(); 
 				
 				for(int hitID : luceneHits){
-					String ccId = graph.getConcept(hitID).getOfType().getId();
-					if(!cc2count.containsKey(ccId)){
-						cc2count.put(ccId, 1);
+					ONDEXConcept c = graph.getConcept(hitID);
+					String ccId = c.getOfType().getId();
+					String name = getDefaultNameForGroupOfConcepts(c);
+
+					if(!cc2name.containsKey(ccId)){
+						cc2name.put(ccId, ccId+"//"+name);
 					}else{
-						int count = cc2count.get(ccId);
-						count++;
-						cc2count.put(ccId, count);
+						String act_name = cc2name.get(ccId);
+						act_name = act_name+"//"+name;
+						cc2name.put(ccId, act_name);
 					}
 				}
 				
 				//create output string
 				String evidence = "";
-				for(String ccId : cc2count.keySet()){
-					evidence += ccId+":"+cc2count.get(ccId)+" ";
+				for(String ccId : cc2name.keySet()){
+					evidence += cc2name.get(ccId)+"||";
 				}
-				
+				evidence = evidence.substring(0, evidence.length() - 2);
 				
 				out.write(id + "\t" + geneAcc + "\t" + geneName + "\t" + chr + "\t"
 						+ beg + "\t" + end + "\t" + fmt.format(score) + "\t" +isInList + "\t" + numQTL + "\t" + evidence + "\n");
@@ -1306,6 +1310,79 @@ public class OndexServiceProvider {
 			name = "null";
 
 		return name;
+	}
+	
+	/**
+	 * Returns the shortest preferred Name from a set of concept Names or ""
+	 * [Gene|Protein][Phenotype][The rest]
+	 * @param cns
+	 *            Set<ConceptName>
+	 * @return String name
+	 */
+	private String getShortestPreferedName(Set<ConceptName> cns) {
+		String result = "";
+		int length = 100000;
+		for(ConceptName cn : cns){
+			if((cn.isPreferred())&&(cn.getName().trim().length() < length)){
+				result = cn.getName().trim();
+				length = cn.getName().trim().length();
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Returns the shortest not ambiguous accession or ""
+	 * 
+	 * @param accs
+	 *            Set<ConceptAccession>
+	 * @return String name
+	 */
+	private String getShortestNotAmbiguousAccession(Set<ConceptAccession> accs) {
+		String result = "";
+		int length = 100000;
+		for(ConceptAccession acc : accs){
+			if(!(acc.isAmbiguous())&&(acc.getAccession().trim().length() < length)){
+				result = acc.getAccession().trim();
+				length = acc.getAccession().trim().length();
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Returns the best name for each group of concept classes
+	 * [Gene|Protein][Phenotype][The rest]
+	 * @param c
+	 *            ONDEXConcept
+	 * @return normalised name
+	 */
+	private String getDefaultNameForGroupOfConcepts(ONDEXConcept c) {
+
+		// this is the preferred concept name
+		String ct = c.getOfType().getId();
+		String cn = "";
+		Set<ConceptName> cns = c.getConceptNames();
+		Set<ConceptAccession> accs = c.getConceptAccessions();
+		if((ct == "Gene")||(ct == "Protein")){
+			if(getShortestNotAmbiguousAccession(accs) != ""){
+				cn = getShortestNotAmbiguousAccession(accs);
+			} else {
+				cn = getShortestPreferedName(cns);
+			}			
+		}else if(ct == "Phenotype"){
+			AttributeName att = graph.getMetaData().getAttributeName("Phenotype");
+			cn = c.getAttribute(att).getValue().toString().trim();
+		}else{
+			if(getShortestPreferedName(cns) != ""){
+				cn = getShortestPreferedName(cns);
+			} else {
+				cn = getShortestNotAmbiguousAccession(accs);
+			}			
+		}
+		if(cn.length() > 30)
+			cn = cn.substring(0,29)+"...";
+		return cn;
 	}
 
 	/**
