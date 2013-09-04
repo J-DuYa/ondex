@@ -12,7 +12,7 @@ import net.sourceforge.ondex.core.ONDEXConcept;
 public class Hits {	
 	
 	OndexServiceProvider ondexProvider;
-	HashMap<ONDEXConcept, Float> luceneCandidateGenes;	//concept and Lucene score
+	HashMap<ONDEXConcept, Float> luceneConcepts;	//concept and Lucene score
 	ArrayList<ONDEXConcept> sortedCandidates;
 	Set<ONDEXConcept> usersGenes;
 	Set<ONDEXConcept> usersGenesRelated;
@@ -22,7 +22,7 @@ public class Hits {
 		this.ondexProvider = ondexProvider;
 		this.keyword = keyword;
 		try {
-			this.luceneCandidateGenes = ondexProvider.searchGenome(keyword);			
+			this.luceneConcepts = ondexProvider.searchGenome(keyword);			
 		} 
 		catch (IOException e) {			
 			e.printStackTrace();
@@ -32,15 +32,15 @@ public class Hits {
 		}
 	}
 	
-	public HashMap<ONDEXConcept, Float> getLuceneCandidateGenes(){
-		return this.luceneCandidateGenes;
+	public HashMap<ONDEXConcept, Float> getLuceneConcepts(){
+		return this.luceneConcepts;
 	}
-	public void setLuceneCandidateGenes(HashMap<ONDEXConcept, Float> luceneCandidateGenes){
-		this.luceneCandidateGenes = luceneCandidateGenes;
+	public void setLuceneConcepts(HashMap<ONDEXConcept, Float> luceneConcepts){
+		this.luceneConcepts = luceneConcepts;
 	}
 	public ArrayList<ONDEXConcept> getSortedCandidates(){
 		try {
-			this.sortedCandidates = ondexProvider.scoreHits(luceneCandidateGenes);
+			this.sortedCandidates = ondexProvider.scoreHits(luceneConcepts);
 		} 
 		catch (IOException e) {			
 			e.printStackTrace();

@@ -291,7 +291,7 @@ public class ClientWorker implements Runnable {
 							+ fileTxt);
 					System.out.println("2.) table ");
 					//Document count
-					int docSize = qtlnetminerResults.getLuceneCandidateGenes().size();
+					int docSize = qtlnetminerResults.getLuceneConcepts().size();
 					// We have annotation and table file				
 					if (xmlIsCreated && txtIsCreated) {
 						request = "FileCreated:"+fileGViewer+":"+fileTxt+":"+genes.size()+":"+docSize;
