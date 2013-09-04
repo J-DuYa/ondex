@@ -1102,6 +1102,11 @@ public class OndexServiceProvider {
 
 		return false;
 	}
+	
+	public boolean writeEvidenceTable(HashMap<ONDEXConcept, Float> luceneConcepts, Set<ONDEXConcept> userGenes, List<QTL> qtls, String fileName){
+		
+		return false;
+	}
 
 	/**
 	 * This table contains all possible candidate genes for given query

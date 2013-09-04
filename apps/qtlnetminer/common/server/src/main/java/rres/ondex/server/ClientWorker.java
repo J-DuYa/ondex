@@ -217,7 +217,8 @@ public class ClientWorker implements Runnable {
 		// Setup file names
 		long timestamp = System.currentTimeMillis();
 		String fileGViewer = keyword+"_" + timestamp+".xml";
-		String fileTxt = keyword+"_" + timestamp+".txt";
+		String fileGeneTable = keyword+"_" + timestamp+".txt";
+		String fileEvidenceTable = keyword+"_" + timestamp+".tab";
 		
 		String request = "";	
 		ArrayList<ONDEXConcept> genes = new ArrayList<ONDEXConcept>();
@@ -279,22 +280,29 @@ public class ClientWorker implements Runnable {
 					request = "NoFile:noGenesFound";
 				}
 				else {
-					// Annotation File
+					// Gviewer Annotation File
 					boolean xmlIsCreated = ondexProvider.writeAnnotationXML(
 							genes, userGenes, qtl, MultiThreadServer.props.getProperty("AnnotationPath")
 							+ fileGViewer, keyword, 100, qtlnetminerResults, listMode);
-					// Table file
-					System.out.println("1.) annotation ");
+					System.out.println("1.) Gviewer annotation ");
+					
+					// Gene table file
 					boolean txtIsCreated = ondexProvider.writeTableOut(
 							genes, userGenes, qtl,
 							MultiThreadServer.props.getProperty("AnnotationPath")
-							+ fileTxt);
-					System.out.println("2.) table ");
+							+ fileGeneTable);
+					System.out.println("2.) Gene table ");
+					
+					// Evidence table file
+					boolean eviTableIsCreated = ondexProvider.writeEvidenceTable(qtlnetminerResults.getLuceneConcepts(), 
+							userGenes, qtl, MultiThreadServer.props.getProperty("AnnotationPath") + fileEvidenceTable);
+					System.out.println("3.) Evidence table ");
+					
 					//Document count
 					int docSize = qtlnetminerResults.getLuceneConcepts().size();
 					// We have annotation and table file				
-					if (xmlIsCreated && txtIsCreated) {
-						request = "FileCreated:"+fileGViewer+":"+fileTxt+":"+genes.size()+":"+docSize;
+					if (xmlIsCreated && txtIsCreated && eviTableIsCreated) {
+						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+genes.size()+":"+docSize;
 						System.out.println("request is "+request);
 					}
 				}											
