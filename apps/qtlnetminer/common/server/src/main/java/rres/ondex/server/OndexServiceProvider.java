@@ -405,7 +405,7 @@ public class OndexServiceProvider {
 	 * @throws IOException
 	 * @throws ParseException 
 	 */
-	public HashMap<ONDEXConcept, Float> searchGenome(String keywords) throws IOException, ParseException {
+	public HashMap<ONDEXConcept, Float> searchLucene(String keywords) throws IOException, ParseException {
 
 		Set<AttributeName> atts = graph.getMetaData().getAttributeNames();		
 		String[] datasources = {"PFAM", "IPRO", "UNIPROTKB", "EMBL", "KEGG", "EC", "GO", "TO", "NLM", "TAIR", "ENSEMBLGENE"};

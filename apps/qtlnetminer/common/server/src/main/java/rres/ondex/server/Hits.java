@@ -22,7 +22,7 @@ public class Hits {
 		this.ondexProvider = ondexProvider;
 		this.keyword = keyword;
 		try {
-			this.luceneConcepts = ondexProvider.searchGenome(keyword);			
+			this.luceneConcepts = ondexProvider.searchLucene(keyword);			
 		} 
 		catch (IOException e) {			
 			e.printStackTrace();
