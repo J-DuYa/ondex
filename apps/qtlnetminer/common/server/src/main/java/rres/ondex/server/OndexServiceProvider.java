@@ -474,7 +474,7 @@ public class OndexServiceProvider {
 	}
 	
 	
-	public ArrayList<ONDEXConcept> scoreHits(HashMap<ONDEXConcept, Float> hit2score) throws IOException {
+	public ArrayList<ONDEXConcept> getScoredGenes(HashMap<ONDEXConcept, Float> hit2score) throws IOException {
 		
 		ArrayList<ONDEXConcept> candidateGenes = new ArrayList<ONDEXConcept>();			
 		scoredCandidates = new HashMap<ONDEXConcept, Double>(); 

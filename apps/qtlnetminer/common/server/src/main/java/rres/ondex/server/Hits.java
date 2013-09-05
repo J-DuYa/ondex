@@ -40,7 +40,7 @@ public class Hits {
 	}
 	public ArrayList<ONDEXConcept> getSortedCandidates(){
 		try {
-			this.sortedCandidates = ondexProvider.scoreHits(luceneConcepts);
+			this.sortedCandidates = ondexProvider.getScoredGenes(luceneConcepts);
 		} 
 		catch (IOException e) {			
 			e.printStackTrace();
