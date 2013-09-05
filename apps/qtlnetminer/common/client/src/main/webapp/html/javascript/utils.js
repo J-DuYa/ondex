@@ -456,6 +456,20 @@ function createGenesTable(tableUrl, keyword, rows){
  * Function
  * 
  */
+function containsKey(keyToTest, array){
+	result = false;
+	for(key in array) { 
+		if(key == keyToTest){
+			result = true;	
+		}
+	}
+	return result;
+}
+
+/*
+ * Function
+ * 
+ */
 function createEvidenceTable(tableUrl){
 	var table = "";
 	$.ajax({
@@ -467,15 +481,18 @@ function createEvidenceTable(tableUrl){
         error: function(){						  
         },
         success: function(text){
+			var summaryArr = new Array();
+			var summaryText = '';
     		var evidenceTable = text.split("\n");
 			if(evidenceTable.length > 2) {
 				table = '';
 				table = table + '<p></p>';
+				table = table + '<div id="evidenceSummary"></div>';
 				table = table + '<div class = "scrollTable">';
 				table = table + '<table id = "tablesorterEvidence" class="tablesorter">';
 				table = table + '<thead>';
 				table = table + '<tr>';
-				var header = evidenceTable[0].split("\t");
+				var header = evidenceTable[0].split("\t");				
 				table = table + '<th width="100">'+header[0]+'</th>';
 				table = table + '<th width="212">'+header[1]+'</th>'
 				table = table + '<th width="78">'+header[2]+'</th>';			
@@ -495,13 +512,25 @@ function createEvidenceTable(tableUrl){
 					table = table + '<td>'+values[4]+'</td>';
 					table = table + '<td>'+values[5]+'</td>';
 					table = table + '</tr>';
+					//Calculates the summary box
+					if (containsKey(values[0],summaryArr)){
+						summaryArr[values[0]] = summaryArr[values[0]]+1;					
+					} else {
+						summaryArr[values[0]] = 1;	
+					}
 				}
 				table = table + '</tbody>';
 				table = table + '</table>';
 				table = table + '</div>';
+				table = table + '<div id="legend_picture"><div id="legend_container"><img src="html/image/evidence_legend.png" /></div></div>';
+				
 				$('#evidenceTable').html(table);
 				$("#tablesorterEvidence").tablesorter({sortList: [[2,1], [0,0]]}); 
-				
+				//Shows the summary box
+				for(key in summaryArr){
+					summaryText = summaryText+'<div class="evidenceSummaryItem"><div class="evidence_item evidence_item_'+key+'"></div>'+summaryArr[key]+'</div>';	
+				}
+				$('#evidenceSummary').html(summaryText);
 			}
 		}
 	})
