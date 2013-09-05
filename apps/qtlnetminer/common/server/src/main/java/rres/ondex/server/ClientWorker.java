@@ -105,6 +105,8 @@ public class ClientWorker implements Runnable {
             }
             else if(key.toLowerCase().equals("keyword")){
             	keyword = value.trim().replace("\n", "");
+            	keyword = URLDecoder.decode(keyword, "UTF-8");
+            	System.out.println("Keyword decoded: "+keyword);
             }
             else if(key.toLowerCase().equals("mode")){
             	mode = value.trim().replace("\n", "");
@@ -216,9 +218,9 @@ public class ClientWorker implements Runnable {
 
 		// Setup file names
 		long timestamp = System.currentTimeMillis();
-		String fileGViewer = keyword+"_" + timestamp+".xml";
-		String fileGeneTable = keyword+"_" + timestamp+".txt";
-		String fileEvidenceTable = keyword+"_" + timestamp+".tab";
+		String fileGViewer = timestamp+"GViewer.xml";
+		String fileGeneTable = timestamp+"GeneTable.tab";
+		String fileEvidenceTable = timestamp+"EvidenceTabl.tab";
 		
 		String request = "";	
 		ArrayList<ONDEXConcept> genes = new ArrayList<ONDEXConcept>();
