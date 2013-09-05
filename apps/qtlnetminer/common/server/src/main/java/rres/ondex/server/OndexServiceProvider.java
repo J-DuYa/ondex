@@ -1105,6 +1105,42 @@ public class OndexServiceProvider {
 	
 	public boolean writeEvidenceTable(HashMap<ONDEXConcept, Float> luceneConcepts, Set<ONDEXConcept> userGenes, List<QTL> qtls, String fileName){
 		
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+			//writes the header of the table
+			out.write("TYPE\tNAME\tSCORE\tGENES\tUSER GENES\tQTLS\n");
+			for(ONDEXConcept lc : luceneConcepts.keySet()){
+				//Creates type,name,score and numberOfGenes
+				String type = lc.getOfType().getId();
+				String name = getDefaultNameForGroupOfConcepts(lc);
+				Float score = luceneConcepts.get(lc);
+				if(!mapConcept2Genes.containsKey(lc.getId())){
+					continue;
+				}
+				Set<Integer> listOfGenes = mapConcept2Genes.get(lc.getId());
+				Integer numberOfGenes = listOfGenes.size();
+				//Creates numberOfUserGenes and numberOfQTL
+				Integer numberOfUserGenes = 0;	
+				Integer numberOfQTL = 0;
+				Set<ONDEXConcept> genesWithinQTL = searchQTLs(qtls);
+				for (int log : listOfGenes) {
+					
+					if((userGenes != null)&&(graph.getConcept(log) != null)&&(userGenes.contains(graph.getConcept(log)))){
+						numberOfUserGenes++;
+					}
+					if((genesWithinQTL != null)&&(graph.getConcept(log) != null)&&(genesWithinQTL.contains(graph.getConcept(log)))){
+						numberOfQTL++;
+					}
+				}
+				//writes the row
+				out.write(type+"\t"+name+"\t"+score+"\t"+numberOfGenes+"\t"+numberOfUserGenes+"\t"+numberOfQTL+"\n");
+			}
+			out.close();
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
