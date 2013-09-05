@@ -143,7 +143,7 @@ $(document).ready(
 function searchKeyword(){
 	var searchMode = getRadioValue(document.gviewerForm.search_mode);
 	var listMode = getRadioValue(document.gviewerForm.list_mode);
-	var keyword = trim($("#keywords").val());
+	var keyword = escape(trim($("#keywords").val()));
 	var list = $("#list_of_genes").val();
 	var regions = document.getElementById('regions_table').rows.length -2;
 	var request = "keyword="+keyword+"&mode="+searchMode;
@@ -270,7 +270,7 @@ function generateMultiGeneNetwork(keyword) {
 	if(candidatelist == "") {
 		$("#loadingNetworkDiv").replaceWith('<div id="loadingNetworkDiv"><b>Please select candidate genes.</b></div>');
 	} else {
-			generateNetwork("OndexServlet?mode=network&keyword="+keyword, {list : candidatelist});				
+			generateNetwork('OndexServlet?mode=network&keyword='+keyword, {list : candidatelist});				
 	}
 }
 /*
@@ -528,7 +528,7 @@ function createEvidenceTable(tableUrl){
 				$("#tablesorterEvidence").tablesorter({sortList: [[2,1], [0,0]]}); 
 				//Shows the summary box
 				for(key in summaryArr){
-					summaryText = summaryText+'<div class="evidenceSummaryItem"><div class="evidence_item evidence_item_'+key+'"></div>'+summaryArr[key]+'</div>';	
+					summaryText = summaryText+'<div class="evidenceSummaryItem"><div class="evidence_item evidence_item_'+key+'" title="'+key+'"></div>'+summaryArr[key]+'</div>';	
 				}
 				$('#evidenceSummary').html(summaryText);
 			}
