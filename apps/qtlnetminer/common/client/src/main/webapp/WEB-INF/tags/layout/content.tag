@@ -97,7 +97,8 @@
     	<div id="tabviewer_buttons">
         	<div class="menu_button button_off" id="pGViewer_button"><a href="javascript:;" onclick="activateButton('pGViewer');">Map View</a></div>
         	<div class="menu_button button_on" id="resultsTable_button"><a href="javascript:;" onclick="activateButton('resultsTable');">List View</a> </div>
-        	<div class="menu_button button_on" id="NetworkCanvas_button"><a href="javascript:;" onclick="activateButton('NetworkCanvas');">Network View</a> </div>
+        	<div class="menu_button button_on" id="evidenceTable_button"><a href="javascript:;" onclick="activateButton('evidenceTable');">Evidence View</a> </div>
+        	<div class="menu_button button_on" id="NetworkCanvas_button"><a href="javascript:;" onclick="activateButton('NetworkCanvas');">Network View</a> </div>			
         	<div class="button_filler"></div>
         </div>
         <div id="tabviewer_content">
@@ -123,6 +124,7 @@
             <div id="NetworkCanvas" class="resultViewer" style="display:none;position:relative;top:38px;padding-bottom:60px">
             	<iframe id="Network_frame" name="Network_frame" width="760" height="800" style="border:none"></iframe>
             </div>
+			<div id="evidenceTable" class="resultViewer" style="display:none;" ></div>
         </div>        
 	</div>
 </div>

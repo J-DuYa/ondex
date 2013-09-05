@@ -188,7 +188,7 @@ function searchKeyword(){
 	        },
 	        success: function(response, textStatus){
 				$("#loadingDiv").replaceWith('<div id="loadingDiv"></div>');	
-				if(response.indexOf("NoFile:noGenesFound") !=-1 ||  !response.split(":")[3] > 0){
+				if(response.indexOf("NoFile:noGenesFound") !=-1 ||  !response.split(":")[4] > 0){
 					var genomicViewTitle = '<div id="pGViewer_title">Sorry, no results were found.<br /></div>'
 					var genomicView = '<div id="pGViewer" class="resultViewer">';
 					var gviewer_html = '<center><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="600" height="600" id="GViewer2" align="middle"><param name="wmode" value="transparent"><param name="allowScriptAccess" value="sameDomain" /><param name="movie" value="html/GViewer/GViewer2.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF" /><param name="FlashVars" value="&lcId=1234567890&baseMapURL=html/data/basemap.xml&annotationURL=&dimmedChromosomeAlpha=40&bandDisplayColor=0x0099FF&wedgeDisplayColor=0xCC0000&browserURL=OndexServlet?position=Chr&" /><embed style="width:700px; height:550px;" id="embed" src="html/GViewer/GViewer2.swf" quality="high" bgcolor="#FFFFFF" width="600" height="600" name="GViewer2" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" FlashVars="&lcId=1234567890&baseMapURL=html/data/basemap.xml&annotationURL=&dimmedChromosomeAlpha=40&bandDisplayColor=0x0099FF&wedgeDisplayColor=0xCC0000&titleBarText=&browserURL=OndexServlet?position=Chr&" pluginspage="http://www.macromedia.com/go/getflashplayer" /></object></center></div>';
@@ -199,8 +199,8 @@ function searchKeyword(){
 	        	}
 				else {
 					var splitedResponse = response.split(":");  
-					var results = splitedResponse[3];
-					var docSize = splitedResponse[4];
+					var results = splitedResponse[4];
+					var docSize = splitedResponse[5];
 					var candidateGenes = parseInt(results);
 					var genomicViewTitle = '<div id="pGViewer_title">In total '+results+' genes were found. Query was found in '+docSize+' documents<br /></div>'
 					var genomicView = '<div id="pGViewer" class="resultViewer"><p class="margin_left">Shift+Click on a gene to see its knowledge network.</p>';
@@ -213,7 +213,8 @@ function searchKeyword(){
 					$("#pGViewer_title").replaceWith(genomicViewTitle);
 					$("#pGViewer").replaceWith(genomicView);	
 					activateButton('resultsTable');
-					createTable(data_url+splitedResponse[2], keyword, candidateGenes);						
+					createGenesTable(data_url+splitedResponse[2], keyword, candidateGenes);
+					createEvidenceTable(data_url+splitedResponse[3]);
 				}
 	        }
 		});
@@ -349,7 +350,7 @@ function getRadioValue(radio) {
  * Function
  * 
  */
-function createTable(tableUrl, keyword, rows){
+function createGenesTable(tableUrl, keyword, rows){
 	var table = "";
 	$.ajax({
         url:tableUrl,
@@ -451,11 +452,68 @@ function createTable(tableUrl, keyword, rows){
 	});	
 }
 
+/*
+ * Function
+ * 
+ */
+function createEvidenceTable(tableUrl){
+	var table = "";
+	$.ajax({
+        url:tableUrl,
+        type:'GET',
+        dataType:'text',
+        async: true,
+        timeout: 1000000,
+        error: function(){						  
+        },
+        success: function(text){
+    		var evidenceTable = text.split("\n");
+			if(evidenceTable.length > 2) {
+				table = '';
+				table = table + '<p></p>';
+				table = table + '<div class = "scrollTable">';
+				table = table + '<table id = "tablesorterEvidence" class="tablesorter">';
+				table = table + '<thead>';
+				table = table + '<tr>';
+				var header = evidenceTable[0].split("\t");
+				table = table + '<th width="100">'+header[0]+'</th>';
+				table = table + '<th width="212">'+header[1]+'</th>'
+				table = table + '<th width="78">'+header[2]+'</th>';			
+				table = table + '<th width="60">'+header[3]+'</th>';
+				table = table + '<th width="103">'+header[4]+'</th>';
+				table = table + '<th width="50">'+header[5]+'</th>';							
+				table = table + '</tr>';
+				table = table + '</thead>';
+				table = table + '<tbody class="scrollTable">';
+				for(var ev_i=1; ev_i < (evidenceTable.length-1); ev_i++) {
+					values = evidenceTable[ev_i].split("\t");
+					table = table + '<tr>';
+					table = table + '<td>'+values[0]+'</td>';
+					table = table + '<td>'+values[1]+'</td>';
+					table = table + '<td>'+values[2]+'</td>';
+					table = table + '<td>'+values[3]+'</td>';
+					table = table + '<td>'+values[4]+'</td>';
+					table = table + '<td>'+values[5]+'</td>';
+					table = table + '</tr>';
+				}
+				table = table + '</tbody>';
+				table = table + '</table>';
+				table = table + '</div>';
+				$('#evidenceTable').html(table);
+				$("#tablesorterEvidence").tablesorter({sortList: [[2,1], [0,0]]}); 
+				
+			}
+		}
+	})
+}
+
+/*
+ * Function
+ * 
+ */
 function trim(text) {
     return text.replace(/^\s+|\s+$/g, "");
 }
-
-
 
 /*
  * Google Analytics
