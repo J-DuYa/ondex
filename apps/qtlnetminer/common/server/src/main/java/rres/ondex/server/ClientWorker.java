@@ -299,7 +299,7 @@ public class ClientWorker implements Runnable {
 					System.out.println("3.) Evidence table ");
 					
 					//Document count
-					int docSize = qtlnetminerResults.getLuceneConcepts().size();
+					int docSize = ondexProvider.getMapEvidences2Genes(qtlnetminerResults.getLuceneConcepts()).size();
 					// We have annotation and table file				
 					if (xmlIsCreated && txtIsCreated && eviTableIsCreated) {
 						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+genes.size()+":"+docSize;

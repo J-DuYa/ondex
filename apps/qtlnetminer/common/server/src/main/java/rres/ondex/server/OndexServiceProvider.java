@@ -1103,46 +1103,7 @@ public class OndexServiceProvider {
 		return false;
 	}
 	
-	public boolean writeEvidenceTable(HashMap<ONDEXConcept, Float> luceneConcepts, Set<ONDEXConcept> userGenes, List<QTL> qtls, String fileName){
-		
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-			//writes the header of the table
-			out.write("TYPE\tNAME\tSCORE\tGENES\tUSER GENES\tQTLS\n");
-			for(ONDEXConcept lc : luceneConcepts.keySet()){
-				//Creates type,name,score and numberOfGenes
-				String type = lc.getOfType().getId();
-				String name = getDefaultNameForGroupOfConcepts(lc);
-				Float score = luceneConcepts.get(lc);
-				if(!mapConcept2Genes.containsKey(lc.getId())){
-					continue;
-				}
-				Set<Integer> listOfGenes = mapConcept2Genes.get(lc.getId());
-				Integer numberOfGenes = listOfGenes.size();
-				//Creates numberOfUserGenes and numberOfQTL
-				Integer numberOfUserGenes = 0;	
-				Integer numberOfQTL = 0;
-				Set<ONDEXConcept> genesWithinQTL = searchQTLs(qtls);
-				for (int log : listOfGenes) {
-					
-					if((userGenes != null)&&(graph.getConcept(log) != null)&&(userGenes.contains(graph.getConcept(log)))){
-						numberOfUserGenes++;
-					}
-					if((genesWithinQTL != null)&&(graph.getConcept(log) != null)&&(genesWithinQTL.contains(graph.getConcept(log)))){
-						numberOfQTL++;
-					}
-				}
-				//writes the row
-				out.write(type+"\t"+name+"\t"+score+"\t"+numberOfGenes+"\t"+numberOfUserGenes+"\t"+numberOfQTL+"\n");
-			}
-			out.close();
-			return true;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
-	}
+	
 
 	/**
 	 * This table contains all possible candidate genes for given query
@@ -1289,7 +1250,73 @@ public class OndexServiceProvider {
 		}
 		return true;
 	}
+	
+	/**
+	 * Write Evidence Table for Evidence View file
+	 * 
+	 * @param luceneConcepts
+	 * @param userGenes 
+	 * @param qtl 
+	 * @param filename
+	 * @return boolean
+	 */
+	
+	public boolean writeEvidenceTable(HashMap<ONDEXConcept, Float> luceneConcepts, Set<ONDEXConcept> userGenes, List<QTL> qtls, String fileName){
+		
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+			//writes the header of the table
+			out.write("TYPE\tNAME\tSCORE\tGENES\tUSER GENES\tQTLS\n");
+			for(ONDEXConcept lc : luceneConcepts.keySet()){
+				//Creates type,name,score and numberOfGenes
+				String type = lc.getOfType().getId();
+				String name = getDefaultNameForGroupOfConcepts(lc);
+				Float score = luceneConcepts.get(lc);
+				if(!mapConcept2Genes.containsKey(lc.getId())){
+					continue;
+				}
+				Set<Integer> listOfGenes = mapConcept2Genes.get(lc.getId());
+				Integer numberOfGenes = listOfGenes.size();
+				//Creates numberOfUserGenes and numberOfQTL
+				Integer numberOfUserGenes = 0;	
+				Integer numberOfQTL = 0;
+				Set<ONDEXConcept> genesWithinQTL = searchQTLs(qtls);
+				for (int log : listOfGenes) {
+					
+					if((userGenes != null)&&(graph.getConcept(log) != null)&&(userGenes.contains(graph.getConcept(log)))){
+						numberOfUserGenes++;
+					}
+					if((genesWithinQTL != null)&&(graph.getConcept(log) != null)&&(genesWithinQTL.contains(graph.getConcept(log)))){
+						numberOfQTL++;
+					}
+				}
+				//writes the row
+				out.write(type+"\t"+name+"\t"+score+"\t"+numberOfGenes+"\t"+numberOfUserGenes+"\t"+numberOfQTL+"\n");
+			}
+			out.close();
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
+	public HashMap<Integer, Set<Integer>> getMapEvidences2Genes(HashMap<ONDEXConcept, Float> luceneConcepts){
+		HashMap<Integer, Set<Integer>> mapEvidences2Genes = new HashMap<Integer, Set<Integer>>();
+		for(ONDEXConcept lc : luceneConcepts.keySet()){
+			Integer luceneOndexId = lc.getId();
+			//Checks if the document is related to a gene
+			if(!mapConcept2Genes.containsKey(luceneOndexId)){
+				continue;
+			}
+			//Creates de set of Concepts ids
+			Set<Integer> listOfGenes = mapConcept2Genes.get(luceneOndexId);			
+			mapEvidences2Genes.put(luceneOndexId, listOfGenes);
+		}
+		return mapEvidences2Genes;
+	}
+	
 	/**
 	 * Parses the semantic motif file
 	 * 
