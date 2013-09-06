@@ -736,7 +736,7 @@ public class OndexServiceProvider {
 		}
 	}
 
-	public ONDEXGraph findSemanticMotifs(Set<ONDEXConcept> seed, String regex) {
+	public ONDEXGraph findSemanticMotifsOld(Set<ONDEXConcept> seed, String regex) {
 		
 		System.out.println("Method findSemanticMotifs: "+seed.size());
 		// the results give us a map of every starting concept to every valid path
@@ -785,6 +785,93 @@ public class OndexServiceProvider {
 					
 					// annotate the semantic motif in the new Ondex graph
 					highlightPath(path, graphCloner);
+				}
+			}
+		}
+		
+		ONDEXGraphRegistry.graphs.remove(subGraph.getSID());
+
+		System.out.println("Number of seed genes: " + seed.size());
+		System.out.println("Keyword(s) were found in " + keywordConcepts.size()
+				+ " concepts.");
+		System.out.println("Number of candidate genes " + candidateGenes.size());
+
+		return subGraph;
+	}
+	
+	
+	/**
+	 * Searches with Lucene for documents, finds semantic motifs
+	 * and by crossing this data makes concepts visible, changes
+	 * the size and highlight the hits
+	 * 
+	 * @param seed
+	 *            List of selected genes
+	 * @param keyword
+	 * @return subGraph           
+	 */
+	public ONDEXGraph findSemanticMotifs(Set<ONDEXConcept> seed, String keyword) {
+		System.out.println("Method findSemanticMotifs - keyword: "+keyword);
+		//Searches with Lucene: luceneResults
+		HashMap<ONDEXConcept, Float> luceneResults = null;
+		try {
+			luceneResults = searchLucene(keyword);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// the results give us a map of every starting concept to every valid path
+		Map<ONDEXConcept, List<EvidencePathNode>> results = gt.traverseGraph(graph, seed, null);	
+		
+		
+		Set<ONDEXConcept> keywordConcepts = new HashSet<ONDEXConcept>();
+		Set<ONDEXConcept> candidateGenes = new HashSet<ONDEXConcept>();
+
+		if (keyword != null) {
+			System.out.println("Keyword is: " + keyword);
+		}
+		// create new graph to return
+		ONDEXGraph subGraph = new MemoryONDEXGraph("SemanticMotifGraph");
+		ONDEXGraphCloner graphCloner = new ONDEXGraphCloner(graph, subGraph);
+		
+		ONDEXGraphRegistry.graphs.put(subGraph.getSID(), subGraph);
+		
+		for (List<EvidencePathNode> paths : results.values()) {
+			for (EvidencePathNode path : paths) {
+
+				// add all semantic motifs to the new graph
+				Set<ONDEXConcept> concepts = path.getAllConcepts();
+				Set<ONDEXRelation> relations = path.getAllRelations();
+				for (ONDEXConcept c : concepts) {
+					graphCloner.cloneConcept(c);				
+				}
+				for (ONDEXRelation r : relations) {
+					graphCloner.cloneRelation(r);
+				}
+
+				// search last concept of semantic motif for keyword
+				int indexLastCon = path.getConceptsInPositionOrder().size() - 1;
+				ONDEXConcept gene = (ONDEXConcept) path.getStartingEntity();
+				ONDEXConcept keywordCon = (ONDEXConcept) path.getConceptsInPositionOrder().get(indexLastCon);
+				
+				if(luceneResults.containsKey(keywordCon)){
+					// annotate the semantic motif in the new Ondex graph
+					highlightPath(path, graphCloner);
+				}
+				
+				ONDEXConcept cloneCon = graphCloner.cloneConcept(keywordCon);
+				// if keyword provided, annotate the
+				if (OndexSearch.find(cloneCon, keyword, false)) {
+					candidateGenes.add(gene);
+					if(!keywordConcepts.contains(cloneCon)){
+						keywordConcepts.add(cloneCon);
+						//only highlight keywords once
+						OndexSearch.find(cloneCon, keyword, true);
+					}
 				}
 			}
 		}
