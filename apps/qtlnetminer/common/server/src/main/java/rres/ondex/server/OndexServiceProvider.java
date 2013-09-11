@@ -865,13 +865,12 @@ public class OndexServiceProvider {
 				
 				ONDEXConcept cloneCon = graphCloner.cloneConcept(keywordCon);
 				// if keyword provided, annotate the
-				if (OndexSearch.find(cloneCon, keyword, false)) {
-					candidateGenes.add(gene);
-					if(!keywordConcepts.contains(cloneCon)){
-						keywordConcepts.add(cloneCon);
-						//only highlight keywords once
-						OndexSearch.find(cloneCon, keyword, true);
+				
+				if(!keywordConcepts.contains(cloneCon)){
+					if(OndexSearch.highlight(cloneCon, keyword)){
+						candidateGenes.add(gene);
 					}
+					keywordConcepts.add(cloneCon);
 				}
 			}
 		}
@@ -879,8 +878,8 @@ public class OndexServiceProvider {
 		ONDEXGraphRegistry.graphs.remove(subGraph.getSID());
 
 		System.out.println("Number of seed genes: " + seed.size());
-		System.out.println("Keyword(s) were found in " + keywordConcepts.size()
-				+ " concepts.");
+//		System.out.println("Keyword(s) were found in " + keywordConcepts.size()
+//				+ " concepts.");
 		System.out.println("Number of candidate genes " + candidateGenes.size());
 
 		return subGraph;
