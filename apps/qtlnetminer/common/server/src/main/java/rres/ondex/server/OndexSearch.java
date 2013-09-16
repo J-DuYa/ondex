@@ -133,12 +133,12 @@ public class OndexSearch {
 
 	// JavaScript Document
 		/**
-		 * Converts a keyword into a list of terms
+		 * Converts a keyword into a list of words
 		 * 
 		 * @param keyword
-		 * @return null or the list of terms
+		 * @return null or the list of words
 		 */
-		public static Set<String> parseKeywordIntoSet(String keyword) {
+		public static Set<String> parseKeywordIntoSetOfWords(String keyword) {
 			Set<String> result = new HashSet<String>();
 			String key = keyword.replace("(", " ");
 			key = key.replace(")", " ");
@@ -167,7 +167,7 @@ public class OndexSearch {
 //			System.out.println("Original keyword: "+regex);
 			boolean found = false;
 			
-			Set<String> keywords = parseKeywordIntoSet(regex);
+			Set<String> keywords = parseKeywordIntoSetOfWords(regex);
 			
 			String pid = concept.getPID();
 			String anno = concept.getAnnotation();

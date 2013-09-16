@@ -372,6 +372,9 @@ public class OndexServiceProvider {
 		return fileIsCreated;
 	}
 	
+	// JavaScript Document
+
+	
 	/**
 	 * Merge two maps using the greater scores
 	 * 
@@ -1387,6 +1390,117 @@ public class OndexServiceProvider {
 		}
 		return false;
 	}
+	
+	/**
+	 * Converts a keyword into a list of terms (more than one word)
+	 * 
+	 * @param keyword
+	 * @return null or the list of terms
+	 */
+	public static Set<String> parseKeywordIntoSetOfTerms(String keyword) {
+		Set<String> result = new HashSet<String>();
+		String key = keyword.replace("(", "");
+		key = key.replace(")", "");
+		key = key.replace("NOT", "");
+		
+		key = key.replace(" AND ", "___");
+		key = key.replace(" OR ", "___");
+		
+		System.out.println(key);
+		
+		//key = key.replaceAll("\\s+", " ");
+		
+		for (String k : key.split("___")) {
+			result.add(k.trim());
+			System.out.println("subkeyworkd for synonym table: "+k.trim());
+		}	
+		return result;
+	}
+	
+	/**
+	 * Write Synonym Table for Query suggestor
+	 * 
+	 * @param luceneConcepts
+	 * @param userGenes 
+	 * @param qtl 
+	 * @param filename
+	 * @return boolean
+	 * @throws ParseException 
+	 */
+	
+public boolean writeSynonymTable(String keyword, String fileName) throws ParseException{
+		int topX = 25;
+		Set<String> keys = parseKeywordIntoSetOfTerms(keyword);
+		
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+			for (String key : keys) {
+				Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_36);
+				Map<Integer, Float> synonymsList = new HashMap<Integer, Float>(); 
+				FloatValueComparator comparator =  new FloatValueComparator(synonymsList);
+				TreeMap<Integer, Float> sortedSynonymsList = new TreeMap<Integer, Float>(comparator);
+				
+				out.write("<"+key+">\n");
+				// search concept names
+				String fieldNameCN = getFieldName("ConceptName",null);
+			    QueryParser parserCN = new QueryParser(Version.LUCENE_36, fieldNameCN , analyzer);
+			    Query qNames = parserCN.parse(key);
+				ScoredHits<ONDEXConcept> hitSynonyms = lenv.searchTopConcepts(qNames, 100);
+				
+				
+				for(ONDEXConcept c : hitSynonyms.getOndexHits()){
+					if (c instanceof LuceneConcept) {
+						c = ((LuceneConcept) c).getParent();
+					}	
+					if(!synonymsList.containsKey(c.getId()) && !synonymsList.containsValue(key)){	
+						synonymsList.put(c.getId(), hitSynonyms.getScoreOnEntity(c));
+					}else{
+						float scoreA = hitSynonyms.getScoreOnEntity(c);
+						float scoreB = synonymsList.get(c.getId());
+						if(scoreA > scoreB){
+							synonymsList.put(c.getId(), scoreA);
+						}
+					}
+				}
+
+				if(synonymsList != null){
+					//Creates de sorted list of synonyms
+					sortedSynonymsList.putAll(synonymsList);
+					
+					//wirtes te topX values en the table
+					int topAux = 0;
+					for (Integer entry : sortedSynonymsList.keySet()) {
+						ONDEXConcept eoc = graph.getConcept(entry);
+						Float score = synonymsList.get(entry);
+						String type = eoc.getOfType().getId().toString();
+						Integer id = eoc.getId();
+						Set<ConceptName> cNames = eoc.getConceptNames();
+						for (ConceptName cName : cNames) {
+							if(topAux < topX){
+								if(type == "Gene" || type == "BioProc" || type == "MolFunc" || type == "CelComp"){
+									if(cName.isPreferred()){
+										String name = cName.getName().toString();
+										out.write(name+"\t"+type+"\t"+score.toString()+"\t"+id+"\n");
+										topAux++;
+									}
+								}
+							}
+							
+						}
+					}
+				}
+				
+				out.write("</"+key+">\n");
+				}
+			out.close();
+			return true;			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 
 	public HashMap<Integer, Set<Integer>> getMapEvidences2Genes(HashMap<ONDEXConcept, Float> luceneConcepts){
 		HashMap<Integer, Set<Integer>> mapEvidences2Genes = new HashMap<Integer, Set<Integer>>();
@@ -1759,6 +1873,41 @@ class ValueComparator implements Comparator {
 			return 1;
 		} 
 		else if((Double)base.get(a) == (Double)base.get(b)) {
+			return 0;
+		} 
+		else {
+			return -1;
+		}
+	}
+}
+
+class FloatValueComparator implements Comparator {
+
+	Map base;
+	public FloatValueComparator(Map base) {
+		this.base = base;
+	}
+
+	public int compare(Object a, Object b) {
+		if(base == null){
+			System.out.println("base is null");
+		}
+		if(a == null){
+			System.out.println("A null found");
+		}
+		if((Float)base.get(a) == null){
+			System.out.println("A content null found");
+		}
+		if(b == null){
+			System.out.println("B null found");
+		}
+		if((Float)base.get(b) == null){
+			System.out.println("B content null found");
+		}
+		if((Float)base.get(a) < (Float)base.get(b)) {
+			return 1;
+		} 
+		else if((Float)base.get(a) == (Float)base.get(b)) {
 			return 0;
 		} 
 		else {

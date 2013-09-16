@@ -221,6 +221,7 @@ public class ClientWorker implements Runnable {
 		String fileGViewer = timestamp+"GViewer.xml";
 		String fileGeneTable = timestamp+"GeneTable.tab";
 		String fileEvidenceTable = timestamp+"EvidenceTabl.tab";
+		String fileSynonymTable = timestamp+"SynonymTable.tab";
 		
 		String request = "";	
 		ArrayList<ONDEXConcept> genes = new ArrayList<ONDEXConcept>();
@@ -300,11 +301,15 @@ public class ClientWorker implements Runnable {
 							userGenes, qtl, MultiThreadServer.props.getProperty("AnnotationPath") + fileEvidenceTable);
 					System.out.println("3.) Evidence table ");
 					
+					// Synonym table file
+					boolean synTableIsCreated = ondexProvider.writeSynonymTable(keyword, MultiThreadServer.props.getProperty("AnnotationPath") + fileSynonymTable);
+					System.out.println("4.) Synonym table ");
+					
 					//Document count
 					int docSize = ondexProvider.getMapEvidences2Genes(qtlnetminerResults.getLuceneConcepts()).size();
 					// We have annotation and table file				
 					if (xmlIsCreated && txtIsCreated && eviTableIsCreated) {
-						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+genes.size()+":"+docSize;
+						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+fileSynonymTable+":"+genes.size()+":"+docSize;
 						System.out.println("request is "+request);
 					}
 				}											
