@@ -1,12 +1,14 @@
 var genespreadsheet = new Array();
 var genes;
 
-/*
-* Document ready event executes when the HTML document is loaded
-* 	- add/remove QTL regions
-* 	- advanced search
-* 	- tooltips
-*/
+function showSynonymTable(option){
+$('.suggestorTable:visible').fadeOut(0,function(){
+		$('.buttonSynonym_on').attr('class','buttonSynonym_off');
+		$('#'+option).fadeIn();
+		$('#'+option+'_buttonSynonym').attr('class','buttonSynonym_on');
+	})
+}
+
 function activateButton(option){
 $('.resultViewer:visible').fadeOut(0,function(){
 		$('.button_off').attr('class','button_on');
@@ -14,6 +16,61 @@ $('.resultViewer:visible').fadeOut(0,function(){
 		$('#'+option+'_button').attr('class','button_off');
 	})
 }
+
+function addKeyword(keyword, from, target){
+	query = $('#'+target).val();
+	newquery = query+' OR '+keyword;
+	$('#'+target).val(newquery);
+	$('#'+from).attr('onClick','addKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).attr('class','addKeywordUndo');
+}
+
+function addKeywordUndo(keyword, from, target){
+	query = $('#'+target).val();
+	newquery = query.replace(' OR '+keyword, "");
+	$('#'+target).val(newquery);
+	$('#'+from).attr('onClick','addKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).attr('class','addKeyword');
+}
+
+function excludeKeyword(keyword, from, target){
+	query = $('#'+target).val();
+	newquery = query+' NOT '+keyword;
+	$('#'+target).val(newquery);
+	$('#'+from).attr('onClick','excludeKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).attr('class','excludeKeywordUndo');
+}
+
+function excludeKeywordUndo(keyword, from, target){
+	query = $('#'+target).val();
+	newquery = query.replace(' NOT '+keyword, "");
+	$('#'+target).val(newquery);
+	$('#'+from).attr('onClick','excludeKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).attr('class','excludeKeyword');
+}
+
+function replaceKeyword(oldkeyword, newkeyword, from, target){
+	query = $('#'+target).val();
+	newquery = query.replace(oldkeyword,newkeyword);
+	$('#'+target).val(newquery);
+	$('#'+from).attr('onClick','replaceKeywordUndo(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).attr('class','replaceKeywordUndo');
+}
+
+function replaceKeywordUndo(oldkeyword, newkeyword, from, target){
+	query = $('#'+target).val();
+	newquery = query.replace(newkeyword,oldkeyword);
+	$('#'+target).val(newquery);
+	$('#'+from).attr('onClick','replaceKeyword(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).attr('class','replaceKeyword');
+}
+
+/*
+* Document ready event executes when the HTML document is loaded
+* 	- add/remove QTL regions
+* 	- advanced search
+* 	- tooltips
+*/
 	
 $(document).ready(
 		function(){
@@ -109,6 +166,18 @@ $(document).ready(
 				               }, 500
 				          );
 		    		 });
+		     // Suggestor search
+		     $('#suggestor_search').click(
+		    		 function() {				         
+		    			 var src = ($(this).attr('src') === 'html/image/expand.gif')
+		    	            ? 'html/image/collapse.gif'
+		    	            : 'html/image/expand.gif';
+		    	         $(this).attr('src', src);
+		    	         $('#suggestor_search_area').animate({
+				               height: 'toggle'
+				               }, 500
+				          );
+		    		 });
 		 	// Tooltip	 	 	 		 		
 	 		$('span#hint').live('mouseenter', function(event){
 	 			target = event.target.id;
@@ -118,6 +187,9 @@ $(document).ready(
  				}
  				else if(target == 'hintEnterGenes'){
  					message = 'Helpful hint about a list of genes.';
+ 				}
+				else if(target == 'hintQuerySuggestor'){
+ 					message = 'Add, remove o replace term from your query using the list of suggested terms based on your search chriteria';
  				}
  				else if(target == 'hintSortableTable'){
  					message = 'This opens the Ondex Web java applet and displays a sub-network of the large Ondex knowledgebase that only contains the selected genes (light blue triangles) and the relevant evidence network.';
@@ -199,8 +271,8 @@ function searchKeyword(){
 	        	}
 				else {
 					var splitedResponse = response.split(":");  
-					var results = splitedResponse[4];
-					var docSize = splitedResponse[5];
+					var results = splitedResponse[5];
+					var docSize = splitedResponse[6];
 					var candidateGenes = parseInt(results);
 					var genomicViewTitle = '<div id="pGViewer_title">In total '+results+' genes were found. Query was found in '+docSize+' documents<br /></div>'
 					var genomicView = '<div id="pGViewer" class="resultViewer"><p class="margin_left">Shift+Click on a gene to see its knowledge network.</p>';
@@ -212,7 +284,13 @@ function searchKeyword(){
 					genomicView = genomicView + gviewer_html;
 					$("#pGViewer_title").replaceWith(genomicViewTitle);
 					$("#pGViewer").replaceWith(genomicView);	
+					
+					//Preloader for Synonym table
+					$('#suggestor_terms').html('');
+					$('#suggestor_tables').html('<div class="preloader_wrapper"><img src="html/image/preloader_bar.gif" alt="Loading, please wait..." /></div>');
+					
 					activateButton('resultsTable');
+					createSynonymTable(data_url+splitedResponse[4]);
 					createGenesTable(data_url+splitedResponse[2], keyword, candidateGenes);
 					createEvidenceTable(data_url+splitedResponse[3]);
 				}
@@ -531,6 +609,74 @@ function createEvidenceTable(tableUrl){
 					summaryText = summaryText+'<div class="evidenceSummaryItem"><div class="evidence_item evidence_item_'+key+'" title="'+key+'"></div>'+summaryArr[key]+'</div>';	
 				}
 				$('#evidenceSummary').html(summaryText);
+			}
+		}
+	})
+}
+
+/*
+ * Function
+ * 
+ */
+function createSynonymTable(tableUrl){
+	var table = "";
+	$.ajax({
+        url:tableUrl,
+        type:'GET',
+        dataType:'text',
+        async: true,
+        timeout: 1000000,
+        error: function(){						  
+        },
+        success: function(text){
+			var summaryArr = new Array();
+			var summaryText = '';
+    		var evidenceTable = text.split("\n");
+			var countSynonyms = 0;
+			if(evidenceTable.length > 3) {
+				terms = '';
+				table = '';								
+				for(var ev_i=0; ev_i < (evidenceTable.length-1); ev_i++) {
+					if(evidenceTable[ev_i].substr(0,2) == '</'){
+						table = table + '</tbody>';
+						table = table + '</table>';
+					}else if(evidenceTable[ev_i][0] == '<'){
+						if(ev_i == 0){
+							divstyle = "buttonSynonym_on";	
+							tablevisibility = "";
+						}else{
+							divstyle = "buttonSynonym_off";
+							tablevisibility = 'style="display:none;"';		
+						}
+						termName = evidenceTable[ev_i].replace("<","");
+						var originalTermName = termName.replace(">","");
+						termName = originalTermName.replace(" ","_");
+						terms = terms + '<a href="javascript:;" onclick="showSynonymTable(\'tablesorterSynonym'+termName+'\')"><div class="'+divstyle+'" id="tablesorterSynonym'+termName+'_buttonSynonym">'+termName+'</div></a>';	
+							
+						table = table + '<table id="tablesorterSynonym'+termName+'" class="suggestorTable" '+tablevisibility+'>';
+						table = table + '<thead>';
+						table = table + '<tr>';				
+						table = table + '<th width="100">Actions</th>';
+						table = table + '<th width="212">Term</th>'
+						table = table + '<th width="78">Document</th>';			
+						table = table + '<th width="60">Score</th>';
+						table = table + '</tr>';
+						table = table + '</thead>';
+						table = table + '<tbody class="scrollTable">';
+					}else{
+						countSynonyms++;
+						values = evidenceTable[ev_i].split("\t");
+						table = table + '<tr>';				
+						table = table + '<th width="100"><a id="synonymstable_add_'+ev_i+'" class="addKeyword" href="javascript:;" onclick="addKeyword(\''+values[0]+'\', \'synonymstable_add_'+ev_i+'\', \'keywords\')">Add</a>|<a id="synonymstable_exclude_'+ev_i+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[0]+'\', \'synonymstable_exclude_'+ev_i+'\', \'keywords\')">Exclude</a>|<a id="synonymstable_replace_'+ev_i+'" class="replaceKeyword" href="javascript:;" onclick="replaceKeyword(\''+originalTermName+'\',\''+values[0]+'\', \'synonymstable_replace_'+ev_i+'\', \'keywords\')">Replace</a></th>';
+						table = table + '<th width="212">'+values[0]+'</th>'
+						table = table + '<th width="78"><div class="evidence_item evidence_item_'+values[1]+'" title="'+values[1]+'"></div></th>';			
+						table = table + '<th width="60">'+values[2]+'</th>';
+						table = table + '</tr>';
+					}
+				}				
+				$('#suggestor_invite').html(countSynonyms+' synonyms found');
+				$('#suggestor_terms').html(terms);
+				$('#suggestor_tables').html(table);
 			}
 		}
 	})

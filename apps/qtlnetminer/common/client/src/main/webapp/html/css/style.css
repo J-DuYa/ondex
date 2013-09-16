@@ -293,6 +293,27 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 	background-color:#BDB7A8;
 }
 
+table.suggestorTable {
+	font-family:Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	width: 100%;
+	text-align: center;
+}
+table.suggestorTable thead tr th {
+	background-color:#C0C0C0;
+	color:black;
+	font-size:10pt;
+	padding:4px;
+}
+
+table.suggestorTable .evidence_item {
+	margin-left:50px;
+}
+table.tablesorter tbody td {
+	color:#3D3D3D;
+	background-color:#FFF;
+}
+
 /* tooltip */
 #hint {
 	cursor:help;
@@ -375,3 +396,17 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 #evidenceSummary {position:relative; width:100%}
 #evidenceSummary .evidenceSummaryItem {position:relative;float:left;width:50px;font-size:11px;}
 
+/* Suggestor box */
+.preloader_wrapper {width: 100%;position: relative;}
+#suggestor_invite {color:#900;}
+#suggestor_tables img {position: relative;left: 250px;}
+#suggestor_terms {position:relative;clear:left;}
+#suggestor_tables {position:relative;clear:left;}
+.buttonSynonym_off {border: 2px solid #999999; float: left;margin: 0 2px 2px 0;padding: 9px;position: relative;}
+.buttonSynonym_on {border: 2px solid #4587C3; float: left;margin: 0 2px 2px 0;padding: 9px;position: relative;background-color: #D1E1F0;}
+.addKeyword {}
+.addKeywordUndo {color:#CCCCCC;} 
+.excludeKeyword {}
+.excludeKeywordUndo {color:#CCCCCC;} 
+.replaceKeyword {}
+.replaceKeywordUndo {color:#CCCCCC;} 

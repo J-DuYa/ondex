@@ -87,6 +87,20 @@
 						</div>
 					</div>
 				</li>
+				<li>						
+					<b><img id="suggestor_search" src="html/image/expand.gif" style="padding-right:5px;cursor:pointer;"/>Query Suggestor</b>
+						<span id="hint">
+							<img id="hintQuerySuggestor" src="html/image/hint.png" />
+						</span>
+						<span id="suggestor_invite"></span>
+						<hr />								
+					<div id="suggestor_search">	
+						<div id="suggestor_search_area" style="display:none;">
+							<div id="suggestor_terms"> </div>
+							<div id="suggestor_tables">You must perform a search for having the suggested terms related with your query</div>							
+						</div>
+					</div>
+				</li>
 			</ul>
 		</form>
 	</div>	
