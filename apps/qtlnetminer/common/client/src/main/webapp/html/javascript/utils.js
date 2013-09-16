@@ -260,7 +260,8 @@ function searchKeyword(){
 	        },
 	        success: function(response, textStatus){
 				$("#loadingDiv").replaceWith('<div id="loadingDiv"></div>');
-				if(response.indexOf("NoFile:noGenesFound") == -1){
+
+				if((response == null) || (response == "")){
 					var genomicViewTitle = '<div id="pGViewer_title">Sorry, the server is being updated. Please, re-enter your job later<br /></div>';
 					$("#pGViewer_title").replaceWith(genomicViewTitle);	
 				} else
