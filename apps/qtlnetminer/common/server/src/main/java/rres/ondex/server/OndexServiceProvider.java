@@ -1355,12 +1355,13 @@ public class OndexServiceProvider {
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
 			//writes the header of the table
-			out.write("TYPE\tNAME\tSCORE\tGENES\tUSER GENES\tQTLS\n");
+			out.write("TYPE\tNAME\tSCORE\tGENES\tUSER GENES\tQTLS\tONDEXID\n");
 			for(ONDEXConcept lc : luceneConcepts.keySet()){
 				//Creates type,name,score and numberOfGenes
 				String type = lc.getOfType().getId();
 				String name = getDefaultNameForGroupOfConcepts(lc);
 				Float score = luceneConcepts.get(lc);
+				Integer ondexId = lc.getId();
 				if(!mapConcept2Genes.containsKey(lc.getId())){
 					continue;
 				}
@@ -1380,7 +1381,7 @@ public class OndexServiceProvider {
 					}
 				}
 				//writes the row
-				out.write(type+"\t"+name+"\t"+score+"\t"+numberOfGenes+"\t"+numberOfUserGenes+"\t"+numberOfQTL+"\n");
+				out.write(type+"\t"+name+"\t"+score+"\t"+numberOfGenes+"\t"+numberOfUserGenes+"\t"+numberOfQTL+"\t"+ondexId+"\n");
 			}
 			out.close();
 			return true;
