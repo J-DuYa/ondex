@@ -388,6 +388,7 @@ table.tablesorter tbody td {
 /* Search bar */
 #search{padding:10px 10px 10px 0px;margin:6px 0px 10px 0px;background-color:#F4F5F7;border:2px solid #e4e4e4;width:740px;}
 #pGViewer_title {padding-bottom:10px;}
+.preloader_bar {left:250px;position:relative;}
 
 #NetworkCanvas{position:relative;padding-bottom:60px;float:left;}
 #Network_frame{border:none;}
@@ -399,14 +400,16 @@ table.tablesorter tbody td {
 /* Suggestor box */
 .preloader_wrapper {width: 100%;position: relative;}
 #suggestor_invite {color:#900;}
-#suggestor_tables img {position: relative;left: 250px;}
+#suggestor_tables img {position: relative;}
 #suggestor_terms {position:relative;clear:left;}
 #suggestor_tables {position:relative;clear:left;}
-.buttonSynonym_off {border: 2px solid #999999; float: left;margin: 0 2px 2px 0;padding: 9px;position: relative;}
-.buttonSynonym_on {border: 2px solid #4587C3; float: left;margin: 0 2px 2px 0;padding: 9px;position: relative;background-color: #D1E1F0;}
+.buttonSynonym_off {background:url(../image/synonym_bg_off.png) repeat-x; float: left; height: 34px;margin: 0 12px 0 10px;padding-top: 18px;position: relative;color:#FFF;}
+.buttonSynonym_on {background:url(../image/synonym_bg_on.png) repeat-x; float: left; height: 34px;margin: 0 12px 0 10px;padding-top: 18px;position: relative;;color:#FFF;}
+.synonym_right_border {position:absolute;top:0px;right:-9px;}
+.synonym_left_border {position:absolute;top:0px;left:-9px;}
 .addKeyword {}
-.addKeywordUndo {color:#CCCCCC;} 
+.addKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
 .excludeKeyword {}
-.excludeKeywordUndo {color:#CCCCCC;} 
+.excludeKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
 .replaceKeyword {}
-.replaceKeywordUndo {color:#CCCCCC;} 
+.replaceKeywordUndo {color:#CCCCCC;opacity: 0.5;} 

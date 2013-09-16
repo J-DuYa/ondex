@@ -3,9 +3,13 @@ var genes;
 
 function showSynonymTable(option){
 $('.suggestorTable:visible').fadeOut(0,function(){
+		$('.synonym_right_border').attr('src','html/image/synonym_right_off.png');
+		$('.synonym_left_border').attr('src','html/image/synonym_left_off.png');
 		$('.buttonSynonym_on').attr('class','buttonSynonym_off');
 		$('#'+option).fadeIn();
 		$('#'+option+'_buttonSynonym').attr('class','buttonSynonym_on');
+		$('#'+option+'synonym_right_border').attr('src','html/image/synonym_right_on.png');
+		$('#'+option+'synonym_left_border').attr('src','html/image/synonym_left_on.png');
 	})
 }
 
@@ -292,7 +296,7 @@ function searchKeyword(){
 					
 					//Preloader for Synonym table
 					$('#suggestor_terms').html('');
-					$('#suggestor_tables').html('<div class="preloader_wrapper"><img src="html/image/preloader_bar.gif" alt="Loading, please wait..." /></div>');
+					$('#suggestor_tables').html('<div class="preloader_wrapper"><img src="html/image/preloader_bar.gif" alt="Loading, please wait..." class="preloader_bar" /></div>');
 					
 					activateButton('resultsTable');
 					createSynonymTable(data_url+splitedResponse[4]);
@@ -575,8 +579,9 @@ function createEvidenceTable(tableUrl){
 				table = table + '<table id = "tablesorterEvidence" class="tablesorter">';
 				table = table + '<thead>';
 				table = table + '<tr>';
-				var header = evidenceTable[0].split("\t");				
-				table = table + '<th width="100">'+header[0]+'</th>';
+				var header = evidenceTable[0].split("\t");
+				table = table + '<th width="60">Actions</th>';				
+				table = table + '<th width="50">'+header[0]+'</th>';
 				table = table + '<th width="212">'+header[1]+'</th>'
 				table = table + '<th width="78">'+header[2]+'</th>';			
 				table = table + '<th width="60">'+header[3]+'</th>';
@@ -588,7 +593,8 @@ function createEvidenceTable(tableUrl){
 				for(var ev_i=1; ev_i < (evidenceTable.length-1); ev_i++) {
 					values = evidenceTable[ev_i].split("\t");
 					table = table + '<tr>';
-					table = table + '<td>'+values[0]+'</td>';
+					table = table + '<td><a id="evidence_exclude_'+ev_i+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[6]+'\', \'evidence_exclude_'+ev_i+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a></td>';					 
+					table = table + '<td><div class="evidence_item evidence_item_'+values[0]+'" title="'+values[0]+'"></div></td>';
 					table = table + '<td>'+values[1]+'</td>';
 					table = table + '<td>'+values[2]+'</td>';
 					table = table + '<td>'+values[3]+'</td>';
@@ -649,14 +655,16 @@ function createSynonymTable(tableUrl){
 						if(ev_i == 0){
 							divstyle = "buttonSynonym_on";	
 							tablevisibility = "";
+							imgstatus = 'on';
 						}else{
 							divstyle = "buttonSynonym_off";
-							tablevisibility = 'style="display:none;"';		
+							tablevisibility = 'style="display:none;"';	
+							imgstatus = 'off';	
 						}
 						termName = evidenceTable[ev_i].replace("<","");
 						var originalTermName = termName.replace(">","");
 						termName = originalTermName.replace(" ","_");
-						terms = terms + '<a href="javascript:;" onclick="showSynonymTable(\'tablesorterSynonym'+termName+'\')"><div class="'+divstyle+'" id="tablesorterSynonym'+termName+'_buttonSynonym">'+termName+'</div></a>';	
+						terms = terms + '<a href="javascript:;" onclick="showSynonymTable(\'tablesorterSynonym'+termName+'\')"><div class="'+divstyle+'" id="tablesorterSynonym'+termName+'_buttonSynonym"><img src="html/image/synonym_left_'+imgstatus+'.png" class="synonym_left_border" id="tablesorterSynonym'+termName+'synonym_left_border"/>'+termName+'<img src="html/image/synonym_right_'+imgstatus+'.png" class="synonym_right_border"  id="tablesorterSynonym'+termName+'synonym_right_border"/></div></a>';	
 							
 						table = table + '<table id="tablesorterSynonym'+termName+'" class="suggestorTable" '+tablevisibility+'>';
 						table = table + '<thead>';
@@ -672,7 +680,7 @@ function createSynonymTable(tableUrl){
 						countSynonyms++;
 						values = evidenceTable[ev_i].split("\t");
 						table = table + '<tr>';				
-						table = table + '<th width="100"><a id="synonymstable_add_'+ev_i+'" class="addKeyword" href="javascript:;" onclick="addKeyword(\''+values[0]+'\', \'synonymstable_add_'+ev_i+'\', \'keywords\')">Add</a>|<a id="synonymstable_exclude_'+ev_i+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[0]+'\', \'synonymstable_exclude_'+ev_i+'\', \'keywords\')">Exclude</a>|<a id="synonymstable_replace_'+ev_i+'" class="replaceKeyword" href="javascript:;" onclick="replaceKeyword(\''+originalTermName+'\',\''+values[0]+'\', \'synonymstable_replace_'+ev_i+'\', \'keywords\')">Replace</a></th>';
+						table = table + '<th width="100"><a id="synonymstable_add_'+ev_i+'" class="addKeyword" href="javascript:;" onclick="addKeyword(\''+values[0]+'\', \'synonymstable_add_'+ev_i+'\', \'keywords\')"><img src="html/image/add.png" title="Add term"/></a> <a id="synonymstable_exclude_'+ev_i+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[0]+'\', \'synonymstable_exclude_'+ev_i+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a> <a id="synonymstable_replace_'+ev_i+'" class="replaceKeyword" href="javascript:;" onclick="replaceKeyword(\''+originalTermName+'\',\''+values[0]+'\', \'synonymstable_replace_'+ev_i+'\', \'keywords\')"><img src="html/image/replace.png" title="Replace term"/></a></th>';
 						table = table + '<th width="212">'+values[0]+'</th>'
 						table = table + '<th width="78"><div class="evidence_item evidence_item_'+values[1]+'" title="'+values[1]+'"></div></th>';			
 						table = table + '<th width="60">'+values[2]+'</th>';
