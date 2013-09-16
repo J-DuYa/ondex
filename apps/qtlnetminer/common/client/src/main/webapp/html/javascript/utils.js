@@ -259,7 +259,11 @@ function searchKeyword(){
 	        error: function(){						  
 	        },
 	        success: function(response, textStatus){
-				$("#loadingDiv").replaceWith('<div id="loadingDiv"></div>');	
+				$("#loadingDiv").replaceWith('<div id="loadingDiv"></div>');
+				if(response.indexOf("NoFile:noGenesFound") == -1){
+					var genomicViewTitle = '<div id="pGViewer_title">Sorry, the server is being updated. Please, re-enter your job later<br /></div>';
+					$("#pGViewer_title").replaceWith(genomicViewTitle);	
+				} else
 				if(response.indexOf("NoFile:noGenesFound") !=-1 ||  !response.split(":")[4] > 0){
 					var genomicViewTitle = '<div id="pGViewer_title">Sorry, no results were found.<br /></div>'
 					var genomicView = '<div id="pGViewer" class="resultViewer">';
