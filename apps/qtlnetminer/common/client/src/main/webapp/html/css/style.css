@@ -19,6 +19,9 @@ a {
 	text-decoration:none; 
 	color:#4184C1;
 }
+a img {
+	border:none;	
+}
 
 a:hover {
 	text-decoration:underline;
@@ -296,8 +299,9 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 table.suggestorTable {
 	font-family:Verdana, Geneva, sans-serif;
 	font-size: 12px;
-	width: 100%;
-	text-align: center;
+	width: 92%;
+	margin:auto;
+	text-align: center;	
 }
 table.suggestorTable thead tr th {
 	background-color:#C0C0C0;
@@ -398,13 +402,14 @@ table.tablesorter tbody td {
 #evidenceSummary .evidenceSummaryItem {position:relative;float:left;width:50px;font-size:11px;}
 
 /* Suggestor box */
+#suggestor_search_area {min-height:230px;}
 .preloader_wrapper {width: 100%;position: relative;}
 #suggestor_invite {color:#900;}
 #suggestor_tables img {position: relative;}
-#suggestor_terms {position:relative;clear:left;}
+#suggestor_terms {position:relative;clear:left;padding-left:29px;}
 #suggestor_tables {position:relative;clear:left;}
-.buttonSynonym_off {background:url(../image/synonym_bg_off.png) repeat-x; float: left; height: 34px;margin: 0 12px 0 10px;padding-top: 18px;position: relative;color:#FFF;}
-.buttonSynonym_on {background:url(../image/synonym_bg_on.png) repeat-x; float: left; height: 34px;margin: 0 12px 0 10px;padding-top: 18px;position: relative;;color:#FFF;}
+.buttonSynonym_off {background:url(../image/synonym_bg_off.png) repeat-x; float: left; height: 25px;margin: 0 12px 0 10px;padding-top: 13px;position: relative;color:#000;font-weight:bold;}
+.buttonSynonym_on {background:url(../image/synonym_bg_on.png) repeat-x; float: left; height: 25px;margin: 0 12px 0 10px;padding-top: 13px;position: relative;;color:#000;;font-weight:bold;}
 .synonym_right_border {position:absolute;top:0px;right:-9px;}
 .synonym_left_border {position:absolute;top:0px;left:-9px;}
 .addKeyword {}
@@ -413,3 +418,8 @@ table.tablesorter tbody td {
 .excludeKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
 .replaceKeyword {}
 .replaceKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
+.tabBox {position:absolute;top:25px;left:-3px;}
+.conceptTabOn {position:relative;clear:left;width:33px;height:44px; background:url(../image/conceptTabOn.png) no-repeat;}
+.conceptTabOn div {position:absolute;top:12px;right:-2px; opacity:0.3;}
+.conceptTabOff {position:relative;clear:left;width:33px;height:44px; background:url(../image/conceptTabOff.png) no-repeat;}
+.conceptTabOff div {position:absolute;top:9px;right:-2px;}
