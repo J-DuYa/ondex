@@ -186,7 +186,10 @@ public class GraphManager {
 		for(int j = 1; j < typeNamesForOndex.length;j++){
 			sb.append(":");
 			sb.append(typeNamesForOndex[j]);
-		}	
+		}
+		if(sb.toString().isEmpty()){
+			return MdHelper.createCC(graph, "Thing");	
+		}
 		return MdHelper.createCC(graph, sb.toString());	
 	}
 	
