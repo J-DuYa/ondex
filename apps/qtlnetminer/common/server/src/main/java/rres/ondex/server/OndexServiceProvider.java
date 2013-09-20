@@ -1402,8 +1402,8 @@ public class OndexServiceProvider {
 		Set<String> result = new HashSet<String>();
 		String key = keyword.replace("(", "");
 		key = key.replace(")", "");
-		key = key.replace("NOT", "");
 		
+		key = key.replace("NOT", "___");
 		key = key.replace(" AND ", "___");
 		key = key.replace(" OR ", "___");
 		
