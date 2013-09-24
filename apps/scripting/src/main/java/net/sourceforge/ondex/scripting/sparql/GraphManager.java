@@ -188,7 +188,7 @@ public class GraphManager {
 			sb.append(typeNamesForOndex[j]);
 		}
 		if(sb.toString().isEmpty()){
-			return MdHelper.createCC(graph, "Thing");	
+			return MdHelper.createCC(graph, "Object");	
 		}
 		return MdHelper.createCC(graph, sb.toString());	
 	}
