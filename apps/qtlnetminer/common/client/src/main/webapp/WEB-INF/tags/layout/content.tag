@@ -17,7 +17,8 @@
 						<ul>
 							<li><input id="keywords" name="keywords" type="text" /></li>
 							<li><input type="submit" value="Search" class="button" /></li>
-							<li><div id="loadingDiv"></div></li>					
+							<li><div id="loadingDiv"></div></li>	
+							<li><div id="matchesResultDiv"></div></li>					
 						</ul>
 						<div id="eg_keywords">
 							${eg_keywords}

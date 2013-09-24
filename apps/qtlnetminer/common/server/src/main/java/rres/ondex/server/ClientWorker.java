@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.lucene.queryParser.ParseException;
+
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXGraph;
@@ -61,6 +63,7 @@ public class ClientWorker implements Runnable {
 		
 			// Request
 			String fromClient = in.readLine();
+			System.out.println("FromClient: "+fromClient);
 			request = "";
 			while(!fromClient.equals("Bye.")) { 		
 				try{					
@@ -73,6 +76,7 @@ public class ClientWorker implements Runnable {
 				}
 			}
 			// Response
+			 System.out.println("Calling to processRequest()");
 			out.println(processRequest(request));
 			out.println("Bye.");			
 		}
@@ -83,6 +87,8 @@ public class ClientWorker implements Runnable {
 	}
 	
 	protected String processRequest(String query) throws UnsupportedEncodingException {
+		
+		System.out.println("Processing request...");
 		
 		String keyword = "";
 		String mode = "";
@@ -161,7 +167,20 @@ public class ClientWorker implements Runnable {
 				}
 				return "OndexWeb";
 			}
-			else {
+			else if(mode.equals("genome") && listMode.equals("counting")) {
+				try {
+					Integer matchCount;
+					matchCount = ondexProvider.searchLucene(keyword).size();
+					System.out.println("Number of matches: "+matchCount.toString());
+					return matchCount.toString();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				return "MatchCounter";
+
+			}else{
 				return callOndexProvider(keyword, mode, listMode, qtls, list);
 			}					
 		}

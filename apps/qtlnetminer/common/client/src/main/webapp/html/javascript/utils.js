@@ -205,7 +205,10 @@ $(document).ready(
 				               height: 'toggle'
 				               }, 500
 				          );
-		    		 });			 
+						  matchCounter();
+		    		 });
+		    //Match counter
+			//$("#keywords").keyup(matchCounter());			 
 		 	// Tooltip	 	 	 		 		
 	 		$('span#hint').live('mouseenter', function(event){
 	 			target = event.target.id;
@@ -235,7 +238,37 @@ $(document).ready(
 	 			$('div.tooltip').remove();
 	 		});	 		
 		});
-  
+		
+/*
+ * Function to get the number of matches
+ * 
+ */		
+function matchCounter(){	
+	var searchMode = "genome";
+	var listMode = "counting";
+	var keyword = $('#keywords').val();		
+	var request = "mode="+searchMode+"&keyword="+keyword+"&listMode="+listMode;
+	var url = 'OndexServlet?'+request;
+	alert(url);
+	/*
+	$.ajax({
+		url:"OndexServlet?"+request,
+		type:'GET',
+		dataType:'text',
+		async: true,
+		timeout: 1000000,
+		error: function(){						  
+		},
+		success: function(response, textStatus){		
+			$('#matchesResultDiv').html(response+' documents found');
+			alert('respons: '+response+'| testStatus: '+textStatus);
+		}
+	})
+	*/
+	$.post(url, '', function(response, textStatus){
+		alert('respons: '+response+'| testStatus: '+textStatus);
+	})
+}
 /*
  * Function to refresh GViewer
  * 
