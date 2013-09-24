@@ -297,16 +297,14 @@ table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSo
 }
 
 table.suggestorTable {
-	font-family:Verdana, Geneva, sans-serif;
-	font-size: 12px;
-	width: 92%;
-	margin:auto;
-	text-align: center;	
+	margin-left: 28px;
+    text-align: left;
+    padding: 7px;
+	border: 1px solid;
 }
 table.suggestorTable thead tr th {
 	background-color:#C0C0C0;
 	color:black;
-	font-size:10pt;
 	padding:4px;
 }
 
@@ -373,7 +371,7 @@ table.tablesorter tbody td {
 
 /* Footer */
 #footer_spacer {position:relative; height:2px;width:960px; background:url(../image/divisor_footer.png) repeat-x ;clear:left;}
-#footer {position:relative; width:900px;padding:30px;clear:left; font-size:14px; text-align:center; height:70px;}
+#footer {position:relative; width:900px;padding:30px;clear:left; font-size:14px; text-align:center; height:77px;}
 #footer #left_footer {position:absolute;left:8px;top:5px;text-align:left;font-size:10px;}
 #footer #right_footer {position:absolute;right:8px;top:5px;text-align:right;font-size:10px;}
 
@@ -408,8 +406,8 @@ table.tablesorter tbody td {
 #suggestor_tables img {position: relative;}
 #suggestor_terms {position:relative;clear:left;padding-left:29px;}
 #suggestor_tables {position:relative;clear:left;}
-.buttonSynonym_off {background:url(../image/synonym_bg_off.png) repeat-x; float: left; height: 25px;margin: 0 12px 0 10px;padding-top: 13px;position: relative;color:#000;font-weight:bold;}
-.buttonSynonym_on {background:url(../image/synonym_bg_on.png) repeat-x; float: left; height: 25px;margin: 0 12px 0 10px;padding-top: 13px;position: relative;;color:#000;;font-weight:bold;}
+.buttonSynonym_off {background:url(../image/synonym_bg_off.png) repeat-x; float: left; height: 23px;margin: 0 12px 5px 10px;padding-top: 10px;position: relative;color:#fff;}
+.buttonSynonym_on {background:url(../image/synonym_bg_on.png) repeat-x; float: left; height: 23px;margin: 0 12px 5px 10px;padding-top: 10px;position: relative;;color:#fff;font-weight:bold;}
 .synonym_right_border {position:absolute;top:0px;right:-9px;}
 .synonym_left_border {position:absolute;top:0px;left:-9px;}
 .addKeyword {}
@@ -418,8 +416,8 @@ table.tablesorter tbody td {
 .excludeKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
 .replaceKeyword {}
 .replaceKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
-.tabBox {position:absolute;top:25px;left:-3px;}
-.conceptTabOn {position:relative;clear:left;width:33px;height:44px; background:url(../image/conceptTabOn.png) no-repeat;}
-.conceptTabOn div {position:absolute;top:12px;right:-2px; opacity:0.3;}
-.conceptTabOff {position:relative;clear:left;width:33px;height:44px; background:url(../image/conceptTabOff.png) no-repeat;}
-.conceptTabOff div {position:absolute;top:9px;right:-2px;}
+.tabBox {left: -2px;position: absolute;top: 14px;}
+.conceptTabOn {position:relative;clear:left;width:33px;height: 62px;margin-top: -14px; background:url(../image/conceptTabOn.png) no-repeat;z-index:2;}
+.conceptTabOn div {position:absolute;top:9px;right:3px;opacity: 0.6;}
+.conceptTabOff {position:relative;clear:left;width:33px;height: 62px;margin-top: -14px; background:url(../image/conceptTabOff.png) no-repeat;z-index:1;}
+.conceptTabOff div {position:absolute;top:9px;right:3px;opacity: 0.6;}

@@ -36,6 +36,10 @@ $('.resultViewer:visible').fadeOut(0,function(){
 		$('.button_off').attr('class','button_on');
 		$('#'+option).fadeIn();
 		$('#'+option+'_button').attr('class','button_off');
+		
+		//Collapse Suggestor view
+		$('#suggestor_search').attr('src', 'html/image/expand.gif');
+		$('#suggestor_search_area').slideUp(500);
 	})
 }
 /*
@@ -201,7 +205,7 @@ $(document).ready(
 				               height: 'toggle'
 				               }, 500
 				          );
-		    		 });
+		    		 });			 
 		 	// Tooltip	 	 	 		 		
 	 		$('span#hint').live('mouseenter', function(event){
 	 			target = event.target.id;
@@ -315,9 +319,14 @@ function searchKeyword(){
 					$("#pGViewer_title").replaceWith(genomicViewTitle);
 					$("#pGViewer").replaceWith(genomicView);	
 					
+					
+					//Collapse Suggestor view
+					$('#suggestor_search').attr('src', 'html/image/expand.gif');
+			 		$('#suggestor_search_area').slideUp(500);
+					
 					//Preloader for Synonym table
 					$('#suggestor_terms').html('')
-					$('#suggestor_invite').html('');
+					$('#suggestor_invite').html('');										
 					$('#suggestor_tables').html('<div class="preloader_wrapper"><img src="html/image/preloader_bar.gif" alt="Loading, please wait..." class="preloader_bar" /></div>');
 					
 					
@@ -680,7 +689,7 @@ function createSynonymTable(tableUrl){
 						table =  table +tabsBox+'</div>';
 						//Includes the tables
 						for (var i = 0; i < aTable.length; i++) {
-						  table =  table + aTable[i]+'</tbody></table>';						  
+						  table =  table + aTable[i]+'</table>';						  
 						}											
 					//New Term	
 					}else if(evidenceTable[ev_i][0] == '<'){
@@ -704,7 +713,7 @@ function createSynonymTable(tableUrl){
 						terms = terms + '<a href="javascript:;" onclick="showSynonymTable(\'tablesorterSynonym'+termName+(countConcepts+1)+'\',\'tabBox_'+termName+'\')"><div class="'+divstyle+'" id="tablesorterSynonym'+termName+(countConcepts+1)+'_buttonSynonym"><img src="html/image/synonym_left_'+imgstatus+'.png" class="synonym_left_border" id="tablesorterSynonym'+termName+(countConcepts+1)+'synonym_left_border"/>'+termName+'<img src="html/image/synonym_right_'+imgstatus+'.png" class="synonym_right_border"  id="tablesorterSynonym'+termName+(countConcepts+1)+'synonym_right_border"/></div></a>';	
 						
 						
-						
+						var aSynonyms = new Array();
 						tabsBox = '<div class="tabBox" id="tabBox_'+termName+'" '+tabBoxvisibility+'>';
 					//Foreach of Docment that belongs to a Term
 					}else{						
@@ -725,16 +734,7 @@ function createSynonymTable(tableUrl){
 									tablevisibility = 'style="display:none;"';	
 									
 								tableHeader = '<table id="tablesorterSynonym'+termName+countConcepts+'" class="suggestorTable" '+tablevisibility+'>';
-								tableHeader = tableHeader + '<thead>';
-								tableHeader = tableHeader + '<tr>';				
-								tableHeader = tableHeader + '<th width="100">Actions</th>';
-								tableHeader = tableHeader + '<th width="212">Term</th>'
-								tableHeader = tableHeader + '<th width="78">Document</th>';			
-								tableHeader = tableHeader + '<th width="60">Score</th>';
-								tableHeader = tableHeader + '</tr>';
-								tableHeader = tableHeader + '</thead>';
-								tableHeader = tableHeader + '<tbody class="scrollTable">';
-								
+
 								aTable.push(tableHeader); 
 									
 								if(countConcepts == 1)
@@ -747,11 +747,11 @@ function createSynonymTable(tableUrl){
 							}
 							//If is not a new document type a new row is added to the existing table
 							conceptIndex = aNewConcepts.indexOf(values[1]);
-							row = '<tr>';				
-							row = row + '<th width="100"><a id="synonymstable_add_'+ev_i+'_'+countConcepts+'" class="addKeyword" href="javascript:;" onclick="addKeyword(\''+values[0]+'\', \'synonymstable_add_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/add.png" title="Add term"/></a> <a id="synonymstable_exclude_'+ev_i+'_'+countConcepts+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[0]+'\', \'synonymstable_exclude_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a> <a id="synonymstable_replace_'+ev_i+'_'+countConcepts+'" class="replaceKeyword" href="javascript:;" onclick="replaceKeyword(\''+originalTermName+'\',\''+values[0]+'\', \'synonymstable_replace_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/replace.png" title="Replace term"/></a></th>';
-							row = row + '<th width="212">'+values[0]+'</th>'
-							row = row + '<th width="78"><div class="evidence_item evidence_item_'+values[1]+'" title="'+values[1]+'"></div></th>';			
-							row = row + '<th width="60">'+values[2]+'</th>';
+							row = '<tr>';											
+							row = row + '<td width="390">'+values[0]+'</td>'
+							row = row + '<td width="80"><a id="synonymstable_add_'+ev_i+'_'+countConcepts+'" class="addKeyword" href="javascript:;" onclick="addKeyword(\''+values[0]+'\', \'synonymstable_add_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/add.png" title="Add term"/></a> <a id="synonymstable_exclude_'+ev_i+'_'+countConcepts+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[0]+'\', \'synonymstable_exclude_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a> <a id="synonymstable_replace_'+ev_i+'_'+countConcepts+'" class="replaceKeyword" href="javascript:;" onclick="replaceKeyword(\''+originalTermName+'\',\''+values[0]+'\', \'synonymstable_replace_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/replace.png" title="Replace term"/></a></td>';
+							//row = row + '<th width="78"><div class="evidence_item evidence_item_'+values[1]+'" title="'+values[1]+'"></div></th>';			
+							//row = row + '<th width="60">'+values[2]+'</th>';
 							row = row + '</tr>';
 							aTable[conceptIndex] = aTable[conceptIndex] + row;	
 						}
