@@ -154,6 +154,8 @@ div#loadingDiv {
 	height:35px;
 	padding-left:20px;
 	color:#D56048;
+	position:relative;
+	top:3px;
 }
 div#loadingNetworkDiv {
 	float:right;
@@ -388,9 +390,11 @@ table.tablesorter tbody td {
 .margin_left {position:relative;margin-left:7px;}
 
 /* Search bar */
-#search{padding:10px 10px 10px 0px;margin:6px 0px 10px 0px;background-color:#F4F5F7;border:2px solid #e4e4e4;width:740px;}
+#search{position:relative;padding:10px 10px 10px 0px;margin:6px 0px 10px 0px;background-color:#F4F5F7;border:2px solid #e4e4e4;width:740px;}
 #pGViewer_title {padding-bottom:10px;}
 .preloader_bar {left:250px;position:relative;}
+/* #matchesResultDiv {position:absolute; top:25px;right:7px;} */
+* #eg_keywords {margin-left:4px;position:relative;top:4px;}
 
 #NetworkCanvas{position:relative;padding-bottom:60px;float:left;}
 #Network_frame{border:none;}

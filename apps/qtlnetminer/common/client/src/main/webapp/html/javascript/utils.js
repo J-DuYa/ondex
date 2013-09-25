@@ -51,6 +51,8 @@ function addKeyword(keyword, from, target){
 	$('#'+target).val(newquery);
 	$('#'+from).attr('onClick','addKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','addKeywordUndo');
+	//Updates the query counter
+	matchCounter();
 }
 
 function addKeywordUndo(keyword, from, target){
@@ -59,6 +61,8 @@ function addKeywordUndo(keyword, from, target){
 	$('#'+target).val(newquery);
 	$('#'+from).attr('onClick','addKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','addKeyword');
+	//Updates the query counter
+	matchCounter();
 }
 
 function excludeKeyword(keyword, from, target){
@@ -67,6 +71,8 @@ function excludeKeyword(keyword, from, target){
 	$('#'+target).val(newquery);
 	$('#'+from).attr('onClick','excludeKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','excludeKeywordUndo');
+	//Updates the query counter
+	matchCounter();
 }
 
 function excludeKeywordUndo(keyword, from, target){
@@ -75,6 +81,8 @@ function excludeKeywordUndo(keyword, from, target){
 	$('#'+target).val(newquery);
 	$('#'+from).attr('onClick','excludeKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','excludeKeyword');
+	//Updates the query counter
+	matchCounter();
 }
 
 function replaceKeyword(oldkeyword, newkeyword, from, target){
@@ -83,6 +91,8 @@ function replaceKeyword(oldkeyword, newkeyword, from, target){
 	$('#'+target).val(newquery);
 	$('#'+from).attr('onClick','replaceKeywordUndo(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','replaceKeywordUndo');
+	//Updates the query counter
+	matchCounter();
 }
 
 function replaceKeywordUndo(oldkeyword, newkeyword, from, target){
@@ -91,6 +101,27 @@ function replaceKeywordUndo(oldkeyword, newkeyword, from, target){
 	$('#'+target).val(newquery);
 	$('#'+from).attr('onClick','replaceKeyword(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','replaceKeyword');
+	//Updates the query counter
+	matchCounter();
+}
+/*
+ * Function to get the number of matches
+ * 
+ */		
+function matchCounter(){	
+	var searchMode = "genome";
+	var listMode = "counting";
+	var keyword = $('#keywords').val();		
+	var request = "mode="+searchMode+"&keyword="+keyword+"&listMode="+listMode;
+	var url = 'OndexServlet?'+request;
+	$.post(url, '', function(response, textStatus){
+		if(textStatus == "success"){
+			if(response.split('|')[1] != null && response.split('|')[1] != "0")
+				$('#matchesResultDiv').html(response.split('|')[1]+' documents  and '+response.split('|')[2]+' genes will be found with this query');	
+			else
+				$('#matchesResultDiv').html('No documents or genes will be found with this query');
+		}
+	})
 }
 
 /*
@@ -102,6 +133,8 @@ function replaceKeywordUndo(oldkeyword, newkeyword, from, target){
 	
 $(document).ready(
 		function(){
+			// Calculates the amounth of documents to be displayed with the current query
+			$('#keywords').keyup(function(){matchCounter();});
 			// Add QTL region
 			$('#addRow').click(
 					function() {
@@ -204,8 +237,7 @@ $(document).ready(
 		    	         $('#suggestor_search_area').animate({
 				               height: 'toggle'
 				               }, 500
-				          );
-						  matchCounter();
+				          );						  
 		    		 });
 		    //Match counter
 			//$("#keywords").keyup(matchCounter());			 
@@ -221,6 +253,9 @@ $(document).ready(
  				}
 				else if(target == 'hintQuerySuggestor'){
  					message = 'Add, remove o replace term from your query using the list of suggested terms based on your search chriteria';
+ 				}
+				else if(target == 'hintEgKeywords'){
+ 					message = $('#eg_keywords_hidden').html();
  				}
  				else if(target == 'hintSortableTable'){
  					message = 'This opens the Ondex Web java applet and displays a sub-network of the large Ondex knowledgebase that only contains the selected genes (light blue triangles) and the relevant evidence network.';
@@ -239,36 +274,7 @@ $(document).ready(
 	 		});	 		
 		});
 		
-/*
- * Function to get the number of matches
- * 
- */		
-function matchCounter(){	
-	var searchMode = "genome";
-	var listMode = "counting";
-	var keyword = $('#keywords').val();		
-	var request = "mode="+searchMode+"&keyword="+keyword+"&listMode="+listMode;
-	var url = 'OndexServlet?'+request;
-	alert(url);
-	/*
-	$.ajax({
-		url:"OndexServlet?"+request,
-		type:'GET',
-		dataType:'text',
-		async: true,
-		timeout: 1000000,
-		error: function(){						  
-		},
-		success: function(response, textStatus){		
-			$('#matchesResultDiv').html(response+' documents found');
-			alert('respons: '+response+'| testStatus: '+textStatus);
-		}
-	})
-	*/
-	$.post(url, '', function(response, textStatus){
-		alert('respons: '+response+'| testStatus: '+textStatus);
-	})
-}
+
 /*
  * Function to refresh GViewer
  * 

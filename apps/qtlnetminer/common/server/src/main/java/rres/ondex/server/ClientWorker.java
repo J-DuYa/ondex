@@ -10,6 +10,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,7 @@ import net.sourceforge.ondex.core.ONDEXGraph;
  */
 public class ClientWorker implements Runnable {
 
-	static String[] SEARCH_MODES={"genome","qtl","list","network"};
+	static String[] SEARCH_MODES={"genome","qtl","list","network","countdocuments"};
 	
 	/**
 	 * network socket to listen on
@@ -169,10 +170,12 @@ public class ClientWorker implements Runnable {
 			}
 			else if(mode.equals("genome") && listMode.equals("counting")) {
 				try {
-					Integer matchCount;
-					matchCount = ondexProvider.searchLucene(keyword).size();
+					Integer matchCount = ondexProvider.searchLucene(keyword).size(); //number of matching documents
+					Hits qtlnetminerResults = new Hits(keyword, ondexProvider);
+					Integer numberOfGenes = qtlnetminerResults.getSortedCandidates().size();
+					Integer matchGenesCount = ondexProvider.getMapEvidences2Genes(qtlnetminerResults.getLuceneConcepts()).size(); //number of matching documents related to genes
 					System.out.println("Number of matches: "+matchCount.toString());
-					return matchCount.toString();
+					return (matchCount.toString()+"|"+matchGenesCount.toString()+"|"+numberOfGenes);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (ParseException e) {

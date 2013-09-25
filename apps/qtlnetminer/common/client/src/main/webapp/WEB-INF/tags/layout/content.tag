@@ -17,12 +17,16 @@
 						<ul>
 							<li><input id="keywords" name="keywords" type="text" /></li>
 							<li><input type="submit" value="Search" class="button" /></li>
-							<li><div id="loadingDiv"></div></li>	
-							<li><div id="matchesResultDiv"></div></li>					
+							<li id="eg_keywords"> 
+								<span id="hint"> <img id="hintEgKeywords" src="html/image/hint.png" alt="hint" /></span>
+							</li>
+							<li><div id="loadingDiv"></div></li>									
+							<div id="eg_keywords_hidden" style="display:none;">
+								${eg_keywords}
+							</div>
+											
 						</ul>
-						<div id="eg_keywords">
-							${eg_keywords}
-						</div>
+						<div id="matchesResultDiv">Please, start typing your query</div>
 					</div>
 				</li>
 				<li>
