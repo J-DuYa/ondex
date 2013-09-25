@@ -664,7 +664,7 @@ function createEvidenceTable(tableUrl){
 				for(var ev_i=1; ev_i < (evidenceTable.length-1); ev_i++) {
 					values = evidenceTable[ev_i].split("\t");
 					table = table + '<tr>';
-					table = table + '<td><a id="evidence_exclude_'+ev_i+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[6]+'\', \'evidence_exclude_'+ev_i+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a></td>';					 
+					table = table + '<td><a id="evidence_exclude_'+ev_i+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\'ConceptID:'+values[6]+'\', \'evidence_exclude_'+ev_i+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a></td>';					 
 					table = table + '<td><div class="evidence_item evidence_item_'+values[0]+'" title="'+values[0]+'"></div></td>';
 					table = table + '<td>'+values[1]+'</td>';
 					table = table + '<td>'+values[2]+'</td>';
@@ -685,7 +685,7 @@ function createEvidenceTable(tableUrl){
 				table = table + '<div id="legend_picture"><div id="legend_container"><img src="html/image/evidence_legend.png" /></div></div>';
 				
 				$('#evidenceTable').html(table);
-				$("#tablesorterEvidence").tablesorter({sortList: [[2,1], [0,0]]}); 
+				$("#tablesorterEvidence").tablesorter(); 
 				//Shows the summary box
 				for(key in summaryArr){
 					summaryText = summaryText+'<div class="evidenceSummaryItem"><div class="evidence_item evidence_item_'+key+'" title="'+key+'"></div>'+summaryArr[key]+'</div>';	

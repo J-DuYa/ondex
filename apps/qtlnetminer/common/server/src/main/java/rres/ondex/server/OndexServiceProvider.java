@@ -374,6 +374,37 @@ public class OndexServiceProvider {
 	
 	// JavaScript Document
 
+	/**
+	 * Creates a new keyword for finding the NOT list
+	 * 
+	 * @param keyword original keyword
+	 * @return new keyword for searching the NOT list
+	 */
+	private String createsNotList(String keyword){
+		String result = "";
+		
+		keyword = keyword.replace("(", "");
+		keyword = keyword.replace(")", "");
+		
+		keyword = keyword.replaceAll("OR", "__");
+		keyword = keyword.replaceAll("AND", "__");
+		
+		String[] keySplitedOrAnd = keyword.split("__");
+		for (String keyOA : keySplitedOrAnd) {
+			String[] keySplitedNOT = keyOA.split("NOT");
+			int notCount = 0;
+			for (String keyN : keySplitedNOT) {
+				if(notCount > 0){
+					result = result+keyN+" OR ";
+				}
+				notCount++;
+			}
+		}
+		if(result != ""){
+			result = result.substring(0, (result.length()-3));
+		}
+		return result;		
+	}
 	
 	/**
 	 * Merge two maps using the greater scores
@@ -381,20 +412,22 @@ public class OndexServiceProvider {
 	 * @param hit2score map that holds all hits and scores
 	 * @param sHits map that holds search results
 	 */
-	private void mergeHits(HashMap<ONDEXConcept,Float> hit2score, ScoredHits<ONDEXConcept> sHits){
+	private void mergeHits(HashMap<ONDEXConcept,Float> hit2score, ScoredHits<ONDEXConcept> sHits, ScoredHits<ONDEXConcept> NOTHits){
 		for(ONDEXConcept c : sHits.getOndexHits()){
-			if (c instanceof LuceneConcept) {
-				c = ((LuceneConcept) c).getParent();
-			}	
-			if(!hit2score.containsKey(c)){
-				hit2score.put(c, sHits.getScoreOnEntity(c));
-			}else{
-				float scoreA = sHits.getScoreOnEntity(c);
-				float scoreB = hit2score.get(c);
-				if(scoreA > scoreB){
-					hit2score.put(c, scoreA);
+			if(NOTHits == null || !NOTHits.getOndexHits().contains(c)){
+				if (c instanceof LuceneConcept) {
+					c = ((LuceneConcept) c).getParent();
+				}	
+				if(!hit2score.containsKey(c)){
+					hit2score.put(c, sHits.getScoreOnEntity(c));
+				}else{
+					float scoreA = sHits.getScoreOnEntity(c);
+					float scoreB = hit2score.get(c);
+					if(scoreA > scoreB){
+						hit2score.put(c, scoreA);
+					}
 				}
-			}
+			}			
 		}
 	}
 
@@ -420,6 +453,21 @@ public class OndexServiceProvider {
 
 		
 		String keyword = keywords;
+			
+			//creates the NOT list (list of all the forbidden documents)
+			String NOTQuery = createsNotList(keyword);
+			String crossTypesNotQuery = "";
+			ScoredHits<ONDEXConcept> NOTList = null;
+			if(NOTQuery != ""){
+				crossTypesNotQuery = "tConceptAttribute_AbstractHeader:("+NOTQuery+") OR ConceptAttribute_Abstract:("+NOTQuery+") OR Annotation:("+NOTQuery+") OR ConceptName:("+NOTQuery+") OR ConceptID:("+NOTQuery+")";
+				String fieldNameNQ = getFieldName("ConceptName",null);
+			    QueryParser parserNQ = new QueryParser(Version.LUCENE_36, fieldNameNQ , analyzer);
+			    Query qNQ = parserNQ.parse(crossTypesNotQuery);
+				NOTList = lenv.searchTopConcepts(qNQ, 2000);
+			}
+			
+			
+			
 		
 			// search concept attributes
 			for (AttributeName att : atts) {
@@ -431,7 +479,7 @@ public class OndexServiceProvider {
 			    QueryParser parser = new QueryParser(Version.LUCENE_36, fieldName , analyzer);
 			    Query qAtt = parser.parse(keyword);
 				ScoredHits<ONDEXConcept> sHits = lenv.searchTopConcepts(qAtt, 100);
-				mergeHits(hit2score, sHits);
+				mergeHits(hit2score, sHits, NOTList);
 			    
 			}
 			for (String dsAc : dsAcc) {
@@ -441,7 +489,7 @@ public class OndexServiceProvider {
 			    QueryParser parser = new QueryParser(Version.LUCENE_36, fieldName , analyzer);
 			    Query qAccessions = parser.parse(keyword);
 				ScoredHits<ONDEXConcept> sHitsAcc = lenv.searchTopConcepts(qAccessions, 100);
-				mergeHits(hit2score, sHitsAcc);				
+				mergeHits(hit2score, sHitsAcc, NOTList);				
 			}
 
 			// search concept names
@@ -450,7 +498,7 @@ public class OndexServiceProvider {
 		    QueryParser parserCN = new QueryParser(Version.LUCENE_36, fieldNameCN , analyzer);
 		    Query qNames = parserCN.parse(keyword);
 			ScoredHits<ONDEXConcept> sHitsNames = lenv.searchTopConcepts(qNames, 100);
-			mergeHits(hit2score, sHitsNames);
+			mergeHits(hit2score, sHitsNames, NOTList);
 			
 			
 			// search concept description
@@ -459,7 +507,7 @@ public class OndexServiceProvider {
 		    QueryParser parserD = new QueryParser(Version.LUCENE_36, fieldNameD , analyzer);
 		    Query qDesc = parserD.parse(keyword);
 			ScoredHits<ONDEXConcept> sHitsDesc = lenv.searchTopConcepts(qDesc, 100);
-			mergeHits(hit2score, sHitsDesc);
+			mergeHits(hit2score, sHitsDesc, NOTList);
 			
 			// search concept annotation			
 			//Query qAnno = LuceneQueryBuilder.searchConceptByAnnotationExact(keyword);
@@ -467,7 +515,7 @@ public class OndexServiceProvider {
 		    QueryParser parserCA = new QueryParser(Version.LUCENE_36, fieldNameCA , analyzer);
 		    Query qAnno = parserCA.parse(keyword);
 			ScoredHits<ONDEXConcept> sHitsAnno = lenv.searchTopConcepts(qAnno, 100);		
-			mergeHits(hit2score, sHitsAnno);
+			mergeHits(hit2score, sHitsAnno, NOTList);
 			
 			System.out.println("Query: "+qAnno.toString(fieldNameCA));
 			System.out.println("Annotation hits: "+sHitsAnno.getOndexHits().size());
@@ -1407,13 +1455,13 @@ public class OndexServiceProvider {
 		key = key.replace(" AND ", "___");
 		key = key.replace(" OR ", "___");
 		
-		System.out.println(key);
+		//System.out.println(key);
 		
 		//key = key.replaceAll("\\s+", " ");
 		
 		for (String k : key.split("___")) {
 			result.add(k.trim());
-			System.out.println("subkeyworkd for synonym table: "+k.trim());
+			//System.out.println("subkeyworkd for synonym table: "+k.trim());
 		}	
 		return result;
 	}
