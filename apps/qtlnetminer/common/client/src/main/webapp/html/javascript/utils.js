@@ -69,6 +69,8 @@ function addKeywordUndo(keyword, from, target){
 
 function excludeKeyword(keyword, from, target){
 	query = $('#'+target).val();
+	if(keyword.indexOf(' ') != -1 && keyword.indexOf('"') == -1)
+		keyword = '"'+keyword+'"';
 	newquery = query+' NOT '+keyword;
 	$('#'+target).val(newquery);
 	$('#'+from).parent().attr('onClick','excludeKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
