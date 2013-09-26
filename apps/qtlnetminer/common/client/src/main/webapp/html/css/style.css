@@ -391,9 +391,9 @@ table.tablesorter tbody td {
 
 /* Search bar */
 #search{position:relative;padding:10px 10px 10px 0px;margin:6px 0px 10px 0px;background-color:#F4F5F7;border:2px solid #e4e4e4;width:740px;}
-#pGViewer_title {padding-bottom:10px;}
+#pGViewer_title {padding-bottom:10px;font-size:11px;color:#9B9B9B;}
 .preloader_bar {left:250px;position:relative;}
-/* #matchesResultDiv {position:absolute; top:25px;right:7px;} */
+#matchesResultDiv {font-size:11px; color:#9B9B9B;}
 * #eg_keywords {margin-left:4px;position:relative;top:4px;}
 
 #NetworkCanvas{position:relative;padding-bottom:60px;float:left;}
@@ -414,12 +414,12 @@ table.tablesorter tbody td {
 .buttonSynonym_on {background:url(../image/synonym_bg_on.png) repeat-x; float: left; height: 23px;margin: 0 12px 5px 10px;padding-top: 10px;position: relative;;color:#fff;font-weight:bold;}
 .synonym_right_border {position:absolute;top:0px;right:-9px;}
 .synonym_left_border {position:absolute;top:0px;left:-9px;}
-.addKeyword {}
-.addKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
-.excludeKeyword {}
-.excludeKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
-.replaceKeyword {}
-.replaceKeywordUndo {color:#CCCCCC;opacity: 0.5;} 
+.addKeyword {width:22px;height:22px;background:url(../image/add_off.png) no-repeat;position:relative;float:left;}
+.addKeywordUndo {width:22px;height:22px;background:url(../image/add_on.png) no-repeat;position:relative;float:left;} 
+.excludeKeyword {width:22px;height:22px;background:url(../image/exclude_off.png) no-repeat;position:relative;float:left;}
+.excludeKeywordUndo {width:22px;height:22px;background:url(../image/exclude_on.png) no-repeat;position:relative;float:left;}
+.replaceKeyword {width:22px;height:22px;background:url(../image/replace_off.png) no-repeat;position:relative;float:left;}
+.replaceKeywordUndo {width:22px;height:22px;background:url(../image/replace_on.png) no-repeat;position:relative;float:left;}
 .tabBox {left: -2px;position: absolute;top: 14px;}
 .conceptTabOn {position:relative;clear:left;width:33px;height: 62px;margin-top: -14px; background:url(../image/conceptTabOn.png) no-repeat;z-index:2;}
 .conceptTabOn div {position:absolute;top:9px;right:3px;opacity: 0.6;}

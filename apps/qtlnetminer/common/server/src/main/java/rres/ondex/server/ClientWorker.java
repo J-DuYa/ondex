@@ -327,11 +327,15 @@ public class ClientWorker implements Runnable {
 					boolean synTableIsCreated = ondexProvider.writeSynonymTable(keyword, MultiThreadServer.props.getProperty("AnnotationPath") + fileSynonymTable);
 					System.out.println("4.) Synonym table ");
 					
-					//Document count
+					//Document count (only related with genes)
 					int docSize = ondexProvider.getMapEvidences2Genes(qtlnetminerResults.getLuceneConcepts()).size();
+					
+					//Total documents
+					int totalDocSize = qtlnetminerResults.getLuceneConcepts().size();
+					
 					// We have annotation and table file				
 					if (xmlIsCreated && txtIsCreated && eviTableIsCreated) {
-						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+fileSynonymTable+":"+genes.size()+":"+docSize;
+						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+fileSynonymTable+":"+genes.size()+":"+docSize+":"+totalDocSize;
 						System.out.println("request is "+request);
 					}
 				}											

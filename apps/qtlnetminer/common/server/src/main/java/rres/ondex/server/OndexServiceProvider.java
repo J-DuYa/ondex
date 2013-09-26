@@ -1526,13 +1526,13 @@ public boolean writeSynonymTable(String keyword, String fileName) throws ParseEx
 						Set<ConceptName> cNames = eoc.getConceptNames();
 						for (ConceptName cName : cNames) {
 							if(topAux < topX){
-								if(type == "Gene" || type == "BioProc" || type == "MolFunc" || type == "CelComp"){
+								//if(type == "Gene" || type == "BioProc" || type == "MolFunc" || type == "CelComp"){
 									if(cName.isPreferred()){
 										String name = cName.getName().toString();
 										out.write(name+"\t"+type+"\t"+score.toString()+"\t"+id+"\n");
 										topAux++;
 									}
-								}
+								//}
 							}
 							
 						}

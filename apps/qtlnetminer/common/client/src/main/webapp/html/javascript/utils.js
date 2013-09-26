@@ -47,9 +47,11 @@ Functions for Add, Remove or Replace terms from the query search box
 */
 function addKeyword(keyword, from, target){
 	query = $('#'+target).val();
+	if(keyword.indexOf(' ') != -1 && keyword.indexOf('"') == -1)
+		keyword = '"'+keyword+'"';
 	newquery = query+' OR '+keyword;
 	$('#'+target).val(newquery);
-	$('#'+from).attr('onClick','addKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).parent().attr('onClick','addKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','addKeywordUndo');
 	//Updates the query counter
 	matchCounter();
@@ -59,7 +61,7 @@ function addKeywordUndo(keyword, from, target){
 	query = $('#'+target).val();
 	newquery = query.replace(' OR '+keyword, "");
 	$('#'+target).val(newquery);
-	$('#'+from).attr('onClick','addKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).parent().attr('onClick','addKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','addKeyword');
 	//Updates the query counter
 	matchCounter();
@@ -69,7 +71,7 @@ function excludeKeyword(keyword, from, target){
 	query = $('#'+target).val();
 	newquery = query+' NOT '+keyword;
 	$('#'+target).val(newquery);
-	$('#'+from).attr('onClick','excludeKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).parent().attr('onClick','excludeKeywordUndo(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','excludeKeywordUndo');
 	//Updates the query counter
 	matchCounter();
@@ -79,7 +81,7 @@ function excludeKeywordUndo(keyword, from, target){
 	query = $('#'+target).val();
 	newquery = query.replace(' NOT '+keyword, "");
 	$('#'+target).val(newquery);
-	$('#'+from).attr('onClick','excludeKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).parent().attr('onClick','excludeKeyword(\''+keyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','excludeKeyword');
 	//Updates the query counter
 	matchCounter();
@@ -89,7 +91,7 @@ function replaceKeyword(oldkeyword, newkeyword, from, target){
 	query = $('#'+target).val();
 	newquery = query.replace(oldkeyword,newkeyword);
 	$('#'+target).val(newquery);
-	$('#'+from).attr('onClick','replaceKeywordUndo(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).parent().attr('onClick','replaceKeywordUndo(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','replaceKeywordUndo');
 	//Updates the query counter
 	matchCounter();
@@ -99,7 +101,7 @@ function replaceKeywordUndo(oldkeyword, newkeyword, from, target){
 	query = $('#'+target).val();
 	newquery = query.replace(newkeyword,oldkeyword);
 	$('#'+target).val(newquery);
-	$('#'+from).attr('onClick','replaceKeyword(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
+	$('#'+from).parent().attr('onClick','replaceKeyword(\''+oldkeyword+'\',\''+newkeyword+'\',\''+from+'\',\''+target+'\')');
 	$('#'+from).attr('class','replaceKeyword');
 	//Updates the query counter
 	matchCounter();
@@ -346,12 +348,13 @@ function searchKeyword(){
 					var splitedResponse = response.split(":");  
 					var results = splitedResponse[5];
 					var docSize = splitedResponse[6];
+					var totalDocSize = splitedResponse[7];
 					var candidateGenes = parseInt(results);
-					var genomicViewTitle = '<div id="pGViewer_title">In total '+results+' genes were found. Query was found in '+docSize+' documents<br /></div>'
+					var genomicViewTitle = '<div id="pGViewer_title">In total <b>'+results+' genes</b> were found.<br />Query was found in <b>'+docSize+' documents</b> related with genes ('+totalDocSize+' documents in total)<br /></div>'
 					var genomicView = '<div id="pGViewer" class="resultViewer"><p class="margin_left">Shift+Click on a gene to see its knowledge network.</p>';
 					if(candidateGenes > 100){
 						candidateGenes = 100;
-						var genomicViewTitle = '<div id="pGViewer_title">In total '+results+' genes were found.  Query was found in '+docSize+' documents. Top 100 genes are displayed.<br /></div>';
+						var genomicViewTitle = '<div id="pGViewer_title">In total <b>'+results+' genes</b> were found. Top 100 genes are displayed in Map and Table view.<br />Query was found in <b>'+docSize+' documents</b> related with genes ('+totalDocSize+' documents in total)<br /></div>';
 					}			
 					gviewer_html = '<center><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="600" height="600" id="GViewer2" align="middle"><param name="wmode" value="transparent"><param name="allowScriptAccess" value="sameDomain" /><param name="movie" value="html/GViewer/GViewer2.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF" /><param name="FlashVars" value="&lcId=1234567890&baseMapURL=html/data/basemap.xml&annotationURL='+data_url+splitedResponse[1]+'&dimmedChromosomeAlpha=40&bandDisplayColor=0x0099FF&wedgeDisplayColor=0xCC0000&browserURL=OndexServlet?position=Chr&" /><embed style="width:700px; height:550px;" id="embed" src="html/GViewer/GViewer2.swf" quality="high" bgcolor="#FFFFFF" width="600" height="600" name="GViewer2" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" FlashVars="&lcId=1234567890&baseMapURL=html/data/basemap.xml&annotationURL='+data_url+splitedResponse[1] +'&dimmedChromosomeAlpha=40&bandDisplayColor=0x0099FF&wedgeDisplayColor=0xCC0000&titleBarText=&browserURL=OndexServlet?position=Chr&"  pluginspage="http://www.macromedia.com/go/getflashplayer" /></object></center></div>';
 					genomicView = genomicView + gviewer_html;
@@ -527,7 +530,7 @@ function createGenesTable(tableUrl, keyword, rows){
     		}
     		if(candidate_genes.length > 2) {
 		        table =  '';
-				table = table + '<p class="margin_left">Download full results ('+(candidate_genes.length-2)+' genes) as a table from <a href="'+tableUrl+'" target="_blank">here</a>.<br />';
+				table = table + '<p class="margin_left"><a href="'+tableUrl+'" target="_blank">Download as TAB delimited file</a><br />';
 				table = table + 'Select gene(s) and click "Show Network" button to see the Ondex network.<span id="hint"><img id="hintSortableTable" src="html/image/hint.png" /></span></p>';
 				table = table + '<form name="checkbox_form">';
 				table = table + '<div id="selectAll"><input type="checkbox" name="chkall" />Select All</div>';			
@@ -664,7 +667,7 @@ function createEvidenceTable(tableUrl){
 				for(var ev_i=1; ev_i < (evidenceTable.length-1); ev_i++) {
 					values = evidenceTable[ev_i].split("\t");
 					table = table + '<tr>';
-					table = table + '<td><a id="evidence_exclude_'+ev_i+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\'ConceptID:'+values[6]+'\', \'evidence_exclude_'+ev_i+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a></td>';					 
+					table = table + '<td><a href="javascript:;" onclick="excludeKeyword(\'ConceptID:'+values[6]+'\', \'evidence_exclude_'+ev_i+'\', \'keywords\')"><div id="evidence_exclude_'+ev_i+'" class="excludeKeyword" title="Exclude term"></div></a></td>';					 
 					table = table + '<td><div class="evidence_item evidence_item_'+values[0]+'" title="'+values[0]+'"></div></td>';
 					table = table + '<td>'+values[1]+'</td>';
 					table = table + '<td>'+values[2]+'</td>';
@@ -718,6 +721,7 @@ function createSynonymTable(tableUrl){
 			var aSynonyms = new Array();
 			var countTerms = 0;
 			var termName = "";
+			var minRowsInTable = 12;
 			if(evidenceTable.length > 3) {
 				terms = '';
 				table = '';								
@@ -728,12 +732,20 @@ function createSynonymTable(tableUrl){
 						table =  table +tabsBox+'</div>';
 						//Includes the tables
 						for (var i = 0; i < aTable.length; i++) {
+							
+							if(aTableLenght[i] < minRowsInTable){
+								for(var rows = aTableLenght[i]; rows < minRowsInTable ; rows++){
+									aTable[i] = aTable[i] +'<tr><td>&nbsp;</td><td>&nbsp;</td></tr>'	
+								}
+							}
+							
 						  table =  table + aTable[i]+'</table>';						  
 						}											
 					//New Term	
 					}else if(evidenceTable[ev_i][0] == '<'){
 						var aNewConcepts = new Array();	
 						var aTable = new Array();
+						var aTableLenght = new Array();
 						var countConcepts = 0;
 						countTerms++;
 						
@@ -775,6 +787,7 @@ function createSynonymTable(tableUrl){
 								tableHeader = '<table id="tablesorterSynonym'+termName+countConcepts+'" class="suggestorTable" '+tablevisibility+'>';
 
 								aTable.push(tableHeader); 
+								aTableLenght.push(0); 
 									
 								if(countConcepts == 1)
 									conceptTabStyles = 'conceptTabOn';	
@@ -788,11 +801,12 @@ function createSynonymTable(tableUrl){
 							conceptIndex = aNewConcepts.indexOf(values[1]);
 							row = '<tr>';											
 							row = row + '<td width="390">'+values[0]+'</td>'
-							row = row + '<td width="80"><a id="synonymstable_add_'+ev_i+'_'+countConcepts+'" class="addKeyword" href="javascript:;" onclick="addKeyword(\''+values[0]+'\', \'synonymstable_add_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/add.png" title="Add term"/></a> <a id="synonymstable_exclude_'+ev_i+'_'+countConcepts+'" class="excludeKeyword" href="javascript:;" onclick="excludeKeyword(\''+values[0]+'\', \'synonymstable_exclude_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/exclude.png" title="Exclude term"/></a> <a id="synonymstable_replace_'+ev_i+'_'+countConcepts+'" class="replaceKeyword" href="javascript:;" onclick="replaceKeyword(\''+originalTermName+'\',\''+values[0]+'\', \'synonymstable_replace_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><img src="html/image/replace.png" title="Replace term"/></a></td>';
+							row = row + '<td width="80"><a  href="javascript:;" onclick="addKeyword(\''+values[0]+'\', \'synonymstable_add_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><div id="synonymstable_add_'+ev_i+'_'+countConcepts+'" class="addKeyword" title="Add term"></div></a> <a href="javascript:;" onclick="excludeKeyword(\''+values[0]+'\', \'synonymstable_exclude_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><div id="synonymstable_exclude_'+ev_i+'_'+countConcepts+'" class="excludeKeyword" title="Exclude term"></div></a> <a href="javascript:;" onclick="replaceKeyword(\''+originalTermName+'\',\''+values[0]+'\', \'synonymstable_replace_'+ev_i+'_'+countConcepts+'\', \'keywords\')"><div id="synonymstable_replace_'+ev_i+'_'+countConcepts+'" class="replaceKeyword" title="Replace term"></div></a></td>';
 							//row = row + '<th width="78"><div class="evidence_item evidence_item_'+values[1]+'" title="'+values[1]+'"></div></th>';			
 							//row = row + '<th width="60">'+values[2]+'</th>';
 							row = row + '</tr>';
 							aTable[conceptIndex] = aTable[conceptIndex] + row;	
+							aTableLenght[conceptIndex] = aTableLenght[conceptIndex] + 1;	
 						}
 					}
 				}				
