@@ -118,8 +118,10 @@ function matchCounter(){
 	var url = 'OndexServlet?'+request;
 	$.post(url, '', function(response, textStatus){
 		if(textStatus == "success"){
-			if(response.split('|')[1] != null && response.split('|')[1] != "0")
-				$('#matchesResultDiv').html(response.split('|')[1]+' documents  and '+response.split('|')[2]+' genes will be found with this query');	
+			if(response.split('|')[1] != null && response.split('|')[1] != "0"){
+				$('#matchesResultDiv').html('<b>'+response.split('|')[1]+' documents</b>  and <b>'+response.split('|')[2]+' genes</b> will be found with this query');	
+				$('#keywordsSubmit').removeAttr("disabled");
+			}
 			else
 				$('#matchesResultDiv').html('No documents or genes will be found with this query');
 		}

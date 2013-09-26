@@ -16,7 +16,7 @@
 					<div id="keyword_search">
 						<ul>
 							<li><input id="keywords" name="keywords" type="text" /></li>
-							<li><input type="submit" value="Search" class="button" /></li>
+							<li><input type="submit" id="keywordsSubmit" value="Search" class="button" disabled/></li>
 							<li id="eg_keywords"> 
 								<span id="hint"> <img id="hintEgKeywords" src="html/image/hint.png" alt="hint" /></span>
 							</li>
