@@ -168,7 +168,7 @@ public class ClientWorker implements Runnable {
 				}
 				return "OndexWeb";
 			}
-			else if(mode.equals("genome") && listMode.equals("counting")) {
+			else if(mode.equals("counthits")) {
 				try {
 					Integer matchCount = ondexProvider.searchLucene(keyword).size(); //number of matching documents
 					Hits qtlnetminerResults = new Hits(keyword, ondexProvider);
@@ -183,7 +183,21 @@ public class ClientWorker implements Runnable {
 				}
 				return "MatchCounter";
 
-			}else{
+			}else if(mode.equals("synonyms")){				
+				// Synonym table file
+				long timestamp = System.currentTimeMillis();
+				String fileSynonymTable = timestamp+"SynonymTable.tab";
+				try {
+					ondexProvider.writeSynonymTable(keyword, MultiThreadServer.props.getProperty("AnnotationPath") + fileSynonymTable);
+					System.out.println("Synonym table created");
+					return "File created:"+fileSynonymTable;
+				} catch (ParseException e) {
+					System.out.println("Synonym table could not be created");
+					e.printStackTrace();
+				}		
+				return "SynonymTable";
+			}
+			else{
 				return callOndexProvider(keyword, mode, listMode, qtls, list);
 			}					
 		}
@@ -242,8 +256,7 @@ public class ClientWorker implements Runnable {
 		long timestamp = System.currentTimeMillis();
 		String fileGViewer = timestamp+"GViewer.xml";
 		String fileGeneTable = timestamp+"GeneTable.tab";
-		String fileEvidenceTable = timestamp+"EvidenceTabl.tab";
-		String fileSynonymTable = timestamp+"SynonymTable.tab";
+		String fileEvidenceTable = timestamp+"EvidenceTabl.tab";		
 		
 		String request = "";	
 		ArrayList<ONDEXConcept> genes = new ArrayList<ONDEXConcept>();
@@ -322,10 +335,7 @@ public class ClientWorker implements Runnable {
 					boolean eviTableIsCreated = ondexProvider.writeEvidenceTable(qtlnetminerResults.getLuceneConcepts(), 
 							userGenes, qtl, MultiThreadServer.props.getProperty("AnnotationPath") + fileEvidenceTable);
 					System.out.println("3.) Evidence table ");
-					
-					// Synonym table file
-					boolean synTableIsCreated = ondexProvider.writeSynonymTable(keyword, MultiThreadServer.props.getProperty("AnnotationPath") + fileSynonymTable);
-					System.out.println("4.) Synonym table ");
+										
 					
 					//Document count (only related with genes)
 					int docSize = ondexProvider.getMapEvidences2Genes(qtlnetminerResults.getLuceneConcepts()).size();
@@ -335,7 +345,7 @@ public class ClientWorker implements Runnable {
 					
 					// We have annotation and table file				
 					if (xmlIsCreated && txtIsCreated && eviTableIsCreated) {
-						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+fileSynonymTable+":"+genes.size()+":"+docSize+":"+totalDocSize;
+						request = "FileCreated:"+fileGViewer+":"+fileGeneTable+":"+fileEvidenceTable+":"+genes.size()+":"+docSize+":"+totalDocSize;
 						System.out.println("request is "+request);
 					}
 				}											

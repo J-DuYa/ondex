@@ -404,7 +404,7 @@ table.tablesorter tbody td {
 #evidenceSummary .evidenceSummaryItem {position:relative;float:left;width:50px;font-size:11px;}
 
 /* Suggestor box */
-#suggestor_search_area {min-height:230px;}
+/* #suggestor_search_area {} */
 .preloader_wrapper {width: 100%;position: relative;}
 #suggestor_invite {color:#900;}
 #suggestor_tables img {position: relative;}

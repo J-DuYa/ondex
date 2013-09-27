@@ -113,10 +113,9 @@ function replaceKeywordUndo(oldkeyword, newkeyword, from, target){
  * 
  */		
 function matchCounter(){	
-	var searchMode = "genome";
-	var listMode = "counting";
+	var searchMode = "counthits";
 	var keyword = $('#keywords').val();		
-	var request = "mode="+searchMode+"&keyword="+keyword+"&listMode="+listMode;
+	var request = "mode="+searchMode+"&keyword="+keyword;
 	var url = 'OndexServlet?'+request;
 	$.post(url, '', function(response, textStatus){
 		if(textStatus == "success"){
@@ -243,7 +242,24 @@ $(document).ready(
 		    	         $('#suggestor_search_area').animate({
 				               height: 'toggle'
 				               }, 500
-				          );						  
+				          );	
+						  if($('#suggestor_search').attr('src') == "html/image/collapse.gif")
+						  {
+								 //Preloader for Synonym table
+								$('#suggestor_terms').html('')										
+								$('#suggestor_tables').html('<div class="preloader_wrapper"><img src="html/image/preloader_bar.gif" alt="Loading, please wait..." class="preloader_bar" /></div>');
+								//Creates Synonym table
+								var searchMode = "synonyms";
+								var keyword = $('#keywords').val();		
+								var request = "mode="+searchMode+"&keyword="+keyword;
+								var url = 'OndexServlet?'+request;
+								$.post(url, '', function(response, textStatus){
+									if(textStatus == "success"){
+											synonymFile = response.split(":")[1];
+											createSynonymTable(data_url+synonymFile);
+										}
+								})
+						  }																	  
 		    		 });
 		    //Match counter
 			//$("#keywords").keyup(matchCounter());			 
@@ -329,7 +345,8 @@ function searchKeyword(){
 	        async: true,
 	        timeout: 1000000,
 	        data:{list : list},
-	        error: function(){						  
+	        error: function(errorlog){
+				alert("An error has ocurred "+errorlog);						  
 	        },
 	        success: function(response, textStatus){
 				$("#loadingDiv").replaceWith('<div id="loadingDiv"></div>');
@@ -350,15 +367,15 @@ function searchKeyword(){
 	        	}
 				else {
 					var splitedResponse = response.split(":");  
-					var results = splitedResponse[5];
-					var docSize = splitedResponse[6];
-					var totalDocSize = splitedResponse[7];
+					var results = splitedResponse[4];
+					var docSize = splitedResponse[5];
+					var totalDocSize = splitedResponse[6];
 					var candidateGenes = parseInt(results);
 					var genomicViewTitle = '<div id="pGViewer_title">In total <b>'+results+' genes</b> were found.<br />Query was found in <b>'+docSize+' documents</b> related with genes ('+totalDocSize+' documents in total)<br /></div>'
 					var genomicView = '<div id="pGViewer" class="resultViewer"><p class="margin_left">Shift+Click on a gene to see its knowledge network.</p>';
 					if(candidateGenes > 100){
 						candidateGenes = 100;
-						var genomicViewTitle = '<div id="pGViewer_title">In total <b>'+results+' genes</b> were found. Top 100 genes are displayed in Map and Table view.<br />Query was found in <b>'+docSize+' documents</b> related with genes ('+totalDocSize+' documents in total)<br /></div>';
+						var genomicViewTitle = '<div id="pGViewer_title">In total <b>'+results+' genes</b> were found. Top 100 genes are displayed in Map and Gene view.<br />Query was found in <b>'+docSize+' documents</b> related with genes ('+totalDocSize+' documents in total)<br /></div>';
 					}			
 					gviewer_html = '<center><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="600" height="600" id="GViewer2" align="middle"><param name="wmode" value="transparent"><param name="allowScriptAccess" value="sameDomain" /><param name="movie" value="html/GViewer/GViewer2.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF" /><param name="FlashVars" value="&lcId=1234567890&baseMapURL=html/data/basemap.xml&annotationURL='+data_url+splitedResponse[1]+'&dimmedChromosomeAlpha=40&bandDisplayColor=0x0099FF&wedgeDisplayColor=0xCC0000&browserURL=OndexServlet?position=Chr&" /><embed style="width:700px; height:550px;" id="embed" src="html/GViewer/GViewer2.swf" quality="high" bgcolor="#FFFFFF" width="600" height="600" name="GViewer2" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" FlashVars="&lcId=1234567890&baseMapURL=html/data/basemap.xml&annotationURL='+data_url+splitedResponse[1] +'&dimmedChromosomeAlpha=40&bandDisplayColor=0x0099FF&wedgeDisplayColor=0xCC0000&titleBarText=&browserURL=OndexServlet?position=Chr&"  pluginspage="http://www.macromedia.com/go/getflashplayer" /></object></center></div>';
 					genomicView = genomicView + gviewer_html;
@@ -369,15 +386,9 @@ function searchKeyword(){
 					//Collapse Suggestor view
 					$('#suggestor_search').attr('src', 'html/image/expand.gif');
 			 		$('#suggestor_search_area').slideUp(500);
+										
 					
-					//Preloader for Synonym table
-					$('#suggestor_terms').html('')
-					$('#suggestor_invite').html('');										
-					$('#suggestor_tables').html('<div class="preloader_wrapper"><img src="html/image/preloader_bar.gif" alt="Loading, please wait..." class="preloader_bar" /></div>');
-					
-					
-					activateButton('resultsTable');
-					createSynonymTable(data_url+splitedResponse[4]);
+					activateButton('resultsTable');					
 					createGenesTable(data_url+splitedResponse[2], keyword, candidateGenes);
 					createEvidenceTable(data_url+splitedResponse[3]);
 				}
@@ -726,10 +737,15 @@ function createSynonymTable(tableUrl){
 			var countTerms = 0;
 			var termName = "";
 			var minRowsInTable = 12;
+			var nullTerm = false;
 			if(evidenceTable.length > 3) {
 				terms = '';
 				table = '';								
 				for(var ev_i=0; ev_i < (evidenceTable.length-1); ev_i++) {
+					if(nullTerm){
+						nullTerm = false;
+						continue;
+					}
 					//End of Term
 					if(evidenceTable[ev_i].substr(0,2) == '</'){	
 						//Includes the tab box
@@ -747,6 +763,10 @@ function createSynonymTable(tableUrl){
 						}											
 					//New Term	
 					}else if(evidenceTable[ev_i][0] == '<'){
+						if(evidenceTable[ev_i+1].substr(0,2) == '</'){
+							nullTerm = true;
+							continue;
+						}
 						var aNewConcepts = new Array();	
 						var aTable = new Array();
 						var aTableLenght = new Array();
@@ -765,6 +785,7 @@ function createSynonymTable(tableUrl){
 						termName = evidenceTable[ev_i].replace("<","");
 						var originalTermName = termName.replace(">","");
 						termName = originalTermName.replace(/ /g, '_');
+						termName = termName.replace(/"/g, '');
 						terms = terms + '<a href="javascript:;" onclick="showSynonymTable(\'tablesorterSynonym'+termName+(countConcepts+1)+'\',\'tabBox_'+termName+'\')"><div class="'+divstyle+'" id="tablesorterSynonym'+termName+(countConcepts+1)+'_buttonSynonym"><img src="html/image/synonym_left_'+imgstatus+'.png" class="synonym_left_border" id="tablesorterSynonym'+termName+(countConcepts+1)+'synonym_left_border"/>'+termName+'<img src="html/image/synonym_right_'+imgstatus+'.png" class="synonym_right_border"  id="tablesorterSynonym'+termName+(countConcepts+1)+'synonym_right_border"/></div></a>';	
 						
 						
@@ -814,8 +835,12 @@ function createSynonymTable(tableUrl){
 						}
 					}
 				}				
-				$('#suggestor_invite').html(countSynonyms+' synonyms found');
+				//$('#suggestor_invite').html(countSynonyms+' synonyms found');
 				$('#suggestor_terms').html(terms);
+				$('#suggestor_tables').html(table);
+			}else{
+				table = "No results found";	
+				$('#suggestor_terms').html(" ");
 				$('#suggestor_tables').html(table);
 			}
 		}
