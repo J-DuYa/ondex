@@ -285,12 +285,17 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
+		System.err.println(arg0.getActionCommand());
+		System.err.println(arg0.getSource());
+		System.err.println(arg0.paramString());
+		System.err.println(arg0.getID());
+		
 		// propagate event to all interested listeners
 		Object[] listeners = events.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == ActionListener.class) {
 				((ActionListener) listeners[i + 1]).actionPerformed(arg0);
+				System.err.println(listeners[i + 1].getClass().toString());
 			}
 		}
 
