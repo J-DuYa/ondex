@@ -178,7 +178,7 @@ public class OndexSearch {
 			for (String key : keywords) {
 				
 				Pattern p = Pattern.compile(key, Pattern.CASE_INSENSITIVE);
-				String highlighter = "<b><u>$0</u></b>";
+				String highlighter = "<span style=\"background-color:yellow\"><b>$0</b></span>";
 				
 				//Searchs in pid
 				if(pid.contains(key)){
