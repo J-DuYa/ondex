@@ -20,6 +20,7 @@ import net.sourceforge.ondex.annotations.Status;
 import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
+import net.sourceforge.ondex.config.Config;
 import net.sourceforge.ondex.core.AttributeName;
 import net.sourceforge.ondex.core.ConceptAccession;
 import net.sourceforge.ondex.core.ConceptClass;
@@ -379,36 +380,16 @@ public class Parser extends ONDEXParser implements MetaData {
             URL url = null;
 
             switch (mode) {
-                case AssayToComps:
-                    url = new URL("https://www.ebi.ac.uk/chemblws/assays/"
-                            + accession + "/bioactivities");
-                    break;
-                case AssayToTargets:
-                    url = new URL("https://www.ebi.ac.uk/chemblws/assays/"
-                            + accession + "/bioactivities");
-                    break;
-                case CompToAssays:
-                    url = new URL("https://www.ebi.ac.uk/chemblws/compounds/"
-                            + accession + "/bioactivities");
-                    break;
-                case CompToTargets:
-                    url = new URL("https://www.ebi.ac.uk/chemblws/compounds/"
-                            + accession + "/bioactivities");
-                    break;
-                case TargetToAssays:
-                    url = new URL("https://www.ebi.ac.uk/chemblws/targets/"
-                            + accession + "/bioactivities");
-                    break;
-                case TargetToComps:
-                    url = new URL("https://www.ebi.ac.uk/chemblws/targets/"
-                            + accession + "/bioactivities");
-                    break;
                 case CompSimilarity:
                     log.debug("accession: " + accession);
                     url = new URL(
                             "https://www.ebi.ac.uk/chemblws/compounds/similarity/"
                             + accession + "/90");
                     break;
+                default:
+                    log.debug("accession: " + accession);
+                    url = new URL(Config.properties.getProperty(mode.name())
+                    + accession + "/bioactivities");
             }
 
             // System.out.println(url);

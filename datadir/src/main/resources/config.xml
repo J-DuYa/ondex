@@ -136,4 +136,11 @@
 <entry key="Scripting.Editor">D:\Program Files\Notepad++\notepad++.exe</entry>
 <entry key="Jython.Home">D:/new_jython2.5b0</entry>
 <entry key="Python.Path">D:/Python26/lib/site-packages/</entry>
+<entry key="AssayToComps">https://www.ebi.ac.uk/chemblws/assays/</entry>
+<entry key="AssayToTargets">https://www.ebi.ac.uk/chemblws/assays/</entry>
+<entry key="CompToAssays">https://www.ebi.ac.uk/chemblws/compounds/</entry>
+<entry key="CompToTargets">https://www.ebi.ac.uk/chemblws/compounds/</entry>
+<entry key="TargetToAssays">https://www.ebi.ac.uk/chemblws/targets/</entry>
+<entry key="TargetToComps">https://www.ebi.ac.uk/chemblws/targets/</entry>
+<entry key="CompSimilarity">https://www.ebi.ac.uk/chemblws/compounds/similarity/</entry
 </properties>
