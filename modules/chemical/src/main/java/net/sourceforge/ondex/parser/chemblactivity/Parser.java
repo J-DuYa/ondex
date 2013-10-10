@@ -382,8 +382,7 @@ public class Parser extends ONDEXParser implements MetaData {
             switch (mode) {
                 case CompSimilarity:
                     log.debug("accession: " + accession);
-                    url = new URL(
-                            "https://www.ebi.ac.uk/chemblws/compounds/similarity/"
+                    url = new URL(Config.properties.getProperty(mode.name())
                             + accession + "/90");
                     break;
                 default:
