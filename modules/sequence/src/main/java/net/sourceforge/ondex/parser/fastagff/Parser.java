@@ -15,6 +15,7 @@ import net.sourceforge.ondex.annotations.Status;
 import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.FileArgumentDefinition;
+import net.sourceforge.ondex.args.IntegerRangeArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
 import net.sourceforge.ondex.core.AttributeName;
 import net.sourceforge.ondex.core.ConceptClass;
@@ -25,7 +26,8 @@ import net.sourceforge.ondex.core.ONDEXGraphMetaData;
 import net.sourceforge.ondex.core.RelationType;
 import net.sourceforge.ondex.parser.ONDEXParser;
 
-@Status(description = "Parser for Genes and Proteins using GFF3, FASTA and mapping files. Tested August 2012 (Martin Castellote)", status = StatusType.EXPERIMENTAL)
+
+@Status(description = "Parser for Genes and Proteins using GFF3, FASTA and mapping files downloaded from Phytozome v9.1 (Martin Castellote)", status = StatusType.EXPERIMENTAL)
 @Authors(authors = {"Martin Castellote"}, emails = {"castellotemartin@yahoo.com.ar"})
 @DatabaseTarget(name = "PGSC", description = "PGSC files", version = "3.4", url = "http://solanaceae.plantbiology.msu.edu/pgsc_download.shtml")
 @DataURL(name = "GFF3, FASTA and Mapping",
@@ -63,9 +65,11 @@ public class Parser extends ONDEXParser {
 		return new ArgumentDefinition<?>[]{
 				new FileArgumentDefinition(ArgumentNames.GFF_ARG, "Absolute path to a GFF3 input file with 9 columns. It uses 1)chromosome id, 4)start, 5)end and 9)gene id and gene description i.e. \"ID=PGSC0003DMG400030251;Name=\"\"Conserved gene of unknown function\"\"\" ", true, true, false, false),
 				new FileArgumentDefinition(ArgumentNames.FASTA_ARG, "Absolute path to a FASTA input file with protein secuences", true, true, false, false),
-				new FileArgumentDefinition(ArgumentNames.MAPPING_ARG, "Absolute path to a mapping input file which provides mapping relationsship between the GFF and the FASTA file. It should contain two columns: 1) gene id and 4) protein id", true, true, false, false),
+				new FileArgumentDefinition(ArgumentNames.MAPPING_ARG, "Absolute path to a mapping input file which provides mapping relationsship between the GFF and the FASTA file. It should contain two columns: 2) gene id and 4) protein id", true, true, false, false),
 				new StringArgumentDefinition(ArgumentNames.TAXID_ARG, ArgumentNames.TAXID_ARG_DESC, true, null, false),
-				new StringArgumentDefinition(ArgumentNames.DATASOURCE_ARG, ArgumentNames.DATASOURCE_ARG_DESC, true, null, false)
+				new StringArgumentDefinition(ArgumentNames.DATASOURCE_ARG, ArgumentNames.DATASOURCE_ARG_DESC, true, null, false),
+				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_GENE, ArgumentNames.MAPPING_GENE_DESC, true, 1, 0, 10),
+				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_PROTEIN, ArgumentNames.MAPPING_PROTEIN_DESC, true, 3, 0, 10)
 		};
 
 	}
@@ -126,7 +130,7 @@ public class Parser extends ONDEXParser {
 			while((row = br.readLine())!=null){
 				String[] splited = row.split("\t");
 				
-				if(!(splited[2].equalsIgnoreCase("gene"))){
+				if(splited.length < 2 || !(splited[2].equalsIgnoreCase("gene"))){
 					continue;
 				}
 				
@@ -134,11 +138,17 @@ public class Parser extends ONDEXParser {
 				String geneId = col[0].split("=")[1];
 				String geneDescription = col[1].split("=")[1];
 				
+				//Standarize the name of the chromosome
+				if(splited[0].length()>1)
+					splited[0] = splited[0].substring(splited[0].length() - 2);
+				else
+					splited[0] = splited[0].substring(splited[0].length() - 1);
+				
 				Pattern p = Pattern.compile("\\d+");
 				Matcher m = p.matcher(splited[0]);
 				String geneChrName = "0";
 				if(m.find()){
-					geneChrName = m.group();
+					geneChrName = m.group();					
 				}
 				else{
 					missingChr++;
@@ -198,8 +208,10 @@ public class Parser extends ONDEXParser {
 			String secuenceName = "";
 			String secuence = "";
 			while((FASTArow = FASTAbr.readLine())!=null){
+				if(FASTArow.isEmpty())
+					continue;
 				if(FASTArow.substring(0, 1).equals(">")){
-					if(secuenceName != ""){
+					if(!secuenceName.isEmpty()){
 						//creates protein concept when find the next > symbol
 						ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsInput, ccProtein, etIMPD);
 						c2.createConceptName(secuenceName, false);
@@ -208,11 +220,11 @@ public class Parser extends ONDEXParser {
 						c2.createAttribute(anTaxid, taxid, false);
 						ondex2protein.put(secuenceName, c2.getId());
 						//saves the new secuence name and clears de secuence	    	        			 
-						secuenceName = FASTArow.split("\\s+")[0].substring(1);
+						secuenceName = FASTArow.split("\\|")[0].substring(1);
 						secuence = "";
 					} else {
 						//saves the first secuence name
-						secuenceName = FASTArow.split("\\s+")[0].substring(1);	        			 	        			 
+						secuenceName = FASTArow.split("\\|")[0].substring(1);	        			 	        			 
 					}
 				} else {
 					//concate the secuence to the current secuence name
@@ -245,6 +257,8 @@ public class Parser extends ONDEXParser {
 
 
 		String MappingFilePath = (String) args.getUniqueValue(ArgumentNames.MAPPING_ARG);
+		int geneColumn = Integer.parseInt(args.getUniqueValue(ArgumentNames.MAPPING_GENE).toString());
+		int proteinColumn = Integer.parseInt(args.getUniqueValue(ArgumentNames.MAPPING_PROTEIN).toString());
 		File MappingFile = null;
 		FileReader Mappingfr = null;
 		BufferedReader Mappingbr = null;
@@ -262,8 +276,8 @@ public class Parser extends ONDEXParser {
 			while((Mappingrow = Mappingbr.readLine())!=null){
 				String[] splited = Mappingrow.split("\t");
 
-				String geneId = splited[0];
-				String proteinId = splited[3];
+				String geneId = splited[geneColumn];
+				String proteinId = splited[proteinColumn];
 				
 				if (ondex2protein.get(proteinId) == null){
 					missingProteins++;
