@@ -4,6 +4,8 @@ public class ArgumentNames {
 	
 	public final static String TAXID_ARG = "TaxId";
 	public final static String TAXID_ARG_DESC = "Set the TAXID";
+	public final static String XREF_ARG = "Accession";
+	public final static String XREF_ARG_DESC = "Set the Accession";
 	public final static String DATASOURCE_ARG = "DataSource";
 	public final static String DATASOURCE_ARG_DESC = "Set the data source of the input file";
 	

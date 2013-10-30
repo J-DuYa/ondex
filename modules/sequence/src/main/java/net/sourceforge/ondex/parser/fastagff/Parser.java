@@ -67,6 +67,7 @@ public class Parser extends ONDEXParser {
 				new FileArgumentDefinition(ArgumentNames.FASTA_ARG, "Absolute path to a FASTA input file with protein secuences", true, true, false, false),
 				new FileArgumentDefinition(ArgumentNames.MAPPING_ARG, "Absolute path to a mapping input file which provides mapping relationsship between the GFF and the FASTA file. It should contain two columns: 2) gene id and 4) protein id", true, true, false, false),
 				new StringArgumentDefinition(ArgumentNames.TAXID_ARG, ArgumentNames.TAXID_ARG_DESC, true, null, false),
+				new StringArgumentDefinition(ArgumentNames.XREF_ARG, ArgumentNames.XREF_ARG_DESC, true, null, false),
 				new StringArgumentDefinition(ArgumentNames.DATASOURCE_ARG, ArgumentNames.DATASOURCE_ARG_DESC, true, null, false),
 				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_GENE, ArgumentNames.MAPPING_GENE_DESC, true, 1, 0, 10),
 				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_PROTEIN, ArgumentNames.MAPPING_PROTEIN_DESC, true, 3, 0, 10)
@@ -90,19 +91,29 @@ public class Parser extends ONDEXParser {
 		AttributeName anTaxid = md.getAttributeName(MetaData.AN_TAXID);
 		AttributeName anSecuenceAA = md.getAttributeName(MetaData.AN_AA);
 		EvidenceType etIMPD = md.getEvidenceType(MetaData.ET_IMPD);
-		DataSource dsInput = null;		
+		DataSource dsConcept = null;		
+		DataSource dsAccession = null;		
 
 		//saves taxid and data source name into variables
 		String taxid = (String) args.getUniqueValue(ArgumentNames.TAXID_ARG);
+		String xref = (String) args.getUniqueValue(ArgumentNames.XREF_ARG);
 		String dsName = (String) args.getUniqueValue(ArgumentNames.DATASOURCE_ARG);
 
 
 		if(md.getDataSource(dsName) != null){
-			dsInput = md.getDataSource(dsName);
+			dsConcept = md.getDataSource(dsName);
 		}else{
-			dsInput = md.createDataSource(dsName, dsName, dsName);
+			dsConcept = md.createDataSource(dsName, dsName, dsName);
 			System.out.println("New data source object was created: "+ dsName);
 		}
+		
+		if(md.getDataSource(xref) != null){
+			dsAccession = md.getDataSource(xref);
+		}else{
+			dsAccession = md.createDataSource(xref, xref, xref);
+			System.out.println("New data source object was created: "+ xref);
+		}
+		
 
 		//creates hashmaps between ondex and concept classes
 		HashMap<String,Integer> ondex2gene = new HashMap<String,Integer>();
@@ -162,9 +173,9 @@ public class Parser extends ONDEXParser {
 
 				
 
-				ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", geneDescription, dsInput, ccGene, etIMPD);
+				ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", geneDescription, dsConcept, ccGene, etIMPD);
 				c1.createConceptName(geneId, false);
-				c1.createConceptAccession(geneId, dsInput, false);
+				c1.createConceptAccession(geneId, dsAccession, false);
 				c1.createAttribute(anTaxid, taxid, false);
 				c1.createAttribute(anChromosome, geneChr, false);
 				c1.createAttribute(anBegin, geneBegin, false);
@@ -213,9 +224,9 @@ public class Parser extends ONDEXParser {
 				if(FASTArow.substring(0, 1).equals(">")){
 					if(!secuenceName.isEmpty()){
 						//creates protein concept when find the next > symbol
-						ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsInput, ccProtein, etIMPD);
+						ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein, etIMPD);
 						c2.createConceptName(secuenceName, false);
-						c2.createConceptAccession(secuenceName, dsInput, false);	    	     		 
+						c2.createConceptAccession(secuenceName, dsConcept, false);	    	     		 
 						c2.createAttribute(anSecuenceAA, secuence, false);
 						c2.createAttribute(anTaxid, taxid, false);
 						ondex2protein.put(secuenceName, c2.getId());
@@ -232,9 +243,9 @@ public class Parser extends ONDEXParser {
 				}
 			}
 			//creates the last protein concept			 
-			ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsInput, ccProtein, etIMPD);
+			ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein, etIMPD);
 			c2.createConceptName(secuenceName, false);
-			c2.createConceptAccession(secuenceName, dsInput, false);	    	     		 
+			c2.createConceptAccession(secuenceName, dsConcept, false);	    	     		 
 			c2.createAttribute(anSecuenceAA, secuence, false);
 			ondex2protein.put(secuenceName, c2.getId());
 		}
