@@ -136,8 +136,10 @@ public class ListPanelContainer extends JPanel implements JobProgressObserver {
             @Override
             public void run() {
                 ComponentGUI g = map.get(callbackRef);
-                if (g != null)
-                    g.setCompletedState();
+                if (g != null){
+                	g.setCompletedState();
+                	parentTab.repaint();
+                }
             }
         });
     }
@@ -148,22 +150,29 @@ public class ListPanelContainer extends JPanel implements JobProgressObserver {
             @Override
             public void run() {
                 ComponentGUI g = map.get(callbackRef);
-                if (g != null)
-                    g.setErrorState();
+                if (g != null){
+                	g.setErrorState();
+                	 parentTab.repaint();
+                }
+                    
             }
         });
     }
 
     @Override
     public void notifyStageStarted(final Object callbackRef) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+    	SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
                 ComponentGUI g = map.get(callbackRef);
-                if (g != null)
-                    g.setRunningState();
-            }
-        });
+                if (g != null){
+                	g.setRunningState();
+                	parentTab.repaint();
+                }
+			}
+    	});
+
+
     }
 
     private class JobFinishedCleanup implements Runnable {
