@@ -141,13 +141,21 @@ public class Parser extends ONDEXParser {
 			while((row = br.readLine())!=null){
 				String[] splited = row.split("\t");
 				
-				if(splited.length < 2 || !(splited[2].equalsIgnoreCase("gene"))){
+				if(splited.length < 2 || !(splited[2].toLowerCase().contains("gene"))){
 					continue;
 				}
 				
-				String[] col =   splited[8].split(";");
-				String geneId = col[0].split("=")[1];
-				String geneDescription = col[1].split("=")[1];
+				
+				String geneId = "";
+				String geneDescription = "";
+				if(splited[8].contains(";")){
+					String[] col =   splited[8].split(";");
+					geneId = col[0].split("=")[1];
+					geneDescription = col[1].split("=")[1];
+				}else{
+					geneId = splited[8].split("=")[1];
+					geneDescription = splited[8].split("=")[1];
+				}
 				
 				//Standarize the name of the chromosome
 				if(splited[0].length()>1)
@@ -226,7 +234,7 @@ public class Parser extends ONDEXParser {
 						//creates protein concept when find the next > symbol
 						ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein, etIMPD);
 						c2.createConceptName(secuenceName, false);
-						c2.createConceptAccession(secuenceName, dsConcept, false);	    	     		 
+						c2.createConceptAccession(secuenceName, dsAccession, false);	    	     		 
 						c2.createAttribute(anSecuenceAA, secuence, false);
 						c2.createAttribute(anTaxid, taxid, false);
 						ondex2protein.put(secuenceName, c2.getId());
