@@ -30,12 +30,12 @@ import org.apache.log4j.Level;
  *
  * @author keywan
  */
-@Status(description = "Tested May 2011 for Arabidopsis, Rice, Poplar, Brachypodium in Phytozome 7.0 (Keywan Hassani-Pak)", status = StatusType.EXPERIMENTAL)
+@Status(description = "Tested November 2013 for Arabidopsis, Rice, Poplar, Brachypodium in Phytozome 9.1 (Keywan Hassani-Pak)", status = StatusType.EXPERIMENTAL)
 @Authors(authors = {"Keywan Hassani-Pak"}, emails = {"keywan at users.sourceforge.net"})
 @DatabaseTarget(name = "phytozome", description = "Phytozome is a joint project of JGI and CIG to facilitate comparative genomic studies amongst green plants. This Phytozome parser creates Chromosome, Scaffold, Gene, CDS and Protein concepts.", version = "7.0", url = "http://phytozome.net/")
 @DataURL(name = "Phytozome annotation directory",
-        description = "This parser requires as input the annotation directory of a specific species. Do not change the file names. It parses the GFF3, peptide FASTA and CDS FASTA file inside of the annotation directory. It was tested on Arabidopsis, rice, poplar and brachypodium.",
-        urls = {"ftp://ftp.jgi-psf.org/pub/JGI_data/phytozome/v7.0/"})
+        description = "This parser requires as input the annotation directory of a specific species. Do not change the file names. It parses the GFF3, peptide FASTA, CDS FASTA and Synonyms TXT file inside of the annotation directory. It was tested on Arabidopsis, rice, poplar and brachypodium.",
+        urls = {"ftp://ftp.jgi-psf.org/pub/JGI_data/phytozome/v9.0/"})
 @Custodians(custodians = {"Keywan Hassani-pak"}, emails = {"keywan at users.sourceforge.net"})
 @DataSourceRequired(ids = {MetaData.DS_PHYTOZOME })
 @ConceptClassRequired(ids = {MetaData.CC_PROTEIN, MetaData.CC_CDS, MetaData.CC_GENE, MetaData.CHROMOSOME, MetaData.SCAFFOLD })

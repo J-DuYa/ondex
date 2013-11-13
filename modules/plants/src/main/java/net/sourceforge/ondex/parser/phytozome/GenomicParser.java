@@ -33,8 +33,8 @@ import net.sourceforge.ondex.tools.auxfunctions.TabArrayObject;
 import net.sourceforge.ondex.tools.auxfunctions.TabDelimited;
 
 /**
- * Parser for genomic data (FASTA, GFF3) provided by phytozome
- * Tested for phytozome 7.0 release
+ * Parser for Phytozome annotation folder (FASTA, GFF3, Synonyms)
+ * Tested for phytozome 9.1 release
  * 
  * @author keywan
  *
@@ -54,7 +54,7 @@ public class GenomicParser {
 	private String taxID;
 	private Integer numChromosomes;
 	private static final String gffGeneID = "ID=(.+?)(;|\\n)";
-	private static final Pattern patChroNum = Pattern.compile("(\\d+)");
+	private static final Pattern patChroNum = Pattern.compile("(\\d+$)");
 
 	public GenomicParser(Registry poplarReg) {
 		this.speciesReg = poplarReg;
@@ -110,25 +110,25 @@ public class GenomicParser {
 		File inputDir = new File((String) pa.getUniqueValue(FileArgumentDefinition.INPUT_DIR));
 		
 		for(File f : inputDir.listFiles()){
-			if(f.getAbsolutePath().endsWith("gene.gff3.gz")){
+			if(f.getAbsolutePath().contains("gene.gff3")){
 				parseGFF(f.getAbsolutePath());
 			}
 		}
 		
 		for(File f : inputDir.listFiles()){
-			if(f.getAbsolutePath().endsWith("cds.fa.gz")){
+			if(f.getAbsolutePath().contains("cds.fa")){
 				parseCDS(f.getAbsolutePath());
 			}
 		}
 		
 		for(File f : inputDir.listFiles()){
-			if(f.getAbsolutePath().endsWith("peptide.fa.gz")){
+			if(f.getAbsolutePath().contains("protein.fa")){
 				parseProteins(f.getAbsolutePath());
 			}
 		}
 		
 		for(File f : inputDir.listFiles()){
-			if(f.getAbsolutePath().endsWith("synonym.txt.gz")){
+			if(f.getAbsolutePath().contains("synonym.txt")){
 				parseSynonyms(f.getAbsolutePath());
 			}
 		}
@@ -270,7 +270,7 @@ public class GenomicParser {
 			// >POPTR_1446s00200.1|PACid:18205974
 			// In rice also possible: >13114.m00474|PACid:16897097
 			String acc = fo.getHeader().split("\\|")[0].replaceFirst(">", "");
-			String locus = acc.split("\\.")[0];
+			String locus = acc.substring(0, acc.lastIndexOf('.'));
 			
 			String seq = fo.getSeq().trim();
 			if(seq.endsWith("*")){
@@ -322,7 +322,7 @@ public class GenomicParser {
 
 		while ((fo = fasta.getNext()) != null) {
 			String acc = fo.getHeader().split("\\|")[0].replaceFirst(">", "");
-			String locus = acc.split("\\.")[0];
+			String locus = acc.substring(0, acc.lastIndexOf('.'));
 			
 			String seq = fo.getSeq().trim();
 			if(seq.endsWith("*")){
