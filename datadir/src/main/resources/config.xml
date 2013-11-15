@@ -142,5 +142,5 @@
 <entry key="CompToTargets">https://www.ebi.ac.uk/chemblws/compounds/</entry>
 <entry key="TargetToAssays">https://www.ebi.ac.uk/chemblws/targets/</entry>
 <entry key="TargetToComps">https://www.ebi.ac.uk/chemblws/targets/</entry>
-<entry key="CompSimilarity">https://www.ebi.ac.uk/chemblws/compounds/similarity/</entry
+<entry key="CompSimilarity">https://www.ebi.ac.uk/chemblws/compounds/similarity/</entry>
 </properties>
