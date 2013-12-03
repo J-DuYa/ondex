@@ -48,7 +48,7 @@ import org.w3c.dom.NodeList;
  */
 @Authors(authors = {"Jan Taubert"}, emails = {"jantaubert at users.sourceforge.net"})
 @Custodians(custodians = {"Jan Taubert"}, emails = {"jantaubert at users.sourceforge.net"})
-@Status(status = StatusType.STABLE, description = "Tested February 2013 (Jacek Grzebyta)")
+@Status(status = StatusType.STABLE, description = "Tested December 2013 (Jacek Grzebyta)")
 public class Parser extends ONDEXParser implements MetaData {
 
     private Logger log = Logger.getLogger(getClass());
