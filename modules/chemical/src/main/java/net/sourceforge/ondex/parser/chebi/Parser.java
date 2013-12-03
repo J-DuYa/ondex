@@ -12,9 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
 import java.util.zip.GZIPInputStream;
-
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
 import net.sourceforge.ondex.annotations.Status;
@@ -31,7 +29,6 @@ import net.sourceforge.ondex.event.type.GeneralOutputEvent;
 import net.sourceforge.ondex.event.type.InconsistencyEvent;
 import net.sourceforge.ondex.parser.ONDEXParser;
 import net.sourceforge.ondex.tools.data.ChemicalStructure;
-
 import org.openscience.cdk.ChemFile;
 import org.openscience.cdk.ChemObject;
 import org.openscience.cdk.DefaultChemObjectBuilder;
@@ -51,12 +48,14 @@ import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
 /**
  * Parser for the Chemical Entities of Biological Interest (ChEBI)
  * 
+ * Tested on file from the testing resources.
+ * 
  * @author taubertj
  * 
  */
 @Authors(authors = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
 @Custodians(custodians = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
-@Status(status = StatusType.STABLE, description = "Tested October 2012 (Jan Taubert)")
+@Status(status = StatusType.STABLE, description = "Tested December 2013 (Jacek Grzebyta)")
 public class Parser extends ONDEXParser implements MetaData {
 
 	private static final String BRAND_NAMES = "BRAND Names";
@@ -100,7 +99,7 @@ public class Parser extends ONDEXParser implements MetaData {
 
 	EvidenceType evidencetype;
 
-	Vector<IAtomContainer> molecules = new Vector<IAtomContainer>();
+	List<IAtomContainer> molecules = new ArrayList<IAtomContainer>();
 
 	ConceptClass ofType;
 
@@ -219,7 +218,7 @@ public class Parser extends ONDEXParser implements MetaData {
 		// split SDF file into all its molecules for better error detection
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				inputStream));
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		List<String> errors = new ArrayList<String>();
 		int i = 1;
 		while (br.ready()) {
