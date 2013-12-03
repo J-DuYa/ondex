@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 
 @Authors(authors = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
 @Custodians(custodians = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
-@Status(status = StatusType.STABLE, description = "Tested October 2012 (Jan Taubert)")
+@Status(status = StatusType.STABLE, description = "Tested December 2013 (Jacek Grzebyta)")
 public class Parser extends ONDEXParser {
 
 	@Override
@@ -78,9 +78,9 @@ public class Parser extends ONDEXParser {
 
 		// iterate over all targets
 		Set<ONDEXConcept> created = new HashSet<ONDEXConcept>();
-		for (int temp = 0; temp < nList.getLength(); temp++) {
+		for (int i = 0; i < nList.getLength(); i++) {
 
-			Node nNode = nList.item(temp);
+			Node nNode = nList.item(i);
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) nNode;
 
