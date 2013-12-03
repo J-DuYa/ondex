@@ -27,7 +27,7 @@ import net.sourceforge.ondex.parser.ONDEXParser;
  */
 @DatabaseTarget(name = "BCSDB", description = "Bacterial Carbohydrate Structure DataBase", version = "pre-release BCSDB-3 gamma version", url = "http://www.glyco.ac.ru/bcsdb3")
 @Custodians(custodians = {"Victor Lesk"}, emails = {"v.lesk at imperial.ac.uk"})
-@Status(description = "declared on 28/07/2010", status = StatusType.STABLE) 
+@Status(description = "declared on 28/07/2010", status = StatusType.DISCONTINUED) 
 public class Parser extends ONDEXParser
 {
 
