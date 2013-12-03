@@ -52,7 +52,7 @@ import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
  */
 @Authors(authors = {"Jan Taubert"}, emails = {"jantaubert at users.sourceforge.net"})
 @Custodians(custodians = {"Jan Taubert"}, emails = {"jantaubert at users.sourceforge.net"})
-@Status(status = StatusType.STABLE, description = "Tested October 2012 (Jan Taubert)")
+@Status(status = StatusType.STABLE, description = "Tested December 2013 (Jacek Grzebyta)")
 public class Parser extends ONDEXParser implements MetaData {
 
     private static final String ONLY_REFERENCED = "OnlyReferenced";

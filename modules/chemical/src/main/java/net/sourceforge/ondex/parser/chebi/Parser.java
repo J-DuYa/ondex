@@ -48,14 +48,12 @@ import org.openscience.cdk.tools.manipulator.ChemFileManipulator;
 /**
  * Parser for the Chemical Entities of Biological Interest (ChEBI)
  * 
- * Tested on file from the testing resources.
- * 
  * @author taubertj
  * 
  */
 @Authors(authors = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
 @Custodians(custodians = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
-@Status(status = StatusType.STABLE, description = "Tested December 2013 (Jacek Grzebyta)")
+@Status(status = StatusType.STABLE, description = "Tested October 2012 (Jan Taubert)")
 public class Parser extends ONDEXParser implements MetaData {
 
 	private static final String BRAND_NAMES = "BRAND Names";
