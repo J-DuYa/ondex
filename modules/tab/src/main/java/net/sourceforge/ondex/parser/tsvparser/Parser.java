@@ -28,7 +28,7 @@ import net.sourceforge.ondex.tools.tab.importer.PathParser;
  *         supported supports delimited files and MS-EXCEL spreadsheets.
  *         WARNING: UNDER CONSTRUCTION!
  */
-@Status(description = "Tested February 2012 (Jan Taubert)", status = StatusType.STABLE)
+@Status(description = "Tested December 2013 (Jacek Grzebyta)", status = StatusType.STABLE)
 public class Parser extends ONDEXParser implements ArgumentNames {
 	// Map of prototypes
 	private Map<String, ConceptPrototype> map = new HashMap<String, ConceptPrototype>();
