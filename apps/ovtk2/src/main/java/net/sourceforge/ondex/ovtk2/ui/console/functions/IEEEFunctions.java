@@ -45,6 +45,7 @@ import net.sourceforge.ondex.ovtk2.graph.ONDEXJUNGGraph;
 import net.sourceforge.ondex.ovtk2.graph.ONDEXNodeShapes;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2PropertiesAggregator;
 import net.sourceforge.ondex.ovtk2.ui.console.OverviewWindow;
+import net.sourceforge.ondex.ovtk2.ui.console.SetSelector;
 
 import org.apache.commons.collections15.Transformer;
 /**
@@ -58,6 +59,10 @@ public class IEEEFunctions {
 	private static final String COLOR_VIS = "EvidenceType.Color.";
 
 	private IEEEFunctions() {
+	}
+	
+	public static final void setSelector() throws Exception{
+		new SetSelector();
 	}
 
 	public static final void filterKeggPathway(Set<ONDEXConcept> cs,
