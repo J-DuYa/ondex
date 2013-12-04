@@ -27,9 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.sourceforge.ondex.core.AttributeName;
-import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXGraph;
-import net.sourceforge.ondex.core.ONDEXRelation;
 import net.sourceforge.ondex.core.soapgraph.SOAPONDEXGraph;
 import net.sourceforge.ondex.ovtk2.config.Config;
 import net.sourceforge.ondex.ovtk2.config.OVTK2PluginLoader;
@@ -49,8 +47,8 @@ import net.sourceforge.ondex.ovtk2.ui.dialog.WelcomeDialog;
 import net.sourceforge.ondex.ovtk2.ui.menu.OVTK2Menu;
 import net.sourceforge.ondex.ovtk2.util.DesktopUtils;
 import net.sourceforge.ondex.ovtk2.util.ErrorDialog;
-import net.sourceforge.ondex.ovtk2.util.ImageWriterUtil;
 import net.sourceforge.ondex.ovtk2.util.OVTKProgressMonitor;
+import net.sourceforge.ondex.ovtk2.util.SVGExport;
 import net.sourceforge.ondex.tools.threading.monitoring.IndeterminateProcessAdapter;
 import net.sourceforge.ondex.webservice.client.WSGraph;
 
@@ -148,8 +146,7 @@ public class FileMenuAction implements ActionListener {
 			if (file != null) {
 				DesktopUtils.openFile(file);
 
-				OVTK2Menu menu = (OVTK2Menu) desktop.getMainFrame()
-						.getJMenuBar();
+				OVTK2Menu menu = (OVTK2Menu) desktop.getMainFrame().getJMenuBar();
 				String path = file.getAbsolutePath();
 				// hook into FileHistory class
 				menu.fileHistory.insertPathname(path);
@@ -515,12 +512,10 @@ public class FileMenuAction implements ActionListener {
 				if (i == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getFile();
 					Config.lastSavedFile = file.getAbsolutePath();
-
-					ImageWriterUtil<ONDEXConcept, ONDEXRelation> iw = new ImageWriterUtil<ONDEXConcept, ONDEXRelation>(
-							resources.getSelectedViewer());
-
-					iw.writeImage(file, chooser.getSelectedFormat(),
-							chooser.getScaleFactor());
+					OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
+					new SVGExport(viewer, file, chooser.getSelectedFormat());
+					//ImageWriterUtil<ONDEXConcept, ONDEXRelation> iw = new ImageWriterUtil<ONDEXConcept, ONDEXRelation>(resources.getSelectedViewer());
+					//iw.writeImage(file, chooser.getSelectedFormat(), chooser.getScaleFactor());
 				}
 			} else {
 				JOptionPane

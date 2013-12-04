@@ -111,6 +111,7 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 				String name = className.substring(index + 1, className.length());
 
 				try {
+					System.err.println(viewer.getVisualizationViewer().getGraphLayout());
 					if (viewer.getVisualizationViewer().getGraphLayout() instanceof OVTK2Layouter) {
 						((OVTK2Layouter)viewer.getVisualizationViewer().getGraphLayout()).cleanUp();
 					}
