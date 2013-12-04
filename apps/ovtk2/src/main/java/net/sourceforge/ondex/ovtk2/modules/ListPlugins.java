@@ -8,6 +8,10 @@ import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import net.sourceforge.ondex.event.ONDEXEvent;
+import net.sourceforge.ondex.event.type.UnspecifiedErrorEvent;
+import net.sourceforge.ondex.ovtk2.ui.OVTK2Desktop;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -61,18 +65,23 @@ public class ListPlugins {
      * @return gets a stream containing the workflowdescriptor xml file
      */
     private static InputStream getWorkflowComponantDescriptors() {
+    	try{
+            Client client = Client.create();
 
-        Client client = Client.create();
+            WebResource webResource = client.resource(NexusURLs.NEXUS_DATA_INDEX);
 
-        WebResource webResource = client.resource(NexusURLs.NEXUS_DATA_INDEX);
-
-        MultivaluedMap queryParams = new MultivaluedMapImpl();
-        queryParams.add("c", "workflow-component-description");
-        queryParams.add("p", "zip");
-        queryParams.add("g", "net.sourceforge.ondex");
+            MultivaluedMap queryParams = new MultivaluedMapImpl();
+            queryParams.add("c", "workflow-component-description");
+            queryParams.add("p", "zip");
+            queryParams.add("g", "net.sourceforge.ondex");
 
 
-        return webResource.queryParams(queryParams).get(InputStream.class);
+            return webResource.queryParams(queryParams).get(InputStream.class);
+    	}
+    	catch (Exception e) {
+    		OVTK2Desktop.getDesktopResources().getLogger().eventOccurred(new ONDEXEvent(ListPlugins.class, new UnspecifiedErrorEvent(e.toString(), "")));
+    		return null;
+    	}
     }
 
 }
