@@ -54,11 +54,10 @@ import org.apache.log4j.Level;
  * 
  * @author rwinnenb, keywan
  */
-@Status(description = "GO OBO Parser. Works with the filtered ontology; cross-products, inter-ontology links, and has_part relationships removed. Tested June 2011 (Keywan Hassani-Pak)", status = StatusType.STABLE)
+@Status(description = "GO OBO Parser. Works with the filtered ontology; cross-products, inter-ontology links, and has_part relationships removed. Tested Septemder 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Authors(authors = { "Keywan Hassani-Pak" }, emails = { "keywan at users.sourceforge.net" })
 @DatabaseTarget(name = "GO", description = "A parser for the Gene Ontology.", version = "OBO 1.2", url = "http://www.geneontology.org/")
 @DataURL(name = "GO", description = "GO Filtered ontology; cross-products, inter-ontology links, and has_part relationships removed", urls = { "http://geneontology.org/ontology/obo_format_1_2/gene_ontology.1_2.obo" })
-@Custodians(custodians = { "Keywan Hassani-pak" }, emails = { "keywan at users.sourceforge.net" })
 public class Parser extends ONDEXParser {
 
 	// counts how many times activity accorred in GO termName
