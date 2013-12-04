@@ -1,9 +1,13 @@
 package net.sourceforge.ondex.ovtk2;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.swing.JOptionPane;
 
+import net.sourceforge.ondex.config.Config;
+import net.sourceforge.ondex.init.PluginRegistry;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2Desktop;
 import net.sourceforge.ondex.ovtk2.util.DesktopUtils;
 
@@ -20,9 +24,14 @@ public class Main {
 	 * 
 	 * @param args
 	 *            the program arguments
+	 * @throws URISyntaxException 
+	 * @throws IOException 
 	 * @throws Exception
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, URISyntaxException {
+		/* uncomment and use these lines to switch beteen loading plugins from .jar files or classpath */
+    	//System.setProperty("plugin.scan.lib", Boolean.TRUE.toString());
+    	//PluginRegistry.init(true, "", Config.libDir);
 		long heapMaxSize = Runtime.getRuntime().maxMemory();
 		if (heapMaxSize < 1037959168) {
 			JOptionPane
