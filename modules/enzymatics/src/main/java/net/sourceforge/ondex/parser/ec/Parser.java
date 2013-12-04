@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author winnenbr, taubertj
  */
-@Status(description = "Tested December 2012 (Jan Taubert)", status = StatusType.STABLE)
+@Status(description = "Tested December 2013 (Jacek Grzebyta)", status = StatusType.STABLE)
 @DatabaseTarget(name = "EXPASY ENZYME", description = "EXPASY ENZYME database", version = "2012/11/28", url = "http://www.expasy.ch/")
 @DataURL(name = "enzclass and enzyme files", description = "enzclass and enzyme, all txt and dat files in directory files", urls = {"ftp://ftp.expasy.org/databases/enzyme"})
 @DataSourceRequired(ids = {
