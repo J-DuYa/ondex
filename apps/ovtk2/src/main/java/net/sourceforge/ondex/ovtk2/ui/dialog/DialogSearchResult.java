@@ -45,6 +45,7 @@ import net.sourceforge.ondex.ovtk2.graph.VisibilityUndo;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2Desktop;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2Dialog;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2Viewer;
+import net.sourceforge.ondex.ovtk2.ui.console.SetSelector;
 import net.sourceforge.ondex.ovtk2.ui.mouse.OVTK2GraphMouse;
 import net.sourceforge.ondex.ovtk2.ui.mouse.OVTK2PickingMousePlugin;
 import net.sourceforge.ondex.ovtk2.ui.toolbars.ToolBarSearch;
@@ -391,6 +392,20 @@ public class DialogSearchResult extends OVTK2Dialog implements
 		go.setActionCommand("filter");
 		go.addActionListener(this);
 		spinnerPanel.add(go);
+		
+		JButton bSets = new JButton("Sets...");
+		bSets.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					new SetSelector();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		spinnerPanel.add(bSets);
+		
 
 		// close button
 		JButton close = new JButton(
