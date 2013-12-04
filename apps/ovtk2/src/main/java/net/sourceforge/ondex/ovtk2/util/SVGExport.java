@@ -55,15 +55,13 @@ public class SVGExport {
 	public SVGExport(OVTK2PropertiesAggregator viewer, File file, String option) {
 
 		// initialise SVG generator
-		DOMImplementation domImpl = GenericDOMImplementation
-				.getDOMImplementation();
+		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		String svgNS = "http://www.w3.org/2000/svg";
 		Document document = domImpl.createDocument(svgNS, "svg", null);
 		SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-		boolean useCSS = true;
+		boolean useCSS = false;
 
-		VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer
-				.getVisualizationViewer();
+		VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer.getVisualizationViewer();
 
 		// get size of area to paint
 		Rectangle rect = vv.getVisibleRect();
@@ -95,15 +93,15 @@ public class SVGExport {
 		try {
 			fos = new FileOutputStream(file);
 			if (option.equalsIgnoreCase("svg")) {
-				svgGenerator.stream(new OutputStreamWriter(fos, "UTF-8"),
-						useCSS);
+				svgGenerator.stream(new OutputStreamWriter(fos, "UTF-8"),useCSS);
 			} else if (option.equalsIgnoreCase("jpg")
 					|| option.equalsIgnoreCase("jpeg")) {
 				JPEGImageWriter jiw = new JPEGImageWriter();
 				jiw.isFunctional();
 				JPEGTranscoder t = new JPEGTranscoder();
 				t.setErrorHandler(new ErrorHandlerBridge());
-				t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, new Float(.9));
+				t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, new Float(1.0));
+				t.addTranscodingHint(JPEGTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER, new Float(25.4f/300f));
 				transcode(t, svgGenerator, useCSS, rect, fos);
 			} else if (option.equalsIgnoreCase("eps")) {
 				EPSTranscoder t = new EPSTranscoder();
