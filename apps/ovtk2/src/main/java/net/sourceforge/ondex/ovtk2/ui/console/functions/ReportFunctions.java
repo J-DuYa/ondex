@@ -412,6 +412,32 @@ public class ReportFunctions {
 			String type, String attName, String... cvs) {
 		return _intersectionReport(graph, attName, type, cvs);
 	}
+	
+	public static void labelPosition(OVTK2PropertiesAggregator viewer, String pos) {
+		VisualizationViewer vv = viewer.getVisualizationViewer();
+		edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position p = null;
+		if(pos.equals("C")){
+			p = Renderer.VertexLabel.Position.CNTR;
+		}
+		else if(pos.equals("E")){
+			p = Renderer.VertexLabel.Position.E;
+		}
+		else if(pos.equals("W")){
+			p = Renderer.VertexLabel.Position.W;
+		}
+		else if(pos.equals("N")){
+			p = Renderer.VertexLabel.Position.N;
+		}
+		else if(pos.equals("S")){
+			p = Renderer.VertexLabel.Position.S;
+		}
+		else if(pos.equals("A")){
+			p = Renderer.VertexLabel.Position.AUTO;
+		}
+		viewer.getVisualizationViewer().getRenderer().getVertexLabelRenderer().setPosition(p);
+		;
+		viewer.getVisualizationViewer().repaint();
+	}
 
 	/**
 	 * Makes all of the relations visible, if their target and source are
