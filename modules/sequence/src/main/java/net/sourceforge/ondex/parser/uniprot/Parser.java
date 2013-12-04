@@ -1,5 +1,6 @@
 package net.sourceforge.ondex.parser.uniprot;
 
+import com.ctc.wstx.stax.WstxInputFactory;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,10 +13,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
-
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
-
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.algorithm.annotationquality.GOTreeParser;
 import net.sourceforge.ondex.annotations.Authors;
@@ -55,15 +54,13 @@ import net.sourceforge.ondex.parser.uniprot.xml.filter.IntegerValueFilter;
 import net.sourceforge.ondex.parser.uniprot.xml.filter.StringValueFilter;
 import net.sourceforge.ondex.parser.uniprot.xml.filter.ValueFilter;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-
 /**
  * Parser for the UniProt Knowledgebase database. Implements this
  * http://www.devx.com/Java/Article/30298/0/page/2 way of parsing a xml file.
  *
  * @author peschr
  */
-@Status(description = "Tested June 2011 (Keywan Hassani-Pak)", status = StatusType.STABLE)
+@Status(description = "Tested December 2013 (Jacek Grzebyta)", status = StatusType.STABLE)
 @Authors(authors = {"Robert Pesch", "Keywan Hassani-Pak", "Matthew Hindle"}, emails = {"", "keywan at users.sourceforge.net", "matthew_hindle at users.sourceforge.net"})
 @DatabaseTarget(name = "UniProt", description = "A comprehensive, high-quality and freely accessible resource of protein sequence and functional information.", version = "UniProt release 2011_06", url = "http://www.uniprot.org")
 @DataURL(name = "UniProt XML",
