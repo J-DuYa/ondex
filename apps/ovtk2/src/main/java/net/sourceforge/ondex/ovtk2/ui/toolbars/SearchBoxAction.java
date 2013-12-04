@@ -86,7 +86,7 @@ public class SearchBoxAction implements ActionListener, InternalFrameListener {
 									.getSelectedItem()).getValue());
 				}
 
-				if (searchMode.equals(Config.language
+				if (searchMode == null || searchMode.equals(Config.language
 						.getProperty("ToolBar.Search.Mode.Default"))) {
 					// fire up default search
 					DialogSearchResult results = new DialogSearchResult(viewer,
