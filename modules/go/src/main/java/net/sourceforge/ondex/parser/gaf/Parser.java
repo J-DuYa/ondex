@@ -2,7 +2,6 @@ package net.sourceforge.ondex.parser.gaf;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
@@ -18,7 +17,6 @@ import net.sourceforge.ondex.event.type.GeneralOutputEvent;
 import net.sourceforge.ondex.parser.ONDEXParser;
 import net.sourceforge.ondex.parser.gaf.tab.GAFFormatParser;
 import net.sourceforge.ondex.parser.gaf.transformer.GAFTransformer;
-
 import org.apache.log4j.Level;
 
 /**
@@ -34,7 +32,7 @@ import org.apache.log4j.Level;
  *
  * @author hoekmanb, keywan
  */
-@Status(description = "Parser for the Gene Association Format (GAF). Tested June 2011 (Keywan Hassani-Pak)", status = StatusType.STABLE)
+@Status(description = "Parser for the Gene Association Format (GAF). Tested June 2011 (Keywan Hassani-Pak)", status = StatusType.EXPERIMENTAL)
 @Authors(authors = {"Keywan Hassani-Pak"}, emails = {"keywan at users.sourceforge.net"})
 @DatabaseTarget(name = "GOA", description = "Gene Association Files (GAF)", version = "GAF 1.0 and 2.0", url = "http://geneontology.org/GO.format.annotation.shtml")
 @DataURL(name = "GAF files",
