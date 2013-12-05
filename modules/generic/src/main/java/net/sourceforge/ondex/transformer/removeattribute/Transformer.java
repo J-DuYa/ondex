@@ -8,6 +8,8 @@ import java.util.Set;
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.BooleanArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
@@ -32,6 +34,7 @@ import net.sourceforge.ondex.transformer.ONDEXTransformer;
 @Authors(authors = { "Artem Lysenko", "Matthew Hindle", "Jan Taubert" }, emails = {
 		"lysenkoa at users.sourceforge.net",
 		"matthew_hindle at users.sourceforge.net" })
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Custodians(custodians = { "Jochen Weile" }, emails = { "jweile at users.sourceforge.net" })
 public class Transformer extends ONDEXTransformer implements ArgumentNames {
 
