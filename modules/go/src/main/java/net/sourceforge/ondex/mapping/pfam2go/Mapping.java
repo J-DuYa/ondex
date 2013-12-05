@@ -2,6 +2,8 @@ package net.sourceforge.ondex.mapping.pfam2go;
 
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.annotations.Custodians;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
 import net.sourceforge.ondex.core.*;
@@ -22,7 +24,7 @@ import java.util.Set;
  *
  * @author taubertj
  */
-@Custodians(custodians = {"Keywan Hassani-pak"}, emails = {"keywan at users.sourceforge.net"})
+@Status(description = "Tested September 2013 (Artem Lysenko)", status = StatusType.STABLE)
 public class Mapping extends ONDEXMapping implements ArgumentNames {
 
     /**
