@@ -49,14 +49,13 @@ import org.apache.log4j.Level;
  *
  * @author hoekmanb
  */
-@Status(description = "Tested June 2011 (Keywan Hassani-Pak)", status = StatusType.STABLE)
+@Status(description = "Tested September 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Authors(authors = {"Berend Hoekmann", "Keywan Hassani-Pak"}, emails = {"", "keywan at users.sourceforge.net"})
 @DatabaseTarget(name = "GenericOBO", description = "A parser for the OBO format. Currently it understands GO, PO, TO, CHEBI dialects.", version = "OBO 1.2", url = "http://www.obofoundry.org/")
 @DataURL(name = "OBO",
         description = "It works with Plant Ontology, Ttrait Ontology, Gene Ontology and CHEBI",
         urls = {"http://palea.cgrb.oregonstate.edu/viewsvn/Poc/trunk/ontology/collaborators_ontology/gramene/traits/trait.obo?view=co",
                 "http://palea.cgrb.oregonstate.edu/viewsvn/Poc/trunk/ontology/OBO_format/po_anatomy.obo?view=co"})
-@Custodians(custodians = {"Keywan Hassani-pak"}, emails = {"keywan at users.sourceforge.net"})
 public class Parser extends ONDEXParser
 {
 
