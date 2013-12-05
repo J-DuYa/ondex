@@ -30,7 +30,7 @@ import net.sourceforge.ondex.tools.ondex.ONDEXGraphCloner;
  * @author taubertj, lysenkoa
  * @version 17.04.2008
  */
-@Status(description = "Tested September 2010 (Jan Taubert)", status = StatusType.STABLE)
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Authors(authors = { "Jan Taubert", "Artem Lysenko" }, emails = {
 		"jantaubert at users.sourceforge.net",
 		"lysenkoa at users.sourceforge.net" })
