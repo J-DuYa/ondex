@@ -453,6 +453,8 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	public OVTK2Viewer getViewer() {
 		return viewer;
 	}
+	
+	private JTable tableConceptClasses;
 
 	/**
 	 * Construct panel for concept classes.
@@ -539,24 +541,24 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		};
 
 		// new table for all concept classes
-		JTable table = new JTable(model);
+		tableConceptClasses = new JTable(model);
 
 		// set all renderer to table
-		table.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
-		table.setDefaultEditor(Color.class, new ColorTableEditor());
-		table.setDefaultRenderer(Shape.class, new ShapeTableCellRenderer(true));
-		table.setDefaultEditor(Shape.class, new DefaultCellEditor(comboBox));
-		table.setDefaultRenderer(ConceptClass.class,
+		tableConceptClasses.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
+		tableConceptClasses.setDefaultEditor(Color.class, new ColorTableEditor());
+		tableConceptClasses.setDefaultRenderer(Shape.class, new ShapeTableCellRenderer(true));
+		tableConceptClasses.setDefaultEditor(Shape.class, new DefaultCellEditor(comboBox));
+		tableConceptClasses.setDefaultRenderer(ConceptClass.class,
 				new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
-		table.setDefaultRenderer(Boolean.class, renderer);
+		tableConceptClasses.setDefaultRenderer(Boolean.class, renderer);
 
 		// set proper height of table for icons
 		Shape shape = shapes.values().iterator().next();
 		Rectangle2D bounds = shape.getBounds2D();
 		tableHeight = (int) bounds.getHeight() + 5;
-		table.setRowHeight(tableHeight);
+		tableConceptClasses.setRowHeight(tableHeight);
 
 		// count total number of concepts
 		final StringBuilder textualRepresentation = new StringBuilder();
@@ -626,36 +628,37 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		JPanel panel = new JPanel(new BorderLayout());
 
 		// add table and bottom panel to panel
-		panel.add(BorderLayout.CENTER, new JScrollPane(table));
+		panel.add(BorderLayout.CENTER, new JScrollPane(tableConceptClasses));
 		panel.add(BorderLayout.SOUTH, panelBottom);
 
 		// listen to changes made by the user
-		table.getModel().addTableModelListener(this);
+		tableConceptClasses.getModel().addTableModelListener(this);
 
 		// Change auto resizing and pack table
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		packColumns(table);
+		tableConceptClasses.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		packColumns(tableConceptClasses);
 
 		// fix first three and last column
-		TableColumn columnColor = table.getColumnModel().getColumn(0);
+		TableColumn columnColor = tableConceptClasses.getColumnModel().getColumn(0);
 		columnColor.setMaxWidth(columnColor.getPreferredWidth());
 		columnColor.setMinWidth(columnColor.getPreferredWidth());
-		TableColumn columnShape = table.getColumnModel().getColumn(1);
+		TableColumn columnShape = tableConceptClasses.getColumnModel().getColumn(1);
 		// extra margin to better fit drop-down box
 		columnShape.setMaxWidth(columnShape.getPreferredWidth() + 5);
 		columnShape.setMinWidth(columnShape.getPreferredWidth() + 5);
-		TableColumn columnSize = table.getColumnModel().getColumn(2);
+		TableColumn columnSize = tableConceptClasses.getColumnModel().getColumn(2);
 		columnSize.setMaxWidth(columnSize.getPreferredWidth());
 		columnSize.setMinWidth(columnSize.getPreferredWidth());
-		TableColumn columnVisible = table.getColumnModel().getColumn(6);
+		TableColumn columnVisible = tableConceptClasses.getColumnModel().getColumn(6);
 		columnVisible.setMaxWidth(columnVisible.getPreferredWidth());
 
 		// enable sorting of table
-		table.setAutoCreateRowSorter(true);
+		tableConceptClasses.setAutoCreateRowSorter(true);
 
 		return panel;
 	}
 
+	private JTable tableDataSources;
 	/**
 	 * Construct panel for data sources.
 	 * 
@@ -716,16 +719,16 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		};
 
 		// new table for all data sources
-		JTable table = new JTable(model);
+		tableDataSources = new JTable(model);
 
 		// set all renderer to table
-		table.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
-		table.setDefaultEditor(Color.class, new ColorTableEditor());
-		table.setDefaultRenderer(DataSource.class,
+		tableDataSources.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
+		tableDataSources.setDefaultEditor(Color.class, new ColorTableEditor());
+		tableDataSources.setDefaultRenderer(DataSource.class,
 				new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
-		table.setDefaultRenderer(Boolean.class, renderer);
+		tableDataSources.setDefaultRenderer(Boolean.class, renderer);
 
 		// count total number of concepts
 		final StringBuilder textualRepresentation = new StringBuilder();
@@ -785,29 +788,31 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		JPanel panel = new JPanel(new BorderLayout());
 
 		// add table and bottom panel to panel
-		panel.add(BorderLayout.CENTER, new JScrollPane(table));
+		panel.add(BorderLayout.CENTER, new JScrollPane(tableDataSources));
 		panel.add(BorderLayout.SOUTH, panelBottom);
 
 		// listen to changes made by the user
-		table.getModel().addTableModelListener(this);
+		tableDataSources.getModel().addTableModelListener(this);
 
 		// Change auto resizing and pack table
-		table.setRowHeight(tableHeight);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		packColumns(table);
+		tableDataSources.setRowHeight(tableHeight);
+		tableDataSources.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		packColumns(tableDataSources);
 
 		// fix first two and last column
-		TableColumn columnColor = table.getColumnModel().getColumn(0);
+		TableColumn columnColor = tableDataSources.getColumnModel().getColumn(0);
 		columnColor.setMaxWidth(columnColor.getPreferredWidth());
 		columnColor.setMinWidth(columnColor.getPreferredWidth());
-		TableColumn columnVisible = table.getColumnModel().getColumn(4);
+		TableColumn columnVisible = tableDataSources.getColumnModel().getColumn(4);
 		columnVisible.setMaxWidth(columnVisible.getPreferredWidth());
 
 		// enable sorting of table
-		table.setAutoCreateRowSorter(true);
+		tableDataSources.setAutoCreateRowSorter(true);
 
 		return panel;
 	}
+	
+	private JTable tableRelationType;
 
 	/**
 	 * Construct panel for relation types
@@ -872,16 +877,16 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		};
 
 		// new table for all relation types
-		JTable table = new JTable(model);
+		tableRelationType = new JTable(model);
 
 		// set all renderer to table
-		table.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
-		table.setDefaultEditor(Color.class, new ColorTableEditor());
-		table.setDefaultRenderer(RelationType.class,
+		tableRelationType.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
+		tableRelationType.setDefaultEditor(Color.class, new ColorTableEditor());
+		tableRelationType.setDefaultRenderer(RelationType.class,
 				new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
-		table.setDefaultRenderer(Boolean.class, renderer);
+		tableRelationType.setDefaultRenderer(Boolean.class, renderer);
 
 		// count total number of relations
 		final StringBuilder textualRepresentation = new StringBuilder();
@@ -944,32 +949,34 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		JPanel panel = new JPanel(new BorderLayout());
 
 		// add table and bottom panel to panel
-		panel.add(BorderLayout.CENTER, new JScrollPane(table));
+		panel.add(BorderLayout.CENTER, new JScrollPane(tableRelationType));
 		panel.add(BorderLayout.SOUTH, panelBottom);
 
 		// listen to changes made by the user
-		table.getModel().addTableModelListener(this);
+		tableRelationType.getModel().addTableModelListener(this);
 
 		// Change auto resizing and pack table
-		table.setRowHeight(tableHeight);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		packColumns(table);
+		tableRelationType.setRowHeight(tableHeight);
+		tableRelationType.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		packColumns(tableRelationType);
 
 		// fix first two and last column
-		TableColumn columnColor = table.getColumnModel().getColumn(0);
+		TableColumn columnColor = tableRelationType.getColumnModel().getColumn(0);
 		columnColor.setMaxWidth(columnColor.getPreferredWidth());
 		columnColor.setMinWidth(columnColor.getPreferredWidth());
-		TableColumn columnSize = table.getColumnModel().getColumn(1);
+		TableColumn columnSize = tableRelationType.getColumnModel().getColumn(1);
 		columnSize.setMaxWidth(columnSize.getPreferredWidth());
 		columnSize.setMinWidth(columnSize.getPreferredWidth());
-		TableColumn columnVisible = table.getColumnModel().getColumn(5);
+		TableColumn columnVisible = tableRelationType.getColumnModel().getColumn(5);
 		columnVisible.setMaxWidth(columnVisible.getPreferredWidth());
 
 		// enable sorting of table
-		table.setAutoCreateRowSorter(true);
+		tableRelationType.setAutoCreateRowSorter(true);
 
 		return panel;
 	}
+	
+	private JTable tableRelationType1;
 
 	/**
 	 * Construct panel for evidence types
@@ -1050,16 +1057,16 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		};
 
 		// new table for all relation types
-		JTable table = new JTable(model);
+		tableRelationType1 = new JTable(model);
 
 		// set all renderer to table
-		table.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
-		table.setDefaultEditor(Color.class, new ColorTableEditor());
-		table.setDefaultRenderer(EvidenceType.class,
+		tableRelationType1.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
+		tableRelationType1.setDefaultEditor(Color.class, new ColorTableEditor());
+		tableRelationType1.setDefaultRenderer(EvidenceType.class,
 				new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
-		table.setDefaultRenderer(Boolean.class, renderer);
+		tableRelationType1.setDefaultRenderer(Boolean.class, renderer);
 
 		// count total number of concepts
 		int visibleEntities = visibleConcepts + visibleRelations;
@@ -1134,28 +1141,28 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		JPanel panel = new JPanel(new BorderLayout());
 
 		// add table and bottom panel to panel
-		panel.add(BorderLayout.CENTER, new JScrollPane(table));
+		panel.add(BorderLayout.CENTER, new JScrollPane(tableRelationType1));
 		panel.add(BorderLayout.SOUTH, panelBottom);
 
 		// listen to changes made by the user
-		table.getModel().addTableModelListener(this);
+		tableRelationType1.getModel().addTableModelListener(this);
 
 		// Change auto resizing and pack table
-		table.setRowHeight(tableHeight);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		packColumns(table);
+		tableRelationType1.setRowHeight(tableHeight);
+		tableRelationType1.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+		packColumns(tableRelationType1);
 
 		// fix first two and last column
-		TableColumn columnColor = table.getColumnModel().getColumn(0);
+		TableColumn columnColor = tableRelationType1.getColumnModel().getColumn(0);
 		columnColor.setMaxWidth(columnColor.getPreferredWidth());
 		columnColor.setMinWidth(columnColor.getPreferredWidth());
-		TableColumn columnVisibleC = table.getColumnModel().getColumn(6);
+		TableColumn columnVisibleC = tableRelationType1.getColumnModel().getColumn(6);
 		columnVisibleC.setMaxWidth(columnVisibleC.getPreferredWidth());
-		TableColumn columnVisibleR = table.getColumnModel().getColumn(7);
+		TableColumn columnVisibleR = tableRelationType1.getColumnModel().getColumn(7);
 		columnVisibleR.setMaxWidth(columnVisibleR.getPreferredWidth());
 
 		// enable sorting of table
-		table.setAutoCreateRowSorter(true);
+		tableRelationType1.setAutoCreateRowSorter(true);
 
 		return panel;
 	}
@@ -1204,6 +1211,10 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 
 		// refresh complete legend
 		if (REFRESH.equals(cmd)) {
+			tableConceptClasses.getCellEditor().stopCellEditing();
+			tableDataSources.getCellEditor().stopCellEditing();
+			tableRelationType.getCellEditor().stopCellEditing();
+			tableRelationType1.getCellEditor().stopCellEditing();
 			this.setViewer(getViewer());
 		}
 	}
