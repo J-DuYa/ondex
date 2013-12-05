@@ -27,7 +27,7 @@ import net.sourceforge.ondex.tools.ondex.ONDEXGraphCloner;
  * @author taubertj
  * @version 31.01.2008
  */
-@Status(description = "Tested March 2010 (Artem Lysenko)", status = StatusType.STABLE)
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Authors(authors = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
 @Custodians(custodians = { "Jochen Weile" }, emails = { "jweile at users.sourceforge.net" })
 public class Filter extends ONDEXFilter implements ArgumentNames {
