@@ -2,6 +2,8 @@ package net.sourceforge.ondex.transformer.extendedcollapser;
 
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.BooleanArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
@@ -31,6 +33,7 @@ import static net.sourceforge.ondex.tools.functions.ViewConstruction.getConcepts
  * @author lysenkoa
  */
 @Authors(authors = {"Artem Lysenko"}, emails = {"lysenkoa at users.sourceforge.net"})
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Custodians(custodians = {"Jochen Weile"}, emails = {"jweile at users.sourceforge.net"})
 public class Transformer extends ONDEXTransformer implements ArgumentNames {
 
