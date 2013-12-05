@@ -25,7 +25,7 @@ import net.sourceforge.ondex.transformer.ONDEXTransformer;
  * 
  */
 @Custodians(custodians = { "Jochen Weile" }, emails = { "jweile at users.sourceforge.net" })
-@Status(status = StatusType.STABLE, description = "Tested October 2013 (Jacek Grzebyta)")
+@Status(status = StatusType.STABLE, description = "Tested December 2013 (Jacek Grzebyta)")
 public class Transformer extends ONDEXTransformer implements ArgumentNames {
 
 	@Override
