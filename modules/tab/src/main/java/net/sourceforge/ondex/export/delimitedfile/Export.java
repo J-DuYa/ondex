@@ -24,7 +24,7 @@ import net.sourceforge.ondex.args.CompressResultsArguementDefinition;
 /**
  * @author lysenkoa, hindlem
  */
-@Status(description = "Tested June 2011 (Artem Lysenko)", status = StatusType.STABLE)
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 public class Export extends ONDEXExport implements ArgumentNames, net.sourceforge.ondex.export.delimitedfile.MetaData {
 
     private ONDEXGraphMetaData om;
