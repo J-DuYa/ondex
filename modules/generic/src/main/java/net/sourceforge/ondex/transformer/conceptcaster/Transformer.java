@@ -3,6 +3,8 @@ package net.sourceforge.ondex.transformer.conceptcaster;
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
 import net.sourceforge.ondex.core.ConceptClass;
@@ -26,6 +28,7 @@ import static net.sourceforge.ondex.tools.functions.ControledVocabularyHelper.cr
  * @version 25.05.2008
  */
 @Authors(authors = {"Artem Lysenko"}, emails = {"lysenkoa at users.sourceforge.net"})
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Custodians(custodians = {"Jochen Weile"}, emails = {"jweile at users.sourceforge.net"})
 public class Transformer extends ONDEXTransformer implements ArgumentNames {
 
