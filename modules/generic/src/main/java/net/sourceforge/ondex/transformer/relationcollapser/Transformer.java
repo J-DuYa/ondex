@@ -34,7 +34,7 @@ import net.sourceforge.ondex.transformer.ONDEXTransformer;
  * 
  * @author hindlem
  */
-@Status(description = "Tested March 2010 (Artem Lysenko)", status = StatusType.STABLE)
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @Authors(authors = { "Matthew Hindle" }, emails = { "matthew_hindle at users.sourceforge.net" })
 @Custodians(custodians = { "Jochen Weile" }, emails = { "jweile at users.sourceforge.net" })
 public class Transformer extends ONDEXTransformer implements ArgumentNames {
