@@ -30,6 +30,7 @@ import net.sourceforge.ondex.tools.ondex.ONDEXGraphCloner;
  * @version 09.05.2008
  */
 @Authors(authors = {"Artem Lysenko"}, emails = {"lysenkoa at users.sourceforge.net"})
+
 @Custodians(custodians = {"Jochen Weile"}, emails = {"jweile at users.sourceforge.net"})
 public class Filter extends ONDEXFilter implements ArgumentNames {
     int depth = Integer.MAX_VALUE;
