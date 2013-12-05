@@ -1,6 +1,8 @@
 package net.sourceforge.ondex.transformer.gospecificity;
 
 import net.sourceforge.ondex.annotations.Custodians;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.BooleanArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
@@ -17,7 +19,7 @@ import java.util.Set;
 /**
  * @author lysenkoa
  */
-@Custodians(custodians = {"Keywan Hassani-pak"}, emails = {"keywan at users.sourceforge.net"})
+@Status(description = "Tested September 2013 (Artem Lysenko)", status = StatusType.STABLE)
 public class Transformer extends ONDEXTransformer
 {
     public final static String RT_HAS_FUNCTION = "has_function";//molecular function "MolFunc"
