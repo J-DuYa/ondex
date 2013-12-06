@@ -1,29 +1,58 @@
 package net.sourceforge.ondex.init;
 
-import net.sourceforge.ondex.ONDEXPlugin;
-import net.sourceforge.ondex.annotations.Status;
-import net.sourceforge.ondex.args.FileArgumentDefinition;
-import net.sourceforge.ondex.validator.AbstractONDEXValidator;
-import org.apache.log4j.Logger;
-import org.clapper.util.classutil.*;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.filter.ElementFilter;
-import org.jdom.input.SAXBuilder;
-
 import java.beans.XMLEncoder;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
+import net.sourceforge.ondex.ONDEXPlugin;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.args.FileArgumentDefinition;
+import net.sourceforge.ondex.validator.AbstractONDEXValidator;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
+import org.clapper.util.classutil.AbstractClassFilter;
+import org.clapper.util.classutil.AndClassFilter;
+import org.clapper.util.classutil.ClassFilter;
+import org.clapper.util.classutil.ClassFinder;
+import org.clapper.util.classutil.ClassInfo;
+import org.clapper.util.classutil.InterfaceOnlyClassFilter;
+import org.clapper.util.classutil.NotClassFilter;
+import org.clapper.util.classutil.SubclassClassFilter;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.filter.ElementFilter;
+import org.jdom.input.SAXBuilder;
 
 /**
  * @author lysenkoa
@@ -110,6 +139,7 @@ public class PluginRegistry {
      * @throws URISyntaxException
      */
     private PluginRegistry(boolean readConfigFromJar, String... dirOrFiles) throws IOException, URISyntaxException {
+    	
         PluginRegistry.instance = this;
         LOG.debug("Reading configuration from jar - " + readConfigFromJar);
         if (readConfigFromJar) {
@@ -117,6 +147,18 @@ public class PluginRegistry {
         } else {
             readSimpleConfigFormat(dirOrFiles);
         }
+        
+        BufferedWriter br = new BufferedWriter(new FileWriter("D:/projects/temp/new_list.tab"));
+        for( PluginDescription p :this.getAllPlugins()){
+        	String id = p.getOndexId();
+        	int i = 0;
+        	for(ArgumentDescription a :p.getArgDef()){
+        		br.write(id+"\t"+String.valueOf(i)+"\t"+a.getInteranlName()+"\n");
+        		i++;
+        	}
+        }
+        br.flush();
+        br.close();
     }
 
     private void addRecursively(File dir, Set<URL> jars) {
@@ -645,7 +687,8 @@ public class PluginRegistry {
         public LazyPluginDefinition() {
         }
 
-        @Override
+        @SuppressWarnings("deprecation")
+		@Override
         public ArgumentDescription[] getArgDef() {
             if (argDef == null) {
                 try {
@@ -653,7 +696,8 @@ public class PluginRegistry {
                     LOG.debug("Loaded: " + this.cls);
                 } catch (Exception e) {
                     //Should never happen by this point.
-                    e.printStackTrace();
+                	Logger.getRootLogger().log(Priority.WARN, e.getMessage());
+                    ;
                 }
             }
             return this.argDef;
