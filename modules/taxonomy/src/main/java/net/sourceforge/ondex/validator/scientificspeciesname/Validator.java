@@ -39,7 +39,7 @@ import org.apache.log4j.Logger;
 public class Validator extends AbstractONDEXValidator {
 
     // arguments for input/output dir
-    private ONDEXPluginArguments va;
+    private ONDEXPluginArguments va = new ONDEXPluginArguments(new ArgumentDefinition<?>[0]);
     // berkeley env
     private Environment myEnv = null;
     // berkeley store

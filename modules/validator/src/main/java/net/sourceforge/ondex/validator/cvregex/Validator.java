@@ -36,7 +36,7 @@ public class Validator extends AbstractONDEXValidator {
 	@Override
 	public void setArguments(ONDEXPluginArguments va)
 			throws InvalidPluginArgumentException {
-		this.va = va;
+		this.va = new ONDEXPluginArguments(new ArgumentDefinition<?>[0]);
 
 		// construct filename
 		File dir = new File((String) va

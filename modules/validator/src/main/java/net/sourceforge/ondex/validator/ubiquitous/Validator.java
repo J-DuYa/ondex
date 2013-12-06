@@ -26,7 +26,7 @@ public class Validator extends AbstractONDEXValidator {
 
 	private static Vector<String> ubiquitousChemicals = null;
 
-	private ONDEXPluginArguments va;
+	private ONDEXPluginArguments va = new ONDEXPluginArguments(new ArgumentDefinition<?>[0]);
 
 	/**
 	 * reads a ubiquitousChemicals.dic file to the ubiquitousChemicals array
