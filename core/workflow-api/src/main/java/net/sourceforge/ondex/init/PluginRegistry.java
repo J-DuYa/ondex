@@ -147,18 +147,7 @@ public class PluginRegistry {
         } else {
             readSimpleConfigFormat(dirOrFiles);
         }
-        
-        BufferedWriter br = new BufferedWriter(new FileWriter("D:/projects/temp/new_list.tab"));
-        for( PluginDescription p :this.getAllPlugins()){
-        	String id = p.getOndexId();
-        	int i = 0;
-        	for(ArgumentDescription a :p.getArgDef()){
-        		br.write(id+"\t"+String.valueOf(i)+"\t"+a.getInteranlName()+"\n");
-        		i++;
-        	}
-        }
-        br.flush();
-        br.close();
+
     }
 
     private void addRecursively(File dir, Set<URL> jars) {
