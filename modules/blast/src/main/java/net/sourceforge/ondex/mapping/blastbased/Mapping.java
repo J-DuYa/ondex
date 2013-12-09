@@ -48,7 +48,7 @@ import net.sourceforge.ondex.mapping.ONDEXMapping;
  */
 @Authors(authors = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
 @Custodians(custodians = { "Jan Taubert" }, emails = { "jantaubert at users.sourceforge.net" })
-@Status(status = StatusType.STABLE, description = "Tested March 2012 (Jan Taubert)")
+@Status(description = "Tested December 2013 (Artem Lysenko)", status = StatusType.STABLE)
 public class Mapping extends ONDEXMapping implements ArgumentNames {
 
 	private static int CPUS = Runtime.getRuntime().availableProcessors() > 1 ? Runtime
