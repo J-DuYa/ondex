@@ -12,6 +12,7 @@ import net.sourceforge.ondex.annotations.metadata.DataSourceRequired;
 import net.sourceforge.ondex.annotations.metadata.EvidenceTypeRequired;
 import net.sourceforge.ondex.annotations.metadata.RelationTypeRequired;
 import net.sourceforge.ondex.args.ArgumentDefinition;
+import net.sourceforge.ondex.args.BooleanArgumentDefinition;
 import net.sourceforge.ondex.args.FileArgumentDefinition;
 import net.sourceforge.ondex.args.IntegerRangeArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
@@ -32,7 +33,7 @@ import org.apache.log4j.Level;
  */
 @Status(description = "Tested November 2013 for Arabidopsis, Rice, Poplar, Brachypodium in Phytozome 9.1 (Keywan Hassani-Pak)", status = StatusType.EXPERIMENTAL)
 @Authors(authors = {"Keywan Hassani-Pak"}, emails = {"keywan at users.sourceforge.net"})
-@DatabaseTarget(name = "phytozome", description = "Phytozome is a joint project of JGI and CIG to facilitate comparative genomic studies amongst green plants. This Phytozome parser creates Chromosome, Scaffold, Gene, CDS and Protein concepts.", version = "7.0", url = "http://phytozome.net/")
+@DatabaseTarget(name = "phytozome", description = "Phytozome is a joint project of JGI and CIG to facilitate comparative genomic studies amongst green plants. This Phytozome parser creates Chromosome, Scaffold, Gene, CDS and Protein concepts.", version = "9.0", url = "http://phytozome.net/")
 @DataURL(name = "Phytozome annotation directory",
         description = "This parser requires as input the annotation directory of a specific species. Do not change the file names. It parses the GFF3, peptide FASTA, CDS FASTA and Synonyms TXT file inside of the annotation directory. It was tested on Arabidopsis, rice, poplar and brachypodium.",
         urls = {"ftp://ftp.jgi-psf.org/pub/JGI_data/phytozome/v9.0/"})
@@ -58,7 +59,8 @@ public class Parser extends ONDEXParser{
                         "Path to a phytozome annotation directory for a given species, e.g. phytozome/v7.0/Osativa/annotation/", true, true, true, false),
                 new StringArgumentDefinition(ArgumentNames.TAXID_ARG, ArgumentNames.TAXI_ARG_DESC, true, null, false),
                 new StringArgumentDefinition(ArgumentNames.ACC_DATASOURCE_ARG, ArgumentNames.ACC_DATASOURCE_DESC, false, "ENSEMBL", false),
-                new IntegerRangeArgumentDefinition(ArgumentNames.NUM_CHROMOSOMES_ARG, ArgumentNames.NUM_CHROMOSOMES_ARG_DESC, false, 19, 1, 100)
+                new IntegerRangeArgumentDefinition(ArgumentNames.NUM_CHROMOSOMES_ARG, ArgumentNames.NUM_CHROMOSOMES_ARG_DESC, false, 19, 1, 100),
+                new BooleanArgumentDefinition(ArgumentNames.SYNONYMS_PREF_ARG, ArgumentNames.SYNONYMS_PREF_DESC, false, false)
         };
     }
 

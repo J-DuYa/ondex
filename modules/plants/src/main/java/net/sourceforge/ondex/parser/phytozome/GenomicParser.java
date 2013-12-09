@@ -53,6 +53,7 @@ public class GenomicParser {
 	private Registry speciesReg;
 	private String taxID;
 	private Integer numChromosomes;
+	private Boolean isPrefSynonym;
 	private static final String gffGeneID = "ID=(.+?)(;|\\n)";
 	private static final Pattern patChroNum = Pattern.compile("(\\d+$)");
 
@@ -100,6 +101,7 @@ public class GenomicParser {
 		
 		taxID = (String) pa.getUniqueValue(ArgumentNames.TAXID_ARG);
 		numChromosomes = Integer.parseInt(pa.getUniqueValue(ArgumentNames.NUM_CHROMOSOMES_ARG).toString());
+		isPrefSynonym = (Boolean) pa.getUniqueValue(ArgumentNames.SYNONYMS_PREF_ARG);
 		String dsName = (String) pa.getUniqueValue(ArgumentNames.ACC_DATASOURCE_ARG);
 		if(graph.getMetaData().checkDataSource(dsName)){
 			accDataSource = graph.getMetaData().getDataSource(dsName);
@@ -392,21 +394,40 @@ public class GenomicParser {
         		while (inputLine != null) {
         			String[] col = inputLine.split("\t");
         			String acc = col[0];
-        			String[] synonyms = col[1].split("\t");
+        			String locus = acc.substring(0, acc.lastIndexOf('.'));
+        			
+//        			String[] synonyms = col[1].split("\t");
         			count_acc++;
-        			for (String synonym : synonyms) {
+        			int x = 0;
+        			for (String synonym : col) {
+        				x++;
+        				if(x == 1) 
+        					continue;
         				// create synonyms for proteins and genes
         				Integer pID = speciesReg.getProtein(acc);
         				if(pID != null){
         					ONDEXConcept p = graph.getConcept(pID);
-        					p.createConceptName(synonym, false);
+        					p.createConceptName(synonym, isPrefSynonym);
         				}	
         				
         				Integer cID = speciesReg.getCDS(acc);
         				if(cID != null){
         					ONDEXConcept c = graph.getConcept(cID);
-        					c.createConceptName(synonym, false);
-        				}	
+        					c.createConceptName(synonym, isPrefSynonym);
+        				}
+        				
+        				ONDEXConcept gene = null;
+        				if (speciesReg.containsGene(acc)) {
+        					gene = graph.getConcept(speciesReg.getGene(acc));
+        				}else if (speciesReg.containsGene(locus)) {
+        					gene = graph.getConcept(speciesReg.getGene(locus));
+        				}
+        				
+        				if(gene != null){
+        					gene.createConceptName(synonym, isPrefSynonym);
+        				}
+        				
+        				
         			}
 
         			inputLine = input.readLine();
