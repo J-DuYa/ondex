@@ -1,6 +1,8 @@
 package net.sourceforge.ondex.parser.atregnet2;
 
 import net.sourceforge.ondex.InvalidPluginArgumentException;
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.FileArgumentDefinition;
 import net.sourceforge.ondex.core.*;
@@ -22,6 +24,7 @@ import java.util.regex.Pattern;
  * @author lysenkoa, hindlem
  * @version 24.05.2008
  */
+@Status(description = "Tested August 2013 (Artem Lysenko)", status = StatusType.STABLE)
 public class Parser extends ONDEXParser implements MetaData {
 
     private RelationType rt_regulated_by;

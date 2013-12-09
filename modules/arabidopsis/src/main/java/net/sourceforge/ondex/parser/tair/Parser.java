@@ -23,7 +23,7 @@ import java.io.File;
  *
  * @author berendh
  */
-@Status(description = "Parses Arabidopsis CDS and proteins. Tested June 2011 (Keywan Hassani-Pak)", status = StatusType.EXPERIMENTAL)
+@Status(description = "Parses Arabidopsis CDS and proteins, to be used with TAIR release 2010. Tested August 2013 (Artem Lysenko)", status = StatusType.STABLE)
 @DatabaseTarget(name = "TAIR",
         description = "The Arabidopsis Information Resource (TAIR) maintains a database of genetic and molecular biology data for the model higher plant Arabidopsis thaliana ",
         version = "10",
