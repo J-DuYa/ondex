@@ -31,7 +31,7 @@ import org.apache.log4j.Level;
  *
  * @author keywan
  */
-@Status(description = "Tested November 2013 for Arabidopsis, Rice, Poplar, Brachypodium in Phytozome 9.1 (Keywan Hassani-Pak)", status = StatusType.EXPERIMENTAL)
+@Status(description = "Tested November 2013 for Arabidopsis, Rice, Poplar, Brachypodium in Phytozome 9.1 (Keywan Hassani-Pak)", status = StatusType.STABLE)
 @Authors(authors = {"Keywan Hassani-Pak"}, emails = {"keywan at users.sourceforge.net"})
 @DatabaseTarget(name = "phytozome", description = "Phytozome is a joint project of JGI and CIG to facilitate comparative genomic studies amongst green plants. This Phytozome parser creates Chromosome, Scaffold, Gene, CDS and Protein concepts.", version = "9.0", url = "http://phytozome.net/")
 @DataURL(name = "Phytozome annotation directory",
