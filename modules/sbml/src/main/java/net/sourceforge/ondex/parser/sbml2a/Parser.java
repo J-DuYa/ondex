@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 
+import net.sourceforge.ondex.annotations.Status;
+import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.FileArgumentDefinition;
 import net.sourceforge.ondex.args.StringArgumentDefinition;
@@ -53,6 +55,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  *
  * @author Matthew Pocock, Jochen Weile, Christian BrRenninkmeijer
  */
+@Status(description = "Tested September 2013 (Artem Lysenko)", status = StatusType.STABLE)
 public class Parser extends net.sourceforge.ondex.parser.sbml2.Parser {
 
     private ONDEXGraphMetaData metaData;
