@@ -158,13 +158,9 @@ public class Parser extends ONDEXParser {
 				}
 				
 				//Standarize the name of the chromosome
-				if(splited[0].length()>1)
-					splited[0] = splited[0].substring(splited[0].length() - 2);
-				else
-					splited[0] = splited[0].substring(splited[0].length() - 1);
-				
-				Pattern p = Pattern.compile("\\d+");
+				Pattern p = Pattern.compile("(\\d+$)");
 				Matcher m = p.matcher(splited[0]);
+				
 				String geneChrName = "0";
 				if(m.find()){
 					geneChrName = m.group();					
