@@ -3,14 +3,15 @@ package net.sourceforge.ondex.parser.fastagff;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
 import net.sourceforge.ondex.annotations.DataURL;
-import net.sourceforge.ondex.annotations.DatabaseTarget;
 import net.sourceforge.ondex.annotations.Status;
 import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
@@ -158,19 +159,24 @@ public class Parser extends ONDEXParser {
 				}
 				
 				//Standarize the name of the chromosome
-				Pattern p = Pattern.compile("(\\d+$)");
-				Matcher m = p.matcher(splited[0]);
-				
-				String geneChrName = "0";
-				if(m.find()){
-					geneChrName = m.group();					
-				}
-				else{
-					missingChr++;
-					continue;
-				}
-				
-				    	 
+                Pattern p = Pattern.compile("\\d+");
+                Matcher m = p.matcher(splited[0]);
+
+                List<String> values = new ArrayList<String>();
+                
+                while(m.find()){
+                       values.add(m.group());
+                }
+                
+                String geneChrName = "0";
+                
+                if (values.size() == 0){
+                       missingChr++;
+                }
+                else {
+                       geneChrName = values.get(values.size()-1);
+                }
+
 				Integer geneChr = Integer.parseInt(geneChrName);  
 				Integer geneBegin = Integer.parseInt(splited[3]);
 				Integer geneEnd = Integer.parseInt(splited[4]);
