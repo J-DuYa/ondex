@@ -2,13 +2,13 @@
 	<parent>
 		<artifactId>modules</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
-		<version>0.5.0-SNAPSHOT</version>
+		<version>0.5.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.ondex.modules</groupId>
 	<artifactId>graph-query</artifactId>
 	<name>graph-query</name>
-	<version>0.5.0-SNAPSHOT</version>
+	<version>0.5.0</version>
 	<description>A set of plugins concerned the query and traversal of ondex graphs</description>
 
 	<dependencies>
@@ -29,19 +29,19 @@
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>tab-tools</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.ondex.core</groupId>
 			<artifactId>memory</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>oxl</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

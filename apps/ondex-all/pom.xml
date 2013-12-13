@@ -3,12 +3,12 @@
 	<groupId>net.sourceforge.ondex.apps</groupId>
 	<artifactId>ondex-all</artifactId>
 	<name>ondex-all</name>
-	<version>0.5.0-SNAPSHOT</version>
+	<version>0.5.0</version>
 	<description>ondex with all dependecies to the plugins</description>
 	<parent>
 		<artifactId>apps</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
-		<version>0.5.0-SNAPSHOT</version>
+		<version>0.5.0</version>
 	</parent>
 
 	<dependencies>
@@ -17,14 +17,14 @@
 		<dependency>
 			<groupId>net.sourceforge.ondex.apps</groupId>
 			<artifactId>launcher</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.core</groupId>
 			<artifactId>lucene</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
@@ -32,125 +32,125 @@
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>blast</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>enzymatics</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>decypher</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>go</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>kegg</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>poplar</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>protein-structure</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>sequence</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>textmining</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>plants</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>taxonomy</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>arabidopsis</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>experimental</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>cyc-pathwaydbs</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>tab</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>sbml</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>oxl</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>tab-tools</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -158,73 +158,73 @@
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>generic</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>legacy</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>clustering</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>biobase</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>validator</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>prolog</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>rdf</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>interaction</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>carbs</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>chemical</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>relevance</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>graph-query</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 	</dependencies>
 

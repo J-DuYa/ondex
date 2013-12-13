@@ -3,14 +3,14 @@
 	<parent>
 		<artifactId>webservices</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
-		<version>0.5.0-SNAPSHOT</version>
+		<version>0.5.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.ondex.webservices</groupId>
 	<artifactId>soapgraph</artifactId>
 	<packaging>jar</packaging>
 	<name>soapgraph</name>
-	<version>0.5.0-SNAPSHOT</version>
+	<version>0.5.0</version>
 	<build>
 		<plugins>
 			<plugin>
@@ -27,26 +27,26 @@
 		<dependency>
 			<groupId>net.sourceforge.ondex.core</groupId>
 			<artifactId>base</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.ondex.core</groupId>
 			<artifactId>base</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<classifier>tests</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.ondex.core</groupId>
 			<artifactId>marshal</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.ondex.webservices</groupId>
 			<artifactId>webservice-client</artifactId>
-			<version>0.5.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
