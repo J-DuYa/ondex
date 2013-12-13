@@ -342,7 +342,7 @@ public class VertexMenu extends JPopupMenu implements
 				file = new File(qs.getQuerySetLocation().getAbsolutePath() + File.separator	+ "uri.sqs");
 				if(file.exists()){
 					BufferedReader br1 = new BufferedReader(new FileReader(file));
-					while ((line = br.readLine()) != null) {
+					while ((line = br1.readLine()) != null) {
 						if(line.startsWith("#")){
 							continue;
 						}
