@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -111,8 +112,7 @@ public class VertexMenu extends JPopupMenu implements
 					}
 
 					// get URL for this type of accessions
-					String url = AccessionPlugin.cvToURL.get(acc.getElementOf()
-							.getId());
+					String url = AccessionPlugin.cvToURL.get(acc.getElementOf().getId());
 					if (AccessionPlugin.mapper != null) {
 						Condition cond = new Condition(acc.getElementOf()
 								.getId(), vertex.getElementOf().getId());
@@ -308,8 +308,7 @@ public class VertexMenu extends JPopupMenu implements
 			Class<?> clsInterp = Thread
 					.currentThread()
 					.getContextClassLoader()
-					.loadClass(
-							"net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
+					.loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
 			Object instanceInterp = clsInterp.getMethod("getCurrentInstance",
 					new Class<?>[0]).invoke(clsInterp, new Object[0]);
 			if (instanceInterp != null) {
@@ -318,12 +317,9 @@ public class VertexMenu extends JPopupMenu implements
 				if (!success)
 					return;
 				QuerySetParser qs = (QuerySetParser) clsInterp.getMethod(
-						"getQuerySetParser", new Class<?>[0]).invoke(
-						instanceInterp, new Object[0]);
+						"getQuerySetParser", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
 				File file = qs.getQuerySetLocation();
-				BufferedReader br = new BufferedReader(new FileReader(
-						file.getAbsolutePath() + File.separator
-								+ "interactive.sqs"));
+				BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath() + File.separator	+ "interactive.sqs"));
 				String line;
 				while ((line = br.readLine()) != null) {
 					boolean doLayout = false;
@@ -341,6 +337,23 @@ public class VertexMenu extends JPopupMenu implements
 					}
 				}
 				br.close();
+				Map<String, String> cvToUrl = new TreeMap<String,String>();
+				
+				file = new File(qs.getQuerySetLocation().getAbsolutePath() + File.separator	+ "uri.sqs");
+				if(file.exists()){
+					BufferedReader br1 = new BufferedReader(new FileReader(file));
+					while ((line = br.readLine()) != null) {
+						if(line.startsWith("#")){
+							continue;
+						}
+						if(!line.contains("\t")){
+							continue;
+						}
+						String [] temp = line.split("\t");
+						cvToUrl.put(temp[0], temp[1]);
+					}
+					br1.close();
+				}
 
 				for (String s : menuCommands) {
 					options.put(s, qs.getCommandList(s));
@@ -377,7 +390,7 @@ public class VertexMenu extends JPopupMenu implements
 						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
 								viewer, vertex, null, ent.getKey(),
 								ent.getValue(), Collections.EMPTY_LIST,
-								layoutAndCenter);
+								layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);
@@ -393,7 +406,7 @@ public class VertexMenu extends JPopupMenu implements
 						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
 								viewer, vertex, null, ent.getKey(),
 								Collections.EMPTY_LIST, ent.getValue(),
-								layoutAndCenter);
+								layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);
@@ -402,8 +415,7 @@ public class VertexMenu extends JPopupMenu implements
 				}
 				if (selectedConcepts) {
 					querry.addSeparator();
-					EntityURIMenuItem vm = VertexURLResolverMenuItem
-							.getMenuItem(viewer, vertex, null, "Resolve URL");
+					EntityURIMenuItem vm = VertexURLResolverMenuItem.getMenuItem(viewer, vertex, null, "Resolve URL");
 					querry.add(vm);
 				}
 				if (!empty) {

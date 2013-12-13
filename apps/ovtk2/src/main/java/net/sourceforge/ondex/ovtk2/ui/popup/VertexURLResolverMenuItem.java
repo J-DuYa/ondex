@@ -2,6 +2,7 @@ package net.sourceforge.ondex.ovtk2.ui.popup;
 
 import java.lang.reflect.Method;
 import java.util.BitSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,7 +38,7 @@ public class VertexURLResolverMenuItem extends EntityURIMenuItem{
 	}
 	
 	protected VertexURLResolverMenuItem(OVTK2Viewer viewer, ONDEXConcept vertex, ONDEXRelation edge, String name)  {
-		super(viewer, vertex, edge, name, null, null, null);
+		super(viewer, vertex, edge, name, null, null, null, new HashMap<String, String>());
 	}
 	
 	@Override

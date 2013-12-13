@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ import javax.swing.JPopupMenu;
 
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXRelation;
+import net.sourceforge.ondex.core.util.QuerySetParser;
 import net.sourceforge.ondex.ovtk2.config.Config;
 import net.sourceforge.ondex.ovtk2.config.OVTK2PluginLoader;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2Viewer;
@@ -158,11 +160,9 @@ public class EdgeMenu extends JPopupMenu implements
 		add(relationInfo.getItem());
 
 		// SWAT4LS - 2010 demo
-		boolean selectedRelations = (viewer.getPickedEdges().size() != 0 || edges != null) ? true
-				: false;
+		boolean selectedRelations = (viewer.getPickedEdges().size() != 0 || edges != null) ? true : false;
 		;
-		boolean selectedConcepts = viewer.getPickedNodes().size() == 0 ? false
-				: true;
+		boolean selectedConcepts = viewer.getPickedNodes().size() == 0 ? false : true;
 
 		boolean empty = true;
 		JMenu querry = new JMenu("Query");
@@ -206,6 +206,42 @@ public class EdgeMenu extends JPopupMenu implements
 				}
 				Map<String, List<String>> edgeOptions = new HashMap<String, List<String>>();
 				Map<String, List<String>> nodeOptions = new HashMap<String, List<String>>();
+				Map<String, String> cvToUrl = new TreeMap<String,String>();
+				try{
+					Class<?> clsInterp = Thread
+							.currentThread()
+							.getContextClassLoader()
+							.loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
+					Object instanceInterp = clsInterp.getMethod("getCurrentInstance",
+							new Class<?>[0]).invoke(clsInterp, new Object[0]);
+					if (instanceInterp != null) {
+						boolean success = (Boolean) clsInterp.getMethod("configure",
+								new Class<?>[0]).invoke(instanceInterp, new Object[0]);
+						if (!success) throw new Exception("Could not configure SPARQL interpreter!");
+							QuerySetParser qs = (QuerySetParser) clsInterp.getMethod(
+									"getQuerySetParser", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
+							File file = new File(qs.getQuerySetLocation().getAbsolutePath() + File.separator	+ "uri.sqs");
+							if(file.exists()){
+								BufferedReader br1 = new BufferedReader(new FileReader(file));
+								while ((line = br.readLine()) != null) {
+									if(line.startsWith("#")){
+										continue;
+									}
+									if(!line.contains("\t")){
+										continue;
+									}
+									String [] temp = line.split("\t");
+									cvToUrl.put(temp[0], temp[1]);
+								}
+								br1.close();
+							}	
+						}
+					}
+					catch(Exception e1){
+						if(DEBUG){
+							e1.printStackTrace();
+						}
+					}
 
 				for (Entry<String, List<String>> ent : options.entrySet()) {
 					boolean isEdge = false;
@@ -234,7 +270,7 @@ public class EdgeMenu extends JPopupMenu implements
 							.entrySet()) {
 						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
 								viewer, null, e, ent.getKey(), ent.getValue(),
-								Collections.EMPTY_LIST, layoutAndCenter);
+								Collections.EMPTY_LIST, layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);
@@ -250,7 +286,7 @@ public class EdgeMenu extends JPopupMenu implements
 						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
 								viewer, null, e, ent.getKey(),
 								Collections.EMPTY_LIST, ent.getValue(),
-								layoutAndCenter);
+								layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);

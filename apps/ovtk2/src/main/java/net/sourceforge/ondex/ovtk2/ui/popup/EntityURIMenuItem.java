@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.BitSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import javax.swing.undo.StateEdit;
 
 import net.sourceforge.ondex.core.Attribute;
 import net.sourceforge.ondex.core.AttributeName;
+import net.sourceforge.ondex.core.ConceptAccession;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXRelation;
 import net.sourceforge.ondex.core.util.BitSetFunctions;
@@ -48,35 +50,33 @@ public class EntityURIMenuItem extends JMenuItem {
 	protected ONDEXConcept n;
 	protected final OVTK2Viewer viewer;
 	protected Set<String> layoutAndCenter;
+	protected final Map<String, String> cvToUrl;
 
 	public static EntityURIMenuItem getMenuItem(OVTK2Viewer viewer,
 			ONDEXConcept vertex, ONDEXRelation edge, String name,
 			List<String> commands, List<String> commandsEdge,
-			Set<String> layoutAndCenter) {
+			Set<String> layoutAndCenter, Map<String, String> cvToUrl) {
 		currentName = name;
 		if (tmp == null) {
 			try {
 				tmp = Thread
 						.currentThread()
 						.getContextClassLoader()
-						.loadClass(
-								"net.sourceforge.ondex.scripting.OutputPrinter");
+						.loadClass("net.sourceforge.ondex.scripting.OutputPrinter");
 				clsInterp = Thread
 						.currentThread()
 						.getContextClassLoader()
-						.loadClass(
-								"net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
+						.loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
 				clsOutput = Thread
 						.currentThread()
 						.getContextClassLoader()
-						.loadClass(
-								"net.sourceforge.ondex.scripting.ui.CommandLine");
+						.loadClass("net.sourceforge.ondex.scripting.ui.CommandLine");
 			} catch (ClassNotFoundException e) {
 				return null;
 			}
 		}
 		return new EntityURIMenuItem(viewer, vertex, edge, name, commands,
-				commandsEdge, layoutAndCenter);
+				commandsEdge, layoutAndCenter, cvToUrl);
 	}
 
 	public static String getCurrentName() {
@@ -85,7 +85,7 @@ public class EntityURIMenuItem extends JMenuItem {
 
 	protected EntityURIMenuItem(final OVTK2Viewer viewer, ONDEXConcept vertex,
 			ONDEXRelation edge, String name, List<String> commandsNode,
-			List<String> commandsEdge, Set<String> layoutAndCenter) {
+			List<String> commandsEdge, Set<String> layoutAndCenter, Map<String, String> cvToUrl) {
 		this.viewer = viewer;
 		this.n = vertex;
 		this.e = edge;
@@ -93,16 +93,15 @@ public class EntityURIMenuItem extends JMenuItem {
 		this.commandsNode = commandsNode;
 		this.commandsEdge = commandsEdge;
 		this.layoutAndCenter = layoutAndCenter;
+		this.cvToUrl = cvToUrl;
 		this.setText(name);
 		addActionListener(new ActionListener() {
 			public final void actionPerformed(ActionEvent e) {
 				Cursor cursor = viewer.getVisualizationViewer().getCursor();
-				viewer.getVisualizationViewer().setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				viewer.getVisualizationViewer().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				RootPaneContainer root = findRoot(viewer);
 				root.getGlassPane().setVisible(true);
-				root.getGlassPane().setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				StateEdit edit = null;
 				try {
 					doAction();
@@ -142,26 +141,36 @@ public class EntityURIMenuItem extends JMenuItem {
 
 		for (ONDEXConcept concept : cs) {
 			Attribute attribute = concept.getAttribute(att);
-			if (attribute == null) {
+			String uri = null;
+			if (attribute != null) {
+				uri = attribute.getValue().toString();	
+			}
+			else{
+				for(ConceptAccession ca : concept.getConceptAccessions()){
+					String cv = ca.getElementOf().getId();
+					String base = cvToUrl.get(cv);
+					if(base != null){
+						uri = base + ca.getAccession();
+						concept.createAttribute(att, uri, false);
+						break;
+					}
+				}
+			}
+			if(uri == null){
 				continue;
 			}
-			String uri = attribute.getValue().toString();
 
 			try {
 				Object instanceInterp = clsInterp.getMethod(
-						"getCurrentInstance", new Class<?>[0]).invoke(null,
-						new Object[0]);
+						"getCurrentInstance", new Class<?>[0]).invoke(null, new Object[0]);
 				Object instanceOutput = clsOutput.getMethod(
-						"getCurrentInstance", new Class<?>[0]).invoke(null,
-						new Object[0]);
-				Method m = clsInterp.getMethod("silentProcess", new Class[] {
-						String.class, tmp });
+						"getCurrentInstance", new Class<?>[0]).invoke(null,	new Object[0]);
+				Method m = clsInterp.getMethod("silentProcess", new Class[] {String.class, tmp });
 
 				for (String command : commandsNode) {
 					String com = new String(command);
 					com = PRIMARY_URI.matcher(com).replaceAll(uri);
-					m.invoke(instanceInterp,
-							new Object[] { com, instanceOutput });
+					m.invoke(instanceInterp, new Object[] { com, instanceOutput });
 				}
 
 				Method z = clsInterp.getMethod("getAffectedConcepts",
@@ -222,15 +231,12 @@ public class EntityURIMenuItem extends JMenuItem {
 					com = FROM_URI.matcher(com).replaceAll(uriFrom);
 					com = TO_URI.matcher(com).replaceAll(uriTo);
 					com = TYPE.matcher(com).replaceAll(type);
-					m.invoke(instanceInterp,
-							new Object[] { com, instanceOutput });
+					m.invoke(instanceInterp, new Object[] { com, instanceOutput });
 				}
 
-				Method z = clsInterp.getMethod("getAffectedConcepts",
-						new Class[] {});
+				Method z = clsInterp.getMethod("getAffectedConcepts", new Class[] {});
 				BitSet set = (BitSet) z.invoke(instanceInterp, new Object[0]);
-				Set<ONDEXConcept> selectedConcepts = BitSetFunctions.create(
-						graph, ONDEXConcept.class, set);
+				Set<ONDEXConcept> selectedConcepts = BitSetFunctions.create(graph, ONDEXConcept.class, set);
 				graph.setVisibility(selectedConcepts, true);
 				Set<ONDEXRelation> relations = new HashSet<ONDEXRelation>();
 				for (ONDEXConcept c : selectedConcepts) {
