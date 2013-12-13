@@ -5,12 +5,12 @@
 	<artifactId>sql</artifactId>
 	<name>sql</name>
 	<packaging>jar</packaging>
-	<version>0.5.0</version>
+	<version>0.6.0-SNAPSHOT</version>
 
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
-		<version>0.5.0</version>
+		<version>0.6.0-SNAPSHOT</version>
 	</parent>
 	
 	<dependencies>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>net.sourceforge.ondex.core</groupId>
             <artifactId>base</artifactId>
-            <version>0.5.0</version>
+            <version>0.6.0-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 	</dependencies>

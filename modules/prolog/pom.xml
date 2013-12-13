@@ -3,11 +3,11 @@
 	<groupId>net.sourceforge.ondex.modules</groupId>
 	<artifactId>prolog</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5.0</version>
+	<version>0.6.0-SNAPSHOT</version>
 	<name>prolog</name>
 	<parent>
 		<artifactId>modules</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
-		<version>0.5.0</version>
+		<version>0.6.0-SNAPSHOT</version>
 	</parent>
 </project>

@@ -3,14 +3,14 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
-		<version>0.5.0</version>
+		<version>0.6.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.ondex</groupId>
 	<artifactId>webservices</artifactId>
 	<packaging>pom</packaging>
 	<name>webservices</name>
-	<version>0.5.0</version>
+	<version>0.6.0-SNAPSHOT</version>
 	<modules>
 		<module>restful</module>
 		<module>soapgraph</module>
@@ -79,7 +79,7 @@
             <type>zip</type>
             <groupId>net.sourceforge.ondex</groupId>
             <artifactId>datadir</artifactId>
-            <version>0.5.0</version>
+            <version>0.6.0-SNAPSHOT</version>
             <classifier>data</classifier>
             <scope>test</scope>
         </dependency>
