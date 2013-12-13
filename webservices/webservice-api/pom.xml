@@ -2,14 +2,14 @@
     <parent>
         <artifactId>webservices</artifactId>
         <groupId>net.sourceforge.ondex</groupId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.ondex.webservices</groupId>
     <artifactId>webservice-api</artifactId>
     <packaging>jar</packaging>
     <name>Webservice API</name>
-    <version>0.5.0-SNAPSHOT</version>
+    <version>0.5.0</version>
     <description>webservice api and low level wsdl</description>
     <organization>
         <name>ONDEX</name>
@@ -166,19 +166,19 @@
         <dependency>
             <groupId>net.sourceforge.ondex.core</groupId>
             <artifactId>marshal</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.5.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.ondex.core</groupId>
             <artifactId>workflow-base</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.5.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.ondex.modules</groupId>
             <artifactId>oxl</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.5.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
