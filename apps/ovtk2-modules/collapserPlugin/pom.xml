@@ -4,7 +4,7 @@
 
   <groupId>uk.ac.ncl.cs</groupId>
   <artifactId>CollapserPlugin</artifactId>
-  <version>0.5.0-SNAPSHOT</version>
+  <version>0.6.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>CollapserPlugin</name>
@@ -17,7 +17,7 @@
   <parent>
         <artifactId>ovtk2-modules</artifactId>
         <groupId>net.sourceforge.ondex.apps</groupId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>0.6.0-SNAPSHOT</version>
   </parent>
 
   <dependencies>
@@ -30,7 +30,7 @@
     <dependency>
         <groupId>net.sourceforge.ondex.apps</groupId>
         <artifactId>ovtk2</artifactId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>0.6.0-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
 <!--    <dependency>
@@ -43,13 +43,13 @@
     <dependency>
             <groupId>uk.ac.ncl.cs</groupId>
             <artifactId>nclondexexpression</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
     </dependency>
     
     <dependency>
             <groupId>net.sourceforge.ondex.modules</groupId>
             <artifactId>experimental</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
   

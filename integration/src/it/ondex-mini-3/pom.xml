@@ -4,7 +4,7 @@
 
     <groupId>net.sourceforge.ondex.modules.integration</groupId>
     <artifactId>ondex-mini-3</artifactId>
-    <version>0.5.0-SNAPSHOT</version>
+    <version>0.6.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Integration test for ondex-mini</name>
@@ -31,7 +31,7 @@
                                 <artifactItem>
                                     <groupId>net.sourceforge.ondex.apps</groupId>
                                     <artifactId>ondex-mini</artifactId>
-                                    <version>0.5.0-SNAPSHOT</version>
+                                    <version>0.6.0-SNAPSHOT</version>
                                     <classifier>packaged-distro</classifier>
                                     <type>tar.gz</type>
                                     <overWrite>false</overWrite>
@@ -52,7 +52,7 @@
                                 <artifactItem>
                                     <groupId>net.sourceforge.ondex.modules</groupId>
                                     <artifactId>iah</artifactId>
-                                    <version>0.5.0-SNAPSHOT</version>
+                                    <version>0.6.0-SNAPSHOT</version>
                                     <classifier>jar-with-dependencies</classifier>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/ondex-mini-${project.version}/plugins</outputDirectory>
@@ -60,7 +60,7 @@
                                 <artifactItem>
                                     <groupId>net.sourceforge.ondex.modules</groupId>
                                     <artifactId>interaction</artifactId>
-                                    <version>0.5.0-SNAPSHOT</version>
+                                    <version>0.6.0-SNAPSHOT</version>
                                     <classifier>jar-with-dependencies</classifier>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/ondex-mini-${project.version}/plugins</outputDirectory>
@@ -130,7 +130,7 @@
         <dependency>
             <groupId>net.sourceforge.ondex.apps</groupId>
             <artifactId>ondex-mini</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <type>tar.gz</type>
             <classifier>packaged-distro</classifier>
             <scope>test</scope>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>net.sourceforge.ondex.modules</groupId>
             <artifactId>iah</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <classifier>jar-with-dependencies</classifier>
             <type>jar</type>
         </dependency>
@@ -147,7 +147,7 @@
         <dependency>
             <groupId>net.sourceforge.ondex.modules</groupId>
             <artifactId>interaction</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <classifier>jar-with-dependencies</classifier>
             <type>jar</type>
         </dependency>

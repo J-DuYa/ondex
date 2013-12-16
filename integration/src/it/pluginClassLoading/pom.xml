@@ -4,7 +4,7 @@
 
     <groupId>net.sourceforge.ondex.modules.integration</groupId>
     <artifactId>pluginClassLoading</artifactId>
-    <version>0.5.0-SNAPSHOT</version>
+    <version>0.6.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Integration test for class-loading strategies</name>
@@ -56,28 +56,28 @@
         <dependency>
             <groupId>net.sourceforge.ondex.core</groupId>
             <artifactId>api</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         
         <dependency>
             <groupId>net.sourceforge.ondex.core</groupId>
             <artifactId>base</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>net.sourceforge.ondex.core</groupId>
             <artifactId>workflow-base</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>net.sourceforge.ondex.modules</groupId>
             <artifactId>oxl</artifactId>
-            <version>0.5.0-SNAPSHOT</version>
+            <version>0.6.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
 

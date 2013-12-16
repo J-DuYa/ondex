@@ -34,7 +34,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.apps</groupId>
 									<artifactId>ovtk2</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>packaged-distro</classifier>
 									<type>zip</type>
 									<overWrite>true</overWrite>
@@ -44,7 +44,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.doc</groupId>
 									<artifactId>ovtk2</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>data</classifier>
 									<type>zip</type>
 									<overWrite>true</overWrite>
@@ -73,7 +73,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.apps</groupId>
 									<artifactId>ovtk2-default</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>distribution</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -84,7 +84,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.apps</groupId>
 									<artifactId>ovtk2-experimental</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>distribution</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -95,7 +95,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.apps</groupId>
 									<artifactId>ovtk2-poplar</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>distribution</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -106,7 +106,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>arabidopsis</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -117,7 +117,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>biobase</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -128,7 +128,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>blast</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -139,7 +139,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>carbs</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -150,7 +150,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>chemical</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -161,7 +161,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>clustering</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -172,7 +172,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>cyc-pathwaydbs</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -183,7 +183,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>decypher</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -194,7 +194,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>enzymatics</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -205,7 +205,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>experimental</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -216,7 +216,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>generic</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -227,7 +227,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>go</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -238,7 +238,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>grain</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -249,7 +249,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>graph-query</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -260,7 +260,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>graphalgo</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -271,7 +271,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>gsk</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -282,7 +282,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>habitat</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -293,7 +293,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>iah</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -304,7 +304,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>interaction</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -315,7 +315,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>kegg</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -326,7 +326,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>legacy</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -337,7 +337,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>oxl</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -348,7 +348,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>phenotypes</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -359,7 +359,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>plants</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -370,7 +370,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>poplar</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -381,7 +381,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>prolog</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -392,7 +392,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>protein-structure</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -403,7 +403,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>rdf</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -414,7 +414,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>relevance</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -425,7 +425,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>sbml</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -436,7 +436,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>sequence</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -447,7 +447,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>tab</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -458,7 +458,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>taxonomy</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -469,7 +469,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>textmining</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -480,7 +480,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>validator</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
@@ -491,7 +491,7 @@
 								<artifactItem>
 									<groupId>uk.ac.ncl.cs</groupId>
 									<artifactId>psimi2ondex</artifactId>
-									<version>0.5.0-SNAPSHOT</version>
+									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
 									<type>jar</type>
 									<overWrite>true</overWrite>
