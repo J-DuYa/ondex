@@ -1,0 +1,1 @@
+-Xmx1024M -Dovtk.dir="E:\eclipse\workspace\ovtk2\config" -Ddocu.dir="E:\eclipse\workspace\ovtk2_doc\config" -Dondex.dir="E:\eclipse\workspace\ondex-parent\core\datadir\data"

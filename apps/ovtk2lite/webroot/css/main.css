@@ -1,0 +1,177 @@
+body {
+	font: 64% "Trebuchet MS", sans-serif;
+}
+
+img {
+	border: 0px;
+}
+
+#wrapper {
+	position: relative;
+	margin:auto;
+	top:-10px;
+	width: 900px;
+	height: 100%;
+}
+
+.iframe {
+	width: 400px;
+	background: #fff;
+	position: absolute;
+	border: 1px solid #f00;
+	position: absolute;
+	left: 45%;
+	top: 20px;
+	z-index: 9;
+	height: 201px;
+}
+
+#usage {
+
+}
+
+#dialog-link {
+	padding: .4em 1em .4em 20px;
+	text-decoration: none;
+	position: relative;
+	float:right;
+}
+
+#dialog-link span.ui-icon {
+	margin: 0 5px 0 0;
+	position: absolute;
+	left: .2em;
+	top: 50%;
+	margin-top: -8px;
+}
+
+#icons {
+	margin: 0;
+	padding: 0;
+}
+
+#icons li {
+	margin: 2px;
+	position: relative;
+	padding: 4px 0;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+
+#icons span.ui-icon {
+	float: left;
+	margin: 0 4px;
+}
+
+.imgR {
+	float: right;
+	padding: 6px;
+	margin: 0px;
+	border: 1px solid rgb(204, 204, 204);
+}
+
+.imgL {
+	float: left;
+	padding: 6px;
+	margin: 0px;
+	border: 1px solid rgb(204, 204, 204);
+}
+
+.box {
+	border: 1px solid #cccccc;
+	padding: 0px;
+}
+
+.fakewindowcontain .ui-widget-overlay {
+	position: absolute;
+}
+
+#header {
+	position: relative;
+	height: 150px;
+	clear: left;
+	top: 0px;
+	background-color: #f3f3f3;
+}
+
+#sub1  {
+	font-size: 5.0em;
+	font-face: trebuchet, verdana, tahoma, sans-serif;
+	padding:0 px;
+	position:relative;
+	top:20px;
+
+}
+
+#sub2 {
+	font-size: 1.5em;
+	font-style: italics;
+	font-face: trebuchet, verdana, tahoma, sans-serif;
+ 	position:relative;
+	top:15px;
+}
+
+#header #OndexTitle {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 800px;
+}
+
+#header #OndexLogo {
+	position: absolute;
+	right: 0px;
+	float: right;
+}
+
+#scriptSpaceTG {
+
+}
+
+#usage2 {
+	display: none;
+}
+
+#RResLogo {
+	position: absolute;
+	top: 10px;
+	right: -50px;
+	border: 0;
+}
+
+#content {
+	position: relative;
+	top: 0px;
+	width: 900px;
+	clear: left;
+	text-align: justify;
+}
+
+#footer_spacer {
+	position: relative;
+	height: 2px;
+	width: 960px;
+	background: url(images/divisor_footer.png) repeat-x;
+	clear: left;
+}
+
+#footer {
+	position: relative;
+}
+
+#footer #left_footer {
+	position: absolute;
+	left: 8px;
+	top: 5px;
+	text-align: left;
+	font-size: 1em;
+}
+
+#footer #right_footer {
+	position: absolute;
+	right: 8px;
+	top: 5px;
+	text-align: right;
+	font-size: 1em;
+}

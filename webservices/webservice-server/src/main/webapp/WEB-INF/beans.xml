@@ -1,0 +1,133 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+    <bean id="service" class="net.sourceforge.ondex.server.ONDEXServiceWS">
+        <property name="ondexDir" value="${ondex.home}" />
+    </bean>
+
+    <jaxws:endpoint id="ondexServiceWS"
+		implementor="net.sourceforge.ondex.server.ONDEXServiceWS"
+		address="/ondex-graph">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <!--bean class="org.apache.cxf.jaxb.JAXBDataBinding"/-->
+
+    <jaxws:endpoint id="ONDEXapiWS"
+		implementor="net.sourceforge.ondex.wsapi.ONDEXapiWS"
+		address="/ONDEXapiWS">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="ExportWS"
+		implementor="net.sourceforge.ondex.server.plugins.export.ExportAuto"
+		address="/ondex-export">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="ExportUsingJobWS"
+		implementor="net.sourceforge.ondex.server.plugins.export.ExportUsingJobAuto"
+		address="/ondex-exportUsingJob">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="FilterWS"
+		implementor="net.sourceforge.ondex.server.plugins.filter.FilterAuto"
+		address="/ondex-filter">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="FilterUsingJobWS"
+		implementor="net.sourceforge.ondex.server.plugins.filter.FilterUsingJobAuto"
+		address="/ondex-filterUsingJob">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="ParserUsingJobWS"
+		implementor="net.sourceforge.ondex.server.plugins.parser.ParserUsingJobAuto"
+		address="/ondex-parserUsingJob">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="ParserWS"
+		implementor="net.sourceforge.ondex.server.plugins.parser.ParserAuto"
+		address="/ondex-parser">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="MappingWS"
+		implementor="net.sourceforge.ondex.server.plugins.mapping.MappingAuto"
+		address="/ondex-mapping">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="MappingUsingJobWS"
+		implementor="net.sourceforge.ondex.server.plugins.mapping.MappingUsingJobAuto"
+		address="/ondex-mappingUsingJob">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="TransformerWS"
+		implementor="net.sourceforge.ondex.server.plugins.transformer.TransformerAuto"
+		address="/ondex-transformer">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="TransformerUsingJobWS"
+		implementor="net.sourceforge.ondex.server.plugins.transformer.TransformerUsingJobAuto"
+		address="/ondex-transformerUsingJob">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+	</jaxws:endpoint>
+
+    <jaxws:endpoint id="Auto"
+		implementor="net.sourceforge.ondex.server.plugins.AutoCreator"
+		address="/ondex-auto">
+		<jaxws:dataBinding>
+			<bean class="org.apache.cxf.aegis.databinding.AegisDatabinding" />
+		</jaxws:dataBinding>
+    </jaxws:endpoint>
+
+    <bean id="propertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/ondex.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders">
+			<value>true</value>
+		</property>
+	</bean>
+
+</beans>

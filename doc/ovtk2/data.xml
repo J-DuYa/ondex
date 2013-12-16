@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<assembly>
+	<id>data</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<fileSets>
+		<fileSet>
+			<directory>config</directory>
+			<includes>
+				<include>tutorial/english/*.pdf</include>
+				<include>help/english/**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>target/docbkx/javahelp/help</directory>
+			<outputDirectory>config/help/english/javahelp</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>target</directory>
+			<outputDirectory>config/tutorial/english</outputDirectory>
+			<includes>
+				<include>user_guide_master.pdf</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+</assembly>
