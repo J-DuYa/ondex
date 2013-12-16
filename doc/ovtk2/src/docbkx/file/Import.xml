@@ -1,8 +1,0 @@
-<sect1 id="File.Import">
-	<title>Import</title>
-	<para>
-	"Open file" opens files in .zip, .gz and .xml formats.
-	"Import" allows users to import files from a different format:
-	.nwb (Network WorkBench format).
-	</para>
-</sect1>

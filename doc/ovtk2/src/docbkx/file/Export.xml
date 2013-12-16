@@ -1,7 +1,0 @@
-<sect1 id="File.Export">
-	<title>Export</title>
-	<para>
-	Selecting Export will save the network in the visualization window.
-	The available export types are jpg, bmp, eps, wbmp, jpeg, png and gif.
-	</para>
-</sect1>  
