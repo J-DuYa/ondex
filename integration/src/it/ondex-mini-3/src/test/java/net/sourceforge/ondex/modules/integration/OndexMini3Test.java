@@ -15,12 +15,13 @@ import java.io.IOException;
  */
 public class OndexMini3Test extends TestCase {
 	//TODO this has been obsolete for several years and needs to be updated 
-	/**
+	
 	private Executor exec;
 	private File ondexMini;
 	private ByteArrayOutputStream baos;
 
 	protected void setUp() throws Exception {
+		/**
 		baos = new ByteArrayOutputStream();
 		exec = new DefaultExecutor();
 		exec.setStreamHandler(new PumpStreamHandler(System.out, System.err));
@@ -38,8 +39,10 @@ public class OndexMini3Test extends TestCase {
 			throw new RuntimeException(
 					"Could not initialise ondex-mini directory, starting from: "
 							+ target.getAbsolutePath());
-	*/
-	}
+		*/
+		}
+	
+	
 
 	public void testWorkflowTest3() {
 		/**
