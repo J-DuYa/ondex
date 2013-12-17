@@ -1,6 +1,0 @@
-<sect1 id="File.RunImportWizard">
-	<title>Run Import Wizard</title>
-	<para>
-	Interactive import of tab delimited file. Inputs: filename, separator, skip comment rows ... TO DO
-	</para>
-</sect1>
