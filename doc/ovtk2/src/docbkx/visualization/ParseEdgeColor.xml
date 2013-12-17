@@ -1,7 +1,0 @@
-<sect1 id="Visualization.ParseEdgeColor">
-	<title>Parse Relation Colour from General Data Store</title>
-	<para>
-	This option will read the input file and look for any General Data Store attributes specifying edge colour
-	(which can be added manually to the input file when a network is saved by clicking Config -> Save Appearance).
-	</para>
-</sect1>

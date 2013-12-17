@@ -1,9 +1,0 @@
-<sect1 id="File.New">
-	<title>New</title>
-	<para>
-	If you click on "New empty network" in the file menu, an empty visualization window will be launched in OVTK.
-	The icon which represents a wizard wand enables you to create new concepts and relations.
-	In order to create new relations, you must select the concepts you would like to be involved in this relation first
-	(by holding the shift key down and creating a selection area with the left mouse button).
-	</para>
-</sect1>
