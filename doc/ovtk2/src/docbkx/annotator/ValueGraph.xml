@@ -1,0 +1,59 @@
+<sect1 id="Annotator.ValueGraph">
+	<title>Display Series Data on Concepts</title>
+	<para>
+		Replaces node icons with bar charts or line graphs of series data
+		assigned to
+		concepts, for example Log ratios from micro-array
+		expression.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/annotator/annotator_valueGraph1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		A user can select how to group data into each series.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/annotator/annotator_valueGraph2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		It is possible to change the colour for each series by clicking
+		in the corresponding field.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/annotator/annotator_valueGraph3.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After clicking on Annotate Graph
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/annotator/annotator_valueGraph4.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

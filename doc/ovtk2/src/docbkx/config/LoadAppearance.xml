@@ -1,0 +1,6 @@
+<sect1 id="Config.LoadAppearance">
+	<title>Load Appearance</title>
+	<para>This option allows users to load previously saved concepts coordinates on the network, i.e. saving the layout of the network,
+	as well as colours and shapes.
+</para>
+</sect1>

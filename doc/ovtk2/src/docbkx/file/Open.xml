@@ -1,0 +1,7 @@
+<sect1 id="File.Open">
+	<title>Open</title>
+	<para>
+	Selecting "Open from file" in the File menu will pop up a browse dialog box where you can
+	select the saved ONDEX output you wish to view in the OVTK.
+	</para>
+</sect1>

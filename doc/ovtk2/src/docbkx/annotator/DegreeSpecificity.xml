@@ -1,0 +1,19 @@
+<sect1 id="Annotator.DegreeSpecificity">
+	<title>Degree Specificity</title>
+	<para>
+		Creates attributes on the concepts and/or relations which reflect
+		a certain set of concept class connectivity. A specificity measure for
+		which specificity maximum concept degree range for normalisation is
+		calculated. This annotator does not change the visualisation of the
+		graph (please use other annotators to do so).
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_specificity1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

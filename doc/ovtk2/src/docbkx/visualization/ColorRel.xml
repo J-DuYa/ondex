@@ -1,0 +1,15 @@
+<sect1 id="Visualization.ColorRel">
+	<title>Colour Relations</title>
+	<para>
+	This option colours relations using one of the two possibilities of your choice:
+	<itemizedlist>
+		<listitem>
+			<para>by relation type (using the relation types colour legend)</para>
+		</listitem>
+		<listitem>
+			<para>by evidence type (using the evidence types colour legend)</para>
+		</listitem>
+	</itemizedlist>
+	See documentation for Config -> Metadata Appearance to see the relation between the colour legend and colours used on the network.
+	</para>
+</sect1>

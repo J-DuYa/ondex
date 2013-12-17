@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ondex version="3.0">
+  <Workflow>
+    <Graph name="memorygraph">
+      <Arg name="GraphName">default</Arg>
+      <Arg name="graphId">default</Arg>
+    </Graph>
+    <Parser name="plntfdb">
+      <Arg name="InputDir"></Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Parser>
+    <Mapping name="lowmemoryaccessionbased">
+      <Arg name="IgnoreAmbiguity">true</Arg>
+      <Arg name="RelationType">equ</Arg>
+      <Arg name="WithinCVMapping">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="ConceptClassRestriction">Protein</Arg>
+      <Arg name="CVRestriction">TF</Arg>
+    </Mapping>
+    <Transformer name="relationcollapser">
+      <Arg name="CloneGDS">true</Arg>
+      <Arg name="CreateGDSSets">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="RelationType">equ</Arg>
+    </Transformer>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">.../poplarDB_v2.4.xml.gz</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Export>
+    <Parser name="pfam">
+      <Arg name="SearchForPfam">true</Arg>
+      <Arg name="InputFile"></Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Parser>
+    <Mapping name="sequence2pfam">
+      <Arg name="ProgramDir">D:\timelogic\cli\bin\</Arg>
+      <Arg name="PfamPath">D:\cs-bis\Pfam_fs</Arg>
+      <Arg name="TmpDir">D:\temp</Arg>
+      <Arg name="Evalue">10.0</Arg>
+      <Arg name="Method">Blast</Arg>
+      <Arg name="BitScore">0</Arg>
+      <Arg name="IgnorePfamAccessions">true</Arg>
+      <Arg name="HMMThresholds">TC</Arg>
+      <Arg name="ConceptClass">Protein</Arg>
+      <Arg name="AttributeName">AA</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Mapping>
+    <Filter name="unconnected">
+      <Arg name="RemoveContextDependencies">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="ConceptClassRestriction">ProtDomain</Arg>
+    </Filter>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">false</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">.../Step2_PoplarDB_Pfam.xml</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Export>
+    <Parser name="uniprot">
+      <Arg name="InputDir">.../importdata/uniprot/Magnoliophyta/15.6</Arg>
+      <Arg name="DbRefAcc">false</Arg>
+      <Arg name="ContextInformation">true</Arg>
+      <Arg name="HideLargeScaleRef">true</Arg>
+      <Arg name="GoFile">.../importdata\go\gene_ontology.1_2.obo</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Parser>
+    <Mapping name="crossspecies">
+      <Arg name="EntryPointIsTAXID">true</Arg>
+      <Arg name="SeqDBSize">2</Arg>
+      <Arg name="QuerySequenceType">AA</Arg>
+      <Arg name="EntryPointIsCV">false</Arg>
+      <Arg name="ProgramDir">D:\timelogic\cli\bin</Arg>
+      <Arg name="ComparisonType">bitscore</Arg>
+      <Arg name="EValue">1.0E-6</Arg>
+      <Arg name="AlignmentsPerQuery">60</Arg>
+      <Arg name="AlignmentThreshold">1</Arg>
+      <Arg name="Bitscore">0</Arg>
+      <Arg name="PerSpeciesBlast">true</Arg>
+      <Arg name="QueryTAXID">3694</Arg>
+      <Arg name="Overlap">0.50</Arg>
+      <Arg name="AlignmentsCutoff">5</Arg>
+      <Arg name="TargetSequenceType">AA</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Mapping>
+    <Filter name="unconnected">
+      <Arg name="RemoveContextDependencies">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="ConceptClassRestriction">Publication</Arg>
+      <Arg name="ConceptClassRestriction">EC</Arg>
+    </Filter>
+    <Mapping name="lowmemoryaccessionbased">
+      <Arg name="IgnoreAmbiguity">false</Arg>
+      <Arg name="RelationType">equ</Arg>
+      <Arg name="WithinCVMapping">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="ConceptClassRestriction">EC</Arg>
+    </Mapping>
+    <Transformer name="relationcollapser">
+      <Arg name="CloneGDS">true</Arg>
+      <Arg name="CreateGDSSets">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="RelationType">equ</Arg>
+    </Transformer>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">.../Step3_PoplarDB_HMM2Pfam_Blast2UniProt_MapEnzyme.xml</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Export>
+    <Parser name="go">
+      <Arg name="Obsoletes">false</Arg>
+      <Arg name="IsGOSLIM">false</Arg>
+      <Arg name="InputFile"></Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Parser>
+    <Mapping name="lowmemoryaccessionbased">
+      <Arg name="IgnoreAmbiguity">true</Arg>
+      <Arg name="RelationType">equ</Arg>
+      <Arg name="WithinCVMapping">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Mapping>
+    <Transformer name="relationcollapser">
+      <Arg name="CloneGDS">true</Arg>
+      <Arg name="CreateGDSSets">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="RelationType">equ</Arg>
+    </Transformer>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">.../Step4_PoplarDB_Pfam_UniProt_GO.xml</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Export>
+    <Mapping name="external2go">
+      <Arg name="InputFile">...\importdata\external2go\pfam2go.txt</Arg>
+      <Arg name="fromCV">ProtDomain</Arg>
+      <Arg name="fromConceptClass">PFAM</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Mapping>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">.../Step5_PoplarDB_Pfam_Uniprot_GO_Pfam2GO.xml</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Export>
+    <Mapping name="external2go">
+      <Arg name="InputFile">...\importdata\external2go\ec2go.txt</Arg>
+      <Arg name="fromCV">EC	</Arg>
+      <Arg name="fromConceptClass">EC</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Mapping>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">.../Step6_PoplarDB_Pfam_Uniprot_GO_Pfam2GO_EC2GO.xml</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Export>
+    <Parser name="medline">
+      <Arg name="Prefix">medline09n</Arg>
+      <Arg name="Compression">gz</Arg>
+      <Arg name="ImportOnlyCitedPublications">false</Arg>
+      <Arg name="LowerXmlBoundary">300</Arg>
+      <Arg name="UpperXmlBoundary">563</Arg>
+      <Arg name="UseEfetchWebService">true</Arg>
+      <Arg name="InputDir">.../importdata/medline/baseline09</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Parser>
+    <Mapping name="lowmemoryaccessionbased">
+      <Arg name="IgnoreAmbiguity">true</Arg>
+      <Arg name="RelationType">equ</Arg>
+      <Arg name="WithinCVMapping">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="ConceptClassRestriction">Publication</Arg>
+    </Mapping>
+    <Transformer name="relationcollapser">
+      <Arg name="CloneGDS">false</Arg>
+      <Arg name="CreateGDSSets">false</Arg>
+      <Arg name="graphId">my_graph</Arg>
+      <Arg name="RelationType">equ</Arg>
+      <Arg name="ConceptClassRestriction">Publication,Publication</Arg>
+    </Transformer>
+    <Export name="oxl">
+      <Arg name="pretty">false</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">.../Step7_PoplarDB_Pfam_Uniprot_GO_Pfam2GO_EC2GO_PubMed.xml</Arg>
+      <Arg name="graphId">my_graph</Arg>
+    </Export>
+  </Workflow>
+</Ondex>
+
