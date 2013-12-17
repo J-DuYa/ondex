@@ -1,7 +1,0 @@
-<sect1 id="Config.SaveAppearance">
-	<title>Save Appearance</title>
-	<para>This option allows users to save concepts coordinates on the network, i.e. saving the layout of the network,
-	as well as colours and shapes.
-It synchronises the abstract ONDEX network coordinates with the coordinates as they are in the current visualization. 
-</para>
-</sect1>
