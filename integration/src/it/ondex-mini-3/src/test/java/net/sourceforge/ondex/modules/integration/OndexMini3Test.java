@@ -41,7 +41,7 @@ public class OndexMini3Test extends TestCase {
 	*/
 	}
 
-	public void testWorkflowTest3() throws IOException {
+	public void testWorkflowTest3() {
 		/**
 		CommandLine cl = new CommandLine(
 				resolveScriptNameForOS(ondexMini.getAbsolutePath()
