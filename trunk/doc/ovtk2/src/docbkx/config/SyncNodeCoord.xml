@@ -1,0 +1,6 @@
+<sect1 id="Config.SyncNodeCoord">
+	<title>Synchronise Node Coordinate</title>
+	<para>This option allows users to save nodes coordinates on the graph, i.e. saving the layout of the graph.
+It synchronises the abstract ONDEX graph coordinates with the coordinates as they are in the current visualization. 
+</para>
+</sect1>

@@ -1,0 +1,63 @@
+<sect1 id="Annotator.ShapeConcept">
+	<title>Shape Concepts by General Attribute</title>
+	<para>
+		The Shape Concepts by General Attribute Annotator allows users to
+		select shapes for each specified attribute. In the following example
+		we choose to show the shape of concepts based on the Taxonomy
+		identifier. A few pre-steps are required here to know what Taxonomy
+		identifier a concept actually holds. The item information panel can be
+		used to show the Taxonomy identifier.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_shape1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		We enter 5476 as a Taxonomy_ID and select a shape of our choice.
+		After clicking on "Annotate Graph" and clicking anywhere on the
+		network, we can see the shape of the concepts we had checked is now
+		modified to a star.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_shape2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		For a different Taxonomy identifier (5482), it is possible to
+		select a different shape. Note: This requires a new annotator window.
+		Adding another identifier to the same annotator window would make both
+		identifiers shown with the same shape.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_shape3.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the Shape Concepts by General Attribute annotator
+		for the Taxonomy identifier 5022:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_shape4.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

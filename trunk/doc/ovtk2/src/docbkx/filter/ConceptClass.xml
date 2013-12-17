@@ -1,0 +1,32 @@
+<sect1 id="Filter.ConceptClass">
+	<title>Concept Class</title>
+	<para>This filter allows users to change the visibility for concepts
+		belonging to a particular concept class and optionally data source.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/filter/filter_conceptClass1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the Concept Class Filter, all the concepts of
+		class "Publication" are made invisible. (To delete invisible
+		concepts/relations from the network, please use Edit -> Delete Hidden
+		Items)
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/filter/filter_conceptClass2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

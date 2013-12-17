@@ -1,0 +1,25 @@
+<sect1 id="Visualization.NodeLabels">
+	<title>Show Concept Labels</title>
+	<para>
+	Show Concept Labels displays the concept's preferred names on the network.
+	The following two screenshots show an example before and after selecting this option.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/view_concept_label1.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/view_concept_label2.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+</sect1>

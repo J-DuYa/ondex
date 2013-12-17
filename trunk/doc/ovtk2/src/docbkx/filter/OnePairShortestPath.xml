@@ -1,0 +1,63 @@
+<sect1 id="Filter.OnePairShortestPath">
+	<title>Single Shortest Path</title>
+	<para>
+		This filter finds the shortest path between two concepts (that need to
+		be picked in the visualisation window before launching the filter from
+		the menu).
+		<itemizedlist>
+			<listitem>
+				<para>
+					Select a start concept and an end concept in the filter
+					window.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Select an attribute name containing the desired relation
+					weight, or none for a weight of 1.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Tick directed (for a directed shortest path) or undirected
+					mode (leave unselected).
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Tick inverse weight if the attribute selected is a probability
+					rather than a weight or a distance.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					The algorithm will then compute the shortest path between the
+					start and end concepts.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_singleShortest1.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the filter:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_singleShortest2.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

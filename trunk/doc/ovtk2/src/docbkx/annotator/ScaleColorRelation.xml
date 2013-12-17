@@ -1,0 +1,34 @@
+<sect1 id="Annotator.ScaleColorRelation">
+	<title>Scale/Colour Relations by Numerical Value</title>
+	<para>
+		The Scale/Colour Relations by Numerical Value Annotator allows
+		users to view the importance of a relation based on a specified
+		attribute's numerical values. Users can select the minimum and maximum
+		sizes for the width of relations to scale up/down. They can also
+		specify colours for the relations' colouring or use the rainbow scale
+		(red = high, purple = low) by ticking a check-box. They can pick a
+		colour for relations which do not carry any information about the
+		selected attribute.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_scaleColRel1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After clicking on Annotate Graph
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_scaleColRel2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

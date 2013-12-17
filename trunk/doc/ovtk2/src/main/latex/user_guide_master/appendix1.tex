@@ -1,0 +1,61 @@
+\chapter{FAQs}
+\label{cha:faqs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+\item How do I install Ondex?
+See Section \ref{sec:ref_install}.
+
+\item How do I know what a toolbar icon does?\\
+Place your mouse over it and a tooltip will pop up. Alternatively, read Section \ref{sec:ref_icons}.
+
+\item How do I know what an item of the menu does?\\
+Place your mouse over the corresponding question mark and a tooltip will pop up. 
+Click on the question mark to open the Ondex documentation (also available by pressing F1) which contains examples along with screenshots.
+
+\item Can I search for a specific element in the network and get Ondex to zoom on it?\\
+Yes, see Section \ref{sec:search}.
+
+\item Is there an import wizard for tab-delimited data files?\\
+Yes. When there is not a parser available to upload data into Ondex, this general tab-delimited parser can help. 
+You will need to tell Ondex which column corresponds to what kind of data. 
+The simplest way to use it at the moment is through the scripting interface offered in the ``Console'' (Tools -$>$ Console). 
+See Section \ref{sec:parsing_tabdel} for more information.
+
+\item What is the largest graph I can load?\\
+For the GUI to respond within reasonable time, you can load up to 100,000 elements (concepts + relations). 
+For such large graphs, the visualisation will be empty at the beginning. 
+For a responsive visualisation please make sure not to show more than 5,000 elements (concepts + relations) at any one time.
+
+\item I keep getting a Java heap error. What can I do?\\
+You can change the amount of memory you give Ondex when launching it. 
+In order to do so, change the number after the Xmx option in the command line contained in the runme script (.bat for Windows, .sh for Linux)
+or update the corresponding line in the ovtk2.l4j.ini file for Windows. 
+Be careful not to set this number any higher than your computer's capabilities (on 32-bit Windows it is 1200M).
+
+\item Where can I find data files?\\
+If you have downloaded the tutorial zip file, you can find data files in the tutorial directory's subfolders.
+Other data files are available on \url{http://www.ondex.org/doc.html}.
+
+\item Where can I submit a bug or a feature request?\\
+\url{http://ondex.rothamsted.ac.uk} and click on``Report bugs'' or ``Request new features'' (registration/login is required).
+
+\item How can I define new concept attributes and colour concepts based on those?\\
+Right-click on a concept, select ``Show / Edit Properties'', ``View/Edit Concept attributes'', ``Add a new attribute'' (at the bottom of the window),
+a ``New'' tab is created. The ``Advanced Information'' is showing and the required fields (in orange) need to be filled in. At this stage, users can either:
+enter a name of their choice in ``ID Symbol'' and ``java.lang.String'' in Class for a text attribute 
+(``java.lang.Integer'' for a number, ``java.lang.Double'' for a double precision number).
+Click on the ``Select Attribute Name'' and select an attribute name that has been used in the past. 
+Note that if you have previously entered an attribute name, you will be able to select it in this list.
+Enter the value for this new attribute in the editor pane provided.
+To colour concepts to show the added annotation, use the ``Colour Concepts by General Attribute'' annotator (in the ``Tools'' -$>$ ``Annotators'' menu) 
+selecting the new attribute.
+
+\item How can I avoid waiting for a big graph to be visualised?\\
+You can apply filters before opening the main network. 
+This will make the visual graph smaller which means it will get painted quicker.
+See F1 help for a documentation on filters or Section \ref{sec:analysing} for information on various ways of filtering out data before opening the main visualisation window.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{itemize}

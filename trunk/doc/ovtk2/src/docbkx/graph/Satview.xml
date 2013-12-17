@@ -1,0 +1,39 @@
+<sect1 id="Graph.Satview">
+	<title>Satellite View</title>
+	<para>
+	The satellite view is useful on very large graph as it allows users to have an overview of the graph and to move the "viewing window" around.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/network_satview1.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	The "viewing window" (or white square in the satellite view) becomes smaller as users zoom in the visualization window.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/network_satview2.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	The satellite view allows users to keep track of where they are in the network.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/network_satview3.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+</sect1>

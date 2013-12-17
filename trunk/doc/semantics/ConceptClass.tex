@@ -1,0 +1,110 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{xspace}
+\usepackage{url}
+
+%% definitions for the term
+\newcommand{\defn}[1]{\item\textbf{Definition: }#1\xspace}
+%% examples of how terms might be used. 
+\newcommand{\example}[1]{\item\textbf{Example: }#1\xspace}
+%% notes which qualify the definitions
+\newcommand{\note}[1]{\item\textbf{Note: }#1\xspace}
+%% Suggestions for things we might change
+\newcommand{\suggest}[1]{\item\textbf{Suggest: }#1\xspace}
+%% individual fields
+\newcommand{\field}[1]{\textit{#1}\xspace}
+\newcommand{\term}[1]{\texttt{#1}\xspace}
+\newcommand{\todo}[1]{\textbf{TODO:} #1\xspace}
+
+\newcommand{\cc}{\term{ConceptClass}}
+\newcommand{\co}{\term{Concept}}
+%% \newcommand{\newline}{\vskip 0.5cm \noindent}
+
+\title{Definitions for the Core terms within ONDEX: ConceptClass}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+This document is intended to describe the usage of the terms \cc,  within Ondex. It describes the current usage, proposes a normative usage (How to use it) and suggestions for further Ondex development (Developer recommendation). 
+
+
+\section{Current usage}
+
+A \cc is an enforced annotation on a \co which is intend to convey a ``useful'' abstraction where \co s sharing the same \cc are expected to share some ``similar properties'' to some ``appropriate'' abstraction level. \cc are expected to comply to some commonly understood definition of type.
+
+\begin{itemize}
+\example{``TAXON'', ``Protein'', ``TO''}
+\end{itemize}
+
+\subsection{Observations}
+
+\begin{itemize}
+
+\item It is beyond the scope of this document to analyse the ontology that is constituted by the current \cc s. The focus of this analysis is on knowledge representation issues, independently for the specific biological \cc that are chosen to be used in Ondex.
+
+\item There is not a clear distinction between \cc pertaining to the domain that is modeled in Ondex, and \cc that pertain to information artifacts (eventually proper of Ondex):  A large set of \cc s refer to biological entities or processes, but classes as ``HierarchyNode'' and ``Update'', relative to an information resource, are found as well.
+
+\item Some \cc es reveal some ambiguity in the distinction between \term{Concept} and \term{Attribute} (as found in \term{GDS}). For instance, \cc as  ``Protein3DStructure'' or ``Timpoint'' (time point) have as instances \co that would more commonly be represented as attributes (refer to the \term{GDS} document and to the document on Concept, Classes and GDS for a discussion on what constitutes an \field{attribute} and what a \term{concept}).
+
+\item Some \cc es such as ``TF'' (transcription factor) are more properly represented as roles in a richer ontological representation (though roles, when defined independently of an individual process can be univocally associated to classes).
+
+\item There may be some confusion between \cc and collections. For instance, there are both ``Publication'' and ``PublicationList''.
+
+\item There is a potential conflict/overlap between \cc and \term{context}, as \term{context} can have a type. All transcription factors could have \cc of ``TF'' and also, all transcription factors could be in a context of \co with \cc ``TF''. Further discussion on this would be in a context document.
+
+\item It is a relevant issue to try to determine what belongs in \cc s and what belongs in the graph. Under current usage, there  are ontologies imported into the Ondex graph, i.e. GO, and there is some ontology within the metadata, i.e. ``sDNA'' and ``dDNA'' being subclasses of ``DNA''.
+There currently are in fact two design choices in Ondex that mixes, each with its own pros and cons:
+
+
+\begin{itemize}
+\item One design is to have \cc represented in the meta layer, and \co (or individuals, or instances) represented in the Ondex graph.
+
+\item Another possible design is to have both \cc and individuals represented in the same graph (in which case, \co are linked to their \cc through an ``instanceOf'' relation). 
+\end{itemize}
+
+It is necessary to define the use case for having \cc in Ondex, in order to devise ``best practices''.
+The first design choice seems to be the predominant and most natural in Ondex.
+If this design choice has to be taken completely, there are a few consequences to be addressed:
+\begin{itemize}
+\item All ontologies should be imported in the meta-data layer. 
+Ontologies could be still imported in the graph, where they would only have the value of ``annotation'' (i.e.: no inference is dependent on them). 
+\item This option also rises a significant problem of control on the ontologies used in Ondex. While on one side it is acceptable that a range of domain-specific ontologies are imported (depending on use cases), it also necessary to have a common shared ontology on which interoperability among plugin is based. This may be managed through an editorial activity and is essentially related to the definition of ``local'' and ``global'' scope of information. This definition is needd throughout the Ondex data model (refer to \term{GDS} or \term{RelationType}).  This will be discussed further in a document dedicated to the scope of information in Ondex.
+
+
+\item Considering the first of the two above options (\cc are in the meta-data and  \co are in the graph, representing individuals) we need to distinguish two different cases for \co.
+Some \co s, like a \co representing a person (e.g.: ``Martin Urban'') are related to one single individual person. A \co representing a protein (e.g.: ``P53'') usually doesn't refer to a specific example of a protein (in a specific location and time), but to a class of proteins.
+\newline
+\newline
+While a class such as ``P53'' is commonly seen as an individual in bioinformatics application (``P53'' can be stated as an instance of  the \co ``Protein''), it is different from an \co as ``Martin Urban''. The latter denotes one single person, while the former denotes a class of proteins that share similar characteristics. In this example, we should say that ``Martin Urban'' has type ``Person'', while ``P53'' is a subclass of ``Protein''.
+In practice, we can think of the \co``P53'' as a prototypical instance of the class ``P53'', that would be associated, in the metadata layer, to the \cc ``P53'', subclass of ``Protein''. ``P53'' may be implicit in the meta-data layer, that could only have ``Protein'' as a class.
+It is important to distinguish \co that are individuals from \co that are a prototype of a class. 
+\end{itemize}
+\end{itemize}
+
+
+
+\subsection{Recommended usage}
+These recommendations follow a specific design choice introduced in the previous section.
+\begin{itemize}
+\item All ontologies and in general all ``types'' should be imported in the meta-data layer. Ontologies imported in the graph should only be seen as lexical annotations and no inference should be performed based on them.
+\item While all publicly available ontologies, or domain specific ontologies, can be imported, it is necessary to refer to a common (at least application specific) ontology as the basis for interoperability. Please refer to the document on the scope of information in Ondex for further details (upcoming).
+\item \co should be distinguished between prototypes and individuals. This can be done by adding to the \co description a single line in capital containing ``PROTOTYPE'' or ``INDIVIDUAL'', where ``PROTOTYPE'' is to be considered the default choice. As the distinction between prototypes and individuals is in practice on a per-class basis (we usually refer to individual persons, but to classes of proteins), we can use this convention in the annotation of \cc. 
+
+\end{itemize}
+
+
+\subsection{Future development}
+These recommendations follow a specific design choice introduced in the previous section.
+
+\begin{itemize}
+\item It should be possible to support multiple inheritance among \cc and/or a \co should be potentially associated to more \cc. Some Protein can be both ``Enzyme'' and ``TF''. While it can argued that these are functions or roles, they are anyway reduced to \cc in the Ondex representation. The current solution is to have a \cc EnzymeTF, that has clearly major limitations (especially if the metada-layer doesn't support multiple inheritance among classes). This is however a major point that requires dedicated discussion.
+
+\item It should be possible to change the \cc associated to a \co, especially if a new \co can be initially associated to ``Thing'', and then further specified.
+
+\item It should possible to characterize whether a \co is an individual or a prototypical instance via a flag.
+\end{itemize}
+
+\end{document}
+
