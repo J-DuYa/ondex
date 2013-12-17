@@ -1,0 +1,69 @@
+<sect1 id="Filter.SubGraph">
+	<title>Subgraph</title>
+	<para>
+		The Subgraph Filter allows users to select root concept(s) in the
+		network along with the types of concepts and relations they wish to
+		view from the root concept(s). Users can select one or several root
+		concept(s) from the filter's top window. Alternatively, they can
+		select concept(s) from the visualisation window before starting the
+		Subgraph Filter from the Tools menu (they will be automatically
+		selected in the list shown in the filter's top window).
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/filter/filter_subgraph1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		The picked concept from the visualisation window is selected in
+		the Subgraph Filter.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/filter/filter_subgraph2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		From the presented meta-graph, users can choose which types of
+		concepts and relations they wish to view. Press shift and select
+		concept classes and relation types using the mouse. Selected items are
+		highlighted in yellow. After applying the subgraph filter:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/filter/filter_subgraph3.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the GEM layout:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/filter/filter_subgraph4.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		Ticking the "non-redundant meta data selection" option before
+		applying the filter will show the actual path that was selected only.
+		For example, this means going from disease concept (in yellow) to the
+		linked interactions (in blue) to some proteins (in red) and stopping
+		there. Going from these proteins back to interactions and so on is
+		considered "redundant".
+	</para>
+</sect1>

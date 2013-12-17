@@ -1,0 +1,182 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{xspace}
+\usepackage{url}
+\usepackage{amsmath}
+
+%% definitions for the term
+\newcommand{\defn}[1]{\newline\textbf{Definition: }#1\xspace}
+%% examples of how terms might be used. 
+\newcommand{\example}[1]{\newline\textbf{Example: }#1\xspace}
+%% notes which qualify the definitions
+\newcommand{\note}[1]{\item\textbf{Note: }#1\xspace}
+%% Suggestions for things we might change
+\newcommand{\suggest}[1]{\item\textbf{Suggest: }#1\xspace}
+%% individual fields
+\newcommand{\field}[1]{\textit{#1}\xspace}
+\newcommand{\term}[1]{\texttt{#1}\xspace}
+\newcommand{\todo}[1]{\textbf{TODO:} #1\xspace}
+
+\newcommand{\rt}{\term{RelationType}}
+\newcommand{\re}{\term{Relation}}
+\newcommand{\co}{\term{Concept}}
+\newcommand{\cc}{\term{ConceptClass}}
+
+\title{Definitions for the Core terms within ONDEX: RelationType}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+This document is intended to describe the usage of the term \rt within Ondex. It describes the current usage, proposes a normative usage (How to use it) and suggestions for further Ondex development (Developer recommendation). 
+
+\section{Current Usage}
+A \re in Ondex is asserted between \co s and has a ``local'' identifier. \re s can be binary, uni-ary, or ternary (binary relation qualified by a third \co).
+\vskip 0.5cm
+\noindent
+A \rt is an enforced annotation on a \re where \re s of the same \rt share similar characteristics. A \rt can be characterised by an identifier and flags for symmetry/anti-symmetry, transitivity, and reflexivity. \rt s have an human-readable associated description.
+\example{}
+\begin{itemize}
+
+	\item id: part\_of
+	\item Symmetric: false
+	\item Reflexive: true
+	\item Transitive: true
+	\item Description:
+	
+For continuants: C part\_of C' if and only if: given any c that instantiates C at a time t, there is some c' such that c' instantiates C' at time t, and c *part\_of* c' at t. For processes: P part\_of P' if and only if: given any p that instantiates P at a time t, there is some p' such that p' instantiates P' at time t, and p *part\_of* p' at t. (Here *part\_of* is the instance-level part-relation.)	\footnote{This is the definition of part\_of in the Relation Ontology (OBO)}	
+
+
+
+\end{itemize}
+Between two \co s, there can only be one \re of a particular \rt. This is the case for uni-ary and ternary \re s as well.
+\section{Observations}
+\begin{itemize}
+\item Whilst a \rt expresses symmetry/anti-symmetry, reflexivity, and transitivity, it does not mention whether a \re is ternary or binary. These properties are only defined for binary relations.
+
+\item Ternary \re are really binary \re with a qualifier, but it is still useful to distinguish \re s can have a qualifier from relations that cannot have one.
+
+\item There is no distinction between the following:
+	\begin{itemize}
+		\item Class-Class relationships (i.e. is\_a)
+		\item Class-Individual relationships (i.e. instance\_of)
+		\item Individual-Individual relationships (i.e. en\_by ``encoded by'')
+	\end{itemize}
+
+\item As discussed in the \term{ConceptClass} document, it is not clear whether the Ondex graph should only include individuals or also classes. The most obvious interpretation would be that these relationships are between individuals, but there are \rt which explicitly define themselves relationships on classes.
+
+\item There is no clear and intuitive convention on labels, examples include:
+	\begin{itemize}
+		\item part\_of
+		\item KI
+		\item r
+		\item is\_p
+		\item sh\_im
+		\item h\_s\_s
+		\item hvfs
+		\item h\_chem\_p\_hyride
+		\item correlated\_with, inverse\_correlation\_with
+	\end{itemize}
+
+\item A considerable amount of \rt have no description, and the fullname, id are not sufficient to discern their meaning.
+	\begin{itemize}
+		\item hvfs
+		\item sh\_im
+		\item c\_mod
+		\item c\_org
+		\item c\_op
+		\item KI
+		\item act
+		\item anto
+		\item inst
+		\item att
+	\end{itemize}
+
+\item There is a \rt of ``instance\_of''. For this relationship, it is not clear how this is intended to be used alongside the implicit ``instance of'' relationship between a \term{ConceptClass} and a \term{Concept}.
+
+\item There is, in general, a large amount of redundancy in \rt s. \rt in Ondex are dependant on their source more than their meaning. For instance all OBO relations, a range of relations from KEGG or other resources as well as \rt s that seem to be only defined in Ondex are present. As a result, there are many \rt s essentially of type ``part\_of'' or implied or related to ``part\_of'', that are present in Ondex without connections with each other. 
+\newline
+Example:
+	\begin{itemize}
+		\item ``part\_of'' from OBO (for continuant and occurrent), ``is\_p'', and ``is\_chemical\_sub\_group\_of''
+	\end{itemize}
+
+\item The ``is\_a'' relation declared among \rt is very limited and likely not to be the one in use. The description of ``is\_a'' is given as:
+\vskip 0.5cm
+\noindent
+					``For continuants: C is\_a C' if and only if: given any
+					c that instantiates C at a time t, c instantiates C'
+					at t. For processes: P is\_a P' if and only if: that
+					given any p that instantiates P, then p instantiates
+					P'.''
+\vskip 0.5cm
+\noindent
+Is this really being used as described?					
+
+\item Subtypes in the \rt hierarchy do not necessarily make sense, ``co\_by'' is not a subtype of ``preceded\_by'', according to their descriptions.
+\vskip 0.5cm
+\noindent
+``co\_by'' has the description:
+\newline
+``cofactored by''
+\vskip 0.5cm
+\noindent
+``preceded\_by'' has the description:
+\newline
+					``on P preceded\_by P' if and only if: given any
+					process p that instantiates P at a time t, there is
+					some process p' such that p' instantiates P' at time
+					t', and t' is earlier than t.''
+
+
+
+
+
+
+
+
+
+
+\item In general, most of the \rt seems to refer to relationships general enough (regulates, inhibits) that it should be possible to derive them from accepted ontologies.
+
+\item Some \rt s express basic facts (e.g. ``part\_of''), some can be inferred easily from basic facts (e.g. ``has\_chemical''). There is some redundancy here, a ``has\_component'' with the \term{conceptClass} of the target \term{concept} would serve the purpose of the ``has\_something'' \rt s.
+\vskip 0.4cm
+\noindent
+For example:
+\newline
+(X has\_component Y) $\wedge$ (Y has \cc ``Chemical'') \\ $\implies$ X has\_chemical Y
+
+
+\item Some \rt s relate to asserted facts, some relate to derived information and computations (i.e. ``h\_s\_s''). There is no distinction made. This is similar to what observed for \term{GDS}.
+
+\item Some \rt s are redundant or out of scope. For instance: ``Error''. ``Unknwn'' (unknown) is meaningless as it is equivalent to ``r'' (generic relation).
+
+\item It should be noted that some \rt s, like ``st\_fr'' (state change) implies that the two elements it connects don't exist at the same time, versus relations like ``bind\_to'' that imply that both elements it connects should exist at the same time. This may require some further thinking.
+
+
+Also OBO relation types seem to be inside the meta data multiple times. i.e. is\_p and part\_of. There are other \rt that would seem to have overlapping roles, such as ``r'' and ``is\_r''.
+
+\end{itemize}
+
+
+\section{How to use it}
+The inclusion of domain and range would greatly benefit the intended meaning of specific \rt s.
+\vskip 0.4cm
+\noindent
+In the current system, this can be realised by adding a structured field to the description of the \rt. With a line marked ``DOMAIN:'' and ``RANGE:'' appropriately filled.
+\vskip 0.4cm
+
+It is important to distinguish \rt that are intended to be shared among users and plugins, such as the ones derived from OBO, from \rt that are application specific, and that could be used to represent a first level mapping of, say Kegg, to Ondex.
+This could probably be done via prefixes in the \rt name, or via a field in the description.
+As this is a distinction needed throughout the Ondex structure, we will present a definitive solution in a revised version of this document, in order to harmonize the way this distinction is implemented across the Ondex data structure.
+
+\section{Developer recommendation}
+
+\begin{itemize}
+\item \term{ConceptClass} and \term{RelationType} should follow the same naming scheme, both should be name ``class'' or ``type'', but not one ``class'' and the other ``type''.
+
+\item it may be necessary to introduce a flag or an identifier to define the scope of validity of a \rt. More in a refined version of this document.
+\end{itemize}
+
+\end{document}

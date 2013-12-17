@@ -1,0 +1,15 @@
+<sect1 id="Graph.Synch">
+	<title>Sync</title>
+	<para>
+	Sync Graph offers the user the possibility of synchronizing the graph, i.e. of removing invisible items completely from the data.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/graph_sync.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+</sect1>

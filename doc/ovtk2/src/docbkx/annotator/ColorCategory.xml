@@ -1,0 +1,63 @@
+<sect1 id="Annotator.ColorCategory">
+	<title>Colour Concepts by General Attribute</title>
+	<para>
+		The Colour Concepts by General Attribute annotator allows you to
+		annotate nodes of the graph with colours based on the value the nodes
+		hold for a selected attribute. This is an example or orthologs derived
+		from
+		<ulink url="http://www.phibase.org">
+			<citetitle>PHI-Base</citetitle>
+		</ulink>
+		. Before applying the Colour Concepts by General Attribute annotator:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_colourByVal1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the Colour Concepts by General Attribute
+		annotator:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_colourByVal2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		Users may select their own colour by simply clicking on a colour,
+		a "Pick a color" window will pop open. In this case, we might wish to
+		modify the colour of "Reduced virulence" as it is quite close to "Loss
+		of pathogenicity" (both on the cluster in the visualisation window).
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/annotator/annotator_colourByValPick.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After changing this colour, we would obtain:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_colourByVal3.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

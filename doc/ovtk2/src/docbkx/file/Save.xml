@@ -1,0 +1,10 @@
+<sect1 id="File.Save">
+	<title>Save</title>
+	<para>
+	Selecting "Save to file" will save the data in the graph (without saving its specific layout).
+	</para>
+	<para>
+	If some concepts were made invisible (through the metagraph or using Ctrl+H -
+	see Graph\Metagraph menu documentation), they will be saved and shown as visible in the saved file.
+	</para>
+</sect1>   

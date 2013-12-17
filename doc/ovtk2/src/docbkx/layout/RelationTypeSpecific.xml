@@ -1,0 +1,47 @@
+<sect1 id="Layout.SpringRelationType">
+	<title>Relation Type Specific</title>
+	<para>
+		Force-directed algorithm based on relation types. In the
+		following example, we use AraCyc
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/layout/layout_relationType1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		We then focus on a particular pathway (by filtering using the Tag
+		filter and selecting "GDP-L-fucose biosynthesis")
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/layout/layout_relationType2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		Finally, we apply the Relation Type Specific Layout. The length
+		of a given relation is proportional to the number of relations of that
+		relation type, for that concept.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="../images/layout/layout_relationType3.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+
+</sect1>

@@ -1,0 +1,31 @@
+<sect1 id="Annotator.ScaleConcept">
+	<title>Scale Concepts by Numerical Value</title>
+	<para>
+		The Scale Concepts by Numerical Value Annotator allows users to
+		resize concepts based on their attributes' values. This is an example,
+		before applying the annotator:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_scaleCon1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After applying the Scale Concepts by Numerical Value Annotator
+		(clicking on "Annotate Graph" and clicking anywhere in the
+		visualisation window), up/down regulation is indicated in red/green.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_scaleCon2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

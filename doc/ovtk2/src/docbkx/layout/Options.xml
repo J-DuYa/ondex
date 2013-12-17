@@ -1,0 +1,19 @@
+<sect1 id="Layout.Options">
+	<title>Options</title>
+	<para>
+		Provides options on the parameters of some algorithms (some
+		algorithms do not have options, others do but are not yet supported).
+		The options panel provides a "Refresh Layout" button to trigger a
+		re-layout once options have been changed.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/layout/options.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

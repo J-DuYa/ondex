@@ -1,0 +1,7 @@
+<sect1 id="Visualization.ColorByCC">
+	<title>Colour Concepts by Concept Class</title>
+	<para>
+	This option colours concepts using the concept classes colour legend.
+	See documentation for Config -> Metadata Appearance to see the relation between the colour legend and colours used on the network.
+	</para>
+</sect1>
