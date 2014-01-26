@@ -1,0 +1,78 @@
+<sect1 id="Filter.Tag">
+	<title>Tag</title>
+	<para>
+		This filter offers users a selection of "tags". In Ondex, some
+		concepts can get tagged by parsers and/or transformers. It is then
+		possible to look at all the concepts that have been annotated with the
+		same tag. The left column allows users to select tags whilst the right
+		one allows them to select an operation ("OR", "AND", "NOT") to combine
+		tags, should several tags get selected in the left column.
+	</para>
+	<para>
+		The first screenshot shows the whole graph:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_tag1.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After selecting "Fatty acid metabolism":
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_tag2.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After selecting "Tryptophan metabolism":
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_tag3.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		Selecting "AND" in the second column will show the intersection
+		of the last two screenshots:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_tag4.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		Selecting "OR" in the second column will show the union of the
+		two contexts:
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_tag5.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

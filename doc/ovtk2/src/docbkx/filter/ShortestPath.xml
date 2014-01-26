@@ -1,0 +1,77 @@
+<sect1 id="Filter.ShortestPath">
+	<title>Shortest Path</title>
+	<para>
+		This filter is based on the Dijkstra algorithm. If no attribute is
+		selected
+		<itemizedlist>
+			<listitem>
+				<para>
+					Select one or more root concept(s).
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Select an attribute name containing the desired relation
+					weight, or none for a weight of 1.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Select directed (for a directed shortest path) or undirected
+					mode (leave unselected).
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Select inverse weight if the attribute selected is a
+					probability rather than a weight or a distance.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					The algorithm will then compute the shortest paths from the
+					selected concept(s) to all other concepts. Selecting an attribute
+					name in step 2 will result in a minimum weight tree of the network.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_shortestPath1.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		The following screenshot shows the results with both boxed
+		unselected
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_shortestPath2.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		The screenshot below shows the results with "inverse weight"
+		selected
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/filter/filter_shortestPath3.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

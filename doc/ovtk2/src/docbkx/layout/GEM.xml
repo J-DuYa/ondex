@@ -1,0 +1,57 @@
+<sect1 id="Layout.GEM">
+	<title>Gem</title>
+	<para>
+		The
+		<ulink
+			url="http://digbib.ubka.uni-karlsruhe.de/volltexte/documents/765878">
+			<citetitle>GEM Algorithm</citetitle>
+		</ulink>
+		is based on the spring-embedder paradigm.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/layout/layout_GEM1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		The results shows clusters of connected concepts.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/layout/layout_GEM2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		One can zoom in and study clusters in more details.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/layout/layout_GEM3.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		It is also possible to arrange the clusters in a rectangle shape
+		sorted by cluster size to obtain a better overview of the graph.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/layout/layout_GEM4.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

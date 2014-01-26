@@ -1,0 +1,29 @@
+This document describes the steps that have to be done manually to keep the WS up to date with the rest of the code.
+
+1. Build Ondex at least up to Webservices.
+    a. Delete any methods in any auto generated classes XXXAuto.java that cause compile errors.
+2. Install Webservice on a Server.
+    a. Done by installing the war in webservices-server
+        ii. May required removing a previous instalation
+    b. Documentation here assumes war has been renamed ondex.war
+3. Get ONDEXapiWS.xml and put it in WS client
+    a. Found at http://localhost:8080/ondex/services/ONDEXapiWS?wsdl 
+        i. ":8080" bit is server dependent
+    b. May appear different to svn even if not due to non consistent ordering of elements.
+    c. Rebuild the client.
+4. Build WS_Test_Client - In Webservices directory
+    a. May needed Editting of the POM
+        i. Current version has Christian's test server hard coded in
+            A. Could be replaced with different server
+            B. Could be replaced with saved WSDLs but then these have to be saved manually
+    b. If server dependent the server must be available.
+    c. Not currently part of Hudson build due to dependence on outside server
+5. Build WS_AuotCreator - In Webservices directory
+    a. Depends on WS_TEST_Client so currently not part of Hudson build.
+6. Run AutoMaker.java
+    a. May need editing due to hard coded in.
+         i. Path where code is to be written
+         ii. Server name
+         iii. Ondex server name
+7. Rebuild Webservice Server
+8. Redeploy war

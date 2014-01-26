@@ -1,0 +1,153 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{xspace}
+\usepackage{url}
+
+%% definitions for the term
+\newcommand{\defn}[1]{\item\textbf{Definition: }#1\xspace}
+%% examples of how terms might be used. 
+\newcommand{\example}[1]{\item\textbf{Example: }#1\xspace}
+%% notes which qualify the definitions
+\newcommand{\note}[1]{\item\textbf{Note: }#1\xspace}
+%% Suggestions for things we might change
+\newcommand{\suggest}[1]{\item\textbf{Suggest: }#1\xspace}
+%% individual fields
+\newcommand{\field}[1]{\textit{#1}\xspace}
+\newcommand{\term}[1]{\texttt{#1}\xspace}
+\newcommand{\todo}[1]{\textbf{TODO:} #1\xspace}
+
+
+\title{Definitions for the Core terms within ONDEX: Evidence and EvidenceType}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+This document is intended to describe the usage of \term{EvidenceType} and \term{Evidence} within Ondex.
+It describes its current usage, it proposes a normative usage (How to use it) and suggestion for further Ondex development (Developer recommendation).
+
+
+\section{\term{EvidenceType} and \term{Evidence}}
+\subsection{Current usage}
+\subsubsection{\term{EvidenceType}}
+
+\begin{itemize}
+
+	\defn{A description of how an entity within a graph has been generated, and in some cases, to enable a judgement about the validity or trustworthiness of this entity.}
+  
+	\example{An Ondex user asserts a set of \term{Concept}s and \term{Relation}s describing their area of expertise; this would be described with \term{EvidenceType} ``M'' (manually curated).}
+
+	\example{An Ondex user imports UniProtKB into Ondex as a set of \term{Concept}s and \term{Relation}s; this would be described with \term{EvidenceType} ``IMPD'' (imported from database).}
+
+	\example{A mapper uses BLAST to assert relationships between proteins in an Ondex graph, the resultant \term{relation}s are tagged with \term{EvidenceType} ``BLAST''.}
+
+\end{itemize}
+
+\subsubsection{\term{Evidence}}
+
+\begin{itemize}
+
+	\defn{A set of \term{EvidenceType}s.}
+	
+	\example{(``M'', ``BLAST'')}
+
+\end{itemize}
+
+\subsection{Observations}
+
+It is unclear to what \term{EvidenceType} refers to: does it refer to the how the information was generated in a first instance, or to how the information was imported into Ondex ?
+In the example of SwissProt (see above), SwissProt itself is manually curated and could be annotated with an \term{EvidenceType} ``M'' (Manually Curated).
+However, since Swissprot is imported into Ondex, it could as well be annotated with ``IMPD'' (Imported from database).
+A third \term{EvidenceType} ``imported manually curated'', can be used to express a composite evidence. It is not clear how we could generalize this compositionally other than creating new \term{EvidenceType}s for every combination. Furthermore, clarification is needed on what part of the process of getting data into Ondex the asserted evidence refer to.
+
+
+\vskip 0.3cm
+\noindent
+For the scope of this analysis, we can distinguish \term{EvidenceType}s into 4 groups:
+	\begin{itemize}
+		\item Method codes: Ones that refer to the analytical method used to generate some assocation between \term{concept}s (e.g. ``BLAST'', ``HMMER'', ``ACC'') although not all are in use.
+		\item Defunct? codes: Ones that don't seem to be used in the actual code, ``S2''\footnote{In the specifics, ``S2'' is an evidence code for the StructAlign mapping with depth 2, which is rarely used.} - ``S20'', ``k means'' (these codes seem to refer to analytic methods)
+		\item External/imported codes: GO Evidence codes (e.g. ``IDA'', ``IEA'') only used by the ``goa'' Parser
+		\item ``Ondex'' codes: ``IMPD'' + some others used in relatively few parsers.
+	\end{itemize}
+For the first two groups, the meaning is clear; they assert the method, analysis, and/or algorithm by which a \term{relation} is created. For the third category, the meaning is assigned by the original provider (e.g. Gene Ontology). The last category is confused, as it mixed evidence relative to the source of information and to the process of importing this information into ondex.
+\vskip 0.3cm
+
+
+The rationale for providing evidence for an information (in this case, a \term{concept} or a\term{ relation}) is to support a judgment on the level of plausibility that this information is true, meaning that it reflects something that is "real" (in this text we refer to truth, trustworthiness or plausibility as synonyms). As an example, for a p-p interaction, an evidence as ``text mining'' would indicate that there is a not negligible chance that the p-p interaction is an artifact of the technique, rather than an interaction that could take place in a biological system. (Evidence codes are usually used in a qualitative way: for instance ``Manually curated" is considered to be a stronger evidence than ``Text Mining")
+\vskip 0.3cm
+
+\term{EvidenceType}s that refer to external evidence codes (e.g.: GO) have their meaning defined in external resources.
+Of the \term{EvcidenceType}s proper of Ondex,  codes such as ``M'' or ``TM'' carry information on trustworthiness. ``IMPD'' doesn't\footnote{IMPD is often used as a default value when developers don't intend to resolve the evidence completely}. 
+In judging whether some information imported from a database is trustworthy, what matters is the process to generate information within this database. ``IMPD'' is implied by provenance usage of \term{CV}. ``IMPD AUTOMATICALLY CURATED'' or ``IMPD MANUALLY CURATED'' could be simply reduced to non-``IMPD'' codes.
+\vskip 0.3cm
+
+
+It is clear what \term{EvidenceType} can mean for an asserted \term{relation} (many relations are either observed experimentally or predicted). It is unclear what it means for a \term{concept}: is it the evidence that the \term{concept} exists?\footnote{Jan: the point is not about existence of a real world entity, but about the trustworthiness of the concept in term of knowledge representation. AS: this is only apparent. The trustworthiness definitively relies on the real world. Why "manually curated" should be more trustworthy than "derived through text mining " ? Because, given a set of real facts (as stated in the scientific literature) you can test whether the number of facts derived through these methods is true or not.} How would this apply? For a protein, one can argue that one can differentiate between a predicted protein that might not exist or one experimentally observed, but how about a Gene Ontology term?
+\vskip 0.3cm
+
+In Ondex, both \term{concept}s and \term{EvidenceType}s are annotated by \term{GDS} (see later) and/or other attributes. For a \term{concept}, one possible interpretation is for the \term{evidence} to be the evidence that these annotations are true (it cannot be fine grained). For a \term{relation}, this leaves some space for ambiguity: is an evidence for a relation referring to the ``trustworthiness'' of the relation between two concepts, or to the ``trustworthiness'' of the assertion of the attributes of the \term{relation}?
+\vskip 0.3cm
+
+While \term{EvidenceType} declares the type of evidence for a \term{concept} or a \term{relation} (e.g. ``text mining''), what is providing the evidence is not necessarily asserted. When annotated, this is not done in a uniform way between \term{relation}s and \term{concept}s.
+As an example, for \term{relation}s, a third \term{concept} can be associated to them, and this \term{concept} can be used to represent the element providing evidence (e.g. the use of a publication as the third \term{concept} of a protein-protein interaction). In other words, a third node can be used to materialize the evidence for a relation. However, this is not possible for a concept, for which only the type of the evidence can be provided.
+\vskip 0.3cm
+
+Information that is related to evidence is dispersed in various parts of the Ondex data model. \term{GDS}s are also used for provenance/trustworthiness purposes. For example, a \term{relation} of type ``has similar sequence'' between two proteins can have \term{EvidenceType} ``BLAST'' and evalue and bitscore stored in \term{GDS}. \term{CV} are also used to provide evidence information, as discussed in the relative document.
+In synthesis, evience information can be represented through: \term{EvidenceType}, \term{Evidence}, \term{CV}, \term{GDS}, \term{relation}s (a ternary relation can be a binary relation annotated by the third node). Relations and concepts can be used for evidence as well (i.e. the ``published in'' \term{RelationType}).
+
+
+\subsection{How to use it}
+
+\subsubsection{Usage of \term{EvidenceType}}
+
+\term{EvidenceType} should be used to represent ``trust'' about information, that is, a qualification on how likely it is for this information to be true. 
+
+\begin{itemize}
+\example{``TM'' for Text Mining, ``M'' for Manually curated...}
+\end{itemize}
+\noindent
+\term{EvidenceType} should be thought to refer to a cumulative evidence about the truth of a statement at the time it is asserted within Ondex. It should not include technical steps relative to how the information was imported within Ondex (if this relevant, this should be dealt with within \term{GDS}, using a field called ``import method'').
+
+\begin{itemize}
+\example{When importing GOA annotation, the evidence is the original evidence as asserted by GOA (e.g.: IEV, IMP....). The \term{CV} (Provenance) would be ``GOA'' and the fact that it is imported from a database (IMPD) should be relegated, if relevant, the aforementioned \term{GDS} property.}
+\end{itemize}
+\noindent
+\term{EvidenceType} refers only to \term{Relation}s and \term{Concept}s, and not to their respective \term{GDS}. i.e. For a \term{relation} X between A and B, the \term{EvidenceType} is a qualification of how ``true'' this relation is. It's not a statement about the attributes of this relation. For a concept, the evidence is not a statement about the atributes (GDS) of the concept, but only about it's ``realness''.
+
+\begin{itemize}
+\example{For a gene, an \term{EvidenceType} on this gene should qualify whether this gene was experimentally observed, or predicted. If the gene has a \term{GDS} of ``junk DNA'' with value of ``45\%'', the \term{EvidenceType} does not state anything about the validity of this property.}
+\end{itemize}
+\noindent
+For most of \term{concept}s, the \term{EvidenceType} may not be known and should not be used. This may be the case for most of the parsers that currently use ``IMPD''. The information on the \term{CV} makes this \term{EvidenceType} code redundant, as it doesn't add information on truth. ``IMPD MANUALLY CURATED'' and ``IMPD AUTOMATICALLY CURATED'' \term{concepts} should be tagged with codes without ``IMPD''.
+
+
+\subsubsection{\term{Evidence}}
+
+Multiple \term{EvidenceType}s for the same concept or relation are to be intended as independent assertions about the trustworthiness of it. They are not intended of all the evidence types that lead to the assertion of a concept or relation. 
+
+
+\subsection{Developer recommendations}
+
+In the current version of the Ondex metadata, \term{EvidenceType} is a mix of ``standard'' evidence codes from GO, method names, and ad hoc codes developed within Ondex. This should be uniformed in a coherent framework (possibly extending the Evidence Ontology in GO).
+\vskip 0.3cm
+The use of the terms \term{Evidence} and \term{EvidenceType} is misleading. \term{Evidence} should be renamed as \term{EvidenceTypeSet}.
+\vskip 0.3cm
+It should be possible to assert \term{Evidence} and \term{EvidenceTypeSet} only when these are available, without the need to use terms such as "Unknown".
+\vskip 0.3cm
+\noindent
+More radical changes would be required if we wish to address the following:
+\begin{itemize}
+\item There are currently no ways to associate evidence to a single \term{GDS} element. It should be discussed whether this level of granularity is relevant for the project. i.e. If a ``is a promoter'' flag is set as a \term{GDS}, how is it possible to assert the evidence of this statement?
+\item Consistent representation and consolidation of various trust/proof elements. There are several possibilities:
+\begin{itemize}
+\item A consolidated trust/proof object.
+\item Well documented combinations of existing elements with reserved \term{GDS} \term{AttributeNames}.
+\end{itemize}
+\end{itemize}
+One thing to consider is that evidence information (either as \term{Concept}s and \term{Relation}s, or as \term{GDS} and \term{Relation}s) could be better associated to \term{context}s (or subgraphs) than to individual \term{relation}s and \term{concept}s. For instance an interaction in the context of a pathway as supported by a publication would only be approximately described by two independent assertions on the interaction and on the pathway, whereas it could be captured as annotations on a \term{context} covering the elements involved. If the \term{context} mechanism is used in this way, this may require a type system for \term{context}s.
+\vskip 0.3cm
+Decisions on how to develop evidence should be really be addressed at a dedicated meeting.
+
+\end{document}

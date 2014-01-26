@@ -1,0 +1,34 @@
+<sect1 id="Annotator.ScaleColorConcept">
+	<title>Scale/Colour Concepts by Numerical Value</title>
+	<para>
+		The Scale/Colour Concepts by Numerical Value Annotator allows
+		users to view the importance of a concept based on a specified
+		attribute's numerical values. Users can select the minimum and maximum
+		sizes for concepts to scale. They can also specify colours for the
+		concepts' colouring or use the rainbow scale (red = high, purple =
+		low) by ticking the corresponding checkbox. They can pick a colour for
+		concepts which do not carry any information about the selected
+		attribute.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_scaleColCon1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		After clicking on Annotate Graph
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_scaleColCon2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>
