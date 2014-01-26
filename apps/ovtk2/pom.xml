@@ -60,11 +60,11 @@
 								<minVersion>1.6.0</minVersion>
 							</jre>
 							<versionInfo>
-								<fileVersion>2012.6.6.0</fileVersion>
+								<fileVersion>2014.26.1.0</fileVersion>
 								<txtFileVersion>${project.version}</txtFileVersion>
 								<fileDescription>Ondex front-end executable</fileDescription>
-								<copyright>${project.organization.name} 2012</copyright>
-								<productVersion>2012.6.6.0</productVersion>
+								<copyright>${project.organization.name} 2014</copyright>
+								<productVersion>2014.26.1.0</productVersion>
 								<txtProductVersion>${project.version}</txtProductVersion>
 								<productName>${project.name}</productName>
 								<internalName>${project.artifactId}</internalName>
@@ -336,19 +336,19 @@
 		<dependency>
 			<groupId>net.sourceforge.ondex.webservices</groupId>
 			<artifactId>soapgraph</artifactId>
-			<version>0.6.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.webservices</groupId>
 			<artifactId>webservice-client</artifactId>
-			<version>0.6.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>net.sourceforge.ondex.taverna</groupId>
 			<artifactId>taverna-api</artifactId>
-			<version>0.6.0-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>

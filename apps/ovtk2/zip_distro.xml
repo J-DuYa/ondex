@@ -55,6 +55,17 @@
 	</files>
 	<fileSets>
 		<fileSet>
+			<directory>${basedir}/data</directory>
+			<outputDirectory>${artifactId}/data</outputDirectory>
+			<includes>
+				<include>**/*.*</include>
+				<include>**/*</include>
+			</includes>
+			<excludes>
+   		 		<exclude>**/aspgd.org/**</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
 			<directory>${basedir}/config</directory>
 			<outputDirectory>${artifactId}/config</outputDirectory>
 			<includes>

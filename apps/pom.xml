@@ -23,7 +23,6 @@
 		<module>ondex-view-plugin</module>
 		<module>ovtk2</module>
 		<module>ovtk2-modules</module>
-		<module>ovtk2lite</module>
 		<module>plugin-rd-ws</module>
 		<module>scripting</module>
 		<module>scripting-commandline</module>

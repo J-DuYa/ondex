@@ -14,8 +14,6 @@
         <module>doc</module>
         <module>integration</module>
         <module>modules</module>
-        <module>taverna</module>
-        <module>webservices</module>
     </modules>
 
     <licenses>
