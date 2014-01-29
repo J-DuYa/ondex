@@ -1,5 +1,6 @@
 package net.sourceforge.ondex;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Properties;
 
 import net.sourceforge.ondex.config.Config;
+import net.sourceforge.ondex.init.ArgumentDescription;
+import net.sourceforge.ondex.init.PluginDescription;
 import net.sourceforge.ondex.init.PluginRegistry;
 import net.sourceforge.ondex.workflow.engine.BasicJobImpl;
 import net.sourceforge.ondex.workflow.engine.ResourcePool;
@@ -159,7 +162,9 @@ public class WorkflowMain {
         }
        
         try {
+        	
             PluginRegistry.init(true, Config.pluginDir, Config.libDir);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
