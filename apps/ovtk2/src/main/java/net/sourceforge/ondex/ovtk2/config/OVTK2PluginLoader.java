@@ -150,8 +150,7 @@ public class OVTK2PluginLoader {
 	 * @return a Set of producer names of the given types.
 	 */
 	private Set<String> findIOInstances(String list) {
-		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/"
-				+ Type.IO.pack + "/([a-zA-Z0-9]+?)\\.class");
+		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/"+ Type.IO.pack + "/([a-zA-Z0-9]+?)\\.class");
 		Matcher m = p.matcher(list);
 		Set<String> set = new HashSet<String>();
 		while (m.find()) {
@@ -437,6 +436,9 @@ public class OVTK2PluginLoader {
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
 			Class<OVTK2IO> clazz = (Class<OVTK2IO>) ucl.loadClass(classname);
+			if(!OVTK2IO.class.isAssignableFrom(clazz)){
+				return null;
+			}
 			OVTK2IO plugin = clazz.getConstructor().newInstance();
 			return plugin;
 		} catch (Throwable t) {
@@ -575,9 +577,22 @@ public class OVTK2PluginLoader {
 		Vector<URL> urls = new Vector<URL>();
 		StringBuilder classRegisterBuilder = new StringBuilder();
 
-		if (Config.ovtkDir.contains("://")
-				|| Config.ovtkDir.startsWith("file:/")) {
+		if (Config.ovtkDir.contains("://") || Config.ovtkDir.startsWith("file:/")) {
 			System.out.println("Scanning http lib directory for plugins");
+			File dir = new File(Config.ovtkDir.substring(0, Config.ovtkDir.lastIndexOf("config"))+ "lib/");
+			if(dir.exists() && dir.isDirectory()){
+				for(File f : dir.listFiles()){
+					if(f.getName().contains("ovtk2-default-")){
+						loadFromPath(urls, classRegisterBuilder, f.getAbsolutePath());	
+					}
+					if(f.getName().contains("ovtk2-experimental-")){
+						loadFromPath(urls, classRegisterBuilder, f.getAbsolutePath());	
+					}
+				}
+			}
+			else{
+				throw new FileNotFoundException("Could not find valid plugin directory at: "+ dir.getAbsoluteFile());
+			}
 
 			// TODO: this is a big hack and need changing
 			String defaultPath = Config.ovtkDir.substring(0,

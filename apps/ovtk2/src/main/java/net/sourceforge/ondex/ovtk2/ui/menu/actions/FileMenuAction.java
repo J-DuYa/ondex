@@ -535,12 +535,13 @@ public class FileMenuAction implements ActionListener {
 			// get extensions of importer plugins
 			final Map<String, OVTK2IO> ext2io = new Hashtable<String, OVTK2IO>();
 			try {
-				Set<String> names = OVTK2PluginLoader.getInstance()
-						.getAvailableIOIDs();
+				Set<String> names = OVTK2PluginLoader.getInstance().getAvailableIOIDs();
 				for (String name : names) {
 					try {
-						OVTK2IO io = OVTK2PluginLoader.getInstance().loadIO(
-								name);
+						OVTK2IO io = OVTK2PluginLoader.getInstance().loadIO(name);
+						if(io == null){
+							continue;
+						}
 						if (io.isImport()) {
 							extensions.add(io.getExt());
 							ext2io.put(io.getExt(), io);
@@ -719,12 +720,13 @@ public class FileMenuAction implements ActionListener {
 				// get extensions of exporter plugins
 				final Map<String, OVTK2IO> ext2io = new Hashtable<String, OVTK2IO>();
 				try {
-					Set<String> names = OVTK2PluginLoader.getInstance()
-							.getAvailableIOIDs();
+					Set<String> names = OVTK2PluginLoader.getInstance().getAvailableIOIDs();
 					for (String name : names) {
 						try {
-							OVTK2IO io = OVTK2PluginLoader.getInstance()
-									.loadIO(name);
+							OVTK2IO io = OVTK2PluginLoader.getInstance().loadIO(name);
+							if(io == null){
+								continue;
+							}
 							if (!io.isImport()) {
 								chooser.addFormat(io.getExt());
 								ext2io.put(io.getExt(), io);
