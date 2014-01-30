@@ -25,7 +25,7 @@ public class PSIMIParserIT extends ModuleIntegrationTesting {
      */
     @Before
     public void setUp() {
-        //super.setup("psimi2ondex-0.5.0-SNAPSHOT-jar-with-dependencies.jar");
+        //super.setup("psimi2ondex-0.6.0-SNAPSHOT-jar-with-dependencies.jar");
     }
 
     /**
