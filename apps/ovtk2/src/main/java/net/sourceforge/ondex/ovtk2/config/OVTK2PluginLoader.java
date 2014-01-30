@@ -594,16 +594,6 @@ public class OVTK2PluginLoader {
 				throw new FileNotFoundException("Could not find valid plugin directory at: "+ dir.getAbsoluteFile());
 			}
 
-			// TODO: this is a big hack and need changing
-			String defaultPath = Config.ovtkDir.substring(0,
-					Config.ovtkDir.lastIndexOf("config"))
-					+ "lib/ovtk2-default-0.5.0-SNAPSHOT.jar";
-			loadFromPath(urls, classRegisterBuilder, defaultPath);
-			String experimentalPath = Config.ovtkDir.substring(0,
-					Config.ovtkDir.lastIndexOf("config"))
-					+ "lib/ovtk2-experimental-0.5.0-SNAPSHOT.jar";
-			loadFromPath(urls, classRegisterBuilder, experimentalPath);
-
 		} else {
 
 			// make sure directory exists.
