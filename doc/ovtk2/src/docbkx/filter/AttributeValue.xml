@@ -1,0 +1,35 @@
+<sect1 id="Filter.AttributeValue">
+	<title>Attribute Value Matcher</title>
+	<para>
+		This filter allows users to filter out concepts or relations that
+		have an attribute with a particular value. In order to illustrate how
+		it works, the Colour Concepts by General Attribute Annotator was run
+		on the data prior to this first screenshot. The colour legend shows
+		the phenotype of each concept. Let's try to delete all concepts that
+		carry the phenotype "Loss of pathogenicity". This should eliminate the
+		green concepts within this isolated cluster.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/filter/filter_attrValue1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		As a user, you may select "concepts" or "relations", a type of
+		attribute ("Phenotype" in this case) and a value for that attribute
+		(here "Loss of pathogenicity").
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/filter/filter_attrValue2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

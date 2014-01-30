@@ -1,0 +1,18 @@
+<sect1 id="Annotator.Chemical">
+	<title>Chemical Drawings</title>
+	<para>
+		Replaces node icons with chemical drawings if the concepts holds
+		chemical structure data. It is possible to specify the size of the
+		chemical drawings and whether or not the current concept colour should
+		be used as border colour.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_chemical1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

@@ -1,0 +1,33 @@
+<sect1 id="Graph.Nodelist">
+	<title>Concept List</title>
+	<para>
+	The concept list shows a list of all the concepts on the network.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/network_conceptlist1.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	It is then possible to use the visibility column to make some nodes invisible
+	(by ticking/unticking and cliking on the "Apply" button), as shown on the screenshot below.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/network_conceptlist2.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	Clicking on the "Store to GDS" button will save the latest visibility applied.
+	Clicking on the "Load from GDS" button will load the latest visibility saved.
+	Clicking on the "Load from GDS" button without using the "Store to GDS" button first will make all nodes invisible.
+	</para>
+</sect1>

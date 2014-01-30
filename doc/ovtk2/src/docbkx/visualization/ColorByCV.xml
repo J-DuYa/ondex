@@ -1,0 +1,7 @@
+<sect1 id="Visualization.ColorByCV">
+	<title>Colour Concepts by Controlled Vocabularies</title>
+	<para>
+	This option colours concepts using the controlled vocabularies (or data source) colour legend.
+	See documentation for Config -> Metadata Appearance to see the relation between the colour legend and colours used on the network.
+	</para>
+</sect1>

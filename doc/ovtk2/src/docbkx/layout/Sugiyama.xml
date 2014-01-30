@@ -1,0 +1,38 @@
+<sect1 id="Layout.Sugiyama">
+	<title>Sugiyama</title>
+	<para>
+		A layout based on the original
+		<ulink
+			url="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=4308636">
+			<citetitle>Methods for visual understanding of hierarchical system
+				structures
+			</citetitle>
+		</ulink>
+		.
+	</para>
+	<para>
+		On a small network from AraCyc (by filtering using the Tag filter
+		and selecting "GDP-L-fucose biosynthesis")
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/layout/layout_sugiyama1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		On a bigger network
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/layout/layout_sugiyama2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

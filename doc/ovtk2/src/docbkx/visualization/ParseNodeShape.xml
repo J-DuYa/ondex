@@ -1,0 +1,7 @@
+<sect1 id="Visualization.ParseNodeShape">
+	<title>Parse Concept Shape from General Data Store</title>
+	<para>
+	This option will read the input file and look for any General Data Store attributes specifying concept shape
+	(which can be added manually to the input file when a network is saved by clicking Config -> Save Appearance).
+	</para>
+</sect1>
