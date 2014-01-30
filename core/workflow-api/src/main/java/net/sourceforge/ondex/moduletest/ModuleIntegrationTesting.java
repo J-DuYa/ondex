@@ -75,7 +75,7 @@ public class ModuleIntegrationTesting {
      * Sets up the testing environment. Downloads and extracts ondex-mini from
      * the nexus repository and installs the plugin jar file.
      *
-     * @param moduleJarName the name of the module jar file (something like mymodule-0.5.0-SNAPSHOT-jar-with-dependencies.jar)
+     * @param moduleJarName the name of the module jar file (something like mymodule-0.6.0-SNAPSHOT-jar-with-dependencies.jar)
      */
     protected void setup(String moduleJarName) {
 
@@ -92,7 +92,7 @@ public class ModuleIntegrationTesting {
             URL ominiURL = new URL("http://ondex.rothamsted.ac.uk/nexus/"
                     + "service/local/artifact/maven/redirect?r=snapshots&"
                     + "g=net.sourceforge.ondex.apps&a=ondex-mini"
-                    + "&v=0.5.0-SNAPSHOT&e=zip&c=packaged-distro");
+                    + "&v=0.6.0-SNAPSHOT&e=zip&c=packaged-distro");
             download(ominiURL,ominiZip);
         } catch (MalformedURLException e) {
             throw new RuntimeException("This is a bug in the integration test.",e);
@@ -108,7 +108,7 @@ public class ModuleIntegrationTesting {
         }
         
         //copy module to plugins folder
-        ominiDir = new File(testDir,"ondex-mini-0.5.0-SNAPSHOT");
+        ominiDir = new File(testDir,"ondex-mini-0.6.0-SNAPSHOT");
         File pluginsDir = new File(ominiDir,"plugins");
 
         File mvntargetDir = new File("target");
@@ -130,7 +130,7 @@ public class ModuleIntegrationTesting {
     protected void runOndexMini(File workflowFile, String... workflowArguments) {
 
         //get the ondex-mini jar file
-        File jarFile = new File(new File(ominiDir,"lib"),"ondex-mini-0.5.0-SNAPSHOT.jar");
+        File jarFile = new File(new File(ominiDir,"lib"),"ondex-mini-0.6.0-SNAPSHOT.jar");
 
         //get the data directory
         File dataDir = new File(ominiDir,"data");

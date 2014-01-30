@@ -66,37 +66,37 @@ public class ListPlugins {
 			// add main artifacts
 			URL url = new URL(
 					Main.NEXUS_ONDEX_SERVICE
-							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex&v=0.5.0-SNAPSHOT");
+							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex&v=0.6.0-SNAPSHOT");
 			indexArtifacts(getListOfDescriptorURLs(url.openStream()));
 
 			// add apps
 			url = new URL(
 					Main.NEXUS_ONDEX_SERVICE
-							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.apps&v=0.5.0-SNAPSHOT");
+							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.apps&v=0.6.0-SNAPSHOT");
 			indexArtifacts(getListOfDescriptorURLs(url.openStream()));
 
 			// add core
 			url = new URL(
 					Main.NEXUS_ONDEX_SERVICE
-							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.core&v=0.5.0-SNAPSHOT");
+							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.core&v=0.6.0-SNAPSHOT");
 			indexArtifacts(getListOfDescriptorURLs(url.openStream()));
 
 			// add modules
 			url = new URL(
 					Main.NEXUS_ONDEX_SERVICE
-							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.modules&v=0.5.0-SNAPSHOT");
+							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.modules&v=0.6.0-SNAPSHOT");
 			indexArtifacts(getListOfDescriptorURLs(url.openStream()));
 
 			// add taverna
 			url = new URL(
 					Main.NEXUS_ONDEX_SERVICE
-							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.taverna&v=0.5.0-SNAPSHOT");
+							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.taverna&v=0.6.0-SNAPSHOT");
 			indexArtifacts(getListOfDescriptorURLs(url.openStream()));
 
 			// add webservices
 			url = new URL(
 					Main.NEXUS_ONDEX_SERVICE
-							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.webservices&v=0.5.0-SNAPSHOT");
+							+ "/local/data_index/repositories/snapshots/content?g=net.sourceforge.ondex.webservices&v=0.6.0-SNAPSHOT");
 			indexArtifacts(getListOfDescriptorURLs(url.openStream()));
 
 			replyElement.append("<ul>");
