@@ -95,7 +95,7 @@ public class Export extends ONDEXExport implements Monitorable {
 
 	private final static String SCHEMANAMESPACE = "http://www.w3.org/2001/XMLSchema-instance";
 
-	private final static String SCHEMALOCATION = "http://ondex.sourceforge.net/ ondex.xsd";
+	private final static String SCHEMALOCATION = "http://ondex.sourceforge.net/ondex.xsd";
 
 	// the registry used to create the JAXB marshaller
 	private static OndexJAXBContextRegistry jaxbRegistry;
