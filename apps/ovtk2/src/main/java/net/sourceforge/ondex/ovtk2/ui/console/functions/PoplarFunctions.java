@@ -31,30 +31,24 @@ public class PoplarFunctions {
 		ConceptClass ccProtDomain = md.getConceptClass("ProtDomain");
 		DataSource dataSourceUniprot = md.getDataSource("UNIPROTKB");
 		DataSource dataSourcePoplar1 = md.getDataSource("PHYTOZOME-POPLAR");
-		DataSource dataSourcePoplar2 = md
-				.getDataSource("PlnTFDB:PHYTOZOME-POPLAR");
+		DataSource dataSourcePoplar2 = md.getDataSource("PlnTFDB:PHYTOZOME-POPLAR");
 
 		RelationType rtSimSeq = md.getRelationType("h_s_s");
 		RelationType rtMISP = md.getRelationType("member_of");
 		Set<ONDEXConcept> view1 = graph.getConceptsOfConceptClass(ccProtein);
-		Set<ONDEXConcept> view2 = graph
-				.getConceptsOfDataSource(dataSourceUniprot);
+		Set<ONDEXConcept> view2 = graph.getConceptsOfDataSource(dataSourceUniprot);
 		Set<ONDEXConcept> poplarProts = BitSetFunctions.andNot(view1, view2);
 
 		// get h_s_s relations and their from concepts which are Poplar_JGI
 		// proteins
 		BitSet sbs = new BitSet();
 		for (ONDEXRelation rel : graph.getRelationsOfRelationType(rtSimSeq)) {
-			if ((rel.getFromConcept().getElementOf().equals(dataSourcePoplar1) || rel
-					.getFromConcept().getElementOf().equals(dataSourcePoplar2))
-					&& rel.getToConcept().getElementOf()
-							.equals(dataSourceUniprot)) {
+			if ((rel.getFromConcept().getElementOf().equals(dataSourcePoplar1) || rel.getFromConcept().getElementOf().equals(dataSourcePoplar2)) && rel.getToConcept().getElementOf().equals(dataSourceUniprot)) {
 				int id = rel.getFromConcept().getId();
 				sbs.set(id);
 			}
 		}
-		Set<ONDEXConcept> blastSet = BitSetFunctions.create(graph,
-				ONDEXConcept.class, sbs);
+		Set<ONDEXConcept> blastSet = BitSetFunctions.create(graph, ONDEXConcept.class, sbs);
 
 		// get m_isp relations (hmm) and their from concepts which are
 		// Poplar_JGI proteins
@@ -65,8 +59,7 @@ public class PoplarFunctions {
 				sbs2.set(id);
 			}
 		}
-		Set<ONDEXConcept> hmmSet = BitSetFunctions.create(graph,
-				ONDEXConcept.class, sbs2);
+		Set<ONDEXConcept> hmmSet = BitSetFunctions.create(graph, ONDEXConcept.class, sbs2);
 
 		int protSize = poplarProts.size();
 		int blastSize = blastSet.size();
@@ -77,17 +70,10 @@ public class PoplarFunctions {
 		int hmmNotblast = BitSetFunctions.andNot(hmmSet, blastSet).size();
 		int noHitsSize = protSize - orSize;
 
-		return "\nPoplar proteins in total: " + protSize + "\n"
-				+ "Proteins with NO hits: " + noHitsSize + "\n"
-				+ "Proteins with BLAST hits:" + blastSize + "\n"
-				+ "Proteins with HMM hits:" + hmmSize + "\n" + "BLAST OR HMM: "
-				+ orSize + "\n" + "BLAST AND HMM: " + andSize + "\n"
-				+ "BLAST NOT HMM: " + blastNOThmm + "\n" + "HMM NOT BLAST: "
-				+ hmmNotblast + "\n";
+		return "\nPoplar proteins in total: " + protSize + "\n" + "Proteins with NO hits: " + noHitsSize + "\n" + "Proteins with BLAST hits:" + blastSize + "\n" + "Proteins with HMM hits:" + hmmSize + "\n" + "BLAST OR HMM: " + orSize + "\n" + "BLAST AND HMM: " + andSize + "\n" + "BLAST NOT HMM: " + blastNOThmm + "\n" + "HMM NOT BLAST: " + hmmNotblast + "\n";
 	}
 
-	public static String removePoplarUniProt(OVTK2PropertiesAggregator viewer)
-			throws InvalidPluginArgumentException {
+	public static String removePoplarUniProt(OVTK2PropertiesAggregator viewer) throws InvalidPluginArgumentException {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 		ONDEXGraphMetaData md = graph.getMetaData();
 		ConceptClass ccProt = md.getConceptClass("Protein");
@@ -104,9 +90,7 @@ public class PoplarFunctions {
 			boolean hasHits = false;
 			Set<ONDEXRelation> relSet = graph.getRelationsOfConcept(prot);
 			for (ONDEXRelation rel : relSet) {
-				if (rel.getOfType().equals(rtSimSeq)
-						&& !rel.getFromConcept().getElementOf()
-								.equals(dataSourceUniProt)) {
+				if (rel.getOfType().equals(rtSimSeq) && !rel.getFromConcept().getElementOf().equals(dataSourceUniProt)) {
 					hasHits = true;
 					break;
 				}
@@ -120,8 +104,7 @@ public class PoplarFunctions {
 		Filter filter = new Filter();
 
 		// set invisible unconnected Publication and EC concepts
-		ONDEXPluginArguments fa = new ONDEXPluginArguments(
-				filter.getArgumentDefinitions());
+		ONDEXPluginArguments fa = new ONDEXPluginArguments(filter.getArgumentDefinitions());
 		fa.addOption("ConceptClassRestriction", "Publication");
 		fa.addOption("ConceptClassRestriction", "EC");
 
@@ -135,9 +118,7 @@ public class PoplarFunctions {
 		int numRemovedPublicationandEC = cs.size();
 		graph.setVisibility(cs, false);
 
-		return "\nRemoved UniProt proteins: " + numRemovedProteins + "\n"
-				+ "Invisible Publication and EC: " + numRemovedPublicationandEC
-				+ "\n";
+		return "\nRemoved UniProt proteins: " + numRemovedProteins + "\n" + "Invisible Publication and EC: " + numRemovedPublicationandEC + "\n";
 
 	}
 

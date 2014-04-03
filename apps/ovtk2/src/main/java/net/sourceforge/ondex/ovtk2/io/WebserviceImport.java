@@ -31,13 +31,9 @@ import com.ctc.wstx.io.CharsetNames;
 
 public class WebserviceImport {
 
-	public WebserviceImport(ONDEXGraph aog, URL url, WSGraph graph)
-			throws XMLStreamException, ClassNotFoundException, JAXBException,
-			InconsistencyException, WebserviceException_Exception,
-			InstantiationException, IllegalAccessException {
+	public WebserviceImport(ONDEXGraph aog, URL url, WSGraph graph) throws XMLStreamException, ClassNotFoundException, JAXBException, InconsistencyException, WebserviceException_Exception, InstantiationException, IllegalAccessException {
 		// load webservice from URL for graph name
-		System.setProperty("javax.xml.stream.XMLInputFactory",
-				"com.ctc.wstx.stax.WstxInputFactory");
+		System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
 
 		String oxl = "";
 
@@ -48,17 +44,14 @@ public class WebserviceImport {
 
 		oxl = ondexGraph.exportGraphLite(graph.getId().getValue());
 
-		XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2
-				.newInstance();
+		XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2.newInstance();
 		xmlInput.configureForSpeed();
 
 		if (oxl != null && oxl.length() > 0) {
 			// the following might not work...
-			BufferedInputStream inStream = new BufferedInputStream(
-					new ByteArrayInputStream(oxl.getBytes()));
+			BufferedInputStream inStream = new BufferedInputStream(new ByteArrayInputStream(oxl.getBytes()));
 
-			XMLStreamReader2 xmlr = (XMLStreamReader2) xmlInput
-					.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
+			XMLStreamReader2 xmlr = (XMLStreamReader2) xmlInput.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
 			// start parsing
 			XmlParser parser = new XmlParser();
 
@@ -67,18 +60,13 @@ public class WebserviceImport {
 			Map<Integer, Set<Integer>> context = new HashMap<Integer, Set<Integer>>();
 
 			parser.registerParser("cv", new ConceptMetaDataParser(aog, "cv"));
-			parser.registerParser("unit",
-					new GeneralMetaDataParser(aog, "unit"));
-			parser.registerParser("attrname", new GeneralMetaDataParser(aog,
-					"attrname"));
-			parser.registerParser("evidences", new GeneralMetaDataParser(aog,
-					"evidences"));
+			parser.registerParser("unit", new GeneralMetaDataParser(aog, "unit"));
+			parser.registerParser("attrname", new GeneralMetaDataParser(aog, "attrname"));
+			parser.registerParser("evidences", new GeneralMetaDataParser(aog, "evidences"));
 			parser.registerParser("cc", new ConceptMetaDataParser(aog, "cc"));
-			parser.registerParser("relation_type", new RelationMetaDataParser(
-					aog, "relation_type"));
+			parser.registerParser("relation_type", new RelationMetaDataParser(aog, "relation_type"));
 
-			parser.registerParser("concept", new ConceptParser(aog, table,
-					context));
+			parser.registerParser("concept", new ConceptParser(aog, table, context));
 			parser.registerParser("relation", new RelationParser(aog, table));
 			parser.parse(xmlr);
 			ConceptParser.syncContext(aog, table, context);
@@ -87,8 +75,7 @@ public class WebserviceImport {
 		}
 	}
 
-	public static List<WSGraph> getGraphs(URL url)
-			throws WebserviceException_Exception {
+	public static List<WSGraph> getGraphs(URL url) throws WebserviceException_Exception {
 		ONDEXapiWSService ondexService = new ONDEXapiWSService(url);
 		ONDEXapiWS ondexGraph = ondexService.getONDEXapiWSPort();
 		return ondexGraph.getGraphs().getWSGraph();

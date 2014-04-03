@@ -17,8 +17,7 @@ import javax.swing.table.TableCellRenderer;
  * @author taubertj
  * 
  */
-public class BooleanTableCellRenderer extends JCheckBox implements
-		TableCellRenderer, UIResource {
+public class BooleanTableCellRenderer extends JCheckBox implements TableCellRenderer, UIResource {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,8 +29,7 @@ public class BooleanTableCellRenderer extends JCheckBox implements
 		setBorderPainted(true);
 	}
 
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		if (isSelected) {
 			setForeground(table.getSelectionForeground());
 			super.setBackground(table.getSelectionBackground());

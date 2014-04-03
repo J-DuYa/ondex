@@ -21,16 +21,14 @@ public class QuadKey {
 	public boolean equals(Object arg0) {
 		if (arg0 instanceof QuadKey) {
 			QuadKey k = (QuadKey) arg0;
-			return key[0].equals(k.key[0]) && key[1].equals(k.key[1])
-					&& key[2].equals(k.key[2]) && key[3].equals(k.key[3]);
+			return key[0].equals(k.key[0]) && key[1].equals(k.key[1]) && key[2].equals(k.key[2]) && key[3].equals(k.key[3]);
 		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return key[0].hashCode() + 3 * key[1].hashCode() + 5
-				* key[2].hashCode() + 7 * key[3].hashCode();
+		return key[0].hashCode() + 3 * key[1].hashCode() + 5 * key[2].hashCode() + 7 * key[3].hashCode();
 	}
 
 	@Override

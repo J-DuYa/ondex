@@ -42,9 +42,7 @@ public class OVTK2HyperlinkListener implements HyperlinkListener {
 				if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 					if (e.getDescription().startsWith("ovtk2://")) {
 						// create event for OVTK2Desktop
-						ActionEvent ae = new ActionEvent(this,
-								ActionEvent.ACTION_PERFORMED, e
-										.getDescription().substring(8));
+						ActionEvent ae = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, e.getDescription().substring(8));
 						desktop.actionPerformed(ae);
 					} else if (e.getDescription().equals("close")) {
 						// do nothing

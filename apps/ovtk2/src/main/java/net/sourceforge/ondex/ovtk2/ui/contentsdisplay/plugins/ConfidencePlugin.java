@@ -15,8 +15,7 @@ import net.sourceforge.ondex.ovtk2.ui.contentsdisplay.AttributePlugin;
 /**
  * @author Jochen Weile, B.Sc.
  */
-public class ConfidencePlugin extends AbstractContentDisplayPlugin implements
-		AttributePlugin {
+public class ConfidencePlugin extends AbstractContentDisplayPlugin implements AttributePlugin {
 
 	public ConfidencePlugin(ONDEXGraph aog) {
 		super(aog);

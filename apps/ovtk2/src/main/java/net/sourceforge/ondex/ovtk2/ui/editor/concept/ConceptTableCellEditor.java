@@ -93,8 +93,7 @@ public class ConceptTableCellEditor extends DefaultCellEditor {
 
 	// Implement the one method defined by TableCellEditor.
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 
 		// setup current row for update purpose
 		this.row = row;
@@ -125,8 +124,7 @@ public class ConceptTableCellEditor extends DefaultCellEditor {
 		}
 
 		// use default text field editor
-		return super.getTableCellEditorComponent(table, value, isSelected, row,
-				column);
+		return super.getTableCellEditorComponent(table, value, isSelected, row, column);
 	}
 
 	@Override
@@ -174,8 +172,7 @@ public class ConceptTableCellEditor extends DefaultCellEditor {
 
 			case OFTYPE:
 				// new concept ConceptClass, update table
-				ConceptClass newCC = (ConceptClass) ccComboBox
-						.getSelectedItem();
+				ConceptClass newCC = (ConceptClass) ccComboBox.getSelectedItem();
 				// only update if changed
 				if (!concept.getOfType().equals(newCC)) {
 					newConcept = cloner.clone(concept, newCC);
@@ -185,8 +182,7 @@ public class ConceptTableCellEditor extends DefaultCellEditor {
 
 			case EVIDENCE:
 				// change in evidence type, update table
-				EvidenceType newET = (EvidenceType) etComboBox
-						.getSelectedItem();
+				EvidenceType newET = (EvidenceType) etComboBox.getSelectedItem();
 				if (!concept.getEvidence().contains(newET)) {
 					// new ET selected, add it to concept
 					concept.addEvidenceType(newET);
@@ -198,8 +194,7 @@ public class ConceptTableCellEditor extends DefaultCellEditor {
 				}
 				return concept.getEvidence();
 			default:
-				System.out
-						.println("unknown state for updating cell editor value");
+				System.out.println("unknown state for updating cell editor value");
 				break;
 			}
 		}

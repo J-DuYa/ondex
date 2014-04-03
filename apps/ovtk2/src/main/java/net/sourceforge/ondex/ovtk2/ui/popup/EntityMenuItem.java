@@ -24,8 +24,7 @@ import net.sourceforge.ondex.ovtk2.ui.OVTK2Viewer;
  * @author Matthew Pocock
  * @author taubertj
  */
-public abstract class EntityMenuItem<E extends ONDEXEntity> implements
-		MenuPointListener {
+public abstract class EntityMenuItem<E extends ONDEXEntity> implements MenuPointListener {
 
 	/**
 	 * Which category to sort an item too.
@@ -148,24 +147,19 @@ public abstract class EntityMenuItem<E extends ONDEXEntity> implements
 
 				// set to waiting cursor
 				Cursor cursor = v.getVisualizationViewer().getCursor();
-				v.getVisualizationViewer().setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				v.getVisualizationViewer().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				RootPaneContainer root = findRoot((Component) v);
 				root.getGlassPane().setVisible(true);
-				root.getGlassPane().setCursor(
-						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				root.getGlassPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 				// StateEdit system, start edit
 				StateEdit edit = null;
 
 				if (getUndoPropertyName() != null) {
-					edit = new StateEdit(new VisibilityUndo(v
-							.getONDEXJUNGGraph()), Config.language
-							.getProperty(getUndoPropertyName()));
+					edit = new StateEdit(new VisibilityUndo(v.getONDEXJUNGGraph()), Config.language.getProperty(getUndoPropertyName()));
 					v.getUndoManager().addEdit(edit);
 					if (v instanceof OVTK2Viewer)
-						OVTK2Desktop.getInstance().getOVTK2Menu()
-								.updateUndoRedo(v);
+						OVTK2Desktop.getInstance().getOVTK2Menu().updateUndoRedo(v);
 				}
 
 				try {
@@ -191,7 +185,6 @@ public abstract class EntityMenuItem<E extends ONDEXEntity> implements
 
 	@Override
 	public final void setPoint(Point point) {
-		location = new Point(((Component) viewer).getX() + point.x,
-				((Component) viewer).getY() + point.y);
+		location = new Point(((Component) viewer).getX() + point.x, ((Component) viewer).getY() + point.y);
 	}
 }

@@ -71,9 +71,7 @@ public class DialogUnit extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.Unit.Apply", "Dialog.Unit.Cancel"),
-				BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel("Dialog.Unit.Apply", "Dialog.Unit.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -89,70 +87,30 @@ public class DialogUnit extends OVTK2Dialog {
 		GroupLayout layout = new GroupLayout(properties);
 		properties.setLayout(layout);
 
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.Unit.Unit"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.Unit.Unit"));
 		properties.setBorder(propertiesBorder);
 
 		// Unit id
-		JLabel idLabel = new JLabel(
-				Config.language.getProperty("Dialog.Unit.ID"));
+		JLabel idLabel = new JLabel(Config.language.getProperty("Dialog.Unit.ID"));
 		properties.add(idLabel);
-		id.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		id.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		id.setBackground(this.getRequiredColor());
 		properties.add(id);
 
 		// Unit fullname
-		JLabel fullnameLabel = new JLabel(
-				Config.language.getProperty("Dialog.Unit.FullName"));
+		JLabel fullnameLabel = new JLabel(Config.language.getProperty("Dialog.Unit.FullName"));
 		properties.add(fullnameLabel);
-		fullname.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		fullname.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(fullname);
 
 		// Unit description
-		JLabel descriptionLabel = new JLabel(
-				Config.language.getProperty("Dialog.Unit.Description"));
+		JLabel descriptionLabel = new JLabel(Config.language.getProperty("Dialog.Unit.Description"));
 		properties.add(descriptionLabel);
-		description.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		description.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(description);
 
-		layout.setHorizontalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup().addComponent(idLabel)
-								.addComponent(fullnameLabel)
-								.addComponent(descriptionLabel))
-				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
-						GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGroup(
-						layout.createParallelGroup()
-								.addComponent(id, 0, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(fullname, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(description, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(idLabel).addComponent(id))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(fullnameLabel)
-								.addComponent(fullname))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(descriptionLabel)
-								.addComponent(description)));
+		layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup().addComponent(idLabel).addComponent(fullnameLabel).addComponent(descriptionLabel)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(layout.createParallelGroup().addComponent(id, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(fullname, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(description, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(idLabel).addComponent(id)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(fullnameLabel).addComponent(fullname)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(descriptionLabel).addComponent(description)));
 
 		return properties;
 	}
@@ -164,16 +122,10 @@ public class DialogUnit extends OVTK2Dialog {
 	 */
 	private boolean validateEntry() {
 		if (id.getText().trim().length() == 0 || id.getText().contains(" ")) {
-			JOptionPane.showInternalMessageDialog(this,
-					Config.language.getProperty("Dialog.Unit.InvalidID"),
-					Config.language.getProperty("Dialog.Unit.InvalidTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, Config.language.getProperty("Dialog.Unit.InvalidID"), Config.language.getProperty("Dialog.Unit.InvalidTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else if (aog.getMetaData().checkUnit(id.getText())) {
-			JOptionPane.showInternalMessageDialog(this,
-					Config.language.getProperty("Dialog.Unit.DuplicateID"),
-					Config.language.getProperty("Dialog.Unit.DuplicateTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, Config.language.getProperty("Dialog.Unit.DuplicateID"), Config.language.getProperty("Dialog.Unit.DuplicateTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;
@@ -188,8 +140,7 @@ public class DialogUnit extends OVTK2Dialog {
 		// create new Unit
 		if (cmd.equals(APPLY)) {
 			if (validateEntry()) {
-				aog.getMetaData().createUnit(id.getText(), fullname.getText(),
-						description.getText());
+				aog.getMetaData().createUnit(id.getText(), fullname.getText(), description.getText());
 				try {
 					this.setClosed(true);
 				} catch (PropertyVetoException e) {

@@ -1,6 +1,5 @@
 package net.sourceforge.ondex.ovtk2.util;
 
-
 /**
  * Class to support id tracking of concepts within search results.
  * 
@@ -28,8 +27,7 @@ public class IdLabel {
 
 	@Override
 	public boolean equals(Object obj) {
-		return obj == this || obj instanceof IdLabel
-				&& ((IdLabel) obj).id.equals(id);
+		return obj == this || obj instanceof IdLabel && ((IdLabel) obj).id.equals(id);
 	}
 
 	public Integer getId() {

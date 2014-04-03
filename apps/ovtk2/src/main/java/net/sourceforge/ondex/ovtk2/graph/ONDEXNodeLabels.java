@@ -64,9 +64,7 @@ public class ONDEXNodeLabels implements Transformer<ONDEXConcept, String> {
 		 * @param prefix
 		 * @param separator
 		 */
-		public LabelCompositionRule(DataSource accessionDataSource,
-				boolean includeParserID, boolean includePreferredName,
-				int length, String prefix, String separator) {
+		public LabelCompositionRule(DataSource accessionDataSource, boolean includeParserID, boolean includePreferredName, int length, String prefix, String separator) {
 			super();
 			this.accessionDataSource = accessionDataSource;
 			this.includeParserID = includeParserID;
@@ -165,15 +163,14 @@ public class ONDEXNodeLabels implements Transformer<ONDEXConcept, String> {
 		this.ALL = Config.language.getProperty("Dialog.ConceptLabel.All");
 		this.includeHTML = includeHTML;
 		this.labels = new HashMap<ONDEXConcept, String>();
-		this.mask = LazyMap.decorate(new HashMap<ONDEXConcept, Boolean>(),
-				new Factory<Boolean>() {
+		this.mask = LazyMap.decorate(new HashMap<ONDEXConcept, Boolean>(), new Factory<Boolean>() {
 
-					@Override
-					public Boolean create() {
-						// return default mask
-						return defaultMask;
-					}
-				});
+			@Override
+			public Boolean create() {
+				// return default mask
+				return defaultMask;
+			}
+		});
 		this.rules = new HashMap<String, Map<String, LabelCompositionRule>>();
 	}
 
@@ -184,8 +181,7 @@ public class ONDEXNodeLabels implements Transformer<ONDEXConcept, String> {
 	 * @param conceptClass
 	 * @param rule
 	 */
-	public void addRule(String dataSource, String conceptClass,
-			LabelCompositionRule rule) {
+	public void addRule(String dataSource, String conceptClass, LabelCompositionRule rule) {
 
 		// add rule to index
 		if (!rules.containsKey(dataSource))
@@ -231,8 +227,7 @@ public class ONDEXNodeLabels implements Transformer<ONDEXConcept, String> {
 
 		// check for possible rules
 		if (rules.containsKey(dataSourceID)) {
-			Map<String, LabelCompositionRule> byConceptClass = rules
-					.get(dataSourceID);
+			Map<String, LabelCompositionRule> byConceptClass = rules.get(dataSourceID);
 			if (byConceptClass.containsKey(conceptClassID)) {
 				// exact matching rule
 				rule = byConceptClass.get(conceptClassID);
@@ -282,8 +277,7 @@ public class ONDEXNodeLabels implements Transformer<ONDEXConcept, String> {
 			// search for first accession of DataSource
 			ConceptAccession accession = null;
 			for (ConceptAccession current : node.getConceptAccessions()) {
-				if (current.getElementOf()
-						.equals(rule.getAccessionDataSource())) {
+				if (current.getElementOf().equals(rule.getAccessionDataSource())) {
 					accession = current;
 					break;
 				}

@@ -59,9 +59,7 @@ public class Filter {
 	 *            the name of the cv of accessions to seach in (can be null)
 	 * @return the number of concepts hidden
 	 */
-	public static final int hideConceptsOnAcessionRegex(
-			OVTK2PropertiesAggregator viewer, String regex, String ccName,
-			String concept_cvName, String accession_cvName) {
+	public static final int hideConceptsOnAcessionRegex(OVTK2PropertiesAggregator viewer, String regex, String ccName, String concept_cvName, String accession_cvName) {
 
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 		ONDEXGraphMetaData md = graph.getMetaData();
@@ -77,10 +75,7 @@ public class Filter {
 		if (accession_cvName != null && accession_cvName.length() > 0)
 			accession_dataSource = md.getDataSource(accession_cvName);
 
-		Set<ONDEXConcept> concepts = StandardFunctions
-				.filterConceptsOnAcessionRegex(regex,
-						viewer.getONDEXJUNGGraph(), false, cc,
-						concept_dataSource, accession_dataSource);
+		Set<ONDEXConcept> concepts = StandardFunctions.filterConceptsOnAcessionRegex(regex, viewer.getONDEXJUNGGraph(), false, cc, concept_dataSource, accession_dataSource);
 		int conceptcount = concepts.size();
 		graph.setVisibility(concepts, false);
 		return conceptcount;

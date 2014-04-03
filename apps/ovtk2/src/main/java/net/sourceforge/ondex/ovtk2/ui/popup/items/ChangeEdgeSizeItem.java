@@ -41,9 +41,7 @@ public class ChangeEdgeSizeItem extends EntityMenuItem<ONDEXRelation> {
 		sizeField.setText(Config.defaultEdgeSize + "");
 		panel.add(sizeField);
 		// ask user for size
-		int option = JOptionPane.showConfirmDialog((Component) viewer, panel,
-				"Change size", JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
+		int option = JOptionPane.showConfirmDialog((Component) viewer, panel, "Change size", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (option == JOptionPane.OK_OPTION) {
 			try {
 				final int size = Integer.parseInt(sizeField.getText());
@@ -58,8 +56,7 @@ public class ChangeEdgeSizeItem extends EntityMenuItem<ONDEXRelation> {
 				}
 
 				// wrap new transformer around old one
-				final Transformer<ONDEXRelation, Integer> oldSizes = strokes
-						.getEdgeSizeTransformer();
+				final Transformer<ONDEXRelation, Integer> oldSizes = strokes.getEdgeSizeTransformer();
 				Transformer<ONDEXRelation, Integer> newSizes = new Transformer<ONDEXRelation, Integer>() {
 
 					@Override

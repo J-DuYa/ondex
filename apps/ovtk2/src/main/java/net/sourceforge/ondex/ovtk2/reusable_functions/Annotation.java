@@ -28,9 +28,7 @@ import org.apache.commons.collections15.map.LazyMap;
 
 public class Annotation {
 
-	private static final Color[] rainbow = new Color[] {
-			new Color(160, 32, 240), Color.BLUE, Color.CYAN, Color.GREEN,
-			Color.YELLOW, Color.ORANGE, Color.RED };
+	private static final Color[] rainbow = new Color[] { new Color(160, 32, 240), Color.BLUE, Color.CYAN, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.RED };
 
 	/**
 	 * Creates a colour scale from the colours specified and annotates the graph
@@ -44,9 +42,7 @@ public class Annotation {
 	 * @param colors
 	 *            - colour that will be included in the colour scale.
 	 */
-	public static final void annotateOnColorScaleFill(
-			OVTK2PropertiesAggregator viewer, Map<ONDEXConcept, Double> map,
-			double[] minmax, Color... colors) {
+	public static final void annotateOnColorScaleFill(OVTK2PropertiesAggregator viewer, Map<ONDEXConcept, Double> map, double[] minmax, Color... colors) {
 		if (minmax == null)
 			minmax = findMinMaxInSet(map.values());
 		double range = minmax[1] - minmax[0];
@@ -56,16 +52,14 @@ public class Annotation {
 
 		// transform colour of nodes
 		ONDEXNodeFillPaint colorManager = viewer.getNodeColors();
-		colorManager
-				.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
+		colorManager.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
 
 		double subrange = range / colors.length;
 		for (Entry<ONDEXConcept, Double> ent : map.entrySet()) {
 			int pos = (int) (Math.abs(ent.getValue()) / subrange);
 			Color newColor = null;
 			if (pos < colors.length - 1)
-				newColor = getColorRatio(colors[pos], colors[pos + 1],
-						(Math.abs(ent.getValue()) - pos * subrange) / subrange);
+				newColor = getColorRatio(colors[pos], colors[pos + 1], (Math.abs(ent.getValue()) - pos * subrange) / subrange);
 			else
 				newColor = colors[colors.length - 1];
 			colorManager.updateColor(ent.getKey(), newColor);
@@ -84,9 +78,7 @@ public class Annotation {
 	 * @param colors
 	 *            - colour that will be included in the colour scale.
 	 */
-	public static final void annotateOnColorScaleDraw(
-			OVTK2PropertiesAggregator viewer, Map<ONDEXConcept, Double> map,
-			double[] minmax, Color... colors) {
+	public static final void annotateOnColorScaleDraw(OVTK2PropertiesAggregator viewer, Map<ONDEXConcept, Double> map, double[] minmax, Color... colors) {
 		if (minmax == null)
 			minmax = findMinMaxInSet(map.values());
 		double range = minmax[1] - minmax[0];
@@ -95,8 +87,7 @@ public class Annotation {
 
 		// transform colour of nodes
 		ONDEXNodeDrawPaint colorManager = viewer.getNodeDrawPaint();
-		colorManager
-				.setDrawPaintSelection(ONDEXNodeDrawPaint.NodeDrawPaintSelection.MANUAL);
+		colorManager.setDrawPaintSelection(ONDEXNodeDrawPaint.NodeDrawPaintSelection.MANUAL);
 
 		double subrange = range / colors.length;
 		for (Entry<ONDEXConcept, Double> ent : map.entrySet()) {
@@ -117,11 +108,9 @@ public class Annotation {
 	 * @param cs
 	 * @param col
 	 */
-	public static final void setNodeFillColors(OVTK2PropertiesAggregator viewer,
-			Collection<ONDEXConcept> cs, Color col) {
+	public static final void setNodeFillColors(OVTK2PropertiesAggregator viewer, Collection<ONDEXConcept> cs, Color col) {
 		ONDEXNodeFillPaint colorManager = viewer.getNodeColors();
-		colorManager
-				.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
+		colorManager.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
 		for (ONDEXConcept c : cs) {
 			colorManager.updateColor(c, col);
 		}
@@ -134,11 +123,9 @@ public class Annotation {
 	 * @param cs
 	 * @param col
 	 */
-	public static final void setNodeDrawColors(OVTK2PropertiesAggregator viewer,
-			Collection<ONDEXConcept> cs, Color col) {
+	public static final void setNodeDrawColors(OVTK2PropertiesAggregator viewer, Collection<ONDEXConcept> cs, Color col) {
 		ONDEXNodeDrawPaint colorManager = viewer.getNodeDrawPaint();
-		colorManager
-				.setDrawPaintSelection(ONDEXNodeDrawPaint.NodeDrawPaintSelection.MANUAL);
+		colorManager.setDrawPaintSelection(ONDEXNodeDrawPaint.NodeDrawPaintSelection.MANUAL);
 		for (ONDEXConcept c : cs) {
 			colorManager.updateColor(c, col);
 		}
@@ -151,11 +138,9 @@ public class Annotation {
 	 * @param c
 	 * @param color
 	 */
-	public static final void setColor(OVTK2PropertiesAggregator viewer,
-			ONDEXConcept c, Color color) {
+	public static final void setColor(OVTK2PropertiesAggregator viewer, ONDEXConcept c, Color color) {
 		ONDEXNodeFillPaint colorManager = viewer.getNodeColors();
-		colorManager
-				.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
+		colorManager.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
 		colorManager.updateColor(c, color);
 	}
 
@@ -166,14 +151,11 @@ public class Annotation {
 	 * @param r
 	 * @param color
 	 */
-	public static final void setColor(OVTK2PropertiesAggregator viewer,
-			ONDEXRelation r, Color color) {
+	public static final void setColor(OVTK2PropertiesAggregator viewer, ONDEXRelation r, Color color) {
 		ONDEXEdgeColors colorManager = viewer.getEdgeColors();
-		colorManager
-				.setEdgeColorSelection(ONDEXEdgeColors.EdgeColorSelection.MANUAL);
+		colorManager.setEdgeColorSelection(ONDEXEdgeColors.EdgeColorSelection.MANUAL);
 		colorManager.updateColor(r, color);
 	}
-
 
 	/**
 	 * Creates size scale between the min and max specified and annotates the
@@ -188,8 +170,7 @@ public class Annotation {
 	 * @param maxSize
 	 *            - maximum size of nodes
 	 */
-	public static final void annotateOnSizeScale(OVTK2PropertiesAggregator viewer,
-			Map<ONDEXConcept, Double> map, int minSize, int maxSize, boolean inverse) {
+	public static final void annotateOnSizeScale(OVTK2PropertiesAggregator viewer, Map<ONDEXConcept, Double> map, int minSize, int maxSize, boolean inverse) {
 
 		// update graphs node shapes
 		ONDEXNodeShapes nodeShapes = viewer.getNodeShapes();
@@ -198,21 +179,19 @@ public class Annotation {
 		int sizeRange = maxSize - minSize;
 
 		// processed values for node sizes
-		final Map<ONDEXConcept, Integer> amplification = LazyMap.decorate(
-				new HashMap<ONDEXConcept, Integer>(), new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return Config.defaultNodeSize;
-					}
-				});
+		final Map<ONDEXConcept, Integer> amplification = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return Config.defaultNodeSize;
+			}
+		});
 
 		// scale node size according to percentage
 		for (ONDEXConcept concept : map.keySet()) {
 			double percentBase = map.get(concept) / range;
 			// this is the base size
 			if (percentBase == 0) {
-				amplification.put(concept,
-						(int) Math.floor(minSize + (sizeRange / 2)));
+				amplification.put(concept, (int) Math.floor(minSize + (sizeRange / 2)));
 			}
 			// this is the case when there is only one value and range is zero
 			if (percentBase > 1) {
@@ -281,8 +260,7 @@ public class Annotation {
 		int colorSelection = (int) (ratio / colorRange);
 		if (subrange == 0d || colorSelection == rainbow.length - 1)
 			return rainbow[colorSelection];
-		return getColorRatio(rainbow[colorSelection],
-				rainbow[colorSelection + 1], subrange / colorRange);
+		return getColorRatio(rainbow[colorSelection], rainbow[colorSelection + 1], subrange / colorRange);
 	}
 
 	/**

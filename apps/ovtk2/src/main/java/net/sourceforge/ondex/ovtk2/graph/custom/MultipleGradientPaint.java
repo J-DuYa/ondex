@@ -120,13 +120,10 @@ public abstract class MultipleGradientPaint implements Paint {
 	 *             if fractions.length != colors.length, or if colors is less
 	 *             than 2 in size, or if an enumerated value is bad.
 	 */
-	public MultipleGradientPaint(float[] fractions, Color[] colors,
-			CycleMethodEnum cycleMethod, ColorSpaceEnum colorSpace,
-			AffineTransform gradientTransform) {
+	public MultipleGradientPaint(float[] fractions, Color[] colors, CycleMethodEnum cycleMethod, ColorSpaceEnum colorSpace, AffineTransform gradientTransform) {
 
 		if (fractions == null) {
-			throw new IllegalArgumentException("Fractions array cannot be "
-					+ "null");
+			throw new IllegalArgumentException("Fractions array cannot be " + "null");
 		}
 
 		if (colors == null) {
@@ -134,28 +131,23 @@ public abstract class MultipleGradientPaint implements Paint {
 		}
 
 		if (fractions.length != colors.length) {
-			throw new IllegalArgumentException("Colors and fractions must "
-					+ "have equal size");
+			throw new IllegalArgumentException("Colors and fractions must " + "have equal size");
 		}
 
 		if (colors.length < 2) {
-			throw new IllegalArgumentException("User must specify at least "
-					+ "2 colors");
+			throw new IllegalArgumentException("User must specify at least " + "2 colors");
 		}
 
 		if ((colorSpace != LINEAR_RGB) && (colorSpace != SRGB)) {
-			throw new IllegalArgumentException("Invalid colorspace for "
-					+ "interpolation.");
+			throw new IllegalArgumentException("Invalid colorspace for " + "interpolation.");
 		}
 
-		if ((cycleMethod != NO_CYCLE) && (cycleMethod != REFLECT)
-				&& (cycleMethod != REPEAT)) {
+		if ((cycleMethod != NO_CYCLE) && (cycleMethod != REFLECT) && (cycleMethod != REPEAT)) {
 			throw new IllegalArgumentException("Invalid cycle method.");
 		}
 
 		if (gradientTransform == null) {
-			throw new IllegalArgumentException("Gradient transform cannot be "
-					+ "null.");
+			throw new IllegalArgumentException("Gradient transform cannot be " + "null.");
 		}
 
 		// copy the fractions array
@@ -210,9 +202,7 @@ public abstract class MultipleGradientPaint implements Paint {
 	 */
 	public float[] getFractions() {
 		float[] fractions = new float[this.fractions.length];
-		System
-				.arraycopy(this.fractions, 0, fractions, 0,
-						this.fractions.length);
+		System.arraycopy(this.fractions, 0, fractions, 0, this.fractions.length);
 		return fractions;
 	}
 

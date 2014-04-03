@@ -49,11 +49,7 @@ public class DialogEdges extends OVTK2Dialog {
 		private static final long serialVersionUID = -5332617581771162849L;
 
 		// table header
-		private String[] columnNames = new String[] { "",
-				Config.language.getProperty("Dialog.Edges.TableLabel"),
-				Config.language.getProperty("Dialog.Edges.RelationTypeLabel"),
-				Config.language.getProperty("Dialog.Edges.TableVisible"),
-				Config.language.getProperty("Dialog.Edges.TableLabelVisible") };
+		private String[] columnNames = new String[] { "", Config.language.getProperty("Dialog.Edges.TableLabel"), Config.language.getProperty("Dialog.Edges.RelationTypeLabel"), Config.language.getProperty("Dialog.Edges.TableVisible"), Config.language.getProperty("Dialog.Edges.TableLabelVisible") };
 
 		// contains edge to visible mapping
 		private Map<ONDEXRelation, Boolean> edges = null;
@@ -122,15 +118,13 @@ public class DialogEdges extends OVTK2Dialog {
 		public void setValueAt(Object value, int row, int col) {
 			// change to visible flag
 			if (col == 3) {
-				ONDEXRelation[] keys = edges.keySet().toArray(
-						new ONDEXRelation[0]);
+				ONDEXRelation[] keys = edges.keySet().toArray(new ONDEXRelation[0]);
 				ONDEXRelation key = keys[row];
 				edges.put(key, (Boolean) value);
 				this.fireTableDataChanged();
 			}
 			if (col == 4) {
-				ONDEXRelation[] keys = edges.keySet().toArray(
-						new ONDEXRelation[0]);
+				ONDEXRelation[] keys = edges.keySet().toArray(new ONDEXRelation[0]);
 				ONDEXRelation key = keys[row];
 				elv.put(key, (Boolean) value);
 				this.fireTableDataChanged();
@@ -190,9 +184,7 @@ public class DialogEdges extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.Edges.Apply", "Dialog.Edges.Cancel"),
-				BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel("Dialog.Edges.Apply", "Dialog.Edges.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -209,16 +201,14 @@ public class DialogEdges extends OVTK2Dialog {
 
 		// make sure visible attribute name is there
 		if (!graph.getMetaData().checkAttributeName("visible")) {
-			this.an = graph.getMetaData().getFactory()
-					.createAttributeName("visible", Boolean.class);
+			this.an = graph.getMetaData().getFactory().createAttributeName("visible", Boolean.class);
 		} else {
 			this.an = graph.getMetaData().getAttributeName("visible");
 		}
 
 		// make sure visibleELV attribute name is there
 		if (!graph.getMetaData().checkAttributeName("visibleELV")) {
-			this.anELV = graph.getMetaData().getFactory()
-					.createAttributeName("visibleELV", Boolean.class);
+			this.anELV = graph.getMetaData().getFactory().createAttributeName("visibleELV", Boolean.class);
 		} else {
 			this.anELV = graph.getMetaData().getAttributeName("visibleELV");
 		}
@@ -287,20 +277,16 @@ public class DialogEdges extends OVTK2Dialog {
 		// init properties layout
 		JPanel properties = new JPanel(new BorderLayout());
 
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.Edges.Edges"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.Edges.Edges"));
 		properties.setBorder(propertiesBorder);
 
 		TableColumn preferred = table.getColumnModel().getColumn(3);
-		int width = Config.language.getProperty("Dialog.Edges.TableVisible")
-				.length() * 7;
+		int width = Config.language.getProperty("Dialog.Edges.TableVisible").length() * 7;
 		preferred.setMaxWidth(width);
 		preferred.setMinWidth(width);
 
 		TableColumn preferredELV = table.getColumnModel().getColumn(4);
-		int widthELV = Config.language.getProperty(
-				"Dialog.Edges.TableLabelVisible").length() * 7;
+		int widthELV = Config.language.getProperty("Dialog.Edges.TableLabelVisible").length() * 7;
 		preferredELV.setMaxWidth(widthELV);
 		preferredELV.setMinWidth(widthELV);
 
@@ -319,26 +305,22 @@ public class DialogEdges extends OVTK2Dialog {
 		gdsPane.setLayout(layout);
 		properties.add(gdsPane, BorderLayout.SOUTH);
 
-		JButton load = new JButton(
-				Config.language.getProperty("Dialog.Edges.Load"));
+		JButton load = new JButton(Config.language.getProperty("Dialog.Edges.Load"));
 		load.setActionCommand("load");
 		load.addActionListener(this);
 		gdsPane.add(load);
 
-		JButton store = new JButton(
-				Config.language.getProperty("Dialog.Edges.Store"));
+		JButton store = new JButton(Config.language.getProperty("Dialog.Edges.Store"));
 		store.setActionCommand("store");
 		store.addActionListener(this);
 		gdsPane.add(store);
 
-		visibleAll = new JButton(
-				Config.language.getProperty("Dialog.Edges.DeSelectAllVisible"));
+		visibleAll = new JButton(Config.language.getProperty("Dialog.Edges.DeSelectAllVisible"));
 		visibleAll.setActionCommand("visible");
 		visibleAll.addActionListener(this);
 		gdsPane.add(visibleAll);
 
-		labelsAll = new JButton(
-				Config.language.getProperty("Dialog.Edges.SelectAllLabels"));
+		labelsAll = new JButton(Config.language.getProperty("Dialog.Edges.SelectAllLabels"));
 		labelsAll.setActionCommand("labels");
 		labelsAll.addActionListener(this);
 		gdsPane.add(labelsAll);
@@ -355,8 +337,7 @@ public class DialogEdges extends OVTK2Dialog {
 		// sync visibility
 		if (cmd.equals("apply")) {
 
-			StateEdit edit = new StateEdit(new VisibilityUndo(
-					viewer.getONDEXJUNGGraph()), this.getName());
+			StateEdit edit = new StateEdit(new VisibilityUndo(viewer.getONDEXJUNGGraph()), this.getName());
 
 			// this is for edge visibility
 			Map<ONDEXRelation, Boolean> visible = model.getData();
@@ -399,11 +380,9 @@ public class DialogEdges extends OVTK2Dialog {
 			elv.clear();
 
 			// fill from Attribute
-			for (ONDEXRelation relation : graph
-					.getRelationsOfAttributeName(anELV)) {
+			for (ONDEXRelation relation : graph.getRelationsOfAttributeName(anELV)) {
 				Attribute attribute = relation.getAttribute(anELV);
-				elv.put(relation,
-						((Boolean) attribute.getValue()).booleanValue());
+				elv.put(relation, ((Boolean) attribute.getValue()).booleanValue());
 			}
 
 			model.fireTableDataChanged();
@@ -432,46 +411,32 @@ public class DialogEdges extends OVTK2Dialog {
 
 		// toggle all visible
 		else if (cmd.equals("visible")) {
-			if (visibleAll.getText().equals(
-					Config.language
-							.getProperty("Dialog.Edges.SelectAllVisible"))) {
+			if (visibleAll.getText().equals(Config.language.getProperty("Dialog.Edges.SelectAllVisible"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
 					table.setValueAt(true, x, table.convertColumnIndexToView(3));
 				}
-				visibleAll.setText(Config.language
-						.getProperty("Dialog.Edges.DeSelectAllVisible"));
-			} else if (visibleAll.getText().equals(
-					Config.language
-							.getProperty("Dialog.Edges.DeSelectAllVisible"))) {
+				visibleAll.setText(Config.language.getProperty("Dialog.Edges.DeSelectAllVisible"));
+			} else if (visibleAll.getText().equals(Config.language.getProperty("Dialog.Edges.DeSelectAllVisible"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
-					table.setValueAt(false, x,
-							table.convertColumnIndexToView(3));
+					table.setValueAt(false, x, table.convertColumnIndexToView(3));
 				}
-				visibleAll.setText(Config.language
-						.getProperty("Dialog.Edges.SelectAllVisible"));
+				visibleAll.setText(Config.language.getProperty("Dialog.Edges.SelectAllVisible"));
 			}
 			visibleAll.repaint();
 		}
 
 		// toggle all labels
 		else if (cmd.equals("labels")) {
-			if (labelsAll.getText()
-					.equals(Config.language
-							.getProperty("Dialog.Edges.SelectAllLabels"))) {
+			if (labelsAll.getText().equals(Config.language.getProperty("Dialog.Edges.SelectAllLabels"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
 					table.setValueAt(true, x, table.convertColumnIndexToView(4));
 				}
-				labelsAll.setText(Config.language
-						.getProperty("Dialog.Edges.DeSelectAllLabels"));
-			} else if (labelsAll.getText().equals(
-					Config.language
-							.getProperty("Dialog.Edges.DeSelectAllLabels"))) {
+				labelsAll.setText(Config.language.getProperty("Dialog.Edges.DeSelectAllLabels"));
+			} else if (labelsAll.getText().equals(Config.language.getProperty("Dialog.Edges.DeSelectAllLabels"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
-					table.setValueAt(false, x,
-							table.convertColumnIndexToView(4));
+					table.setValueAt(false, x, table.convertColumnIndexToView(4));
 				}
-				labelsAll.setText(Config.language
-						.getProperty("Dialog.Edges.SelectAllLabels"));
+				labelsAll.setText(Config.language.getProperty("Dialog.Edges.SelectAllLabels"));
 			}
 			labelsAll.repaint();
 		}

@@ -33,8 +33,7 @@ public class ConceptAccessionTableCellRenderer extends DefaultTableCellRenderer 
 	Color selected = new Color(240, 230, 140);
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
 		// clear previous settings
 		super.setForeground(null);
@@ -60,8 +59,7 @@ public class ConceptAccessionTableCellRenderer extends DefaultTableCellRenderer 
 		}
 
 		// default component
-		Component comp = super.getTableCellRendererComponent(table, value,
-				isSelected, hasFocus, row, column);
+		Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
 		// override default selection foreground
 		if (color != null)

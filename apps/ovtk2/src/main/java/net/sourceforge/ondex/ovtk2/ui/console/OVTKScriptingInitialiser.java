@@ -74,93 +74,74 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 		 */
 		// OVTK2Desktop
 		try {
-			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder
-					.getMethodByName(OVTK2Desktop.class, "getInstance"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTK2Desktop.class, "getInstance"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// JUNGGraph
 		try {
-			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder
-					.getMethodByName(OVTK2PropertiesAggregator.class,
-							"getONDEXJUNGGraph"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTK2PropertiesAggregator.class, "getONDEXJUNGGraph"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// ONDEXMetaGraph
 		try {
-			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder
-					.getMethodByName(OVTK2PropertiesAggregator.class,
-							"getMetaGraph"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTK2PropertiesAggregator.class, "getMetaGraph"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// VisualizationViewer
 		try {
-			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder
-					.getMethodByName(OVTK2PropertiesAggregator.class,
-							"getVisualizationViewer"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTK2PropertiesAggregator.class, "getVisualizationViewer"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// OVTK2PropertiesAggregator
 		try {
-			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder
-					.getMethodByName(OVTK2ResourceAssesor.class,
-							"getSelectedViewer"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTK2ResourceAssesor.class, "getSelectedViewer"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// OVTK2MetaGraph
 		try {
-			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder
-					.getMethodByName(OVTK2ResourceAssesor.class,
-							"getSelectedMetagraph"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTK2ResourceAssesor.class, "getSelectedMetagraph"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// Only used internally
 		try {
-			proxyTemplateBuilder
-					.addRootMethod(UniversalProxyTemplateBuilder
-							.getMethodByName(OVTK2Desktop.class,
-									"getDesktopResources"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTK2Desktop.class, "getDesktopResources"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder
-					.getMethodByName(OVTKScriptingInitialiser.class,
-							"getCommandLine"));
+			proxyTemplateBuilder.addRootMethod(UniversalProxyTemplateBuilder.getMethodByName(OVTKScriptingInitialiser.class, "getCommandLine"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			proxyTemplateBuilder
-					.addAllMethodsAsFunctions(net.sourceforge.ondex.ovtk2.reusable_functions.VisualisationExtension.class);
+			proxyTemplateBuilder.addAllMethodsAsFunctions(net.sourceforge.ondex.ovtk2.reusable_functions.VisualisationExtension.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		try {
-			proxyTemplateBuilder
-					.addAllMethodsAsFunctions(ReportFunctions.class);
+			proxyTemplateBuilder.addAllMethodsAsFunctions(ReportFunctions.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		// allow execution of plugins by script
 		try {
-			proxyTemplateBuilder.addFunctionMethodByName(
-					OVTK2CustomFunctions.class, "applyPlugin", "applyPlugin");
+			proxyTemplateBuilder.addFunctionMethodByName(OVTK2CustomFunctions.class, "applyPlugin", "applyPlugin");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -189,8 +170,7 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 		 */
 		proxyTemplateBuilder.addAllMethodsAsFunctions(Interactivity.class);
 		try {
-			proxyTemplateBuilder
-					.addAllMethodsAsFunctions(net.sourceforge.ondex.ovtk2.reusable_functions.Annotation.class);
+			proxyTemplateBuilder.addAllMethodsAsFunctions(net.sourceforge.ondex.ovtk2.reusable_functions.Annotation.class);
 			proxyTemplateBuilder.addAllMethodsAsFunctions(CustomImport.class);
 			// proxyTemplateBuilder.addAllMethodsAsFunctions(Class.forName("net.sourceforge.ondex.xten.scripting.jython.JythonFunctions"));
 			proxyTemplateBuilder.addAllMethodsAsFunctions(CommonFuntions.class);
@@ -215,12 +195,9 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 
 	public static OutputPrinter getCommandLine() {
 		// check if there is an active viewer present
-		OVTK2PropertiesAggregator viewer = (OVTK2PropertiesAggregator) OVTK2Desktop
-				.getDesktopResources().getSelectedViewer();
+		OVTK2PropertiesAggregator viewer = (OVTK2PropertiesAggregator) OVTK2Desktop.getDesktopResources().getSelectedViewer();
 		if (viewer == null) {
-			FileMenuAction.getInstance().actionPerformed(
-					new ActionEvent(OVTK2Desktop.getInstance(),
-							ActionEvent.ACTION_PERFORMED, "new"));
+			FileMenuAction.getInstance().actionPerformed(new ActionEvent(OVTK2Desktop.getInstance(), ActionEvent.ACTION_PERFORMED, "new"));
 		}
 		return getCommandLine(viewer);
 	}
@@ -242,13 +219,9 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 					JavaProxyTemplate proxyTemplate = getProxyTemplateWithDoc();
 					JSInterpreter jsi = new JSInterpreter();
 					jsi.setProcessingCheckpoint(new VisualizationHandler());
-					net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter sparqy = net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter
-							.getCurrentInstance();
+					net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter sparqy = net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter.getCurrentInstance();
 					sparqy.setProcessingCheckpoint(new VisualizationHandler());
-					InterpretationController ic = new BasicInterpretationController(
-							new TemplateBuilder[] {},
-							new ProxyTemplate[] { proxyTemplate },
-							new CommandInterpreter[] { jsi });
+					InterpretationController ic = new BasicInterpretationController(new TemplateBuilder[] {}, new ProxyTemplate[] { proxyTemplate }, new CommandInterpreter[] { jsi });
 					ic.addInterpreter(new OvtkECI(ic));
 
 					if (sparqy.configure()) {
@@ -265,9 +238,7 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 		return cmd;
 	}
 
-	public static ONDEXConcept convConcept(OVTK2PropertiesAggregator viewer,
-			int id) throws FunctionException, NullValueException,
-			AccessDeniedException {
+	public static ONDEXConcept convConcept(OVTK2PropertiesAggregator viewer, int id) throws FunctionException, NullValueException, AccessDeniedException {
 		ONDEXConcept result = viewer.getONDEXJUNGGraph().getConcept(id);
 		if (result == null) {
 			throw new FunctionException("Concept with id doea not exist.", -4);
@@ -275,9 +246,7 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 		return result;
 	}
 
-	public static ONDEXRelation convRelation(OVTK2PropertiesAggregator viewer,
-			int id) throws FunctionException, NullValueException,
-			AccessDeniedException {
+	public static ONDEXRelation convRelation(OVTK2PropertiesAggregator viewer, int id) throws FunctionException, NullValueException, AccessDeniedException {
 		ONDEXRelation result = viewer.getONDEXJUNGGraph().getRelation(id);
 		if (result == null) {
 			throw new FunctionException("Concept with id doea not exist.", -4);
@@ -298,17 +267,13 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 	 * @throws FunctionException
 	 */
 	@SuppressWarnings("unchecked")
-	private static void applyFilter(String name,
-			OVTK2PropertiesAggregator viewer, String... args)
-			throws FunctionException {
+	private static void applyFilter(String name, OVTK2PropertiesAggregator viewer, String... args) throws FunctionException {
 		try {
 			Class<ONDEXFilter> cf = (Class<ONDEXFilter>) Class.forName(name);
-			ONDEXFilter filter = cf.getDeclaredConstructor(new Class<?>[] {})
-					.newInstance();
+			ONDEXFilter filter = cf.getDeclaredConstructor(new Class<?>[] {}).newInstance();
 			ONDEXGraph graphInput = viewer.getONDEXJUNGGraph();
 			if (args.length > 0 || filter.requiresIndexedGraph()) {
-				ONDEXPluginArguments fa = new ONDEXPluginArguments(
-						filter.getArgumentDefinitions());
+				ONDEXPluginArguments fa = new ONDEXPluginArguments(filter.getArgumentDefinitions());
 
 				ArgumentDefinition<?>[] ad = filter.getArgumentDefinitions();
 				for (int i = 0; i < ad.length; i++) {
@@ -341,27 +306,22 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 
 			for (ONDEXConcept concept : filter.getVisibleConcepts()) {
 				if (contexts == null || contexts.size() == 0) {
-					contexts = BitSetFunctions.or(concept.getTags(),
-							graphInput.getConceptsOfTag(concept));
+					contexts = BitSetFunctions.or(concept.getTags(), graphInput.getConceptsOfTag(concept));
 				} else {
-					contexts.addAll(BitSetFunctions.or(concept.getTags(),
-							graphInput.getConceptsOfTag(concept)));
+					contexts.addAll(BitSetFunctions.or(concept.getTags(), graphInput.getConceptsOfTag(concept)));
 				}
 			}
 
 			Set<ONDEXConcept> conceptsVisible = filter.getVisibleConcepts();
 
 			for (ONDEXConcept concept : graphInput.getConcepts()) {
-				if (!conceptsVisible.contains(concept)
-						&& (contexts == null || !contexts.contains(concept))) {
+				if (!conceptsVisible.contains(concept) && (contexts == null || !contexts.contains(concept))) {
 					graphInput.deleteConcept(concept.getId());
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FunctionException(
-					"This optional feature is not availible, as the required libaray was not found.",
-					-4);
+			throw new FunctionException("This optional feature is not availible, as the required libaray was not found.", -4);
 		} finally {
 			System.runFinalization();
 		}
@@ -408,12 +368,10 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 		}
 	}
 
-	private static class OVTKMetaDataResolver implements
-			ContextualReferenceResolver<ONDEXGraphMetaData> {
+	private static class OVTKMetaDataResolver implements ContextualReferenceResolver<ONDEXGraphMetaData> {
 		@Override
 		public ONDEXGraphMetaData resolveRef(Object arg) throws Exception {
-			ONDEXGraphMetaData result = ((OVTK2PropertiesAggregator) arg)
-					.getONDEXJUNGGraph().getMetaData();
+			ONDEXGraphMetaData result = ((OVTK2PropertiesAggregator) arg).getONDEXJUNGGraph().getMetaData();
 
 			if (result == null) {
 				throw new FunctionException("No meta data is available.", -4);
@@ -422,18 +380,14 @@ public class OVTKScriptingInitialiser extends OndexScriptingInitialiser {
 		}
 	}
 
-	private static class OVTKGraphResolver implements
-			ContextualReferenceResolver<ONDEXGraph> {
+	private static class OVTKGraphResolver implements ContextualReferenceResolver<ONDEXGraph> {
 		@Override
 		public ONDEXGraph resolveRef(Object arg) throws Exception {
 			try {
 
-				return OVTK2Desktop.getDesktopResources().getSelectedViewer()
-						.getONDEXJUNGGraph();
+				return OVTK2Desktop.getDesktopResources().getSelectedViewer().getONDEXJUNGGraph();
 			} catch (NullPointerException e) {
-				throw new FunctionException(
-						"Error - unable to find an ONDEX graph! Create the new graph to correct this error.",
-						-1);
+				throw new FunctionException("Error - unable to find an ONDEX graph! Create the new graph to correct this error.", -1);
 			}
 		}
 	}

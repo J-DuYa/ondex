@@ -30,70 +30,70 @@ import net.sourceforge.ondex.ovtk2.ui.OVTK2Desktop;
 
 /**
  * @author weilej
- *
+ * 
  */
 public class ErrorDialog extends JDialog implements ActionListener {
 
-	//####FIELDS####
-	
+	// ####FIELDS####
+
 	private JPanel topPanel, bottomPanel;
-	
+
 	private JScrollPane centerPanel;
-	
+
 	private JButton moreLess;
-	
+
 	private BufferedImage errorImg;
-	
+
 	private Throwable throwable;
-	
+
 	private Thread thread;
-	
+
 	private boolean running;
-	
+
 	private Dimension minDim, maxDim;
 
 	/**
 	 * serial id.
 	 */
 	private static final long serialVersionUID = 3398440747424344511L;
-	
-	//####CONSTRUCTOR####
-	
+
+	// ####CONSTRUCTOR####
+
 	private ErrorDialog(boolean running, Throwable throwable, Thread thread) {
-		super(running ? OVTK2Desktop.getInstance().getMainFrame() : null,"Error");
+		super(running ? OVTK2Desktop.getInstance().getMainFrame() : null, "Error");
 		this.throwable = throwable;
 		this.thread = thread;
 		this.running = running;
 		setupGUI();
 		boolean debug = Boolean.parseBoolean(Config.config.getProperty("flags.debug"));
-		if (debug) throwable.printStackTrace();
+		if (debug)
+			throwable.printStackTrace();
 	}
 
-	
-	//####METHODS####
+	// ####METHODS####
 
 	private void setupGUI() {
-		getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.PAGE_AXIS));
-		
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+
 		topPanel = new JPanel(new BorderLayout());
 		JPanel leftPanel = makeImgPanel();
 		if (leftPanel != null) {
-			topPanel.add(leftPanel,BorderLayout.WEST);
+			topPanel.add(leftPanel, BorderLayout.WEST);
 		}
 		JPanel rightPanel = new JPanel(new BorderLayout());
-		rightPanel.add(makeMsgPanel(),BorderLayout.CENTER);
-		rightPanel.add(makeMoreLessPanel(),BorderLayout.SOUTH);
+		rightPanel.add(makeMsgPanel(), BorderLayout.CENTER);
+		rightPanel.add(makeMoreLessPanel(), BorderLayout.SOUTH);
 		topPanel.add(rightPanel, BorderLayout.CENTER);
-		
+
 		centerPanel = createStackPanel();
 		bottomPanel = createButtonPanel();
-		
+
 		less();
-		
-		int w_self = getWidth()+100;
+
+		int w_self = getWidth() + 100;
 		int h_self = getHeight();
-		int x,y,w,h;
-		
+		int x, y, w, h;
+
 		if (running) {
 			x = getParent().getX();
 			y = getParent().getY();
@@ -106,103 +106,103 @@ public class ErrorDialog extends JDialog implements ActionListener {
 			w = screen.width;
 			h = screen.height;
 		}
-		this.setBounds(x + (w-w_self)/2, y + (h-h_self)/2, w_self, h_self);
-		
+		this.setBounds(x + (w - w_self) / 2, y + (h - h_self) / 2, w_self, h_self);
+
 		minDim = getSize();
-		maxDim = new Dimension(getWidth(),getHeight()+100);
-		
-		topPanel.setMaximumSize(new Dimension(1280,topPanel.getHeight()));
+		maxDim = new Dimension(getWidth(), getHeight() + 100);
+
+		topPanel.setMaximumSize(new Dimension(1280, topPanel.getHeight()));
 		bottomPanel.setMaximumSize(bottomPanel.getSize());
-		
+
 		setVisible(true);
 	}
-	
+
 	private JScrollPane createStackPanel() {
-		
+
 		StringBuilder b = new StringBuilder();
-		
-		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL,DateFormat.FULL);
+
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL);
 		String date = df.format(new Date(System.currentTimeMillis()));
-		
-		b.append("Date: "+date+"\n");
-		
+
+		b.append("Date: " + date + "\n");
+
 		String build = DesktopUtils.extractBuildNumber();
 		if (build != null) {
-			b.append("Build:"+build+"\n");
+			b.append("Build:" + build + "\n");
 		}
-		
+
 		String arch = System.getProperty("os.arch");
 		String osname = System.getProperty("os.name");
 		String osversion = System.getProperty("os.version");
-		
-		b.append("System: "+arch+" "+osname+" v"+osversion+"\n");
-		
+
+		b.append("System: " + arch + " " + osname + " v" + osversion + "\n");
+
 		buildStackTrace(b, throwable);
-		
+
 		JTextArea area = new JTextArea();
 		area.setEditable(false);
 		area.setText(b.toString());
 		return new JScrollPane(area);
 	}
-	
+
 	private void buildStackTrace(StringBuilder b, Throwable t) {
-//		String threadname = (thread != null)? thread.getName() : "unknown";
-//		b.append(t.toString()+" in Thread "+threadname+"\n");
-//		for (StackTraceElement e : throwable.getStackTrace()) {
-//			b.append("        at "+e.getClassName()+"("+e.getFileName()+":"+e.getLineNumber()+")"+"\n");
-//		}
-//		if (t.getCause() != null) {
-//			b.append("Caused by: ");
-//			buildStackTrace(b, t.getCause());
-//		}
-//		return b;
-        StringWriter writer = new StringWriter();
-        PrintWriter pw = new PrintWriter(writer);
-        t.printStackTrace(pw);
-        b.append(writer.toString());
+		// String threadname = (thread != null)? thread.getName() : "unknown";
+		// b.append(t.toString()+" in Thread "+threadname+"\n");
+		// for (StackTraceElement e : throwable.getStackTrace()) {
+		// b.append("        at "+e.getClassName()+"("+e.getFileName()+":"+e.getLineNumber()+")"+"\n");
+		// }
+		// if (t.getCause() != null) {
+		// b.append("Caused by: ");
+		// buildStackTrace(b, t.getCause());
+		// }
+		// return b;
+		StringWriter writer = new StringWriter();
+		PrintWriter pw = new PrintWriter(writer);
+		t.printStackTrace(pw);
+		b.append(writer.toString());
 	}
-	
+
 	private JPanel makeMoreLessPanel() {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		moreLess = makeButton("Details >>","more");
+		moreLess = makeButton("Details >>", "more");
 		p.add(moreLess);
 		return p;
 	}
-	
+
 	private JPanel createButtonPanel() {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		p.add(makeButton("OK","ok"));
+		p.add(makeButton("OK", "ok"));
 		return p;
 	}
-	
+
 	private JButton makeButton(String title, String actionCommand) {
 		JButton button = new JButton(title);
 		button.setActionCommand(actionCommand);
 		button.addActionListener(this);
 		return button;
 	}
-	
+
 	private JPanel makeMsgPanel() {
 		JPanel rightPanel = new JPanel();
-		rightPanel.setLayout(new BoxLayout(rightPanel,BoxLayout.PAGE_AXIS));
-		
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.PAGE_AXIS));
+
 		String msg = (throwable.getMessage() != null) ? throwable.getMessage() : throwable.toString();
 		rightPanel.add(new JLabel(" "));
 		rightPanel.add(new JLabel("An error occurred:"));
 		rightPanel.add(new JLabel(msg));
-		
+
 		return rightPanel;
 	}
-	
+
 	private JPanel makeImgPanel() {
 		String s = File.separator;
-		File imgFile = new File("config"+s+"themes"+s+"default"+s+"icons"+s+"error25.png");
+		File imgFile = new File("config" + s + "themes" + s + "default" + s + "icons" + s + "error25.png");
 		if (imgFile.exists() && imgFile.canRead()) {
 			try {
 				errorImg = ImageIO.read(imgFile);
 				if (errorImg != null) {
 					JPanel leftPanel = new JPanel() {
-						
+
 						private static final long serialVersionUID = 858217031036743682L;
 
 						public void paint(Graphics g) {
@@ -210,10 +210,9 @@ public class ErrorDialog extends JDialog implements ActionListener {
 							Graphics2D g2 = (Graphics2D) g;
 							g2.drawImage(errorImg, null, 10, 17);
 						}
-						
+
 					};
-					Dimension d = new Dimension(errorImg.getWidth() + 20,
-							  errorImg.getHeight()+ 20);
+					Dimension d = new Dimension(errorImg.getWidth() + 20, errorImg.getHeight() + 20);
 					leftPanel.setMinimumSize(d);
 					leftPanel.setMaximumSize(d);
 					leftPanel.setPreferredSize(d);
@@ -226,30 +225,30 @@ public class ErrorDialog extends JDialog implements ActionListener {
 		}
 		return null;
 	}
-	
+
 	private void less() {
 		moreLess.setText("Details >>");
 		moreLess.setActionCommand("more");
-		
+
 		getContentPane().removeAll();
 		getContentPane().add(topPanel);
 		getContentPane().add(bottomPanel);
-		
+
 		pack();
 		if (minDim != null) {
 			setSize(minDim);
 		}
 	}
-	
+
 	private void more() {
 		moreLess.setText("<< Details");
 		moreLess.setActionCommand("less");
-		
+
 		getContentPane().removeAll();
 		getContentPane().add(topPanel);
 		getContentPane().add(centerPanel);
 		getContentPane().add(bottomPanel);
-		
+
 		setSize(maxDim);
 		validate();
 	}
@@ -264,15 +263,15 @@ public class ErrorDialog extends JDialog implements ActionListener {
 		} else if (cmd.equals("ok")) {
 			dispose();
 		}
-		
+
 	}
-	
+
 	public static void show(boolean running, Throwable throwable, Thread thread) {
 		new ErrorDialog(running, throwable, thread);
 	}
-	
+
 	public static void show(Throwable throwable) {
 		new ErrorDialog(true, throwable, null);
 	}
-	
+
 }

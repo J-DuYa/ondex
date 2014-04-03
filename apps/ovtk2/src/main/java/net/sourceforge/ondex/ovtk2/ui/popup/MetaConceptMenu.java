@@ -65,8 +65,7 @@ public class MetaConceptMenu extends JPopupMenu {
 	/**
 	 * 
 	 */
-	public class MetaConceptInfo extends JPanel implements
-			VertexMenuListener<ONDEXMetaConcept, ONDEXMetaRelation> {
+	public class MetaConceptInfo extends JPanel implements VertexMenuListener<ONDEXMetaConcept, ONDEXMetaRelation> {
 
 		// %%%%Fields of MetaConceptInfo%%%%
 		/**
@@ -83,9 +82,7 @@ public class MetaConceptMenu extends JPopupMenu {
 			BoxLayout contentLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 			this.setLayout(contentLayout);
 
-			TitledBorder infoBorder = BorderFactory
-					.createTitledBorder(Config.language
-							.getProperty("Viewer.MetaConceptMenu.Info"));
+			TitledBorder infoBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Viewer.MetaConceptMenu.Info"));
 			this.setBorder(infoBorder);
 		}
 
@@ -95,8 +92,7 @@ public class MetaConceptMenu extends JPopupMenu {
 		 *      edu.uci.ics.jung.visualization.VisualizationViewer)
 		 */
 		@Override
-		public void setVertexAndView(ONDEXMetaConcept vertex,
-				VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
+		public void setVertexAndView(ONDEXMetaConcept vertex, VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
 
 			// empty panel
 			this.removeAll();
@@ -109,8 +105,7 @@ public class MetaConceptMenu extends JPopupMenu {
 			typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.LINE_AXIS));
 
 			// label for concept class
-			typePanel.add(new JLabel(Config.language
-					.getProperty("Viewer.MetaConceptMenu.OfType")));
+			typePanel.add(new JLabel(Config.language.getProperty("Viewer.MetaConceptMenu.OfType")));
 
 			// box layout refinements
 			typePanel.add(Box.createHorizontalGlue());
@@ -126,12 +121,10 @@ public class MetaConceptMenu extends JPopupMenu {
 
 			// construct number info panel
 			JPanel numberPanel = new JPanel(new BorderLayout());
-			numberPanel.setLayout(new BoxLayout(numberPanel,
-					BoxLayout.LINE_AXIS));
+			numberPanel.setLayout(new BoxLayout(numberPanel, BoxLayout.LINE_AXIS));
 
 			// construct title label
-			numberPanel.add(new JLabel(Config.language
-					.getProperty("Viewer.MetaConceptMenu.NumberOfConcepts")));
+			numberPanel.add(new JLabel(Config.language.getProperty("Viewer.MetaConceptMenu.NumberOfConcepts")));
 
 			// box layout refinements
 			numberPanel.add(Box.createHorizontalGlue());
@@ -148,9 +141,7 @@ public class MetaConceptMenu extends JPopupMenu {
 	/**
 	 * 
 	 */
-	public class MetaConceptVisibilityItem extends JCheckBoxMenuItem implements
-			VertexMenuListener<ONDEXMetaConcept, ONDEXMetaRelation>,
-			ActionListener {
+	public class MetaConceptVisibilityItem extends JCheckBoxMenuItem implements VertexMenuListener<ONDEXMetaConcept, ONDEXMetaRelation>, ActionListener {
 
 		// %%%%Fields of ShowMetaConcept%%%%
 
@@ -173,8 +164,7 @@ public class MetaConceptMenu extends JPopupMenu {
 		 * 
 		 */
 		@Override
-		public void setVertexAndView(ONDEXMetaConcept vertex,
-				VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
+		public void setVertexAndView(ONDEXMetaConcept vertex, VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
 			this.vertex = vertex;
 			setSelected(vertex.isVisible());
 			setActionCommand(vertex.isVisible() ? "hide" : "show");
@@ -186,8 +176,7 @@ public class MetaConceptMenu extends JPopupMenu {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			viewer.getMetaGraphPanel().getVisualizationViewer().getModel()
-					.fireStateChanged();
+			viewer.getMetaGraphPanel().getVisualizationViewer().getModel().fireStateChanged();
 		}
 
 	}

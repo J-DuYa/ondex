@@ -15,9 +15,9 @@ import java.util.HashMap;
  * 
  */
 public class OVTK2AppletStub implements AppletStub {
-	//properties for the applet 
+	// properties for the applet
 	private HashMap<String, String> properties;
-	//executed java applet
+	// executed java applet
 	private Applet applet;
 
 	/**
@@ -30,8 +30,8 @@ public class OVTK2AppletStub implements AppletStub {
 	 */
 	public OVTK2AppletStub(Applet applet, HashMap<String, String> properties) {
 		this.applet = applet;
-		System.out.println ( properties );
-		this.properties =properties;
+		System.out.println(properties);
+		this.properties = properties;
 	}
 
 	/**

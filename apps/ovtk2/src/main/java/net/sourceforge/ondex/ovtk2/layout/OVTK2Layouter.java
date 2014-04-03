@@ -15,7 +15,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * @author taubertj
  * 
  */
-public abstract class OVTK2Layouter extends	AbstractLayout<ONDEXConcept, ONDEXRelation> {
+public abstract class OVTK2Layouter extends AbstractLayout<ONDEXConcept, ONDEXRelation> {
 
 	// current VisualizationViewer<ONDEXConcept, ONDEXRelation>
 	protected VisualizationViewer<ONDEXConcept, ONDEXRelation> viewer = null;
@@ -58,11 +58,11 @@ public abstract class OVTK2Layouter extends	AbstractLayout<ONDEXConcept, ONDEXRe
 	 * @return JPanel
 	 */
 	public abstract JPanel getOptionPanel();
-	
+
 	/**
 	 * Clean up of layout resources to avoid memory leaks
 	 */
-	public void cleanUp(){
+	public void cleanUp() {
 
 	}
 }

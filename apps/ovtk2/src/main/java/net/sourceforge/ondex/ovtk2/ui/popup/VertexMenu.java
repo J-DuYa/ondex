@@ -55,8 +55,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * @author taubertj
  * 
  */
-public class VertexMenu extends JPopupMenu implements
-		VertexMenuListener<ONDEXConcept, ONDEXRelation>, MenuPointListener {
+public class VertexMenu extends JPopupMenu implements VertexMenuListener<ONDEXConcept, ONDEXRelation>, MenuPointListener {
 
 	// generated
 	private static final long serialVersionUID = 7519988778944416506L;
@@ -80,8 +79,7 @@ public class VertexMenu extends JPopupMenu implements
 		INSTANCE = this;
 	}
 
-	protected Set<ONDEXConcept> getMultipleNodes(OVTK2Viewer viewer,
-			ONDEXConcept vertex) {
+	protected Set<ONDEXConcept> getMultipleNodes(OVTK2Viewer viewer, ONDEXConcept vertex) {
 		Set<ONDEXConcept> pickedNodes = viewer.getPickedNodes();
 		if (!pickedNodes.contains(vertex))
 			pickedNodes = Collections.singleton(vertex);
@@ -100,9 +98,7 @@ public class VertexMenu extends JPopupMenu implements
 		Set<ConceptAccession> accs = vertex.getConceptAccessions();
 		if (accs.size() > 0) {
 			for (ConceptAccession acc : accs) {
-				if (!acc.isAmbiguous()
-						&& vertex.getElementOf().getId()
-								.contains(acc.getElementOf().getId())) {
+				if (!acc.isAmbiguous() && vertex.getElementOf().getId().contains(acc.getElementOf().getId())) {
 
 					// this is to load possible htmlaccession file
 					try {
@@ -114,10 +110,8 @@ public class VertexMenu extends JPopupMenu implements
 					// get URL for this type of accessions
 					String url = AccessionPlugin.cvToURL.get(acc.getElementOf().getId());
 					if (AccessionPlugin.mapper != null) {
-						Condition cond = new Condition(acc.getElementOf()
-								.getId(), vertex.getElementOf().getId());
-						String prefix = (String) AccessionPlugin.mapper
-								.validate(cond);
+						Condition cond = new Condition(acc.getElementOf().getId(), vertex.getElementOf().getId());
+						String prefix = (String) AccessionPlugin.mapper.validate(cond);
 						if (prefix != null && prefix.length() > 0) {
 							url = prefix;
 						}
@@ -127,12 +121,10 @@ public class VertexMenu extends JPopupMenu implements
 					if (url != null) {
 						try {
 							// try to build a URI for link
-							final URI uri = new URI(url + ""
-									+ acc.getAccession());
+							final URI uri = new URI(url + "" + acc.getAccession());
 
 							// make menu item with blue text
-							JMenuItem item = new JMenuItem(acc.getElementOf()
-									.getId() + ": " + acc.getAccession());
+							JMenuItem item = new JMenuItem(acc.getElementOf().getId() + ": " + acc.getAccession());
 							item.setForeground(Color.BLUE);
 							item.addActionListener(new ActionListener() {
 
@@ -153,9 +145,7 @@ public class VertexMenu extends JPopupMenu implements
 											ErrorDialog.show(ioe);
 										}
 									} else {
-										JOptionPane
-												.showInputDialog(desktop,
-														"Hyperlinks not supported by OS.");
+										JOptionPane.showInputDialog(desktop, "Hyperlinks not supported by OS.");
 									}
 								}
 							});
@@ -176,8 +166,7 @@ public class VertexMenu extends JPopupMenu implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void setVertexAndView(ONDEXConcept vertex,
-			VisualizationViewer<ONDEXConcept, ONDEXRelation> visComp) {
+	public void setVertexAndView(ONDEXConcept vertex, VisualizationViewer<ONDEXConcept, ONDEXRelation> visComp) {
 
 		removeAll();
 
@@ -185,20 +174,16 @@ public class VertexMenu extends JPopupMenu implements
 		addLink(vertex);
 
 		// new change menu
-		JMenu change = new JMenu(
-				Config.language.getProperty("Viewer.VertexMenu.ChangeBy"));
+		JMenu change = new JMenu(Config.language.getProperty("Viewer.VertexMenu.ChangeBy"));
 
 		// new link menu
-		JMenu link = new JMenu(
-				Config.language.getProperty("Viewer.VertexMenu.LinkBy"));
+		JMenu link = new JMenu(Config.language.getProperty("Viewer.VertexMenu.LinkBy"));
 
 		// new hide menu
-		JMenu hide = new JMenu(
-				Config.language.getProperty("Viewer.VertexMenu.HideBy"));
+		JMenu hide = new JMenu(Config.language.getProperty("Viewer.VertexMenu.HideBy"));
 
 		// new show menu
-		JMenu show = new JMenu(
-				Config.language.getProperty("Viewer.VertexMenu.ShowBy"));
+		JMenu show = new JMenu(Config.language.getProperty("Viewer.VertexMenu.ShowBy"));
 
 		Set<ONDEXConcept> nodes = getMultipleNodes(viewer, vertex);
 
@@ -214,8 +199,7 @@ public class VertexMenu extends JPopupMenu implements
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException fnfe) {
 			ErrorDialog.show(fnfe);
 		} catch (MalformedURLException e) {
@@ -232,10 +216,8 @@ public class VertexMenu extends JPopupMenu implements
 				int index = clazz.lastIndexOf(".");
 				name = clazz.substring(index + 1, clazz.length());
 				if (DEBUG)
-					System.err.println("class mapping: " + name + " ->  "
-							+ clazz);
-				EntityMenuItem<ONDEXConcept> item = OVTK2PluginLoader
-						.getInstance().loadPopupItem(name);
+					System.err.println("class mapping: " + name + " ->  " + clazz);
+				EntityMenuItem<ONDEXConcept> item = OVTK2PluginLoader.getInstance().loadPopupItem(name);
 				item.init(viewer, nodes);
 				if (item.accepts()) {
 					switch (item.getCategory()) {
@@ -282,10 +264,8 @@ public class VertexMenu extends JPopupMenu implements
 		addSeparator();
 
 		// add custom popup items
-		if (Boolean.parseBoolean(Config.config
-				.getProperty("PopupEditor.Enable"))) {
-			CustomPopupItem menuItem = new CustomPopupItem(OVTK2Desktop
-					.getInstance().getMainFrame());
+		if (Boolean.parseBoolean(Config.config.getProperty("PopupEditor.Enable"))) {
+			CustomPopupItem menuItem = new CustomPopupItem(OVTK2Desktop.getInstance().getMainFrame());
 			menuItem.init(viewer, nodes);
 			if (menuItem.accepts()) {
 				add(menuItem.getItem());
@@ -294,10 +274,8 @@ public class VertexMenu extends JPopupMenu implements
 		}
 
 		// SWAT4LS - 2010 demo
-		boolean selectedConcepts = (viewer.getPickedNodes().size() != 0 || vertex != null) ? true
-				: false;
-		boolean selectedRelations = viewer.getPickedEdges().size() == 0 ? false
-				: true;
+		boolean selectedConcepts = (viewer.getPickedNodes().size() != 0 || vertex != null) ? true : false;
+		boolean selectedRelations = viewer.getPickedEdges().size() == 0 ? false : true;
 
 		Set<String> layoutAndCenter = new HashSet<String>();
 		boolean empty = true;
@@ -305,21 +283,15 @@ public class VertexMenu extends JPopupMenu implements
 		Map<String, List<String>> options = new HashMap<String, List<String>>();
 		List<String> menuCommands = new ArrayList<String>();
 		try {
-			Class<?> clsInterp = Thread
-					.currentThread()
-					.getContextClassLoader()
-					.loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
-			Object instanceInterp = clsInterp.getMethod("getCurrentInstance",
-					new Class<?>[0]).invoke(clsInterp, new Object[0]);
+			Class<?> clsInterp = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
+			Object instanceInterp = clsInterp.getMethod("getCurrentInstance", new Class<?>[0]).invoke(clsInterp, new Object[0]);
 			if (instanceInterp != null) {
-				boolean success = (Boolean) clsInterp.getMethod("configure",
-						new Class<?>[0]).invoke(instanceInterp, new Object[0]);
+				boolean success = (Boolean) clsInterp.getMethod("configure", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
 				if (!success)
 					return;
-				QuerySetParser qs = (QuerySetParser) clsInterp.getMethod(
-						"getQuerySetParser", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
+				QuerySetParser qs = (QuerySetParser) clsInterp.getMethod("getQuerySetParser", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
 				File file = qs.getQuerySetLocation();
-				BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath() + File.separator	+ "interactive.sqs"));
+				BufferedReader br = new BufferedReader(new FileReader(file.getAbsolutePath() + File.separator + "interactive.sqs"));
 				String line;
 				while ((line = br.readLine()) != null) {
 					boolean doLayout = false;
@@ -337,19 +309,19 @@ public class VertexMenu extends JPopupMenu implements
 					}
 				}
 				br.close();
-				Map<String, String> cvToUrl = new TreeMap<String,String>();
-				
-				file = new File(qs.getQuerySetLocation().getAbsolutePath() + File.separator	+ "uri.sqs");
-				if(file.exists()){
+				Map<String, String> cvToUrl = new TreeMap<String, String>();
+
+				file = new File(qs.getQuerySetLocation().getAbsolutePath() + File.separator + "uri.sqs");
+				if (file.exists()) {
 					BufferedReader br1 = new BufferedReader(new FileReader(file));
 					while ((line = br1.readLine()) != null) {
-						if(line.startsWith("#")){
+						if (line.startsWith("#")) {
 							continue;
 						}
-						if(!line.contains("\t")){
+						if (!line.contains("\t")) {
 							continue;
 						}
-						String [] temp = line.split("\t");
+						String[] temp = line.split("\t");
 						cvToUrl.put(temp[0], temp[1]);
 					}
 					br1.close();
@@ -385,12 +357,8 @@ public class VertexMenu extends JPopupMenu implements
 				}
 
 				if (selectedConcepts) {
-					for (Entry<String, List<String>> ent : nodeOptions
-							.entrySet()) {
-						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
-								viewer, vertex, null, ent.getKey(),
-								ent.getValue(), Collections.EMPTY_LIST,
-								layoutAndCenter, cvToUrl);
+					for (Entry<String, List<String>> ent : nodeOptions.entrySet()) {
+						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(viewer, vertex, null, ent.getKey(), ent.getValue(), Collections.EMPTY_LIST, layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);
@@ -401,12 +369,8 @@ public class VertexMenu extends JPopupMenu implements
 					querry.addSeparator();
 				}
 				if (selectedRelations) {
-					for (Entry<String, List<String>> ent : edgeOptions
-							.entrySet()) {
-						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
-								viewer, vertex, null, ent.getKey(),
-								Collections.EMPTY_LIST, ent.getValue(),
-								layoutAndCenter, cvToUrl);
+					for (Entry<String, List<String>> ent : edgeOptions.entrySet()) {
+						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(viewer, vertex, null, ent.getKey(), Collections.EMPTY_LIST, ent.getValue(), layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);
@@ -437,33 +401,24 @@ public class VertexMenu extends JPopupMenu implements
 				public void actionPerformed(ActionEvent e) {
 
 					// warn user
-					int option = JOptionPane.showInternalConfirmDialog(viewer,
-							"This will merge the selected concepts into one.\n"
-									+ "This step cannot be undone.\n"
-									+ "Do you want to continue?",
-							"Merging concepts", JOptionPane.YES_NO_OPTION,
-							JOptionPane.WARNING_MESSAGE);
+					int option = JOptionPane.showInternalConfirmDialog(viewer, "This will merge the selected concepts into one.\n" + "This step cannot be undone.\n" + "Do you want to continue?", "Merging concepts", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					if (option == JOptionPane.NO_OPTION)
 						return;
 
 					ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 
-					ClusterCollapser collapser = new ClusterCollapser(true,
-							true, null);
+					ClusterCollapser collapser = new ClusterCollapser(true, true, null);
 
 					// hide selection concepts to merger
-					HashSet<ONDEXConcept> toMerge = new HashSet<ONDEXConcept>(
-							viewer.getPickedNodes());
+					HashSet<ONDEXConcept> toMerge = new HashSet<ONDEXConcept>(viewer.getPickedNodes());
 					graph.setVisibility(toMerge, false);
 					try {
 						// merge concepts and set visible
-						ONDEXConcept merged = collapser.collapseConceptCluster(
-								graph, toMerge);
+						ONDEXConcept merged = collapser.collapseConceptCluster(graph, toMerge);
 						graph.setVisibility(merged, true);
 						// get all neighbours
 						Set<ONDEXConcept> neighbourNodes = new HashSet<ONDEXConcept>();
-						for (ONDEXRelation r : graph
-								.getRelationsOfConcept(merged)) {
+						for (ONDEXRelation r : graph.getRelationsOfConcept(merged)) {
 							// set relation visible
 							graph.setVisibility(r, true);
 							if (r.getFromConcept().equals(merged))
@@ -472,9 +427,7 @@ public class VertexMenu extends JPopupMenu implements
 								neighbourNodes.add(r.getFromConcept());
 						}
 						// layout neighbours of merged concepts
-						LayoutNeighbours.layoutNodes(
-								viewer.getVisualizationViewer(), merged,
-								neighbourNodes);
+						LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), merged, neighbourNodes);
 						// centre viewer
 						viewer.center();
 					} catch (InconsistencyException e1) {

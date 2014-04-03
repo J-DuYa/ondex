@@ -61,8 +61,7 @@ public class IntegerStringWrapper implements Comparable<Object> {
 	@Override
 	public int compareTo(Object o) {
 		if (o instanceof IntegerStringWrapper)
-			return s.toUpperCase().compareTo(
-					((IntegerStringWrapper) o).s.toUpperCase());
+			return s.toUpperCase().compareTo(((IntegerStringWrapper) o).s.toUpperCase());
 		else
 			return 1;
 	}

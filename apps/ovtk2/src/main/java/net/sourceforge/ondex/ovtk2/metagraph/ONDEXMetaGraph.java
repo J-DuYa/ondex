@@ -36,9 +36,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  * @author taubertj
  * 
  */
-public class ONDEXMetaGraph extends
-		SparseGraph<ONDEXMetaConcept, ONDEXMetaRelation> implements
-		DirectedGraph<ONDEXMetaConcept, ONDEXMetaRelation>, ActionListener {
+public class ONDEXMetaGraph extends SparseGraph<ONDEXMetaConcept, ONDEXMetaRelation> implements DirectedGraph<ONDEXMetaConcept, ONDEXMetaRelation>, ActionListener {
 
 	/**
 	 * generated
@@ -101,9 +99,7 @@ public class ONDEXMetaGraph extends
 
 		// refresh possible meta data legend
 		if (ViewMenuAction.isLegendShown())
-			ViewMenuAction.getLegend().actionPerformed(
-					new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-							OVTK2Legend.REFRESH));
+			ViewMenuAction.getLegend().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, OVTK2Legend.REFRESH));
 	}
 
 	/**
@@ -112,15 +108,13 @@ public class ONDEXMetaGraph extends
 	public void actionPerformed(ActionEvent arg0) {
 		String cmd = arg0.getActionCommand();
 
-		if (arg0.getSource() instanceof MetaConceptVisibilityItem
-				|| arg0.getSource() instanceof ONDEXMetaConcept) {
+		if (arg0.getSource() instanceof MetaConceptVisibilityItem || arg0.getSource() instanceof ONDEXMetaConcept) {
 
 			ONDEXMetaConcept mc;
 			if (arg0.getSource() instanceof ONDEXMetaConcept)
 				mc = (ONDEXMetaConcept) arg0.getSource();
 			else
-				mc = ((MetaConceptVisibilityItem) arg0.getSource())
-						.getMetaConcept();
+				mc = ((MetaConceptVisibilityItem) arg0.getSource()).getMetaConcept();
 
 			if (cmd.equals("show")) {
 
@@ -132,8 +126,7 @@ public class ONDEXMetaGraph extends
 				for (ONDEXConcept c : mc.getConcepts()) {
 					// make relations visible as per OVTK-295
 					for (ONDEXRelation r : graph.getRelationsOfConcept(c)) {
-						if (graph.isVisible(r.getToConcept())
-								&& graph.isVisible(r.getFromConcept()))
+						if (graph.isVisible(r.getToConcept()) && graph.isVisible(r.getFromConcept()))
 							graph.setVisibility(r, true);
 					}
 				}
@@ -141,8 +134,7 @@ public class ONDEXMetaGraph extends
 
 				// hide all connected relations first, for safety.
 				for (ONDEXMetaRelation incidentMR : getIncidentEdges(mc)) {
-					ActionEvent eventDummy = new ActionEvent(incidentMR,
-							ActionEvent.ACTION_PERFORMED, "hide");
+					ActionEvent eventDummy = new ActionEvent(incidentMR, ActionEvent.ACTION_PERFORMED, "hide");
 					actionPerformed(eventDummy);
 				}
 
@@ -153,15 +145,13 @@ public class ONDEXMetaGraph extends
 			}
 			// TODO: Update colour interface
 			mainviewer.getVisualizationViewer().getModel().fireStateChanged();
-		} else if (arg0.getSource() instanceof MetaRelationVisibilityItem
-				|| arg0.getSource() instanceof ONDEXMetaRelation) {
+		} else if (arg0.getSource() instanceof MetaRelationVisibilityItem || arg0.getSource() instanceof ONDEXMetaRelation) {
 
 			ONDEXMetaRelation mr;
 			if (arg0.getSource() instanceof ONDEXMetaRelation)
 				mr = (ONDEXMetaRelation) arg0.getSource();
 			else
-				mr = ((MetaRelationVisibilityItem) arg0.getSource())
-						.getMetaRelation();
+				mr = ((MetaRelationVisibilityItem) arg0.getSource()).getMetaRelation();
 
 			if (cmd.equals("show")) {
 
@@ -189,9 +179,7 @@ public class ONDEXMetaGraph extends
 
 		// refresh possible meta data legend
 		if (updateLegend && ViewMenuAction.isLegendShown())
-			ViewMenuAction.getLegend().actionPerformed(
-					new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-							OVTK2Legend.REFRESH));
+			ViewMenuAction.getLegend().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, OVTK2Legend.REFRESH));
 	}
 
 	private void createEdgeForRelationType(RelationType rt) {
@@ -204,12 +192,9 @@ public class ONDEXMetaGraph extends
 		}
 		// create meta relation for each pair
 		for (Pair<ConceptClass> ccPair : betweenCC) {
-			ONDEXMetaConcept from = new ONDEXMetaConcept(graph,
-					ccPair.getFirst());
-			ONDEXMetaConcept to = new ONDEXMetaConcept(graph,
-					ccPair.getSecond());
-			this.addEdge(new ONDEXMetaRelation(graph, rt, ccPair),
-					new Pair<ONDEXMetaConcept>(from, to));
+			ONDEXMetaConcept from = new ONDEXMetaConcept(graph, ccPair.getFirst());
+			ONDEXMetaConcept to = new ONDEXMetaConcept(graph, ccPair.getSecond());
+			this.addEdge(new ONDEXMetaRelation(graph, rt, ccPair), new Pair<ONDEXMetaConcept>(from, to));
 		}
 		this.fireStateChange();
 	}
@@ -241,8 +226,7 @@ public class ONDEXMetaGraph extends
 	 *            ONDEXMetaConcept representing ConceptClass
 	 * @return true if successful
 	 */
-	public boolean addEdge(ONDEXMetaRelation e, ONDEXMetaConcept v1,
-			ONDEXMetaConcept v2) {
+	public boolean addEdge(ONDEXMetaRelation e, ONDEXMetaConcept v1, ONDEXMetaConcept v2) {
 		return addEdge(e, v1, v2, EdgeType.DIRECTED);
 	}
 
@@ -260,8 +244,7 @@ public class ONDEXMetaGraph extends
 	 *            EdgeType
 	 * @return true if successful
 	 */
-	public boolean addEdge(ONDEXMetaRelation e, ONDEXMetaConcept v1,
-			ONDEXMetaConcept v2, EdgeType edgeType) {
+	public boolean addEdge(ONDEXMetaRelation e, ONDEXMetaConcept v1, ONDEXMetaConcept v2, EdgeType edgeType) {
 		return addEdge(e, new Pair<ONDEXMetaConcept>(v1, v2), edgeType);
 	}
 
@@ -275,10 +258,8 @@ public class ONDEXMetaGraph extends
 	 *            Pair of ONDEXMetaConcepts
 	 * @return true if successful
 	 */
-	public boolean addEdge(ONDEXMetaRelation edge,
-			Pair<? extends ONDEXMetaConcept> endpoints) {
-		Pair<ONDEXMetaConcept> new_endpoints = getValidatedEndpoints(edge,
-				endpoints);
+	public boolean addEdge(ONDEXMetaRelation edge, Pair<? extends ONDEXMetaConcept> endpoints) {
+		Pair<ONDEXMetaConcept> new_endpoints = getValidatedEndpoints(edge, endpoints);
 		if (new_endpoints == null)
 			return false;
 
@@ -312,11 +293,9 @@ public class ONDEXMetaGraph extends
 	 * @return true if successful
 	 */
 	@Override
-	public boolean addEdge(ONDEXMetaRelation edge,
-			Pair<? extends ONDEXMetaConcept> endpoints, EdgeType edgeType) {
+	public boolean addEdge(ONDEXMetaRelation edge, Pair<? extends ONDEXMetaConcept> endpoints, EdgeType edgeType) {
 		if (edgeType != EdgeType.DIRECTED)
-			throw new IllegalArgumentException(
-					"This graph does not accept edges of type " + edgeType);
+			throw new IllegalArgumentException("This graph does not accept edges of type " + edgeType);
 		return addEdge(edge, endpoints);
 	}
 
@@ -332,9 +311,7 @@ public class ONDEXMetaGraph extends
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!vertices.containsKey(vertex)) {
-			vertices.put(vertex, new Pair<Set<ONDEXMetaRelation>>(
-					new HashSet<ONDEXMetaRelation>(),
-					new HashSet<ONDEXMetaRelation>()));
+			vertices.put(vertex, new Pair<Set<ONDEXMetaRelation>>(new HashSet<ONDEXMetaRelation>(), new HashSet<ONDEXMetaRelation>()));
 			return true;
 		} else {
 			return false;
@@ -390,10 +367,8 @@ public class ONDEXMetaGraph extends
 	 *            ONDEXMetaConcept
 	 * @return all ONDEXEdges
 	 */
-	public Collection<ONDEXMetaRelation> findEdgeSet(ONDEXMetaConcept v1,
-			ONDEXMetaConcept v2) {
-		ArrayList<ONDEXMetaRelation> edge_collection = new ArrayList<ONDEXMetaRelation>(
-				1);
+	public Collection<ONDEXMetaRelation> findEdgeSet(ONDEXMetaConcept v1, ONDEXMetaConcept v2) {
+		ArrayList<ONDEXMetaRelation> edge_collection = new ArrayList<ONDEXMetaRelation>(1);
 		if (!containsVertex(v1) || !containsVertex(v2))
 			return edge_collection;
 		ONDEXMetaRelation e = findEdge(v1, v2);
@@ -504,8 +479,7 @@ public class ONDEXMetaGraph extends
 	 *            ONDEXMetaConcept representing ConceptClass
 	 * @return Collection<ONDEXMetaRelation>
 	 */
-	public Collection<ONDEXMetaRelation> getIncidentEdges(
-			ONDEXMetaConcept vertex) {
+	public Collection<ONDEXMetaRelation> getIncidentEdges(ONDEXMetaConcept vertex) {
 		Collection<ONDEXMetaRelation> incident = new HashSet<ONDEXMetaRelation>();
 		incident.addAll(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
@@ -519,8 +493,7 @@ public class ONDEXMetaGraph extends
 	 *            ONDEXMetaConcept
 	 * @return Collection<ONDEXMetaRelation>
 	 */
-	protected Collection<ONDEXMetaRelation> getIncoming_internal(
-			ONDEXMetaConcept vertex) {
+	protected Collection<ONDEXMetaRelation> getIncoming_internal(ONDEXMetaConcept vertex) {
 		return vertices.get(vertex).getFirst();
 	}
 
@@ -572,8 +545,7 @@ public class ONDEXMetaGraph extends
 	 *            ONDEXMetaConcept
 	 * @return Collection<ONDEXMetaRelation>
 	 */
-	protected Collection<ONDEXMetaRelation> getOutgoing_internal(
-			ONDEXMetaConcept vertex) {
+	protected Collection<ONDEXMetaRelation> getOutgoing_internal(ONDEXMetaConcept vertex) {
 		return vertices.get(vertex).getSecond();
 	}
 
@@ -712,8 +684,7 @@ public class ONDEXMetaGraph extends
 			return false;
 
 		// copy to avoid concurrent modification in removeEdge
-		Set<ONDEXMetaRelation> incident = new HashSet<ONDEXMetaRelation>(
-				getIncoming_internal(vertex));
+		Set<ONDEXMetaRelation> incident = new HashSet<ONDEXMetaRelation>(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 
 		for (ONDEXMetaRelation edge : incident)

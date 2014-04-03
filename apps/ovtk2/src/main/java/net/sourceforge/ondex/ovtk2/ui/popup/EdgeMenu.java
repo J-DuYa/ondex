@@ -36,8 +36,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * @author taubertj
  * 
  */
-public class EdgeMenu extends JPopupMenu implements
-		EdgeMenuListener<ONDEXConcept, ONDEXRelation>, MenuPointListener {
+public class EdgeMenu extends JPopupMenu implements EdgeMenuListener<ONDEXConcept, ONDEXRelation>, MenuPointListener {
 
 	private static final boolean DEBUG = false;
 
@@ -58,8 +57,7 @@ public class EdgeMenu extends JPopupMenu implements
 		this.viewer = viewer;
 	}
 
-	private Set<ONDEXRelation> getMultipleEdges(OVTK2Viewer viewer,
-			ONDEXRelation edge) {
+	private Set<ONDEXRelation> getMultipleEdges(OVTK2Viewer viewer, ONDEXRelation edge) {
 		Set<ONDEXRelation> pickedEdges = viewer.getPickedEdges();
 		if (!pickedEdges.contains(edge))
 			pickedEdges = Collections.singleton(edge);
@@ -68,22 +66,18 @@ public class EdgeMenu extends JPopupMenu implements
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void setEdgeAndView(ONDEXRelation e,
-			VisualizationViewer<ONDEXConcept, ONDEXRelation> visComp) {
+	public void setEdgeAndView(ONDEXRelation e, VisualizationViewer<ONDEXConcept, ONDEXRelation> visComp) {
 
 		removeAll();
 
 		// new change menu
-		JMenu change = new JMenu(
-				Config.language.getProperty("Viewer.EdgeMenu.ChangeBy"));
+		JMenu change = new JMenu(Config.language.getProperty("Viewer.EdgeMenu.ChangeBy"));
 
 		// new hide menu
-		JMenu hide = new JMenu(
-				Config.language.getProperty("Viewer.EdgeMenu.HideBy"));
+		JMenu hide = new JMenu(Config.language.getProperty("Viewer.EdgeMenu.HideBy"));
 
 		// new show menu
-		JMenu show = new JMenu(
-				Config.language.getProperty("Viewer.EdgeMenu.ShowBy"));
+		JMenu show = new JMenu(Config.language.getProperty("Viewer.EdgeMenu.ShowBy"));
 
 		Set<ONDEXRelation> edges = getMultipleEdges(viewer, e);
 
@@ -99,8 +93,7 @@ public class EdgeMenu extends JPopupMenu implements
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException fnfe) {
 			ErrorDialog.show(fnfe);
 		} catch (MalformedURLException mue) {
@@ -117,10 +110,8 @@ public class EdgeMenu extends JPopupMenu implements
 				int index = clazz.lastIndexOf(".");
 				name = clazz.substring(index + 1, clazz.length());
 				if (DEBUG)
-					System.err.println("class mapping: " + name + " ->  "
-							+ clazz);
-				EntityMenuItem<ONDEXRelation> item = OVTK2PluginLoader
-						.getInstance().loadPopupItem(name);
+					System.err.println("class mapping: " + name + " ->  " + clazz);
+				EntityMenuItem<ONDEXRelation> item = OVTK2PluginLoader.getInstance().loadPopupItem(name);
 				item.init(viewer, edges);
 				if (item.accepts()) {
 					switch (item.getCategory()) {
@@ -206,42 +197,36 @@ public class EdgeMenu extends JPopupMenu implements
 				}
 				Map<String, List<String>> edgeOptions = new HashMap<String, List<String>>();
 				Map<String, List<String>> nodeOptions = new HashMap<String, List<String>>();
-				Map<String, String> cvToUrl = new TreeMap<String,String>();
-				try{
-					Class<?> clsInterp = Thread
-							.currentThread()
-							.getContextClassLoader()
-							.loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
-					Object instanceInterp = clsInterp.getMethod("getCurrentInstance",
-							new Class<?>[0]).invoke(clsInterp, new Object[0]);
+				Map<String, String> cvToUrl = new TreeMap<String, String>();
+				try {
+					Class<?> clsInterp = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
+					Object instanceInterp = clsInterp.getMethod("getCurrentInstance", new Class<?>[0]).invoke(clsInterp, new Object[0]);
 					if (instanceInterp != null) {
-						boolean success = (Boolean) clsInterp.getMethod("configure",
-								new Class<?>[0]).invoke(instanceInterp, new Object[0]);
-						if (!success) throw new Exception("Could not configure SPARQL interpreter!");
-							QuerySetParser qs = (QuerySetParser) clsInterp.getMethod(
-									"getQuerySetParser", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
-							File file = new File(qs.getQuerySetLocation().getAbsolutePath() + File.separator	+ "uri.sqs");
-							if(file.exists()){
-								BufferedReader br1 = new BufferedReader(new FileReader(file));
-								while ((line = br1.readLine()) != null) {
-									if(line.startsWith("#")){
-										continue;
-									}
-									if(!line.contains("\t")){
-										continue;
-									}
-									String [] temp = line.split("\t");
-									cvToUrl.put(temp[0], temp[1]);
+						boolean success = (Boolean) clsInterp.getMethod("configure", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
+						if (!success)
+							throw new Exception("Could not configure SPARQL interpreter!");
+						QuerySetParser qs = (QuerySetParser) clsInterp.getMethod("getQuerySetParser", new Class<?>[0]).invoke(instanceInterp, new Object[0]);
+						File file = new File(qs.getQuerySetLocation().getAbsolutePath() + File.separator + "uri.sqs");
+						if (file.exists()) {
+							BufferedReader br1 = new BufferedReader(new FileReader(file));
+							while ((line = br1.readLine()) != null) {
+								if (line.startsWith("#")) {
+									continue;
 								}
-								br1.close();
-							}	
+								if (!line.contains("\t")) {
+									continue;
+								}
+								String[] temp = line.split("\t");
+								cvToUrl.put(temp[0], temp[1]);
+							}
+							br1.close();
 						}
 					}
-					catch(Exception e1){
-						if(DEBUG){
-							e1.printStackTrace();
-						}
+				} catch (Exception e1) {
+					if (DEBUG) {
+						e1.printStackTrace();
 					}
+				}
 
 				for (Entry<String, List<String>> ent : options.entrySet()) {
 					boolean isEdge = false;
@@ -266,11 +251,8 @@ public class EdgeMenu extends JPopupMenu implements
 				}
 
 				if (selectedConcepts) {
-					for (Entry<String, List<String>> ent : nodeOptions
-							.entrySet()) {
-						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
-								viewer, null, e, ent.getKey(), ent.getValue(),
-								Collections.EMPTY_LIST, layoutAndCenter, cvToUrl);
+					for (Entry<String, List<String>> ent : nodeOptions.entrySet()) {
+						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(viewer, null, e, ent.getKey(), ent.getValue(), Collections.EMPTY_LIST, layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);
@@ -281,12 +263,8 @@ public class EdgeMenu extends JPopupMenu implements
 					querry.addSeparator();
 				}
 				if (selectedRelations) {
-					for (Entry<String, List<String>> ent : edgeOptions
-							.entrySet()) {
-						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(
-								viewer, null, e, ent.getKey(),
-								Collections.EMPTY_LIST, ent.getValue(),
-								layoutAndCenter, cvToUrl);
+					for (Entry<String, List<String>> ent : edgeOptions.entrySet()) {
+						EntityURIMenuItem vm = EntityURIMenuItem.getMenuItem(viewer, null, e, ent.getKey(), Collections.EMPTY_LIST, ent.getValue(), layoutAndCenter, cvToUrl);
 						if (vm != null) {
 							empty = false;
 							querry.add(vm);
@@ -295,8 +273,7 @@ public class EdgeMenu extends JPopupMenu implements
 				}
 				if (selectedConcepts) {
 					querry.addSeparator();
-					EntityURIMenuItem vm = VertexURLResolverMenuItem
-							.getMenuItem(viewer, null, e, "Resolve URL");
+					EntityURIMenuItem vm = VertexURLResolverMenuItem.getMenuItem(viewer, null, e, "Resolve URL");
 					querry.add(vm);
 				}
 

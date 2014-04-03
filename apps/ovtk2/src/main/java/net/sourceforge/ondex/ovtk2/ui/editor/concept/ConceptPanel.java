@@ -15,7 +15,7 @@ import net.sourceforge.ondex.ovtk2.ui.editor.util.Util;
  * Contains list of all concepts in graph.
  * 
  * @author taubertj
- *
+ * 
  */
 public class ConceptPanel extends JPanel {
 
@@ -32,8 +32,7 @@ public class ConceptPanel extends JPanel {
 	/**
 	 * Predefined table headers
 	 */
-	static Object[] header = { "id", "pid", "annotation", "description",
-			"element of", "of type", "evidence" };
+	static Object[] header = { "id", "pid", "annotation", "description", "element of", "of type", "evidence" };
 
 	/**
 	 * Initialises table data with the given ONDEXGraph.
@@ -48,11 +47,7 @@ public class ConceptPanel extends JPanel {
 		int i = 0;
 		for (ONDEXConcept concept : graph.getConcepts()) {
 			// first entry in table row is concept itself
-			Object[] row = { concept, concept.getPID(),
-					concept.getAnnotation(), concept.getDescription(),
-					concept.getElementOf(),
-					concept.getOfType(),
-					concept.getEvidence() };
+			Object[] row = { concept, concept.getPID(), concept.getAnnotation(), concept.getDescription(), concept.getElementOf(), concept.getOfType(), concept.getEvidence() };
 			data[i] = row;
 			i++;
 		}
@@ -61,7 +56,7 @@ public class ConceptPanel extends JPanel {
 		DefaultTableModel model = new DefaultTableModel();
 		model.setDataVector(data, header);
 		table = new ConceptTable(model, graph);
-		
+
 		// add table to panel
 		this.setLayout(new GridLayout(1, 1));
 		this.add(new JScrollPane(table));

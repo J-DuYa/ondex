@@ -70,23 +70,20 @@ public class ONDEXNodeFillPaint implements Transformer<ONDEXConcept, Paint> {
 	 */
 	public ONDEXNodeFillPaint(PickedInfo<ONDEXConcept> pi) {
 		if (pi == null)
-			throw new IllegalArgumentException(
-					"PickedInfo instance must be non-null");
+			throw new IllegalArgumentException("PickedInfo instance must be non-null");
 		this.pi = pi;
-		this.colors = LazyMap.decorate(new HashMap<ONDEXConcept, Paint>(),
-				new Factory<Paint>() {
-					@Override
-					public Paint create() {
-						return Config.defaultColor;
-					}
-				});
-		this.alphas = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(),
-				new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return 255;
-					}
-				});
+		this.colors = LazyMap.decorate(new HashMap<ONDEXConcept, Paint>(), new Factory<Paint>() {
+			@Override
+			public Paint create() {
+				return Config.defaultColor;
+			}
+		});
+		this.alphas = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return 255;
+			}
+		});
 
 		// get colouring strategy from visual.xml
 		String s = Config.visual.getProperty(GRAPH_COLORING_CONCEPT_STRATEGY);
@@ -204,8 +201,7 @@ public class ONDEXNodeFillPaint implements Transformer<ONDEXConcept, Paint> {
 		// Explicitly set alpha channel of colour
 		if (paint instanceof Color && alphas.containsKey(node)) {
 			Color color = (Color) paint;
-			paint = new Color(color.getRed(), color.getGreen(),
-					color.getBlue(), alphas.get(node));
+			paint = new Color(color.getRed(), color.getGreen(), color.getBlue(), alphas.get(node));
 		}
 		updateColor(node, paint);
 	}

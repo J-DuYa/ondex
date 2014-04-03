@@ -34,20 +34,12 @@ public class HelpMenuAction implements ActionListener {
 
 		// simple about message
 		if (cmd.equals("about")) {
-			JOptionPane
-					.showInternalMessageDialog(
-							desktop.getDesktopPane(),
-							Config.language.getProperty("Dialog.About.Text"),
-							Config.language.getProperty("Dialog.About.Title"),
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon(
-									"config/toolbarButtonGraphics/general/About24.gif"));
+			JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), Config.language.getProperty("Dialog.About.Text"), Config.language.getProperty("Dialog.About.Title"), JOptionPane.PLAIN_MESSAGE, new ImageIcon("config/toolbarButtonGraphics/general/About24.gif"));
 		}
 
 		// version information
 		else if (cmd.equals("version")) {
-			StringBuilder b = new StringBuilder(
-					Config.language.getProperty("Dialog.Version.Text"));
+			StringBuilder b = new StringBuilder(Config.language.getProperty("Dialog.Version.Text"));
 			b.append("\n");
 
 			String build = DesktopUtils.extractBuildNumber();
@@ -66,32 +58,21 @@ public class HelpMenuAction implements ActionListener {
 			long maxMem = Runtime.getRuntime().maxMemory() / (1024 * 1024);
 			long totalMem = Runtime.getRuntime().totalMemory() / (1024 * 1024);
 			long freeMem = Runtime.getRuntime().freeMemory() / (1024 * 1024);
-			b.append("Memory: current=" + totalMem + "MB unclaimed=" + freeMem
-					+ "MB max=" + maxMem + "MB\n");
+			b.append("Memory: current=" + totalMem + "MB unclaimed=" + freeMem + "MB max=" + maxMem + "MB\n");
 
 			File file = new File(Config.ovtkDir);
 			long totalSpace = file.getTotalSpace() / (1024 * 1024);
 			long freeSpace = file.getFreeSpace() / (1024 * 1024);
-			b.append("Disk: total=" + totalSpace + "MB free=" + freeSpace
-					+ "MB\n");
+			b.append("Disk: total=" + totalSpace + "MB free=" + freeSpace + "MB\n");
 
-			JOptionPane
-					.showInternalMessageDialog(
-							desktop.getDesktopPane(),
-							b.toString(),
-							Config.language.getProperty("Dialog.Version.Title"),
-							JOptionPane.PLAIN_MESSAGE,
-							new ImageIcon(
-									"config/toolbarButtonGraphics/general/About24.gif"));
+			JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), b.toString(), Config.language.getProperty("Dialog.Version.Title"), JOptionPane.PLAIN_MESSAGE, new ImageIcon("config/toolbarButtonGraphics/general/About24.gif"));
 		}
 
 		// open tutorial
 		else if (cmd.equals("tutorial")) {
 
 			// where is file?
-			File tutorialLocation = new File(Config.docuDir + "/tutorial/"
-					+ Config.config.getProperty("Program.Language") + "/"
-					+ Config.config.getProperty("Tutorial.HTML"));
+			File tutorialLocation = new File(Config.docuDir + "/tutorial/" + Config.config.getProperty("Program.Language") + "/" + Config.config.getProperty("Tutorial.HTML"));
 			if (tutorialLocation.exists()) {
 				URL tutorialURL = null;
 
@@ -103,11 +84,7 @@ public class HelpMenuAction implements ActionListener {
 					ErrorDialog.show(e);
 				}
 			} else {
-				JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(),
-						Config.language
-								.getProperty("Dialog.Tutorial.NotFoundText"),
-						Config.language.getProperty("Dialog.Tutorial.Title"),
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), Config.language.getProperty("Dialog.Tutorial.NotFoundText"), Config.language.getProperty("Dialog.Tutorial.Title"), JOptionPane.ERROR_MESSAGE);
 			}
 		}
 

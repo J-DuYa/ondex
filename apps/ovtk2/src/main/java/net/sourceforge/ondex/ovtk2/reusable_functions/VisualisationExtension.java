@@ -51,8 +51,7 @@ public class VisualisationExtension {
 	public static void showRelevantContexts(OVTK2PropertiesAggregator viewer) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 		Set<ONDEXConcept> contexts = new HashSet<ONDEXConcept>();
-		for (ONDEXConcept c : viewer.getPickedNodes().toArray(
-				new ONDEXConcept[0])) {
+		for (ONDEXConcept c : viewer.getPickedNodes().toArray(new ONDEXConcept[0])) {
 			contexts.addAll(c.getTags());
 		}
 		for (ONDEXConcept contextConcept : contexts) {
@@ -68,8 +67,7 @@ public class VisualisationExtension {
 	 */
 	public static void showContextMembers(OVTK2PropertiesAggregator viewer) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
-		for (ONDEXConcept contextConcept : viewer.getPickedNodes().toArray(
-				new ONDEXConcept[0])) {
+		for (ONDEXConcept contextConcept : viewer.getPickedNodes().toArray(new ONDEXConcept[0])) {
 			graph.setVisibility(graph.getConceptsOfTag(contextConcept), true);
 			graph.setVisibility(graph.getRelationsOfTag(contextConcept), true);
 		}
@@ -82,8 +80,7 @@ public class VisualisationExtension {
 	 * @param viewer
 	 * @param contextClasses
 	 */
-	public static void showRelevantContextsByTypes(
-			OVTK2PropertiesAggregator viewer, String... contextClasses) {
+	public static void showRelevantContextsByTypes(OVTK2PropertiesAggregator viewer, String... contextClasses) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 		Set<ONDEXConcept> contexts = new HashSet<ONDEXConcept>();
 		Set<ConceptClass> selectedClasses = new HashSet<ConceptClass>();
@@ -91,8 +88,7 @@ public class VisualisationExtension {
 			createCC(viewer.getONDEXJUNGGraph(), s);
 		}
 
-		for (ONDEXConcept c : viewer.getPickedNodes().toArray(
-				new ONDEXConcept[0])) {
+		for (ONDEXConcept c : viewer.getPickedNodes().toArray(new ONDEXConcept[0])) {
 			for (ONDEXConcept candidate : c.getTags()) {
 				if (selectedClasses.contains(candidate.getOfType()))
 					contexts.add(candidate);
@@ -113,20 +109,16 @@ public class VisualisationExtension {
 	 * @param center
 	 * @param neighbours
 	 */
-	public static void layoutNeighbours(OVTK2PropertiesAggregator viewer,
-			int center, int[] neighbours) {
+	public static void layoutNeighbours(OVTK2PropertiesAggregator viewer, int center, int[] neighbours) {
 		// System.err.println("Layout method was called");
 		try {
-			ONDEXConcept centerNode = viewer.getONDEXJUNGGraph().getConcept(
-					center);
-			Set<ONDEXConcept> neighbourNodes = new HashSet<ONDEXConcept>(
-					neighbours.length);
+			ONDEXConcept centerNode = viewer.getONDEXJUNGGraph().getConcept(center);
+			Set<ONDEXConcept> neighbourNodes = new HashSet<ONDEXConcept>(neighbours.length);
 			for (int n : neighbours) {
 				neighbourNodes.add(viewer.getONDEXJUNGGraph().getConcept(n));
 			}
 			// System.err.println("Layout for neighbours: " + neighbourNodes);
-			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(),
-					centerNode, neighbourNodes);
+			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), centerNode, neighbourNodes);
 			// System.err.println("Layout method finished successfully");
 		} catch (RuntimeException e) {
 			e.printStackTrace();
@@ -155,8 +147,7 @@ public class VisualisationExtension {
 	 * ONDEXMetaRelationLabels(viewer.getONDEXJUNGGraph())); }
 	 */
 
-	public static void setVisibility(final OVTK2PropertiesAggregator viewer,
-			final ONDEXConcept c, final boolean visible) {
+	public static void setVisibility(final OVTK2PropertiesAggregator viewer, final ONDEXConcept c, final boolean visible) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
@@ -168,8 +159,7 @@ public class VisualisationExtension {
 
 	}
 
-	public static void setVisibility(final OVTK2PropertiesAggregator viewer,
-			final ONDEXRelation r, final boolean visible) {
+	public static void setVisibility(final OVTK2PropertiesAggregator viewer, final ONDEXRelation r, final boolean visible) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
@@ -179,8 +169,7 @@ public class VisualisationExtension {
 		});
 	}
 
-	public static void setVisibility(final OVTK2PropertiesAggregator viewer,
-			final Set<ONDEXEntity> es, final boolean visible) {
+	public static void setVisibility(final OVTK2PropertiesAggregator viewer, final Set<ONDEXEntity> es, final boolean visible) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
@@ -190,8 +179,7 @@ public class VisualisationExtension {
 		});
 	}
 
-	public static void setVisibility(final OVTK2PropertiesAggregator viewer,
-			final ONDEXConcept[] cs, final boolean visible) {
+	public static void setVisibility(final OVTK2PropertiesAggregator viewer, final ONDEXConcept[] cs, final boolean visible) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
@@ -203,8 +191,7 @@ public class VisualisationExtension {
 		});
 	}
 
-	public static void setVisibility(final OVTK2PropertiesAggregator viewer,
-			final ONDEXRelation[] rs, final boolean visible) {
+	public static void setVisibility(final OVTK2PropertiesAggregator viewer, final ONDEXRelation[] rs, final boolean visible) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
@@ -216,14 +203,12 @@ public class VisualisationExtension {
 		});
 	}
 
-	public static boolean isVisible(final OVTK2PropertiesAggregator viewer,
-			final ONDEXConcept c) {
+	public static boolean isVisible(final OVTK2PropertiesAggregator viewer, final ONDEXConcept c) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 		return graph.isVisible(c);
 	}
 
-	public static boolean isVisible(final OVTK2PropertiesAggregator viewer,
-			final ONDEXRelation r) {
+	public static boolean isVisible(final OVTK2PropertiesAggregator viewer, final ONDEXRelation r) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 		return graph.isVisible(r);
 	}

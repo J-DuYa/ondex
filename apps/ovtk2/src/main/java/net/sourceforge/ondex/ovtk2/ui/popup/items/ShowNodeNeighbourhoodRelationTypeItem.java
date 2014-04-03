@@ -26,8 +26,7 @@ import org.apache.commons.collections15.map.LazyMap;
  * @author Matthew Pocock
  * 
  */
-public class ShowNodeNeighbourhoodRelationTypeItem extends
-		EntityMenuItem<ONDEXConcept> {
+public class ShowNodeNeighbourhoodRelationTypeItem extends EntityMenuItem<ONDEXConcept> {
 
 	/**
 	 * Helper class for each relation type
@@ -58,12 +57,10 @@ public class ShowNodeNeighbourhoodRelationTypeItem extends
 			ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
 			for (ONDEXConcept n : entities) {
 				Set<ONDEXConcept> neighbours = new HashSet<ONDEXConcept>();
-				for (ONDEXRelation r : viewer.getONDEXJUNGGraph()
-						.getRelationsOfConcept(n)) {
+				for (ONDEXRelation r : viewer.getONDEXJUNGGraph().getRelationsOfConcept(n)) {
 					ONDEXConcept fromConcept = r.getFromConcept();
 					ONDEXConcept toConcept = r.getToConcept();
-					if ((fromConcept.equals(n) && r.getOfType().equals(rt))
-							|| (toConcept.equals(n) && r.getOfType().equals(rt))) {
+					if ((fromConcept.equals(n) && r.getOfType().equals(rt)) || (toConcept.equals(n) && r.getOfType().equals(rt))) {
 						// check if this is a invisible edge
 						if (!jung.isVisible(r)) {
 							if (fromConcept.equals(n)) {
@@ -99,8 +96,7 @@ public class ShowNodeNeighbourhoodRelationTypeItem extends
 						}
 					}
 				}
-				LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(),
-						n, neighbours);
+				LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), n, neighbours);
 			}
 		}
 
@@ -127,20 +123,18 @@ public class ShowNodeNeighbourhoodRelationTypeItem extends
 
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 
-		Map<RelationType, Integer> allRTCounts = LazyMap.decorate(
-				new HashMap<RelationType, Integer>(), new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return 0;
-					}
-				});
-		Map<RelationType, Integer> invisibleRTCounts = LazyMap.decorate(
-				new HashMap<RelationType, Integer>(), new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return 0;
-					}
-				});
+		Map<RelationType, Integer> allRTCounts = LazyMap.decorate(new HashMap<RelationType, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return 0;
+			}
+		});
+		Map<RelationType, Integer> invisibleRTCounts = LazyMap.decorate(new HashMap<RelationType, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return 0;
+			}
+		});
 
 		for (ONDEXConcept n : entities) {
 			for (ONDEXRelation r : graph.getRelationsOfConcept(n)) {
@@ -159,9 +153,7 @@ public class ShowNodeNeighbourhoodRelationTypeItem extends
 			for (RelationType rt : invisibleRTCounts.keySet()) {
 				RelationTypeHelperItem helper = new RelationTypeHelperItem(rt);
 				helper.init(viewer, entities);
-				helper.getItem().setText(
-						rt.toString() + " (" + invisibleRTCounts.get(rt) + ":"
-								+ allRTCounts.get(rt) + ")");
+				helper.getItem().setText(rt.toString() + " (" + invisibleRTCounts.get(rt) + ":" + allRTCounts.get(rt) + ")");
 				item.add(helper.getItem());
 			}
 			return true;

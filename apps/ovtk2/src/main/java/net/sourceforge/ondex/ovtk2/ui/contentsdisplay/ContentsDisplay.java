@@ -48,8 +48,7 @@ import net.sourceforge.ondex.ovtk2.util.ErrorDialog;
  * @author Jochen Weile, B.Sc.
  * 
  */
-public class ContentsDisplay extends RegisteredJInternalFrame implements
-		ActionListener {
+public class ContentsDisplay extends RegisteredJInternalFrame implements ActionListener {
 	// ####FIELDS####
 
 	/**
@@ -112,11 +111,8 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 	/**
 	 * the constructor. sets up everything.
 	 */
-	public ContentsDisplay(ONDEXGraph aog, HyperlinkListener listener,
-			JFrame parent) {
-		super(Config.language.getProperty("ContentsDisplay.Title"), "Info",
-				Config.language.getProperty("ContentsDisplay.Title"), true,
-				true, true, true);
+	public ContentsDisplay(ONDEXGraph aog, HyperlinkListener listener, JFrame parent) {
+		super(Config.language.getProperty("ContentsDisplay.Title"), "Info", Config.language.getProperty("ContentsDisplay.Title"), true, true, true, true);
 		this.aog = aog;
 		this.parent = parent;
 
@@ -128,8 +124,7 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 
 		// set OVTK2 listener are custom one
 		if (listener == null)
-			this.listener = new OVTK2HyperlinkListener(
-					OVTK2Desktop.getInstance());
+			this.listener = new OVTK2HyperlinkListener(OVTK2Desktop.getInstance());
 		else
 			this.listener = listener;
 
@@ -165,16 +160,11 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 	private void setupMenu() {
 		JMenuBar mb = new JMenuBar();
 
-		JMenu menu = new JMenu(
-				Config.language.getProperty("ContentsDisplay.Menu.Title"));
+		JMenu menu = new JMenu(Config.language.getProperty("ContentsDisplay.Menu.Title"));
 
-		menu.add(createMenuItem(
-				Config.language.getProperty("ContentsDisplay.Menu.Options"),
-				"options"));
+		menu.add(createMenuItem(Config.language.getProperty("ContentsDisplay.Menu.Options"), "options"));
 		menu.addSeparator();
-		menu.add(createMenuItem(
-				Config.language.getProperty("ContentsDisplay.Menu.Close"),
-				"close"));
+		menu.add(createMenuItem(Config.language.getProperty("ContentsDisplay.Menu.Close"), "close"));
 
 		mb.add(menu);
 
@@ -212,8 +202,7 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 
 			public void paint(Graphics g) {
 				Graphics2D g2 = (Graphics2D) g;
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				super.paint(g);
 			}
 		};
@@ -255,8 +244,7 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 		else if (cmd.equals("options")) {
 			if (parent == null) {
 				// case when running in OVTK2Desktop mode
-				new CDOptionsDialog(OVTK2Desktop.getInstance().getMainFrame(),
-						pluginOrder, name2activation);
+				new CDOptionsDialog(OVTK2Desktop.getInstance().getMainFrame(), pluginOrder, name2activation);
 			} else {
 				// running in applet mode within a JDesktopPane within a JFrame
 				new CDOptionsDialog(parent, pluginOrder, name2activation);
@@ -290,24 +278,18 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 
 		Set<String> attsAccountedFor = new HashSet<String>();
 
-		String pluginsProp = Config.config
-				.getProperty("ContentsDisplay.Plugins");
+		String pluginsProp = Config.config.getProperty("ContentsDisplay.Plugins");
 		// System.out.println("Loading ContentDisplay plugins: "+pluginsProp);
 		String[] pluginNames = pluginsProp.split(";");
 		for (String pluginName : pluginNames) {
 			try {
-				String classpath = "net.sourceforge.ondex.ovtk2.ui.contentsdisplay.plugins."
-						+ pluginName;
+				String classpath = "net.sourceforge.ondex.ovtk2.ui.contentsdisplay.plugins." + pluginName;
 				Class<?>[] args = new Class<?>[] { ONDEXGraph.class };
-				Constructor<?> constr = AbstractContentDisplayPlugin.class
-						.getClassLoader().loadClass(classpath)
-						.getConstructor(args);
-				AbstractContentDisplayPlugin plugin = (AbstractContentDisplayPlugin) constr
-						.newInstance(aog);
+				Constructor<?> constr = AbstractContentDisplayPlugin.class.getClassLoader().loadClass(classpath).getConstructor(args);
+				AbstractContentDisplayPlugin plugin = (AbstractContentDisplayPlugin) constr.newInstance(aog);
 
 				if (plugin instanceof AttributePlugin) {
-					String[] atts = ((AttributePlugin) plugin)
-							.getAttributeNames();
+					String[] atts = ((AttributePlugin) plugin).getAttributeNames();
 					for (String att : atts) {
 						attsAccountedFor.add(att);
 					}
@@ -318,16 +300,14 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 				pluginOrder.add(name);
 				name2activation.put(name, true);
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(this, e.getMessage(), "Error!",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
 
 		SortedSet<String> sort = new TreeSet<String>();
 		for (AttributeName att : aog.getMetaData().getAttributeNames()) {
-			if (!attsAccountedFor.contains(att.getId())
-					&& !AppearanceSynchronizer.attr.contains(att.getId())) {
+			if (!attsAccountedFor.contains(att.getId()) && !AppearanceSynchronizer.attr.contains(att.getId())) {
 				// no producer for it
 				if (Number.class.isAssignableFrom(att.getDataType())) {
 					name2plugin.put(att.getId(), new NumberPlugin(aog, att));
@@ -357,20 +337,11 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 	 */
 	public void showInfoFor(ONDEXEntity e) {
 
-		String htmlHead = "<html><head><style type=\"text/css\"><!--\n"
-				+ "body {font-family:Arial,sans-serif; font-size:10px; color:black; }\n"
-				+ "h1 { font-size:14px; margin-bottom:4px;}"
-				+ "h2 { font-size:12px; margin-bottom:4px; color:#008800;}"
-				+ "h3 { font-size:10px; margin-bottom:4px;}"
-				+ "code { font-family:Courier New; font-size:8px; }"
-				+
-				// ".xmpcode { border-width:10px; border-style:solid;
-				// border-color:#EEEEEE; background-color:#FFFFE0;
-				// font-family:Arial,sans-serif; }"+
-				"a:link { color:red; text-decoration:none;}\n"
-				+ "a:visited { color:#772200; text-decoration:none; }\n"
-				+ "a:active { color:#000000; text-decoration:none; }\n"
-				+ "--></style></head><body>";
+		String htmlHead = "<html><head><style type=\"text/css\"><!--\n" + "body {font-family:Arial,sans-serif; font-size:10px; color:black; }\n" + "h1 { font-size:14px; margin-bottom:4px;}" + "h2 { font-size:12px; margin-bottom:4px; color:#008800;}" + "h3 { font-size:10px; margin-bottom:4px;}" + "code { font-family:Courier New; font-size:8px; }" +
+		// ".xmpcode { border-width:10px; border-style:solid;
+		// border-color:#EEEEEE; background-color:#FFFFE0;
+		// font-family:Arial,sans-serif; }"+
+				"a:link { color:red; text-decoration:none;}\n" + "a:visited { color:#772200; text-decoration:none; }\n" + "a:active { color:#000000; text-decoration:none; }\n" + "--></style></head><body>";
 
 		StringBuffer b = new StringBuffer(htmlHead);
 
@@ -378,8 +349,7 @@ public class ContentsDisplay extends RegisteredJInternalFrame implements
 		if (e != null) {
 			for (String pluginID : pluginOrder) {
 				if (name2activation.get(pluginID)) {
-					AbstractContentDisplayPlugin plugin = name2plugin
-							.get(pluginID);
+					AbstractContentDisplayPlugin plugin = name2plugin.get(pluginID);
 					String pluginOutput = plugin.compileContent(e);
 					b.append(pluginOutput);
 				}

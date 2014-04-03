@@ -51,20 +51,11 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 		// make sure there is a taxId in the graph
 		anTaxid = aog.getMetaData().getAttributeName("TAXID");
 
-		if (!Config.isApplet
-				&& !ValidatorRegistry.validators
-						.containsKey("scientificspeciesname")) {
+		if (!Config.isApplet && !ValidatorRegistry.validators.containsKey("scientificspeciesname")) {
 			if (loadNCBI && anTaxid != null) {
 
 				Object[] options = { "Yes", "No", "No, don't ask again" };
-				int n = JOptionPane
-						.showInternalOptionDialog(OVTK2Desktop.getInstance()
-								.getDesktopPane(),
-								"Do you want to load NCBI Taxonomy from web?",
-								"Taxonomy lookup",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE, null, options,
-								options[2]);
+				int n = JOptionPane.showInternalOptionDialog(OVTK2Desktop.getInstance().getDesktopPane(), "Do you want to load NCBI Taxonomy from web?", "Taxonomy lookup", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
 
 				if (n == JOptionPane.YES_OPTION) {
 
@@ -73,9 +64,7 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 						public void task() {
 							Engine engine = Engine.getEngine();
 							try {
-								engine.initializeValidators(
-										new String[] { "scientificspeciesname" },
-										aog);
+								engine.initializeValidators(new String[] { "scientificspeciesname" }, aog);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -83,8 +72,7 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 					};
 					// start processing and monitoring
 					p.start();
-					OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-							.getMainFrame(), "Initialising taxonomy lookup", p);
+					OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Initialising taxonomy lookup", p);
 				} else if (n == JOptionPane.CANCEL_OPTION) {
 					loadNCBI = false;
 				}
@@ -124,20 +112,15 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 			writeList(extract(c.getEvidence()), "Evidence: ", b);
 
 			// check if organism can be derived
-			if (!Config.isApplet
-					&& ValidatorRegistry.validators
-							.containsKey("scientificspeciesname")
-					&& anTaxid != null) {
+			if (!Config.isApplet && ValidatorRegistry.validators.containsKey("scientificspeciesname") && anTaxid != null) {
 
 				Attribute attr = c.getAttribute(anTaxid);
 				if (attr != null) {
 					String value = attr.getValue().toString();
-					AbstractONDEXValidator validator = ValidatorRegistry.validators
-							.get("scientificspeciesname");
+					AbstractONDEXValidator validator = ValidatorRegistry.validators.get("scientificspeciesname");
 
 					try {
-						String scientificName = (String) validator
-								.validate(value);
+						String scientificName = (String) validator.validate(value);
 						if (scientificName != null)
 							b.append("Organism: " + scientificName + "<br/>");
 
@@ -188,8 +171,7 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 				if (cn.isPreferred()) {
 					// green colour to indicate preferred names,
 					// no (Preferred) tag required)
-					b.append("<div style=\"color:green\">" + cn.getName()
-							+ " </div>");
+					b.append("<div style=\"color:green\">" + cn.getName() + " </div>");
 				} else {
 					b.append(cn.getName() + "<br/>");
 				}
@@ -330,8 +312,7 @@ public class EntityInfoPlugin extends AbstractContentDisplayPlugin {
 
 		@Override
 		public int compare(ConceptName o1, ConceptName o2) {
-			return o1.getName().toLowerCase()
-					.compareTo(o2.getName().toLowerCase());
+			return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
 		}
 	}
 

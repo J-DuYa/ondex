@@ -52,10 +52,7 @@ public class DialogConceptName extends OVTK2Dialog {
 		private static final long serialVersionUID = -7275161445290443535L;
 
 		// table header
-		private String[] columnNames = new String[] {
-				Config.language.getProperty("Dialog.ConceptName.TableName"),
-				Config.language
-						.getProperty("Dialog.ConceptName.TablePreferred"), "" };
+		private String[] columnNames = new String[] { Config.language.getProperty("Dialog.ConceptName.TableName"), Config.language.getProperty("Dialog.ConceptName.TablePreferred"), "" };
 
 		// contains name to preferred mapping
 		private Map<String, Boolean> names = null;
@@ -71,8 +68,7 @@ public class DialogConceptName extends OVTK2Dialog {
 		 */
 		public ConceptNameTableModel(Map<String, Boolean> conceptNames) {
 			this.names = conceptNames;
-			File imgLocation = new File(
-					"config/toolbarButtonGraphics/general/delete16.gif");
+			File imgLocation = new File("config/toolbarButtonGraphics/general/delete16.gif");
 			URL imageURL = null;
 
 			try {
@@ -199,9 +195,7 @@ public class DialogConceptName extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.ConceptName.Apply",
-						"Dialog.ConceptName.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel("Dialog.ConceptName.Apply", "Dialog.ConceptName.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -216,9 +210,7 @@ public class DialogConceptName extends OVTK2Dialog {
 		JPanel properties = new JPanel();
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.ConceptName.ConceptNames"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.ConceptName.ConceptNames"));
 		properties.setBorder(propertiesBorder);
 
 		// get concept names from concept
@@ -232,8 +224,7 @@ public class DialogConceptName extends OVTK2Dialog {
 		JTable table = new JTable(model);
 
 		TableColumn columnPreferred = table.getColumnModel().getColumn(1);
-		int width = Config.language.getProperty(
-				"Dialog.ConceptName.TablePreferred").length() * 7;
+		int width = Config.language.getProperty("Dialog.ConceptName.TablePreferred").length() * 7;
 		columnPreferred.setMaxWidth(width);
 		columnPreferred.setMinWidth(width);
 
@@ -275,8 +266,7 @@ public class DialogConceptName extends OVTK2Dialog {
 					}
 					// preferred different
 					else if (!existing.get(name).equals(names.get(name))) {
-						concept.getConceptName(name).setPreferred(
-								names.get(name));
+						concept.getConceptName(name).setPreferred(names.get(name));
 					}
 				}
 			}

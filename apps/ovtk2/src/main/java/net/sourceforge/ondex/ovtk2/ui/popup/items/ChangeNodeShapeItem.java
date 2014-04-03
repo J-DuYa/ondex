@@ -41,9 +41,7 @@ public class ChangeNodeShapeItem extends EntityMenuItem<ONDEXConcept> {
 		}
 		panel.add(comboBox);
 		// ask user for shape
-		int option = JOptionPane.showConfirmDialog((Component) viewer,
-				panel, "Shape selection", JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
+		int option = JOptionPane.showConfirmDialog((Component) viewer, panel, "Shape selection", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (option == JOptionPane.OK_OPTION) {
 			Shape s = (Shape) comboBox.getSelectedItem();
 			// set node shapes to manual

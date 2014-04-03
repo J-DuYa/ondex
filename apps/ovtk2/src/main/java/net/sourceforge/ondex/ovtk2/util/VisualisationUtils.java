@@ -47,8 +47,7 @@ public class VisualisationUtils {
 		 * @param activeViewer
 		 *            the active OVTK2PropertiesAggregator.
 		 */
-		public MyVisRunner(IterativeContext process,
-				OVTK2PropertiesAggregator activeViewer) {
+		public MyVisRunner(IterativeContext process, OVTK2PropertiesAggregator activeViewer) {
 			super(process);
 			v = activeViewer;
 		}
@@ -71,12 +70,10 @@ public class VisualisationUtils {
 	 * @param viewer
 	 *            OVTK2PropertiesAggregator
 	 */
-	public static void relayout(final OVTK2PropertiesAggregator viewer,
-			final Frame parent) {
+	public static void relayout(final OVTK2PropertiesAggregator viewer, final Frame parent) {
 
 		// get current layout
-		ObservableCachingLayout<ONDEXConcept, ONDEXRelation> layout = (ObservableCachingLayout<ONDEXConcept, ONDEXRelation>) viewer
-				.getVisualizationViewer().getGraphLayout();
+		ObservableCachingLayout<ONDEXConcept, ONDEXRelation> layout = (ObservableCachingLayout<ONDEXConcept, ONDEXRelation>) viewer.getVisualizationViewer().getGraphLayout();
 
 		// reuse current layouter
 		if (layout.getDelegate() instanceof OVTK2Layouter) {
@@ -118,16 +115,13 @@ public class VisualisationUtils {
 	 * @param viewer
 	 *            the current OVTK2PropertiesAggregator
 	 */
-	public static void runLayout(OVTK2Layouter layouter_new,
-			OVTK2PropertiesAggregator viewer) {
+	public static void runLayout(OVTK2Layouter layouter_new, OVTK2PropertiesAggregator viewer) {
 		// set initial values
 		layouter_new.setSize(viewer.getVisualizationViewer().getSize());
 
 		// show transition between layouts
-		Layout<ONDEXConcept, ONDEXRelation> layouter_old = viewer
-				.getVisualizationViewer().getGraphLayout();
-		LayoutTransition<ONDEXConcept, ONDEXRelation> transition = new LayoutTransition<ONDEXConcept, ONDEXRelation>(
-				viewer.getVisualizationViewer(), layouter_old, layouter_new);
+		Layout<ONDEXConcept, ONDEXRelation> layouter_old = viewer.getVisualizationViewer().getGraphLayout();
+		LayoutTransition<ONDEXConcept, ONDEXRelation> transition = new LayoutTransition<ONDEXConcept, ONDEXRelation>(viewer.getVisualizationViewer(), layouter_old, layouter_new);
 
 		// start layout process
 		MyVisRunner runner = new MyVisRunner(transition, viewer);
@@ -143,12 +137,10 @@ public class VisualisationUtils {
 	public static void zoomIn(OVTK2Viewer viewer) {
 
 		// get JUNG VisualizationViewer
-		VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer
-				.getVisualizationViewer();
+		VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer.getVisualizationViewer();
 
 		// local copy of pick state
-		Set<ONDEXConcept> picked = new HashSet<ONDEXConcept>(
-				viewer.getPickedNodes());
+		Set<ONDEXConcept> picked = new HashSet<ONDEXConcept>(viewer.getPickedNodes());
 		if (picked.size() == 1) {
 			// first scale it
 			OVTK2GraphMouse mouse = (OVTK2GraphMouse) vv.getGraphMouse();
@@ -157,29 +149,24 @@ public class VisualisationUtils {
 			// move centre of graph to selection
 			ONDEXConcept root = picked.iterator().next();
 			Point2D q = vv.getGraphLayout().transform(root);
-			Point2D lvc = vv.getRenderContext().getMultiLayerTransformer()
-					.inverseTransform(vv.getCenter());
+			Point2D lvc = vv.getRenderContext().getMultiLayerTransformer().inverseTransform(vv.getCenter());
 			double dx = (lvc.getX() - q.getX());
 			double dy = (lvc.getY() - q.getY());
-			vv.getRenderContext().getMultiLayerTransformer()
-					.getTransformer(Layer.LAYOUT).translate(dx, dy);
+			vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).translate(dx, dy);
 
 			return;
 		}
 
 		// reset scaling for predictive behaviour
-		vv.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.LAYOUT).setToIdentity();
-		vv.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW).setToIdentity();
+		vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).setToIdentity();
+		vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).setToIdentity();
 		double minX = Double.POSITIVE_INFINITY;
 		double minY = Double.POSITIVE_INFINITY;
 		double maxX = Double.NEGATIVE_INFINITY;
 		double maxY = Double.NEGATIVE_INFINITY;
 		// get boundaries of selected nodes
 		for (ONDEXConcept node : picked) {
-			Point2D pos = viewer.getVisualizationViewer().getGraphLayout()
-					.transform(node);
+			Point2D pos = viewer.getVisualizationViewer().getGraphLayout().transform(node);
 			if (pos.getX() < minX) {
 				minX = pos.getX();
 			}
@@ -199,17 +186,11 @@ public class VisualisationUtils {
 		// centre graph
 		Point2D screen_center = vv.getCenter();
 		Point2D layout_bounds = new Point2D.Double(maxX - minX, maxY - minY);
-		Point2D layout_center = new Point2D.Double(screen_center.getX()
-				- (layout_bounds.getX() / 2) - minX, screen_center.getY()
-				- (layout_bounds.getY() / 2) - minY);
-		vv.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW)
-				.translate(layout_center.getX(), layout_center.getY());
+		Point2D layout_center = new Point2D.Double(screen_center.getX() - (layout_bounds.getX() / 2) - minX, screen_center.getY() - (layout_bounds.getY() / 2) - minY);
+		vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).translate(layout_center.getX(), layout_center.getY());
 		// scale graph
-		Point2D scale_bounds = new Point2D.Double(vv.getWidth()
-				/ layout_bounds.getX(), vv.getHeight() / layout_bounds.getY());
-		float scale = (float) Math
-				.min(scale_bounds.getX(), scale_bounds.getY());
+		Point2D scale_bounds = new Point2D.Double(vv.getWidth() / layout_bounds.getX(), vv.getHeight() / layout_bounds.getY());
+		float scale = (float) Math.min(scale_bounds.getX(), scale_bounds.getY());
 		scale = 0.92f * scale;
 		OVTK2GraphMouse mouse = (OVTK2GraphMouse) vv.getGraphMouse();
 		mouse.getScaler().scale(vv, scale, vv.getCenter());

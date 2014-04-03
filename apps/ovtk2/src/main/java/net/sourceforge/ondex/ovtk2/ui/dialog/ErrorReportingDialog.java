@@ -35,8 +35,7 @@ import org.codehaus.swizzle.jira.Priority;
  * @author taubertj
  * 
  */
-public class ErrorReportingDialog extends JInternalFrame implements
-		ActionListener {
+public class ErrorReportingDialog extends JInternalFrame implements ActionListener {
 
 	/**
 	 * action command cancel button
@@ -77,8 +76,7 @@ public class ErrorReportingDialog extends JInternalFrame implements
 	 * Setup dialog
 	 */
 	public ErrorReportingDialog() {
-		super(Config.language.getProperty("Dialog.Error.Title"), true, true,
-				true, true);
+		super(Config.language.getProperty("Dialog.Error.Title"), true, true, true, true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		try {
 			initConnection();
@@ -141,8 +139,7 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		long maxMem = Runtime.getRuntime().maxMemory() / (1024 * 1024);
 		long totalMem = Runtime.getRuntime().totalMemory() / (1024 * 1024);
 		long freeMem = Runtime.getRuntime().freeMemory() / (1024 * 1024);
-		b.append("RAM: current=" + totalMem + "MB unclaimed=" + freeMem
-				+ "MB max=" + maxMem + "MB\n");
+		b.append("RAM: current=" + totalMem + "MB unclaimed=" + freeMem + "MB max=" + maxMem + "MB\n");
 
 		// get file system in MB
 		File file = new File(Config.ovtkDir);
@@ -161,8 +158,7 @@ public class ErrorReportingDialog extends JInternalFrame implements
 	 */
 	private void initConnection() throws Exception {
 		service = new Jira(Config.config.getProperty("JIRA.URL"));
-		service.login(Config.config.getProperty("JIRA.User"),
-				Config.config.getProperty("JIRA.Password"));
+		service.login(Config.config.getProperty("JIRA.User"), Config.config.getProperty("JIRA.Password"));
 	}
 
 	/**
@@ -184,20 +180,17 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		layout.setAutoCreateContainerGaps(true);
 
 		// descriptive text for user
-		JLabel header = new JLabel(
-				Config.language.getProperty("Dialog.Error.Text"));
+		JLabel header = new JLabel(Config.language.getProperty("Dialog.Error.Text"));
 		panel.add(header);
 
 		// ask user for a summary
-		JLabel summaryLabel = new JLabel(
-				Config.language.getProperty("Dialog.Error.Summary"));
+		JLabel summaryLabel = new JLabel(Config.language.getProperty("Dialog.Error.Summary"));
 		summary = new JTextField();
 		panel.add(summaryLabel);
 		panel.add(summary);
 
 		// ask user for a description
-		JLabel descriptionLabel = new JLabel(
-				Config.language.getProperty("Dialog.Error.Description"));
+		JLabel descriptionLabel = new JLabel(Config.language.getProperty("Dialog.Error.Description"));
 		description = new JTextArea();
 		description.setText(collectSysInfo());
 		JScrollPane scroll = new JScrollPane(description);
@@ -209,8 +202,7 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		// ask for type and priority of issue
 
 		// compose type selection
-		JLabel typeLabel = new JLabel(
-				Config.language.getProperty("Dialog.Error.Type"));
+		JLabel typeLabel = new JLabel(Config.language.getProperty("Dialog.Error.Type"));
 		type = new JComboBox();
 		List<IssueType> types = service.getIssueTypes();
 		for (IssueType t : types) {
@@ -221,8 +213,7 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		panel.add(type);
 
 		// compose priority selection
-		JLabel priorityLabel = new JLabel(
-				Config.language.getProperty("Dialog.Error.Priority"));
+		JLabel priorityLabel = new JLabel(Config.language.getProperty("Dialog.Error.Priority"));
 		priority = new JComboBox();
 		List<Priority> priorities = service.getPriorities();
 		for (Priority p : priorities) {
@@ -233,61 +224,27 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		panel.add(priority);
 
 		// user email
-		JLabel emailLabel = new JLabel(
-				Config.language.getProperty("Dialog.Error.Email"));
+		JLabel emailLabel = new JLabel(Config.language.getProperty("Dialog.Error.Email"));
 		email = new JTextField();
 		panel.add(emailLabel);
 		panel.add(email);
 
 		// submit and cancel button
-		JButton submit = new JButton(
-				Config.language.getProperty("Dialog.Error.Submit"));
+		JButton submit = new JButton(Config.language.getProperty("Dialog.Error.Submit"));
 		submit.setActionCommand(SUBMIT);
 		submit.addActionListener(this);
 		panel.add(submit);
-		JButton cancel = new JButton(
-				Config.language.getProperty("Dialog.Error.Cancel"));
+		JButton cancel = new JButton(Config.language.getProperty("Dialog.Error.Cancel"));
 		cancel.setActionCommand(CANCEL);
 		cancel.addActionListener(this);
 		panel.add(cancel);
 
 		// layout components here
-		layout.setHorizontalGroup(layout
-				.createParallelGroup()
-				.addComponent(header)
-				.addComponent(summaryLabel)
-				.addComponent(summary)
-				.addComponent(descriptionLabel)
-				.addComponent(scroll)
-				.addGroup(
-						layout.createSequentialGroup().addComponent(typeLabel)
-								.addComponent(type).addComponent(priorityLabel)
-								.addComponent(priority))
-				.addComponent(emailLabel)
-				.addComponent(email)
-				.addGroup(
-						layout.createSequentialGroup().addComponent(submit)
-								.addComponent(cancel)));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addComponent(header)
-				.addComponent(summaryLabel)
-				.addComponent(summary)
-				.addComponent(descriptionLabel)
-				.addComponent(scroll)
-				.addGroup(
-						layout.createParallelGroup().addComponent(typeLabel)
-								.addComponent(type).addComponent(priorityLabel)
-								.addComponent(priority))
-				.addComponent(emailLabel)
-				.addComponent(email)
-				.addGroup(
-						layout.createParallelGroup().addComponent(submit)
-								.addComponent(cancel)));
+		layout.setHorizontalGroup(layout.createParallelGroup().addComponent(header).addComponent(summaryLabel).addComponent(summary).addComponent(descriptionLabel).addComponent(scroll).addGroup(layout.createSequentialGroup().addComponent(typeLabel).addComponent(type).addComponent(priorityLabel).addComponent(priority)).addComponent(emailLabel).addComponent(email).addGroup(layout.createSequentialGroup().addComponent(submit).addComponent(cancel)));
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(header).addComponent(summaryLabel).addComponent(summary).addComponent(descriptionLabel).addComponent(scroll).addGroup(layout.createParallelGroup().addComponent(typeLabel).addComponent(type).addComponent(priorityLabel).addComponent(priority)).addComponent(emailLabel).addComponent(email).addGroup(layout.createParallelGroup().addComponent(submit).addComponent(cancel)));
 
 		// link sizes
-		Component[] submitLabels = new Component[] { summaryLabel,
-				descriptionLabel, emailLabel };
+		Component[] submitLabels = new Component[] { summaryLabel, descriptionLabel, emailLabel };
 		layout.linkSize(submitLabels);
 
 		Component[] submitFields = new Component[] { summary, scroll, email };
@@ -296,8 +253,7 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		Component[] classifyBoxes = new Component[] { type, priority };
 		layout.linkSize(SwingConstants.HORIZONTAL, classifyBoxes);
 
-		Component[] classifyAll = new Component[] { typeLabel, type,
-				priorityLabel, priority };
+		Component[] classifyAll = new Component[] { typeLabel, type, priorityLabel, priority };
 		layout.linkSize(SwingConstants.VERTICAL, classifyAll);
 
 		Component[] buttons = new Component[] { submit, cancel };
@@ -319,8 +275,7 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		issue.setType((IssueType) type.getSelectedItem());
 		issue.setPriority((Priority) priority.getSelectedItem());
 		issue.setSummary(summary.getText());
-		issue.setDescription(description.getText() + "\n\nEmail: "
-				+ email.getText());
+		issue.setDescription(description.getText() + "\n\nEmail: " + email.getText());
 
 		// submit issue
 		service.createIssue(issue);
@@ -343,24 +298,17 @@ public class ErrorReportingDialog extends JInternalFrame implements
 		// check summary text
 		String summaryText = summary.getText();
 		if (summaryText.trim().length() == 0) {
-			JOptionPane.showInternalMessageDialog(this,
-					"Please provide a summary of the problem.",
-					"Missing information", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, "Please provide a summary of the problem.", "Missing information", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
 		// check email text
 		String emailText = email.getText();
 		if (emailText.trim().length() == 0) {
-			JOptionPane.showInternalMessageDialog(this,
-					"Please provide an email address.", "Missing information",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, "Please provide an email address.", "Missing information", JOptionPane.WARNING_MESSAGE);
 			return false;
-		} else if (emailText.indexOf("@") < 1 || emailText.indexOf(".") < 1
-				|| emailText.lastIndexOf(".") < emailText.indexOf("@")) {
-			JOptionPane.showInternalMessageDialog(this,
-					"Please provide a valid email address.",
-					"Missing information", JOptionPane.WARNING_MESSAGE);
+		} else if (emailText.indexOf("@") < 1 || emailText.indexOf(".") < 1 || emailText.lastIndexOf(".") < emailText.indexOf("@")) {
+			JOptionPane.showInternalMessageDialog(this, "Please provide a valid email address.", "Missing information", JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 

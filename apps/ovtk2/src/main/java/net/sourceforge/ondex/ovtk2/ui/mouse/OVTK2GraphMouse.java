@@ -16,21 +16,22 @@ public interface OVTK2GraphMouse {
 	 * @return
 	 */
 	public OVTK2PickingMousePlugin getOVTK2PickingMousePlugin();
-	
+
 	/**
 	 * Sets view scaling enabled or disabled.
 	 * 
 	 * @param enabled
 	 */
 	public void setViewScaling(boolean enabled);
-	
+
 	/**
 	 * @return the scaler
 	 */
 	public ScalingControl getScaler();
-	
+
 	/**
-	 * @param scaler the scaler to set
+	 * @param scaler
+	 *            the scaler to set
 	 */
 	public void setScaler(ScalingControl scaler);
 }

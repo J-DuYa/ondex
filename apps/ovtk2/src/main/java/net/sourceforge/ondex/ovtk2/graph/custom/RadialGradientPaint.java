@@ -68,7 +68,7 @@ import java.awt.image.ColorModel;
  * Color[] colors = {Color.red, Color.white, Color.blue};<br>
  * RadialGradientPaint p = new RadialGradientPaint(center, radius,
  * dist, colors);
-* </code>
+ * </code>
  * 
  * <p>
  * In the event that the user does not set the first keyframe value equal to 0
@@ -149,8 +149,7 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 * 
 	 * 
 	 */
-	public RadialGradientPaint(float cx, float cy, float radius,
-			float[] fractions, Color[] colors) {
+	public RadialGradientPaint(float cx, float cy, float radius, float[] fractions, Color[] colors) {
 		this(cx, cy, radius, cx, cy, fractions, colors);
 	}
 
@@ -186,8 +185,7 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 * 
 	 * 
 	 */
-	public RadialGradientPaint(Point2D center, float radius, float[] fractions,
-			Color[] colors) {
+	public RadialGradientPaint(Point2D center, float radius, float[] fractions, Color[] colors) {
 		this(center, radius, center, fractions, colors);
 	}
 
@@ -233,10 +231,8 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 * 
 	 * 
 	 */
-	public RadialGradientPaint(float cx, float cy, float radius, float fx,
-			float fy, float[] fractions, Color[] colors) {
-		this(new Point2D.Float(cx, cy), radius, new Point2D.Float(fx, fy),
-				fractions, colors, NO_CYCLE, SRGB);
+	public RadialGradientPaint(float cx, float cy, float radius, float fx, float fy, float[] fractions, Color[] colors) {
+		this(new Point2D.Float(cx, cy), radius, new Point2D.Float(fx, fy), fractions, colors, NO_CYCLE, SRGB);
 	}
 
 	/**
@@ -273,8 +269,7 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 *             than 2 in size, or if radius < 0
 	 * 
 	 */
-	public RadialGradientPaint(Point2D center, float radius, Point2D focus,
-			float[] fractions, Color[] colors) {
+	public RadialGradientPaint(Point2D center, float radius, Point2D focus, float[] fractions, Color[] colors) {
 		this(center, radius, focus, fractions, colors, NO_CYCLE, SRGB);
 	}
 
@@ -319,11 +314,8 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 *             than 2 in size, or if radius < 0
 	 * 
 	 */
-	public RadialGradientPaint(Point2D center, float radius, Point2D focus,
-			float[] fractions, Color[] colors, CycleMethodEnum cycleMethod,
-			ColorSpaceEnum colorSpace) {
-		this(center, radius, focus, fractions, colors, cycleMethod, colorSpace,
-				new AffineTransform());
+	public RadialGradientPaint(Point2D center, float radius, Point2D focus, float[] fractions, Color[] colors, CycleMethodEnum cycleMethod, ColorSpaceEnum colorSpace) {
+		this(center, radius, focus, fractions, colors, cycleMethod, colorSpace, new AffineTransform());
 	}
 
 	/**
@@ -370,9 +362,7 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 *             than 2 in size, or if radius < 0
 	 * 
 	 */
-	public RadialGradientPaint(Point2D center, float radius, Point2D focus,
-			float[] fractions, Color[] colors, CycleMethodEnum cycleMethod,
-			ColorSpaceEnum colorSpace, AffineTransform gradientTransform) {
+	public RadialGradientPaint(Point2D center, float radius, Point2D focus, float[] fractions, Color[] colors, CycleMethodEnum cycleMethod, ColorSpaceEnum colorSpace, AffineTransform gradientTransform) {
 		super(fractions, colors, cycleMethod, colorSpace, gradientTransform);
 
 		// Check input arguments
@@ -385,8 +375,7 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 		}
 
 		if (radius <= 0) {
-			throw new IllegalArgumentException(
-					"radius should be greater than zero");
+			throw new IllegalArgumentException("radius should be greater than zero");
 		}
 
 		// copy parameters
@@ -422,17 +411,14 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 *             than 2 in size, or if radius < 0
 	 * 
 	 */
-	public RadialGradientPaint(Rectangle2D gradientBounds, float[] fractions,
-			Color[] colors) {
+	public RadialGradientPaint(Rectangle2D gradientBounds, float[] fractions, Color[] colors) {
 
 		// calculate center point and radius based on bounding box coordinates.
-		this((float) gradientBounds.getX()
-				+ ((float) gradientBounds.getWidth() / 2),
+		this((float) gradientBounds.getX() + ((float) gradientBounds.getWidth() / 2),
 
-				(float) gradientBounds.getY()
-						+ ((float) gradientBounds.getWidth() / 2),
+		(float) gradientBounds.getY() + ((float) gradientBounds.getWidth() / 2),
 
-				(float) gradientBounds.getWidth() / 2, fractions, colors);
+		(float) gradientBounds.getWidth() / 2, fractions, colors);
 	}
 
 	/**
@@ -466,25 +452,18 @@ public final class RadialGradientPaint extends MultipleGradientPaint {
 	 * 
 	 * @see PaintContext
 	 */
-	public PaintContext createContext(ColorModel cm, Rectangle deviceBounds,
-			Rectangle2D userBounds, AffineTransform transform,
-			RenderingHints hints) {
+	public PaintContext createContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform transform, RenderingHints hints) {
 		// Can't modify the transform passed in...
 		transform = new AffineTransform(transform);
 		// incorporate the gradient transform
 		transform.concatenate(gradientTransform);
 
 		try {
-			return new RadialGradientPaintContext(cm, deviceBounds, userBounds,
-					transform, hints, (float) center.getX(), (float) center
-							.getY(), radius, (float) focus.getX(),
-					(float) focus.getY(), fractions, colors, cycleMethod,
-					colorSpace);
+			return new RadialGradientPaintContext(cm, deviceBounds, userBounds, transform, hints, (float) center.getX(), (float) center.getY(), radius, (float) focus.getX(), (float) focus.getY(), fractions, colors, cycleMethod, colorSpace);
 		}
 
 		catch (NoninvertibleTransformException e) {
-			throw new IllegalArgumentException("transform should be "
-					+ "invertible");
+			throw new IllegalArgumentException("transform should be " + "invertible");
 		}
 	}
 

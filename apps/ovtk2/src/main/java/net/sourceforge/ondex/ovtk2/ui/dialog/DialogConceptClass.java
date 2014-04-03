@@ -76,9 +76,7 @@ public class DialogConceptClass extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.ConceptClass.Apply",
-						"Dialog.ConceptClass.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel("Dialog.ConceptClass.Apply", "Dialog.ConceptClass.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -113,9 +111,7 @@ public class DialogConceptClass extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel(null, "Dialog.ConceptClass.Cancel"),
-				BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel(null, "Dialog.ConceptClass.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -127,8 +123,7 @@ public class DialogConceptClass extends OVTK2Dialog {
 		// get list of available ccs
 		Vector<String> ccs = new Vector<String>();
 		ccs.add("");
-		ConceptClass[] sorted = aog.getMetaData().getConceptClasses()
-				.toArray(new ConceptClass[0]);
+		ConceptClass[] sorted = aog.getMetaData().getConceptClasses().toArray(new ConceptClass[0]);
 		Arrays.sort(sorted, new CaseInsensitiveMetaDataComparator());
 		for (ConceptClass cc : sorted) {
 			ccs.add(cc.getId());
@@ -148,89 +143,37 @@ public class DialogConceptClass extends OVTK2Dialog {
 		GroupLayout layout = new GroupLayout(properties);
 		properties.setLayout(layout);
 
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.ConceptClass.ConceptClass"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.ConceptClass.ConceptClass"));
 		properties.setBorder(propertiesBorder);
 
 		// CC id
-		JLabel idLabel = new JLabel(
-				Config.language.getProperty("Dialog.ConceptClass.ID"));
+		JLabel idLabel = new JLabel(Config.language.getProperty("Dialog.ConceptClass.ID"));
 		properties.add(idLabel);
-		id.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		id.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		id.setBackground(this.getRequiredColor());
 		properties.add(id);
 
 		// CC fullname
-		JLabel fullnameLabel = new JLabel(
-				Config.language.getProperty("Dialog.ConceptClass.FullName"));
+		JLabel fullnameLabel = new JLabel(Config.language.getProperty("Dialog.ConceptClass.FullName"));
 		properties.add(fullnameLabel);
-		fullname.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		fullname.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(fullname);
 
 		// CC description
-		JLabel descriptionLabel = new JLabel(
-				Config.language.getProperty("Dialog.ConceptClass.Description"));
+		JLabel descriptionLabel = new JLabel(Config.language.getProperty("Dialog.ConceptClass.Description"));
 		properties.add(descriptionLabel);
 		JScrollPane scroll = new JScrollPane(description);
-		scroll.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight() * 2));
+		scroll.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight() * 2));
 		properties.add(scroll);
 
 		// CC specialisationOf
-		JLabel specialisationOfLabel = new JLabel(
-				Config.language
-						.getProperty("Dialog.ConceptClass.SpecialisationOf"));
+		JLabel specialisationOfLabel = new JLabel(Config.language.getProperty("Dialog.ConceptClass.SpecialisationOf"));
 		properties.add(specialisationOfLabel);
-		specialisationOf.setPreferredSize(new Dimension(this.getFieldWidth(),
-				this.getFieldHeight()));
+		specialisationOf.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(specialisationOf);
 
-		layout.setHorizontalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup().addComponent(idLabel)
-								.addComponent(fullnameLabel)
-								.addComponent(descriptionLabel)
-								.addComponent(specialisationOfLabel))
-				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
-						GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGroup(
-						layout.createParallelGroup()
-								.addComponent(id, 0, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(fullname, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(scroll, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(specialisationOf, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(idLabel).addComponent(id))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(fullnameLabel)
-								.addComponent(fullname))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(descriptionLabel)
-								.addComponent(scroll))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(specialisationOfLabel)
-								.addComponent(specialisationOf)));
+		layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup().addComponent(idLabel).addComponent(fullnameLabel).addComponent(descriptionLabel).addComponent(specialisationOfLabel)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addGroup(layout.createParallelGroup().addComponent(id, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(fullname, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(scroll, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(specialisationOf, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(idLabel).addComponent(id)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(fullnameLabel).addComponent(fullname)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(descriptionLabel).addComponent(scroll)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(specialisationOfLabel).addComponent(specialisationOf)));
 
 		return properties;
 	}
@@ -242,18 +185,10 @@ public class DialogConceptClass extends OVTK2Dialog {
 	 */
 	private boolean validateEntry() {
 		if (id.getText().trim().length() == 0 || id.getText().contains(" ")) {
-			JOptionPane.showInternalMessageDialog(this, Config.language
-					.getProperty("Dialog.ConceptClass.InvalidID"),
-					Config.language
-							.getProperty("Dialog.ConceptClass.InvalidTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, Config.language.getProperty("Dialog.ConceptClass.InvalidID"), Config.language.getProperty("Dialog.ConceptClass.InvalidTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else if (aog.getMetaData().checkConceptClass(id.getText())) {
-			JOptionPane.showInternalMessageDialog(this, Config.language
-					.getProperty("Dialog.ConceptClass.DuplicateID"),
-					Config.language
-							.getProperty("Dialog.ConceptClass.DuplicateTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, Config.language.getProperty("Dialog.ConceptClass.DuplicateID"), Config.language.getProperty("Dialog.ConceptClass.DuplicateTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;
@@ -270,15 +205,10 @@ public class DialogConceptClass extends OVTK2Dialog {
 			if (validateEntry()) {
 				String selection = (String) specialisationOf.getSelectedItem();
 				if (selection.length() > 0) {
-					ConceptClass cc = aog.getMetaData().getConceptClass(
-							selection);
-					aog.getMetaData().createConceptClass(id.getText(),
-							fullname.getText(), description.getText(), cc);
+					ConceptClass cc = aog.getMetaData().getConceptClass(selection);
+					aog.getMetaData().createConceptClass(id.getText(), fullname.getText(), description.getText(), cc);
 				} else {
-					aog.getMetaData()
-							.getFactory()
-							.createConceptClass(id.getText(),
-									fullname.getText(), description.getText());
+					aog.getMetaData().getFactory().createConceptClass(id.getText(), fullname.getText(), description.getText());
 				}
 				try {
 					this.setClosed(true);

@@ -23,8 +23,7 @@ import net.sourceforge.ondex.ovtk2.util.ErrorDialog;
  * @author hindlem
  * 
  */
-public class OVTK2AnnotatorInternalFrameListener implements
-		InternalFrameListener {
+public class OVTK2AnnotatorInternalFrameListener implements InternalFrameListener {
 
 	private OVTK2Annotator annotator;
 
@@ -82,20 +81,8 @@ public class OVTK2AnnotatorInternalFrameListener implements
 			if (viewer.isDestroy())
 				return;
 
-			Object[] options = {
-					Config.language.getProperty("Annotator.Save.Changes.Keep"),
-					Config.language
-							.getProperty("Annotator.Save.Changes.Discard") };
-			int option = JOptionPane
-					.showOptionDialog(
-							OVTK2Desktop.getInstance().getDesktopPane(),
-							Config.language
-									.getProperty("Annotator.Save.Changes.Text"),
-							Config.language
-									.getProperty("Annotator.Save.Changes.Title"),
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, options,
-							options[0]);
+			Object[] options = { Config.language.getProperty("Annotator.Save.Changes.Keep"), Config.language.getProperty("Annotator.Save.Changes.Discard") };
+			int option = JOptionPane.showOptionDialog(OVTK2Desktop.getInstance().getDesktopPane(), Config.language.getProperty("Annotator.Save.Changes.Text"), Config.language.getProperty("Annotator.Save.Changes.Title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
 			switch (option) {
 			case JOptionPane.YES_OPTION:
@@ -106,22 +93,13 @@ public class OVTK2AnnotatorInternalFrameListener implements
 				JCheckBoxMenuItem item = new JCheckBoxMenuItem();
 				item.setSelected(false);
 				OVTK2Desktop desktop = OVTK2Desktop.getInstance();
-				desktop.actionPerformed(new ActionEvent(item,
-						ActionEvent.ACTION_PERFORMED,
-						AppearanceMenuAction.NODECOLOR));
-				desktop.actionPerformed(new ActionEvent(item,
-						ActionEvent.ACTION_PERFORMED,
-						AppearanceMenuAction.EDGECOLOR));
-				desktop.actionPerformed(new ActionEvent(item,
-						ActionEvent.ACTION_PERFORMED,
-						AppearanceMenuAction.NODESHAPE));
-				desktop.actionPerformed(new ActionEvent(item,
-						ActionEvent.ACTION_PERFORMED,
-						AppearanceMenuAction.EDGESIZE));
+				desktop.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.NODECOLOR));
+				desktop.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.EDGECOLOR));
+				desktop.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.NODESHAPE));
+				desktop.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.EDGESIZE));
 
 				// reset icon transformer, might have been set by annotator
-				viewer.getVisualizationViewer().getRenderContext()
-						.setVertexIconTransformer(null);
+				viewer.getVisualizationViewer().getRenderContext().setVertexIconTransformer(null);
 
 				// cleanup in title
 				String name = viewer.getTitle();

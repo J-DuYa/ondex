@@ -16,17 +16,18 @@ import net.sourceforge.ondex.ovtk2.util.listmodel.AttributeNameListModel;
 import net.sourceforge.ondex.ovtk2.util.listmodel.MutableListModel;
 
 /**
- * adapted from http://www.java-forums.org/awt-swing/3030-help-drag-drop-jlist.html
+ * adapted from
+ * http://www.java-forums.org/awt-swing/3030-help-drag-drop-jlist.html
+ * 
  * @author hardwired, hindlem
- *
+ * 
  */
 public class ReportingListTransferHandler extends TransferHandler {
 
 	private static final long serialVersionUID = -944996350118307008L;
 
 	private DataFlavor localArrayListFlavor, serialArrayListFlavor;
-	private String localArrayListType = DataFlavor.javaJVMLocalObjectMimeType
-			+ ";class=java.util.ArrayList";
+	private String localArrayListType = DataFlavor.javaJVMLocalObjectMimeType + ";class=java.util.ArrayList";
 	private JList source = null;
 	private int[] indices = null;
 	private int addIndex = -1; // Location where items were added
@@ -36,14 +37,13 @@ public class ReportingListTransferHandler extends TransferHandler {
 		try {
 			localArrayListFlavor = new DataFlavor(localArrayListType);
 		} catch (ClassNotFoundException e) {
-			System.out
-					.println("ReportingListTransferHandler: unable to create data flavor");
+			System.out.println("ReportingListTransferHandler: unable to create data flavor");
 		}
 		serialArrayListFlavor = new DataFlavor(ArrayList.class, "ArrayList");
 	}
 
 	public boolean importData(JComponent c, Transferable t) {
-		
+
 		JList target = null;
 		List<?> alist = null;
 		if (!canImport(c, t.getTransferDataFlavors())) {
@@ -73,9 +73,9 @@ public class ReportingListTransferHandler extends TransferHandler {
 
 		// We'll drop at the current selected index.
 		int index = target.getSelectedIndex();
-		//for (int i = 0; i < indices.length; i++) {
-		//	indices[i] = indices[i]-1;
-		//}
+		// for (int i = 0; i < indices.length; i++) {
+		// indices[i] = indices[i]-1;
+		// }
 		// Prevent the user from dropping data back on itself.
 		// For example, if the user is moving items #4,#5,#6 and #7 and
 		// attempts to insert the items after item #5, this would
@@ -83,16 +83,15 @@ public class ReportingListTransferHandler extends TransferHandler {
 		// This is interpreted as dropping the same data on itself
 		// and has no effect.
 		if (source.equals(target)) {
-			if (indices != null && index >= indices[0]
-					&& index <= indices[indices.length - 1]) {
+			if (indices != null && index >= indices[0] && index <= indices[indices.length - 1]) {
 				indices = null;
 				return true;
 			}
 		}
 
 		ListModel listModel = target.getModel();
-		
-		int max = listModel.getSize()-1;
+
+		int max = listModel.getSize() - 1;
 		if (index < 0) {
 			index = max;
 		} else {
@@ -108,18 +107,18 @@ public class ReportingListTransferHandler extends TransferHandler {
 					((MutableListModel) listModel).add(index++, alist.get(i));
 				} catch (Exception e) {
 					e.printStackTrace();
-				} 
+				}
 			} else {
-				System.err.println("Can not work with this ListModel: "+listModel.getClass());
+				System.err.println("Can not work with this ListModel: " + listModel.getClass());
 				return false;
 			}
-			
+
 		}
 		return true;
 	}
 
 	protected void exportDone(JComponent c, Transferable data, int action) {
-		
+
 		if ((action == MOVE) && (indices != null)) {
 			ListModel listModel = source.getModel();
 
@@ -127,25 +126,24 @@ public class ReportingListTransferHandler extends TransferHandler {
 			if (listModel instanceof MutableListModel) {
 				size = listModel.getSize();
 			} else {
-				System.err.println("Can not work with this ListModel: "+listModel.getClass());
+				System.err.println("Can not work with this ListModel: " + listModel.getClass());
 			}
-				
+
 			// If we are moving items around in the same list, we
 			// need to adjust the indices accordingly since those
 			// after the insertion point have moved.
 			if (addCount > 0) {
 				for (int i = 0; i < indices.length; i++) {
-					if (indices[i] > addIndex
-							&& indices[i] + addCount < size) {
+					if (indices[i] > addIndex && indices[i] + addCount < size) {
 						indices[i] += addCount;
 					}
 				}
 			}
 			for (int i = indices.length - 1; i >= 0; i--) {
 				if (listModel instanceof MutableListModel) {
-					((MutableListModel)listModel).remove(indices[i]);
+					((MutableListModel) listModel).remove(indices[i]);
 				} else {
-					System.err.println("Can not work with this ListModel: "+listModel.getClass());
+					System.err.println("Can not work with this ListModel: " + listModel.getClass());
 				}
 			}
 		}
@@ -155,7 +153,7 @@ public class ReportingListTransferHandler extends TransferHandler {
 	}
 
 	private boolean hasLocalArrayListFlavor(DataFlavor[] flavors) {
-		
+
 		if (localArrayListFlavor == null) {
 			return false;
 		}
@@ -169,7 +167,7 @@ public class ReportingListTransferHandler extends TransferHandler {
 	}
 
 	private boolean hasSerialArrayListFlavor(DataFlavor[] flavors) {
-		
+
 		if (serialArrayListFlavor == null) {
 			return false;
 		}
@@ -196,14 +194,14 @@ public class ReportingListTransferHandler extends TransferHandler {
 		if (c instanceof JList) {
 			source = (JList) c;
 			indices = source.getSelectedIndices();
-			
-			if (indices.length ==0) {
+
+			if (indices.length == 0) {
 				return null;
 			}
 			ArrayList<Object> alist = new ArrayList<Object>(indices.length);
-			for (int index:indices) {
+			for (int index : indices) {
 				if (source.getModel() instanceof AttributeNameListModel) {
-					alist.add(((AttributeNameListModel)source.getModel()).getAttributeNameAt(index));
+					alist.add(((AttributeNameListModel) source.getModel()).getAttributeNameAt(index));
 				} else {
 					alist.add(source.getModel().getElementAt(index).toString());
 				}
@@ -224,8 +222,7 @@ public class ReportingListTransferHandler extends TransferHandler {
 			data = alist;
 		}
 
-		public Object getTransferData(DataFlavor flavor)
-				throws UnsupportedFlavorException {
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
 			if (!isDataFlavorSupported(flavor)) {
 				throw new UnsupportedFlavorException(flavor);
 			}
@@ -233,8 +230,7 @@ public class ReportingListTransferHandler extends TransferHandler {
 		}
 
 		public DataFlavor[] getTransferDataFlavors() {
-			return new DataFlavor[] { localArrayListFlavor,
-					serialArrayListFlavor };
+			return new DataFlavor[] { localArrayListFlavor, serialArrayListFlavor };
 		}
 
 		public boolean isDataFlavorSupported(DataFlavor flavor) {

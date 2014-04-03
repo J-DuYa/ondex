@@ -15,8 +15,7 @@ import net.sourceforge.ondex.tools.data.ChemicalStructure;
  * @author taubertj
  * 
  */
-public class ChemicalStructurePlugin extends AbstractContentDisplayPlugin
-		implements AttributePlugin {
+public class ChemicalStructurePlugin extends AbstractContentDisplayPlugin implements AttributePlugin {
 
 	public ChemicalStructurePlugin(ONDEXGraph aog) {
 		super(aog);
@@ -43,8 +42,7 @@ public class ChemicalStructurePlugin extends AbstractContentDisplayPlugin
 
 		// check for attribute only on concepts
 		if (e instanceof ONDEXConcept) {
-			AttributeName attrName = aog.getMetaData().getAttributeName(
-					"ChemicalStructure");
+			AttributeName attrName = aog.getMetaData().getAttributeName("ChemicalStructure");
 			if (attrName != null) {
 				Attribute g = e.getAttribute(attrName);
 				if (g != null) {

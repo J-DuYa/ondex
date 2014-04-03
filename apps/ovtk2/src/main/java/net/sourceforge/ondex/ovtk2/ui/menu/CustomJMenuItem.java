@@ -47,7 +47,7 @@ public class CustomJMenuItem extends JMenuItem {
 
 		// text on the left
 		setHorizontalTextPosition(SwingConstants.LEFT);
-		
+
 		// 10 seconds until tool-tip disappears
 		ToolTipManager.sharedInstance().setDismissDelay(10000);
 	}
@@ -66,10 +66,9 @@ public class CustomJMenuItem extends JMenuItem {
 	 */
 	@Override
 	public String getToolTipText(MouseEvent event) {
-		if (event.getX() > customIcon.getRegionMin()
-				&& event.getX() < customIcon.getRegionMax())
+		if (event.getX() > customIcon.getRegionMin() && event.getX() < customIcon.getRegionMax())
 			return getToolTipText();
 		else
 			return null;
-	}	
+	}
 }

@@ -12,8 +12,7 @@ import net.sourceforge.ondex.ovtk2.ui.contentsdisplay.AttributePlugin;
  * 
  * @author Keywan
  */
-public class URIPlugin extends AbstractContentDisplayPlugin implements
-		AttributePlugin {
+public class URIPlugin extends AbstractContentDisplayPlugin implements AttributePlugin {
 
 	private AttributeName uri_an;
 	private AttributeName url_an;

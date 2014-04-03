@@ -32,8 +32,7 @@ public class AnnotationXMLReader {
 	 *            result set of annotations
 	 * @throws XMLStreamException
 	 */
-	public static void read(XMLStreamReader2 xmlr, Set<Annotation> annos)
-			throws XMLStreamException {
+	public static void read(XMLStreamReader2 xmlr, Set<Annotation> annos) throws XMLStreamException {
 
 		// iterate over XML
 		while (xmlr.hasNext()) {
@@ -63,8 +62,7 @@ public class AnnotationXMLReader {
 					}
 
 					else
-						throw new XMLStreamException(
-								"Unknown annotation type found: " + type);
+						throw new XMLStreamException("Unknown annotation type found: " + type);
 				}
 			}
 		}
@@ -77,8 +75,7 @@ public class AnnotationXMLReader {
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	private static boolean readFill(XMLStreamReader2 xmlr)
-			throws XMLStreamException {
+	private static boolean readFill(XMLStreamReader2 xmlr) throws XMLStreamException {
 
 		// fill tag
 		xmlr.nextTag();
@@ -94,8 +91,7 @@ public class AnnotationXMLReader {
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	private static Layer readLayer(XMLStreamReader2 xmlr)
-			throws XMLStreamException {
+	private static Layer readLayer(XMLStreamReader2 xmlr) throws XMLStreamException {
 
 		// layer tag
 		xmlr.nextTag();
@@ -111,8 +107,7 @@ public class AnnotationXMLReader {
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	private static Paint readPaint(XMLStreamReader2 xmlr)
-			throws XMLStreamException {
+	private static Paint readPaint(XMLStreamReader2 xmlr) throws XMLStreamException {
 
 		// paint and color tag
 		xmlr.nextTag();
@@ -149,8 +144,7 @@ public class AnnotationXMLReader {
 	 * @return
 	 * @throws XMLStreamException
 	 */
-	private static Point2D readLocation(XMLStreamReader2 xmlr)
-			throws XMLStreamException {
+	private static Point2D readLocation(XMLStreamReader2 xmlr) throws XMLStreamException {
 		// location tag
 		xmlr.nextTag();
 
@@ -176,8 +170,7 @@ public class AnnotationXMLReader {
 	 * @param annos
 	 * @throws XMLStreamException
 	 */
-	protected static void readText(XMLStreamReader2 xmlr, Set<Annotation> annos)
-			throws XMLStreamException {
+	protected static void readText(XMLStreamReader2 xmlr, Set<Annotation> annos) throws XMLStreamException {
 
 		// text tag
 		xmlr.nextTag();
@@ -196,8 +189,7 @@ public class AnnotationXMLReader {
 		Point2D location = readLocation(xmlr);
 
 		// compose new annotation and add to result list
-		Annotation<String> anno = new Annotation<String>(text, layer, paint,
-				fill, location);
+		Annotation<String> anno = new Annotation<String>(text, layer, paint, fill, location);
 		annos.add(anno);
 	}
 
@@ -208,8 +200,7 @@ public class AnnotationXMLReader {
 	 * @param annos
 	 * @throws XMLStreamException
 	 */
-	protected static void readShape(XMLStreamReader2 xmlr, Set<Annotation> annos)
-			throws XMLStreamException {
+	protected static void readShape(XMLStreamReader2 xmlr, Set<Annotation> annos) throws XMLStreamException {
 
 		xmlr.nextTag(); // shape tag
 		xmlr.nextTag(); // path tag
@@ -257,8 +248,7 @@ public class AnnotationXMLReader {
 						shape.closePath();
 						break;
 					case PathIterator.SEG_CUBICTO:
-						shape.curveTo(array[0], array[1], array[2], array[3],
-								array[4], array[5]);
+						shape.curveTo(array[0], array[1], array[2], array[3], array[4], array[5]);
 						break;
 					case PathIterator.SEG_LINETO:
 						shape.lineTo(array[0], array[1]);
@@ -270,8 +260,7 @@ public class AnnotationXMLReader {
 						shape.quadTo(array[0], array[1], array[2], array[3]);
 						break;
 					default:
-						throw new XMLStreamException(
-								"Unknown PathIterator type.");
+						throw new XMLStreamException("Unknown PathIterator type.");
 					}
 				}
 			}
@@ -301,8 +290,7 @@ public class AnnotationXMLReader {
 		Point2D location = readLocation(xmlr);
 
 		// compose new annotation and add to result list
-		Annotation<Shape> anno = new Annotation<Shape>(shape, layer, paint,
-				fill, location);
+		Annotation<Shape> anno = new Annotation<Shape>(shape, layer, paint, fill, location);
 		annos.add(anno);
 
 	}

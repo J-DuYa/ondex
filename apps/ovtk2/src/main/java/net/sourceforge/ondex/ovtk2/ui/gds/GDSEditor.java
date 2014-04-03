@@ -4,7 +4,7 @@ package net.sourceforge.ondex.ovtk2.ui.gds;
  * Interface for editor default values.
  * 
  * @author taubertj
- *
+ * 
  */
 public interface GDSEditor {
 
@@ -19,5 +19,5 @@ public interface GDSEditor {
 	 * forces changes in progress to be flushed to attribute
 	 */
 	public void flushChanges();
-	
+
 }

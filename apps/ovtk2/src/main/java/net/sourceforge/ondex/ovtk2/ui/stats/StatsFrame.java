@@ -26,7 +26,7 @@ import net.sourceforge.ondex.ovtk2.ui.RegisteredJInternalFrame;
  * 
  * 
  * @author Jochen Weile, B.Sc.
- *
+ * 
  */
 public class StatsFrame extends RegisteredJInternalFrame implements ActionListener {
 
@@ -43,23 +43,22 @@ public class StatsFrame extends RegisteredJInternalFrame implements ActionListen
 	private DataExtractor extractor;
 
 	/**
-	 * the displaypanel contains the results of the analysis
-	 * and is located at the bottom of the frame.
+	 * the displaypanel contains the results of the analysis and is located at
+	 * the bottom of the frame.
 	 */
 	private DisplayPanel displayPanel;
 
 	/**
-	 * the chooser panel offers the different elements that the user
-	 * can either use as variables or filters: concept classes,
-	 * relation types, attribute names or graph features (like node degree).
-	 * It is located on the upper left side of the frame.
+	 * the chooser panel offers the different elements that the user can either
+	 * use as variables or filters: concept classes, relation types, attribute
+	 * names or graph features (like node degree). It is located on the upper
+	 * left side of the frame.
 	 */
 	private ElementChooserPanel chooserPanel;
 
 	/**
-	 * the seleciton panel holds the variable selection field
-	 * and the filter selection table. it is located on the
-	 * upper right side of the frame.
+	 * the seleciton panel holds the variable selection field and the filter
+	 * selection table. it is located on the upper right side of the frame.
 	 */
 	private SelectionPanel selectionPanel;
 
@@ -102,21 +101,20 @@ public class StatsFrame extends RegisteredJInternalFrame implements ActionListen
 	}
 
 	/**
-	 * creates the panel that holds the element chooser panel, 
-	 * the swapping buttons and the seleciton panel.
+	 * creates the panel that holds the element chooser panel, the swapping
+	 * buttons and the seleciton panel.
+	 * 
 	 * @return the panel.
 	 */
 	private JPanel createInteractionPanel() {
 		JPanel interactionPanel = new JPanel();
-		interactionPanel.setLayout(new BoxLayout(interactionPanel,
-				BoxLayout.LINE_AXIS));
+		interactionPanel.setLayout(new BoxLayout(interactionPanel, BoxLayout.LINE_AXIS));
 
 		chooserPanel = new ElementChooserPanel(viewer.getONDEXJUNGGraph());
 		interactionPanel.add(chooserPanel);
 
 		JPanel swapperPanel = new JPanel();
-		swapperPanel
-				.setLayout(new BoxLayout(swapperPanel, BoxLayout.PAGE_AXIS));
+		swapperPanel.setLayout(new BoxLayout(swapperPanel, BoxLayout.PAGE_AXIS));
 
 		swapperPanel.add(Box.createVerticalStrut(10));
 
@@ -129,11 +127,10 @@ public class StatsFrame extends RegisteredJInternalFrame implements ActionListen
 		swapperPanel.add(filterSwapper);
 
 		swapperPanel.add(Box.createVerticalStrut(110));
-		
+
 		interactionPanel.add(swapperPanel);
 
-		selectionPanel = new SelectionPanel(viewer.getONDEXJUNGGraph(),
-				this);
+		selectionPanel = new SelectionPanel(viewer.getONDEXJUNGGraph(), this);
 		interactionPanel.add(selectionPanel);
 
 		return interactionPanel;
@@ -141,8 +138,9 @@ public class StatsFrame extends RegisteredJInternalFrame implements ActionListen
 
 	/**
 	 * creates a panel that holds a pair of swap buttons.
-	 * @param cmd_base the action command base string (either 
-	 * "variable" or "filter".
+	 * 
+	 * @param cmd_base
+	 *            the action command base string (either "variable" or "filter".
 	 * @return the panel.
 	 */
 	private JPanel createSwapPanel(String cmd_base) {
@@ -152,20 +150,22 @@ public class StatsFrame extends RegisteredJInternalFrame implements ActionListen
 		JButton bck = createButton("stats/arrow_back", cmd_base + "_bck");
 		p.add(fwd);
 		p.add(bck);
-		p.setMaximumSize(new Dimension(53,32));
+		p.setMaximumSize(new Dimension(53, 32));
 		return p;
 	}
 
 	/**
 	 * creates a swap button.
-	 * @param imageName the name of the image file.
-	 * @param actionCommand the action command.
+	 * 
+	 * @param imageName
+	 *            the name of the image file.
+	 * @param actionCommand
+	 *            the action command.
 	 * @return
 	 */
 	private JButton createButton(String imageName, String actionCommand) {
 		// Look for the image.
-		File imgLocation = new File("config/toolbarButtonGraphics/" + imageName
-				+ ".png");
+		File imgLocation = new File("config/toolbarButtonGraphics/" + imageName + ".png");
 		URL imageURL = null;
 
 		try {
@@ -182,16 +182,16 @@ public class StatsFrame extends RegisteredJInternalFrame implements ActionListen
 		if (imageURL != null) { // image found
 			button.setIcon(new ImageIcon(imageURL));
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocation.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocation.getAbsolutePath());
 		}
 
 		return button;
 	}
 
 	/**
-	 * activated whenever a swap-button was clicked or a value
-	 * in the filter list was changed.
+	 * activated whenever a swap-button was clicked or a value in the filter
+	 * list was changed.
+	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
@@ -217,10 +217,10 @@ public class StatsFrame extends RegisteredJInternalFrame implements ActionListen
 			displayPanel.updateWholeStatistics();
 		}
 	}
-	
+
 	/**
-	 * configures the data extractor according to the current selections
-	 * in the gui.
+	 * configures the data extractor according to the current selections in the
+	 * gui.
 	 */
 	private void configureExtractor() {
 		extractor.setVariable(selectionPanel.getVariable());

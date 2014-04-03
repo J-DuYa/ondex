@@ -80,10 +80,7 @@ public class ToolMenuAction implements ActionListener, InternalFrameListener {
 	private void initCommandLine(OVTK2Desktop desktop) {
 
 		if (console == null || console.isClosed()) {
-			console = new RegisteredJInternalFrame(Config.language
-					.getProperty("Menu.Tools.Console"), "Tools",
-					Config.language.getProperty("Menu.Tools.Console"), true,
-					true, true, true);
+			console = new RegisteredJInternalFrame(Config.language.getProperty("Menu.Tools.Console"), "Tools", Config.language.getProperty("Menu.Tools.Console"), true, true, true, true);
 			console.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 			console.setSize(600, 100);
 			try {
@@ -112,14 +109,13 @@ public class ToolMenuAction implements ActionListener, InternalFrameListener {
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
 			ErrorDialog.show(e);
 		} catch (MalformedURLException e) {
 			ErrorDialog.show(e);
 		}
-		
+
 		// show launcher
 		if (cmd.equals("launcher")) {
 			Thread thread = new Thread() {
@@ -129,39 +125,26 @@ public class ToolMenuAction implements ActionListener, InternalFrameListener {
 						Class<?> cls = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.workflow2.gui.WorkflowTool");
 						Constructor<?> ct = cls.getConstructor(GraphAdaptor.class);
 						JFrame workflowTool = (JFrame) ct.newInstance(new LoadGraphAdaptor());
-						new LauncherFrame(workflowTool,	JInternalFrameSelector.NONE, "Ondex Integrator");
+						new LauncherFrame(workflowTool, JInternalFrameSelector.NONE, "Ondex Integrator");
 						workflowTool.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
-						ErrorDialog
-								.show(
-										true,
-										new PluginUtils.MissingPluginException(
-												"Launcher plugin is not installed or could not be initialized",
-												e), Thread.currentThread());
+						ErrorDialog.show(true, new PluginUtils.MissingPluginException("Launcher plugin is not installed or could not be initialized", e), Thread.currentThread());
 					} catch (ExceptionInInitializerError e) {
-						ErrorDialog.show(true, new PluginUtils.MissingPluginException(
-								"Launcher plugin is not installed "), Thread
-								.currentThread());
+						ErrorDialog.show(true, new PluginUtils.MissingPluginException("Launcher plugin is not installed "), Thread.currentThread());
 					}
 				}
 			};
 			try {
 				// for coping with plug-in Attribute data types
 				try {
-					thread.setContextClassLoader(
-							OVTK2PluginLoader.getInstance().ucl);
+					thread.setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 				} catch (FileNotFoundException e) {
 					ErrorDialog.show(e);
 				}
 				thread.start();
 			} catch (Exception e) {
-				ErrorDialog
-						.show(
-								true,
-								new PluginUtils.MissingPluginException(
-										"Launcher plugin is not installed or could not be initialized",
-										e), Thread.currentThread());
+				ErrorDialog.show(true, new PluginUtils.MissingPluginException("Launcher plugin is not installed or could not be initialized", e), Thread.currentThread());
 			}
 		}
 
@@ -207,7 +190,7 @@ public class ToolMenuAction implements ActionListener, InternalFrameListener {
 		else if (cmd.equals("console")) {
 			initCommandLine(desktop);
 		}
-		
+
 		// show editor for user defined popups
 		else if (cmd.equals("popupeditor")) {
 			PopupItemEditPanel editPanel = new PopupItemEditPanel();
@@ -244,8 +227,7 @@ public class ToolMenuAction implements ActionListener, InternalFrameListener {
 
 			// make all statistics frames disappear
 			if (stats.containsKey(e.getInternalFrame())) {
-				for (StatsFrame frame : stats.get(e.getInternalFrame())
-						.toArray(new StatsFrame[0])) {
+				for (StatsFrame frame : stats.get(e.getInternalFrame()).toArray(new StatsFrame[0])) {
 					close(frame);
 				}
 				stats.remove(e.getInternalFrame());

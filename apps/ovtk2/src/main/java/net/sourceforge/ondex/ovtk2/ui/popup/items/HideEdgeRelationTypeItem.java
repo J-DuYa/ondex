@@ -21,8 +21,7 @@ public class HideEdgeRelationTypeItem extends EntityMenuItem<ONDEXRelation> {
 	protected void doAction() {
 		for (ONDEXRelation edge : entities) {
 			ONDEXRelation r = edge;
-			for (ONDEXRelation or : viewer.getONDEXJUNGGraph()
-					.getRelationsOfRelationType(r.getOfType())) {
+			for (ONDEXRelation or : viewer.getONDEXJUNGGraph().getRelationsOfRelationType(r.getOfType())) {
 				viewer.getONDEXJUNGGraph().setVisibility(or, false);
 			}
 		}

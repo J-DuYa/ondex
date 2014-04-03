@@ -21,8 +21,7 @@ public class DialogRelationItem extends EntityMenuItem<ONDEXRelation> {
 	@Override
 	protected void doAction() {
 		for (ONDEXRelation edge : entities) {
-			DialogRelation dialog = new DialogRelation((OVTK2Viewer) viewer,
-					edge);
+			DialogRelation dialog = new DialogRelation((OVTK2Viewer) viewer, edge);
 			dialog.setLocation(getPoint());
 			((OVTK2Viewer) viewer).getDesktopPane().add(dialog);
 			dialog.setVisible(true);

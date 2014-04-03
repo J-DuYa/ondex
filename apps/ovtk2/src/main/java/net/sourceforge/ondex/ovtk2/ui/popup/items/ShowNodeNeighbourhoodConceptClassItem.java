@@ -27,8 +27,7 @@ import org.apache.log4j.Logger;
  * @author Matthew Pocock
  * 
  */
-public class ShowNodeNeighbourhoodConceptClassItem extends
-		EntityMenuItem<ONDEXConcept> {
+public class ShowNodeNeighbourhoodConceptClassItem extends EntityMenuItem<ONDEXConcept> {
 
 	/**
 	 * Helper class for each concept class
@@ -58,20 +57,15 @@ public class ShowNodeNeighbourhoodConceptClassItem extends
 		@Override
 		protected void doAction() {
 			ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
-			LOG.info("Showing node neighbourhood for " + entities + " and "
-					+ cc);
+			LOG.info("Showing node neighbourhood for " + entities + " and " + cc);
 			for (ONDEXConcept n : entities) {
 				Set<ONDEXConcept> neighbours = new HashSet<ONDEXConcept>();
 				for (ONDEXRelation r : graph.getRelationsOfConcept(n)) {
 					ONDEXConcept fromConcept = r.getFromConcept();
 					ONDEXConcept toConcept = r.getToConcept();
-					if ((fromConcept.equals(n) && toConcept.getOfType().equals(
-							cc))
-							|| (toConcept.equals(n) && fromConcept.getOfType()
-									.equals(cc))) {
+					if ((fromConcept.equals(n) && toConcept.getOfType().equals(cc)) || (toConcept.equals(n) && fromConcept.getOfType().equals(cc))) {
 						// check if this is a invisible edge
-						LOG.info("Considering " + r + " visible?="
-								+ graph.isVisible(r));
+						LOG.info("Considering " + r + " visible?=" + graph.isVisible(r));
 						graph.setVisibility(r, true);
 
 						// make from concept visible
@@ -87,8 +81,7 @@ public class ShowNodeNeighbourhoodConceptClassItem extends
 						}
 					}
 				}
-				LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(),
-						n, neighbours);
+				LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), n, neighbours);
 			}
 		}
 
@@ -103,8 +96,7 @@ public class ShowNodeNeighbourhoodConceptClassItem extends
 		}
 	}
 
-	private static Logger LOG = Logger
-			.getLogger(ShowNodeNeighbourhoodConceptClassItem.class);
+	private static Logger LOG = Logger.getLogger(ShowNodeNeighbourhoodConceptClassItem.class);
 
 	public ShowNodeNeighbourhoodConceptClassItem() {
 		super();
@@ -116,20 +108,18 @@ public class ShowNodeNeighbourhoodConceptClassItem extends
 	public boolean accepts() {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 
-		Map<ConceptClass, Integer> allCCCounts = LazyMap.decorate(
-				new HashMap<ConceptClass, Integer>(), new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return 0;
-					}
-				});
-		Map<ConceptClass, Integer> invisibleCCCounts = LazyMap.decorate(
-				new HashMap<ConceptClass, Integer>(), new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return 0;
-					}
-				});
+		Map<ConceptClass, Integer> allCCCounts = LazyMap.decorate(new HashMap<ConceptClass, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return 0;
+			}
+		});
+		Map<ConceptClass, Integer> invisibleCCCounts = LazyMap.decorate(new HashMap<ConceptClass, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return 0;
+			}
+		});
 		Set<ONDEXConcept> neighbours = new HashSet<ONDEXConcept>();
 
 		for (ONDEXConcept n : entities) {
@@ -151,8 +141,7 @@ public class ShowNodeNeighbourhoodConceptClassItem extends
 				if (!neighbours.contains(neighbour)) {
 					allCCCounts.put(cc, allCCCounts.get(cc) + 1);
 					if (!graph.isVisible(neighbour)) {
-						invisibleCCCounts
-								.put(cc, invisibleCCCounts.get(cc) + 1);
+						invisibleCCCounts.put(cc, invisibleCCCounts.get(cc) + 1);
 					}
 					neighbours.add(neighbour);
 				}
@@ -163,9 +152,7 @@ public class ShowNodeNeighbourhoodConceptClassItem extends
 			for (ConceptClass cc : invisibleCCCounts.keySet()) {
 				ConceptClassHelperItem helper = new ConceptClassHelperItem(cc);
 				helper.init(viewer, entities);
-				helper.getItem().setText(
-						cc.toString() + " (" + invisibleCCCounts.get(cc) + ":"
-								+ allCCCounts.get(cc) + ")");
+				helper.getItem().setText(cc.toString() + " (" + invisibleCCCounts.get(cc) + ":" + allCCCounts.get(cc) + ")");
 				item.add(helper.getItem());
 			}
 			return true;

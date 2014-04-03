@@ -47,14 +47,12 @@ public class MetaGraphXMLWriter {
 	 * @param meta
 	 * @throws XMLStreamException
 	 */
-	public static void write(XMLStreamWriter2 xmlw, OVTK2MetaGraph meta)
-			throws XMLStreamException {
+	public static void write(XMLStreamWriter2 xmlw, OVTK2MetaGraph meta) throws XMLStreamException {
 
 		xmlw.writeStartElement(LAYOUT);
 
 		// write layout coordinates
-		Layout<ONDEXMetaConcept, ONDEXMetaRelation> layout = meta.getViewer()
-				.getMetaGraphPanel().getVisualizationViewer().getGraphLayout();
+		Layout<ONDEXMetaConcept, ONDEXMetaRelation> layout = meta.getViewer().getMetaGraphPanel().getVisualizationViewer().getGraphLayout();
 		for (ONDEXMetaConcept mc : layout.getGraph().getVertices()) {
 			Point2D p = layout.transform(mc);
 			xmlw.writeStartElement(POSITION);
@@ -87,7 +85,7 @@ public class MetaGraphXMLWriter {
 		xmlw.writeStartElement(EDGESIZE);
 		xmlw.writeInt(meta.getEdgeSize());
 		xmlw.writeEndElement();
-		
+
 		// write font size
 		xmlw.writeStartElement(FONTSIZE);
 		xmlw.writeInt(meta.getFontSize());

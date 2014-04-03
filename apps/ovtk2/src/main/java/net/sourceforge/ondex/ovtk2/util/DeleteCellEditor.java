@@ -22,8 +22,7 @@ import javax.swing.table.TableCellEditor;
  * @author taubertj
  * 
  */
-public class DeleteCellEditor<K extends Comparable<?>, E> extends
-		AbstractCellEditor implements TableCellEditor, ActionListener {
+public class DeleteCellEditor<K extends Comparable<?>, E> extends AbstractCellEditor implements TableCellEditor, ActionListener {
 
 	// generated
 	private static final long serialVersionUID = 8483654515815820627L;
@@ -45,8 +44,7 @@ public class DeleteCellEditor<K extends Comparable<?>, E> extends
 	 */
 	public DeleteCellEditor(Map<K, E> mapping) {
 		this.mapping = mapping;
-		File imgLocation = new File(
-				"config/toolbarButtonGraphics/general/delete16.gif");
+		File imgLocation = new File("config/toolbarButtonGraphics/general/delete16.gif");
 		URL imageURL = null;
 
 		try {
@@ -76,14 +74,12 @@ public class DeleteCellEditor<K extends Comparable<?>, E> extends
 		int row = Integer.parseInt(cmd);
 		if (row < keys.length) {
 			mapping.remove(keys[row]);
-			((AbstractTableModel) table.getModel()).fireTableRowsDeleted(row,
-					row);
+			((AbstractTableModel) table.getModel()).fireTableRowsDeleted(row, row);
 			((AbstractTableModel) table.getModel()).fireTableDataChanged();
 		}
 	}
 
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		this.table = table;
 		button.setActionCommand("" + row);
 		return button;

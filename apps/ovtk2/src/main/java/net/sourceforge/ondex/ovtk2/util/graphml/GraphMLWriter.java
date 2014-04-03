@@ -177,8 +177,7 @@ public class GraphMLWriter<V, E> {
 	 * @throws XMLStreamException
 	 * @throws IOException
 	 */
-	public void save(Writer writer) throws XMLStreamException,
-			FactoryConfigurationError, IOException {
+	public void save(Writer writer) throws XMLStreamException, FactoryConfigurationError, IOException {
 
 		// new XML stream around writer
 		XMLStreamWriter xml = factory.createXMLStreamWriter(writer);
@@ -291,8 +290,7 @@ public class GraphMLWriter<V, E> {
 	 *            edge to construct data for
 	 * @throws XMLStreamException
 	 */
-	private void writeEdgeData(XMLStreamWriter xml, E e)
-			throws XMLStreamException {
+	private void writeEdgeData(XMLStreamWriter xml, E e) throws XMLStreamException {
 
 		// get colour for edge
 		Color c = (Color) edge_colours.transform(e);
@@ -373,8 +371,7 @@ public class GraphMLWriter<V, E> {
 	 *            node to construct data for
 	 * @throws XMLStreamException
 	 */
-	private void writeNodeData(XMLStreamWriter xml, V v)
-			throws XMLStreamException {
+	private void writeNodeData(XMLStreamWriter xml, V v) throws XMLStreamException {
 
 		// get colour for node
 		Color c = (Color) vertex_fill.transform(v);
@@ -445,9 +442,7 @@ public class GraphMLWriter<V, E> {
 		xml.writeDefaultNamespace("http://graphml.graphdrawing.org/xmlns");
 		xml.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 		// this is a bit strange, but works
-		xml.writeAttribute(
-				"xsi:schemaLocation",
-				"http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd");
+		xml.writeAttribute("xsi:schemaLocation", "http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml/1.1/ygraphml.xsd");
 		// proprietary extensions of yFiles
 		xml.writeNamespace("y", "http://www.yworks.com/xml/graphml");
 	}

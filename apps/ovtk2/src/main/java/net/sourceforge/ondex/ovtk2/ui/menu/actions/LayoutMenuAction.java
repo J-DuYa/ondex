@@ -90,7 +90,6 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 		String cmd = ae.getActionCommand();
 		OVTK2ResourceAssesor resources = OVTK2Desktop.getDesktopResources();
 		final OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
-		
 
 		// for coping with plug-in Attribute data types
 		try {
@@ -113,9 +112,9 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 				try {
 					System.err.println(viewer.getVisualizationViewer().getGraphLayout());
 					if (viewer.getVisualizationViewer().getGraphLayout() instanceof OVTK2Layouter) {
-						((OVTK2Layouter)viewer.getVisualizationViewer().getGraphLayout()).cleanUp();
+						((OVTK2Layouter) viewer.getVisualizationViewer().getGraphLayout()).cleanUp();
 					}
-					
+
 					final OVTK2Layouter layouter_new = OVTK2PluginLoader.getInstance().loadLayouter(name, viewer);
 
 					if (layouter_new instanceof Monitorable) {
@@ -124,7 +123,7 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 						OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Running Layout...", p);
 						Thread t = new Thread() {
 							public void run() {
-								VisualisationUtils.runLayout(layouter_new,	viewer);
+								VisualisationUtils.runLayout(layouter_new, viewer);
 								if (options != null) {
 									options.setLayouter(layouter_new);
 								}
@@ -143,17 +142,14 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 							public void task() {
 								// for coping with plug-in Attribute data types
 								try {
-									Thread.currentThread()
-											.setContextClassLoader(
-													OVTK2PluginLoader
-															.getInstance().ucl);
+									Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 								} catch (FileNotFoundException e) {
 									ErrorDialog.show(e);
 								} catch (MalformedURLException e) {
 									ErrorDialog.show(e);
 								}
 
-								VisualisationUtils.runLayout(layouter_new,	viewer);
+								VisualisationUtils.runLayout(layouter_new, viewer);
 								if (options != null) {
 									options.setLayouter(layouter_new);
 								}
@@ -184,8 +180,7 @@ public class LayoutMenuAction implements ActionListener, InternalFrameListener {
 		// toggle options view
 		else if (cmd.equals("options")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					showOptions(viewer);
 				} else {

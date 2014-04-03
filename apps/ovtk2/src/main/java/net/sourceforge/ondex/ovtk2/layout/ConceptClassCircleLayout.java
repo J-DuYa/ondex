@@ -24,8 +24,7 @@ import net.sourceforge.ondex.tools.threading.monitoring.Monitorable;
  * @author taubertj
  * 
  */
-public class ConceptClassCircleLayout extends OVTK2Layouter implements
-		Monitorable {
+public class ConceptClassCircleLayout extends OVTK2Layouter implements Monitorable {
 
 	/**
 	 * Current progress made for Monitorable
@@ -144,10 +143,8 @@ public class ConceptClassCircleLayout extends OVTK2Layouter implements
 					currentCircle++;
 
 					// get position on outer circle, center outer circle
-					double currentX = width / 2 + radius
-							* Math.cos(currentCircle * bigangle);
-					double currentY = height / 2 + radius
-							* Math.sin(currentCircle * bigangle);
+					double currentX = width / 2 + radius * Math.cos(currentCircle * bigangle);
+					double currentY = height / 2 + radius * Math.sin(currentCircle * bigangle);
 
 					// angle on small circle
 					double angle = (2 * Math.PI) / nodes.size();
@@ -157,8 +154,7 @@ public class ConceptClassCircleLayout extends OVTK2Layouter implements
 					for (int i = 0; it_c.hasNext(); i++) {
 						ONDEXConcept node = it_c.next();
 						Point2D coord = transform(node);
-						coord.setLocation(currentX + r * Math.cos(i * angle),
-								currentY + r * Math.sin(i * angle));
+						coord.setLocation(currentX + r * Math.cos(i * angle), currentY + r * Math.sin(i * angle));
 						progress++;
 						if (cancelled)
 							return;
@@ -176,8 +172,7 @@ public class ConceptClassCircleLayout extends OVTK2Layouter implements
 
 					double angle = (2 * Math.PI * i) / nodes.length;
 
-					coord.setLocation(Math.cos(angle) * radius + width / 2,
-							Math.sin(angle) * radius + height / 2);
+					coord.setLocation(Math.cos(angle) * radius + width / 2, Math.sin(angle) * radius + height / 2);
 					progress++;
 					if (cancelled)
 						return;

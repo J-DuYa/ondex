@@ -58,28 +58,13 @@ public class OVTK2FilterInternalFrameListener implements InternalFrameListener {
 			if (Boolean.valueOf(Config.config.getProperty("FilterClose.Set"))) {
 
 				// use pre-defined close behaviour
-				option = Integer.parseInt(Config.config
-						.getProperty("FilterClose.Option"));
+				option = Integer.parseInt(Config.config.getProperty("FilterClose.Option"));
 
 			} else {
 
 				// ask user what to do
-				Object[] options = {
-						Config.language.getProperty("Filter.Save.Changes.Keep"),
-						Config.language
-								.getProperty("Filter.Save.Changes.KeepApply"),
-						Config.language
-								.getProperty("Filter.Save.Changes.Discard") };
-				option = JOptionPane
-						.showOptionDialog(
-								viewer.getDesktopPane(),
-								Config.language
-										.getProperty("Filter.Save.Changes.Text"),
-								Config.language
-										.getProperty("Filter.Save.Changes.Title"),
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE, null, options,
-								options[0]);
+				Object[] options = { Config.language.getProperty("Filter.Save.Changes.Keep"), Config.language.getProperty("Filter.Save.Changes.KeepApply"), Config.language.getProperty("Filter.Save.Changes.Discard") };
+				option = JOptionPane.showOptionDialog(viewer.getDesktopPane(), Config.language.getProperty("Filter.Save.Changes.Text"), Config.language.getProperty("Filter.Save.Changes.Title"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 			}
 
 			switch (option) {
@@ -89,16 +74,14 @@ public class OVTK2FilterInternalFrameListener implements InternalFrameListener {
 
 				java.lang.Thread t = new Thread("graph synchronization") {
 					public void run() {
-						OVTK2Desktop.getInstance().setRunningProcess(
-								"GraphSynchronization");
+						OVTK2Desktop.getInstance().setRunningProcess("GraphSynchronization");
 						gs.run();
 						OVTK2Desktop.getInstance().setRunningProcess("none");
 					}
 				};
 				t.start();
 
-				OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-						.getMainFrame(), "Graph Synchronisation", gs);
+				OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Graph Synchronisation", gs);
 				break;
 			case JOptionPane.YES_OPTION:
 				// do nothing

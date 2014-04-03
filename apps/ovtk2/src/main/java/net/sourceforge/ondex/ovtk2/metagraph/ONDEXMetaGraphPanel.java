@@ -41,8 +41,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode;
 import edu.uci.ics.jung.visualization.control.ScalingControl;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
-public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
-		ChangeListener, ComponentListener {
+public class ONDEXMetaGraphPanel extends JPanel implements ActionListener, ChangeListener, ComponentListener {
 
 	// generated
 	private static final long serialVersionUID = -981647571571550005L;
@@ -90,9 +89,7 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 			// fire action to show legend
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem();
 			item.setSelected(true);
-			OVTK2Desktop.getInstance().actionPerformed(
-					new ActionEvent(item, ActionEvent.ACTION_PERFORMED,
-							"legend"));
+			OVTK2Desktop.getInstance().actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, "legend"));
 		}
 
 		// show main graph
@@ -117,8 +114,7 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 		Point2D[] result = new Point2D[2];
 		Point2D min = null;
 		Point2D max = null;
-		Iterator<ONDEXMetaConcept> it = layout.getGraph().getVertices()
-				.iterator();
+		Iterator<ONDEXMetaConcept> it = layout.getGraph().getVertices().iterator();
 		while (it.hasNext()) {
 			Point2D point = layout.transform(it.next());
 			if (min == null) {
@@ -129,10 +125,8 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 				max = new Point2D.Double(0, 0);
 				max.setLocation(point);
 			}
-			min.setLocation(Math.min(min.getX(), point.getX()),
-					Math.min(min.getY(), point.getY()));
-			max.setLocation(Math.max(max.getX(), point.getX()),
-					Math.max(max.getY(), point.getY()));
+			min.setLocation(Math.min(min.getX(), point.getX()), Math.min(min.getY(), point.getY()));
+			max.setLocation(Math.max(max.getX(), point.getX()), Math.max(max.getY(), point.getY()));
 		}
 		result[0] = min;
 		result[1] = max;
@@ -174,34 +168,23 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 
 		// new metagraph viewer
 		layout = new KKLayout<ONDEXMetaConcept, ONDEXMetaRelation>(meta);
-		visviewer = new VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation>(
-				layout, preferredSize);
+		visviewer = new VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation>(layout, preferredSize);
 		visviewer.setDoubleBuffered(true);
 		visviewer.setBackground(Color.white);
 
 		// set label position and label transformer
-		visviewer.getRenderer().getVertexLabelRenderer()
-				.setPosition(Position.AUTO);
-		visviewer.getRenderContext().setVertexLabelTransformer(
-				new ONDEXMetaConceptLabels(jung));
-		visviewer.getRenderContext().setEdgeLabelTransformer(
-				new ONDEXMetaRelationLabels(jung));
+		visviewer.getRenderer().getVertexLabelRenderer().setPosition(Position.AUTO);
+		visviewer.getRenderContext().setVertexLabelTransformer(new ONDEXMetaConceptLabels(jung));
+		visviewer.getRenderContext().setEdgeLabelTransformer(new ONDEXMetaRelationLabels(jung));
 
 		// set visible attribute renderer
-		visviewer.getRenderContext().setEdgeDrawPaintTransformer(
-				new ONDEXMetaRelationColors(jung, visviewer
-						.getPickedEdgeState()));
-		visviewer.getRenderContext().setVertexShapeTransformer(
-				new ONDEXMetaConceptShapes(jung));
+		visviewer.getRenderContext().setEdgeDrawPaintTransformer(new ONDEXMetaRelationColors(jung, visviewer.getPickedEdgeState()));
+		visviewer.getRenderContext().setVertexShapeTransformer(new ONDEXMetaConceptShapes(jung));
 		// visviewer.getRenderContext().setVertexDrawPaintTransformer(
 		// new ONDEXMetaConceptColors( aog));
-		visviewer.getRenderContext().setVertexFillPaintTransformer(
-				new ONDEXMetaConceptColors(jung, visviewer
-						.getPickedVertexState()));
-		visviewer.getRenderContext().setEdgeArrowPredicate(
-				new ONDEXMetaRelationArrows(jung));
-		visviewer.getRenderContext().setEdgeStrokeTransformer(
-				new ONDEXMetaRelationStrokes(jung));
+		visviewer.getRenderContext().setVertexFillPaintTransformer(new ONDEXMetaConceptColors(jung, visviewer.getPickedVertexState()));
+		visviewer.getRenderContext().setEdgeArrowPredicate(new ONDEXMetaRelationArrows(jung));
+		visviewer.getRenderContext().setEdgeStrokeTransformer(new ONDEXMetaRelationStrokes(jung));
 
 		// set antialiasing painting on
 		Map<?, ?> temp = visviewer.getRenderingHints();
@@ -212,8 +195,7 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 			RenderingHints.Key key = (RenderingHints.Key) it.next();
 			hints.put(key, temp.get(key));
 		}
-		hints.put(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		visviewer.setRenderingHints(hints);
 
 		// standard mouse support
@@ -248,15 +230,13 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 		buttons.setLayout(buttons_layout);
 
 		// metadata legend button
-		JButton legend = new JButton(
-				Config.language.getProperty("MetaGraph.MetaDataLegend"));
+		JButton legend = new JButton(Config.language.getProperty("MetaGraph.MetaDataLegend"));
 		legend.addActionListener(this);
 		legend.setActionCommand("legend");
 		buttons.add(legend);
 
 		// metadata legend button
-		JButton mainGraph = new JButton(
-				Config.language.getProperty("MetaGraph.ShowMainGraph"));
+		JButton mainGraph = new JButton(Config.language.getProperty("MetaGraph.ShowMainGraph"));
 		mainGraph.addActionListener(this);
 		mainGraph.setActionCommand("mainGraph");
 		buttons.add(mainGraph);
@@ -293,10 +273,8 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 	public void scaleToFit() {
 
 		// reset scaling for predictive behaviour
-		visviewer.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.LAYOUT).setToIdentity();
-		visviewer.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW).setToIdentity();
+		visviewer.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).setToIdentity();
+		visviewer.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).setToIdentity();
 
 		// place layout centre in centre of the view
 		Point2D[] calc = calcBounds();
@@ -305,25 +283,16 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 
 		// check for empty graph
 		if (min != null && max != null) {
-			Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(),
-					max.getY() - min.getY());
+			Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(), max.getY() - min.getY());
 			// layouter produced nice bounds
 			if (layout_bounds.getX() > 0 && layout_bounds.getY() > 0) {
 				Point2D screen_center = visviewer.getCenter();
-				Point2D layout_center = new Point2D.Double(screen_center.getX()
-						- (layout_bounds.getX() / 2) - min.getX(),
-						screen_center.getY() - (layout_bounds.getY() / 2)
-								- min.getY());
-				visviewer.getRenderContext().getMultiLayerTransformer()
-						.getTransformer(Layer.VIEW)
-						.translate(layout_center.getX(), layout_center.getY());
+				Point2D layout_center = new Point2D.Double(screen_center.getX() - (layout_bounds.getX() / 2) - min.getX(), screen_center.getY() - (layout_bounds.getY() / 2) - min.getY());
+				visviewer.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).translate(layout_center.getX(), layout_center.getY());
 
 				// scale graph
-				Point2D scale_bounds = new Point2D.Double(visviewer.getSize()
-						.getWidth() / layout_bounds.getX(), visviewer.getSize()
-						.getHeight() / layout_bounds.getY());
-				float scale = (float) Math.min(scale_bounds.getX(),
-						scale_bounds.getY());
+				Point2D scale_bounds = new Point2D.Double(visviewer.getSize().getWidth() / layout_bounds.getX(), visviewer.getSize().getHeight() / layout_bounds.getY());
+				float scale = (float) Math.min(scale_bounds.getX(), scale_bounds.getY());
 				scale = 0.8f * scale;
 				scaler.scale(visviewer, scale, visviewer.getCenter());
 			}
@@ -331,8 +300,7 @@ public class ONDEXMetaGraphPanel extends JPanel implements ActionListener,
 	}
 
 	public void setMouseMode(boolean picking) {
-		ModalGraphMouse graphMouse = (ModalGraphMouse) visviewer
-				.getGraphMouse();
+		ModalGraphMouse graphMouse = (ModalGraphMouse) visviewer.getGraphMouse();
 		graphMouse.setMode(picking ? Mode.PICKING : Mode.TRANSFORMING);
 	}
 

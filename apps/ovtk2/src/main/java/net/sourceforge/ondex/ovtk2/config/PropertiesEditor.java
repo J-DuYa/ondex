@@ -52,8 +52,7 @@ public class PropertiesEditor implements ActionListener {
 
 		private static final long serialVersionUID = 6099005154164113831L;
 
-		private String[] columnNames = new String[] { "Name", "Value",
-				"Delete?" };
+		private String[] columnNames = new String[] { "Name", "Value", "Delete?" };
 
 		private Hashtable<Integer, String[]> pairs = null;
 
@@ -94,13 +93,11 @@ public class PropertiesEditor implements ActionListener {
 			if (col == 0) {
 				properties.remove(pairs.get(row)[0]);
 				properties.setProperty(value.toString(), pairs.get(row)[1]);
-				pairs.put(row, new String[] { value.toString(),
-						pairs.get(row)[1] });
+				pairs.put(row, new String[] { value.toString(), pairs.get(row)[1] });
 				fireTableCellUpdated(row, col);
 			} else if (col == 1) {
 				properties.setProperty(pairs.get(row)[0], value.toString());
-				pairs.put(row,
-						new String[] { pairs.get(row)[0], value.toString() });
+				pairs.put(row, new String[] { pairs.get(row)[0], value.toString() });
 				fireTableCellUpdated(row, col);
 			} else if (col == 2) {
 				properties.remove(pairs.get(row)[0]);
@@ -165,11 +162,7 @@ public class PropertiesEditor implements ActionListener {
 			showSaveExitDialog();
 			System.exit(0);
 		} else if (cmd.equals("about")) {
-			JOptionPane
-					.showMessageDialog(
-							frame,
-							"Simple Java Properties Editor 1.1, The ONDEX Project 2011.",
-							"About...", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "Simple Java Properties Editor 1.1, The ONDEX Project 2011.", "About...", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -247,12 +240,10 @@ public class PropertiesEditor implements ActionListener {
 	 * 
 	 */
 	private void loadProperties() {
-		System.setProperty("org.xml.sax.driver",
-				"org.apache.xerces.parsers.SAXParser");
+		System.setProperty("org.xml.sax.driver", "org.apache.xerces.parsers.SAXParser");
 
 		// create a file chooser
-		final JFileChooser fc = new JFileChooser(new File(
-				System.getProperty("user.dir")));
+		final JFileChooser fc = new JFileChooser(new File(System.getProperty("user.dir")));
 		fc.addChoosableFileFilter(new CustomFileFilter("xml"));
 
 		// in response to a button click:
@@ -265,14 +256,11 @@ public class PropertiesEditor implements ActionListener {
 				properties.loadFromXML(new FileInputStream(file));
 				table.setModel(new PropertiesTableModel(properties));
 			} catch (InvalidPropertiesFormatException ipfe) {
-				System.err.println("Error in " + file.getName() + " "
-						+ ipfe.getMessage());
+				System.err.println("Error in " + file.getName() + " " + ipfe.getMessage());
 			} catch (FileNotFoundException fnfe) {
-				System.err.println("Error in " + file.getName() + " "
-						+ fnfe.getMessage());
+				System.err.println("Error in " + file.getName() + " " + fnfe.getMessage());
 			} catch (IOException ioe) {
-				System.err.println("Error in " + file.getName() + " "
-						+ ioe.getMessage());
+				System.err.println("Error in " + file.getName() + " " + ioe.getMessage());
 			}
 		} else {
 			System.out.println("Open command cancelled by user.");
@@ -285,8 +273,7 @@ public class PropertiesEditor implements ActionListener {
 	 */
 	private void saveProperties() {
 		// create a file chooser
-		final JFileChooser fc = new JFileChooser(new File(
-				System.getProperty("user.dir")));
+		final JFileChooser fc = new JFileChooser(new File(System.getProperty("user.dir")));
 		fc.addChoosableFileFilter(new CustomFileFilter("xml"));
 
 		// in response to a button click:
@@ -297,16 +284,12 @@ public class PropertiesEditor implements ActionListener {
 			System.out.println("Saving: " + file.getName() + ".");
 
 			// configure XML output
-			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2
-					.newInstance();
+			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
 			xmlOutput.configureForXmlConformance();
-			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES,
-					false);
+			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES, false);
 			try {
 				// configure writer
-				XMLStreamWriter2 xmlw = (XMLStreamWriter2) xmlOutput
-						.createXMLStreamWriter(new FileWriter(file),
-								CharsetNames.CS_UTF8);
+				XMLStreamWriter2 xmlw = (XMLStreamWriter2) xmlOutput.createXMLStreamWriter(new FileWriter(file), CharsetNames.CS_UTF8);
 
 				xmlw.writeStartDocument();
 				xmlw.writeCharacters("\n"); // indent
@@ -335,14 +318,11 @@ public class PropertiesEditor implements ActionListener {
 				xmlw.flush();
 				xmlw.close();
 			} catch (FileNotFoundException fnfe) {
-				System.err.println("Error in " + file.getName() + " "
-						+ fnfe.getMessage());
+				System.err.println("Error in " + file.getName() + " " + fnfe.getMessage());
 			} catch (IOException ioe) {
-				System.err.println("Error in " + file.getName() + " "
-						+ ioe.getMessage());
+				System.err.println("Error in " + file.getName() + " " + ioe.getMessage());
 			} catch (XMLStreamException e) {
-				System.err.println("Error in " + file.getName() + " "
-						+ e.getMessage());
+				System.err.println("Error in " + file.getName() + " " + e.getMessage());
 			}
 
 		} else {
@@ -355,9 +335,7 @@ public class PropertiesEditor implements ActionListener {
 	 * 
 	 */
 	private void showSaveExitDialog() {
-		final JOptionPane optionPane = new JOptionPane(
-				"Would you like to save the current content?\n",
-				JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
+		final JOptionPane optionPane = new JOptionPane("Would you like to save the current content?\n", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION);
 
 		final JDialog dialog = new JDialog(frame, "Save current?", true);
 		dialog.setContentPane(optionPane);
@@ -367,8 +345,7 @@ public class PropertiesEditor implements ActionListener {
 			public void propertyChange(PropertyChangeEvent e) {
 				String prop = e.getPropertyName();
 
-				if (dialog.isVisible() && (e.getSource() == optionPane)
-						&& (prop.equals(JOptionPane.VALUE_PROPERTY))) {
+				if (dialog.isVisible() && (e.getSource() == optionPane) && (prop.equals(JOptionPane.VALUE_PROPERTY))) {
 					dialog.setVisible(false);
 				}
 			}

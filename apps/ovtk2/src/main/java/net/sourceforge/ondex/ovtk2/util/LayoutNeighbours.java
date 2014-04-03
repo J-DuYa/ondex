@@ -20,9 +20,7 @@ public class LayoutNeighbours {
 
 	static double startangle = Math.random() * 360.0;
 
-	public static void layoutNodes(
-			VisualizationViewer<ONDEXConcept, ONDEXRelation> vv,
-			ONDEXConcept center, Set<ONDEXConcept> neighbours) {
+	public static void layoutNodes(VisualizationViewer<ONDEXConcept, ONDEXRelation> vv, ONDEXConcept center, Set<ONDEXConcept> neighbours) {
 
 		// get position of centre node
 		Layout<ONDEXConcept, ONDEXRelation> layout = vv.getGraphLayout();

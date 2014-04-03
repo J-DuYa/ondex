@@ -48,7 +48,7 @@ public class ConceptNamePanel extends JLayeredPane {
 
 		// maximum number of names per concept
 		int maxNames = 0;
-        Iterator<ONDEXConcept> viewI = view.iterator();
+		Iterator<ONDEXConcept> viewI = view.iterator();
 		for (int j = 0; viewI.hasNext(); j++) {
 
 			// get concept and all names of it
@@ -64,7 +64,7 @@ public class ConceptNamePanel extends JLayeredPane {
 			// first entry in table row is concept itself
 			Object[] row = new Object[names.length + 1];
 			row[0] = concept;
-            System.arraycopy(names, 0, row, 1, names.length);
+			System.arraycopy(names, 0, row, 1, names.length);
 			data[j] = row;
 		}
 		// to account for concept id

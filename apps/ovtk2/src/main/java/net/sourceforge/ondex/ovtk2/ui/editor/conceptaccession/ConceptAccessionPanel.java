@@ -48,7 +48,7 @@ public class ConceptAccessionPanel extends JLayeredPane {
 
 		// maximum number of accessions per concept
 		int maxAccs = 0;
-        Iterator<ONDEXConcept> viewI = view.iterator();
+		Iterator<ONDEXConcept> viewI = view.iterator();
 		for (int j = 0; viewI.hasNext(); j++) {
 
 			// get concept and all accessions of it
@@ -64,7 +64,7 @@ public class ConceptAccessionPanel extends JLayeredPane {
 			// first entry in table row is concept itself
 			Object[] row = new Object[accs.length + 1];
 			row[0] = concept;
-            System.arraycopy(accs, 0, row, 1, accs.length);
+			System.arraycopy(accs, 0, row, 1, accs.length);
 			data[j] = row;
 		}
 		// to account for concept id

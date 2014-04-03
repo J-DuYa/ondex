@@ -42,9 +42,7 @@ public class ChangeNodeSizeItem extends EntityMenuItem<ONDEXConcept> {
 		sizeField.setText(Config.defaultNodeSize + "");
 		panel.add(sizeField);
 		// ask user for size
-		int option = JOptionPane.showConfirmDialog((Component) viewer, panel,
-				"Change size", JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.PLAIN_MESSAGE);
+		int option = JOptionPane.showConfirmDialog((Component) viewer, panel, "Change size", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (option == JOptionPane.OK_OPTION) {
 			try {
 				final int size = Integer.parseInt(sizeField.getText());
@@ -60,8 +58,7 @@ public class ChangeNodeSizeItem extends EntityMenuItem<ONDEXConcept> {
 				}
 
 				// wrap new transformer around old one
-				final Transformer<ONDEXConcept, Integer> oldSizes = shapes
-						.getNodeSizes();
+				final Transformer<ONDEXConcept, Integer> oldSizes = shapes.getNodeSizes();
 				Transformer<ONDEXConcept, Integer> newSizes = new Transformer<ONDEXConcept, Integer>() {
 
 					@Override

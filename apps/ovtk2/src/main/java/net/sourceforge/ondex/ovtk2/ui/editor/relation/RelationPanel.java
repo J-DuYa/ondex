@@ -33,8 +33,7 @@ public class RelationPanel extends JPanel {
 	/**
 	 * Predefined table headers
 	 */
-	static Object[] header = { "id", "from concept", "to concept", "of type",
-			"evidence" };
+	static Object[] header = { "id", "from concept", "to concept", "of type", "evidence" };
 
 	/**
 	 * Initialises table data with the given ONDEXGraph.
@@ -53,9 +52,7 @@ public class RelationPanel extends JPanel {
 		for (ONDEXRelation relation : view) {
 
 			// first entry in table row is relation itself
-			Object[] row = { relation, relation.getFromConcept(),
-					relation.getToConcept(), relation.getOfType(),
-					relation.getEvidence() };
+			Object[] row = { relation, relation.getFromConcept(), relation.getToConcept(), relation.getOfType(), relation.getEvidence() };
 			data[i] = row;
 			i++;
 		}

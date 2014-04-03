@@ -58,8 +58,7 @@ public class Util implements Comparator<Object> {
 			if (h == null)
 				h = defaultHeaderRenderer;
 			if (h != null) { // Not explicitly impossible
-				Component c = h.getTableCellRendererComponent(table, column
-						.getHeaderValue(), false, false, -1, i);
+				Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, -1, i);
 				// get header width
 				width = (int) (c.getPreferredSize().width * 1.1);
 			}
@@ -67,8 +66,7 @@ public class Util implements Comparator<Object> {
 			// go through all rows
 			for (int row = rowCount - 1; row >= 0; --row) {
 				TableCellRenderer r = table.getCellRenderer(row, i);
-				Component c = r.getTableCellRendererComponent(table, data
-						.getValueAt(row, columnIndex), false, false, row, i);
+				Component c = r.getTableCellRendererComponent(table, data.getValueAt(row, columnIndex), false, false, row, i);
 				// max of header width and actual component width
 				width = Math.max(width, c.getPreferredSize().width);
 			}

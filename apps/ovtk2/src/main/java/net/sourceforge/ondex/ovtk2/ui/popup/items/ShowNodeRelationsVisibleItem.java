@@ -29,8 +29,7 @@ public class ShowNodeRelationsVisibleItem extends EntityMenuItem<ONDEXConcept> {
 	protected void doAction() {
 		ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
 		for (ONDEXConcept c : entities) {
-			for (ONDEXRelation r : viewer.getONDEXJUNGGraph()
-					.getRelationsOfConcept(c)) {
+			for (ONDEXRelation r : viewer.getONDEXJUNGGraph().getRelationsOfConcept(c)) {
 				// check if this is an invisible edge
 				if (!jung.isVisible(r)) {
 					if (r.getFromConcept().equals(c)) {

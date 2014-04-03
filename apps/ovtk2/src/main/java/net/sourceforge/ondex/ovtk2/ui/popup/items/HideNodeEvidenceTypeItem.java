@@ -23,8 +23,7 @@ public class HideNodeEvidenceTypeItem extends EntityMenuItem<ONDEXConcept> {
 		for (ONDEXConcept vertex : entities) {
 			ONDEXConcept c = vertex;
 			for (EvidenceType et : c.getEvidence()) {
-				for (ONDEXConcept oc : viewer.getONDEXJUNGGraph()
-						.getConceptsOfEvidenceType(et)) {
+				for (ONDEXConcept oc : viewer.getONDEXJUNGGraph().getConceptsOfEvidenceType(et)) {
 					viewer.getONDEXJUNGGraph().setVisibility(oc, false);
 				}
 			}

@@ -57,8 +57,7 @@ public class WizardImport {
 	 * @param data
 	 *            return data from ImportWizard
 	 */
-	public WizardImport(final ONDEXGraph graph, Vector<Object> data,
-			final JFrame parent) {
+	public WizardImport(final ONDEXGraph graph, Vector<Object> data, final JFrame parent) {
 
 		this.v = data;
 
@@ -66,8 +65,7 @@ public class WizardImport {
 
 		// Compatibility to applet
 		if (parent == null) {
-			internalFrame = new RegisteredJInternalFrame("Value Mapping",
-					"Import", "Define Value Mapping...", true, true, true, true);
+			internalFrame = new RegisteredJInternalFrame("Value Mapping", "Import", "Define Value Mapping...", true, true, true, true);
 			contentPane = internalFrame.getContentPane();
 		} else {
 			contentPane = parent.getContentPane();
@@ -79,10 +77,8 @@ public class WizardImport {
 
 		// concept class selection
 		JPanel ccPanel = new JPanel(new GridLayout(1, 1));
-		ccPanel.setBorder(BorderFactory
-				.createTitledBorder("Select ConceptClass"));
-		ConceptClass[] ccs = graph.getMetaData().getConceptClasses()
-				.toArray(new ConceptClass[0]);
+		ccPanel.setBorder(BorderFactory.createTitledBorder("Select ConceptClass"));
+		ConceptClass[] ccs = graph.getMetaData().getConceptClasses().toArray(new ConceptClass[0]);
 		Arrays.sort(ccs);
 		final JComboBox box = new JComboBox();
 		for (ConceptClass cc : ccs) {
@@ -95,8 +91,7 @@ public class WizardImport {
 
 		// attribute name
 		JPanel anPanel = new JPanel(new GridLayout(2, 1));
-		anPanel.setBorder(BorderFactory
-				.createTitledBorder("Provide AttributeName"));
+		anPanel.setBorder(BorderFactory.createTitledBorder("Provide AttributeName"));
 		final JTextField field = new JTextField();
 		anPanel.add(field);
 		anPanel.add(useHeaders);
@@ -104,8 +99,7 @@ public class WizardImport {
 
 		// decide how to treat multiple values
 		JPanel multiPanel = new JPanel(new GridLayout(1, 2));
-		multiPanel.setBorder(BorderFactory
-				.createTitledBorder("Multiple values"));
+		multiPanel.setBorder(BorderFactory.createTitledBorder("Multiple values"));
 		final JRadioButton average = new JRadioButton("Use Average");
 		average.setSelected(true);
 		final JRadioButton maximum = new JRadioButton("Use Maximum");
@@ -120,19 +114,13 @@ public class WizardImport {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (field.getText().trim().length() == 0
-						&& !useHeaders.isSelected()) {
+				if (field.getText().trim().length() == 0 && !useHeaders.isSelected()) {
 					if (internalFrame != null)
-						JOptionPane.showInternalMessageDialog(internalFrame,
-								"No AttributeName given.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showInternalMessageDialog(internalFrame, "No AttributeName given.", "Error", JOptionPane.ERROR_MESSAGE);
 					else
-						JOptionPane.showMessageDialog(parent,
-								"No AttributeName given.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(parent, "No AttributeName given.", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					process(graph, (ConceptClass) box.getSelectedItem(),
-							field.getText(), average.isSelected());
+					process(graph, (ConceptClass) box.getSelectedItem(), field.getText(), average.isSelected());
 					if (internalFrame != null)
 						internalFrame.setVisible(false);
 					else
@@ -180,14 +168,12 @@ public class WizardImport {
 	 * @param average
 	 */
 	@SuppressWarnings("unchecked")
-	private void process(ONDEXGraph graph, ConceptClass cc, String an,
-			boolean average) {
+	private void process(ONDEXGraph graph, ConceptClass cc, String an, boolean average) {
 
 		// create mappings here
 		List<String> headers = (List<String>) v.get(0);
 		Vector<Vector<Object>> data = (Vector<Vector<Object>>) v.get(1);
-		Map<String, List<Integer>> index = (Map<String, List<Integer>>) v
-				.get(2);
+		Map<String, List<Integer>> index = (Map<String, List<Integer>>) v.get(2);
 		Map<String, double[]> uniqueValues = new HashMap<String, double[]>();
 		// track optional name for accession
 		Map<String, String> cnames = new HashMap<String, String>();
@@ -200,8 +186,7 @@ public class WizardImport {
 			}
 
 			// always present
-			String accString = row.get(index.get("cacc").get(0).intValue())
-					.toString();
+			String accString = row.get(index.get("cacc").get(0).intValue()).toString();
 			accString = accString.replaceAll("\"", "");
 			String[] accs = accString.split(",");
 			for (String acc : accs) {
@@ -212,8 +197,7 @@ public class WizardImport {
 				if (!uniqueValues.containsKey(acc)) {
 					double[] values = new double[valueIndicies.size()];
 					for (int i = 0; i < valueIndicies.size(); i++) {
-						String valueAsString = row.get(valueIndicies.get(i))
-								.toString();
+						String valueAsString = row.get(valueIndicies.get(i)).toString();
 						double value = Double.parseDouble(valueAsString);
 						values[i] = value;
 					}
@@ -223,8 +207,7 @@ public class WizardImport {
 					// process existing array of values
 					double[] values = uniqueValues.get(acc);
 					for (int i = 0; i < valueIndicies.size(); i++) {
-						String valueAsString = row.get(valueIndicies.get(i))
-								.toString();
+						String valueAsString = row.get(valueIndicies.get(i)).toString();
 						double oldValue = values[i];
 						double newValue = Double.parseDouble(valueAsString);
 						if (average) {
@@ -278,25 +261,18 @@ public class WizardImport {
 								name = name + i;
 							attr = graph.getMetaData().getAttributeName(name);
 							if (attr == null)
-								attr = graph
-										.getMetaData()
-										.getFactory()
-										.createAttributeName(name, Double.class);
+								attr = graph.getMetaData().getFactory().createAttributeName(name, Double.class);
 						} else {
 							String name = headers.get(i);
 							name = name.replaceAll("\\s", "_");
 							attr = graph.getMetaData().getAttributeName(name);
 							if (attr == null)
-								attr = graph
-										.getMetaData()
-										.getFactory()
-										.createAttributeName(name, Double.class);
+								attr = graph.getMetaData().getFactory().createAttributeName(name, Double.class);
 						}
 
 						// only assign first hit
 						if (c.getAttribute(attr) == null) {
-							c.createAttribute(attr, Double.valueOf(values[i]),
-									false);
+							c.createAttribute(attr, Double.valueOf(values[i]), false);
 						} else {
 
 							// process multiple hits
@@ -306,12 +282,10 @@ public class WizardImport {
 
 							if (average) {
 								// use average
-								attribute.setValue(Double
-										.valueOf((oldValue + newValue) / 2));
+								attribute.setValue(Double.valueOf((oldValue + newValue) / 2));
 							} else {
 								// use maximum
-								attribute.setValue(Double.valueOf(Math.max(
-										oldValue, newValue)));
+								attribute.setValue(Double.valueOf(Math.max(oldValue, newValue)));
 							}
 						}
 					}

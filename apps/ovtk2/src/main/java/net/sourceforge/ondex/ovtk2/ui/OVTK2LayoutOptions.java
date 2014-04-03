@@ -28,8 +28,7 @@ import edu.uci.ics.jung.visualization.layout.ObservableCachingLayout;
  * @author taubertj
  * 
  */
-public class OVTK2LayoutOptions extends RegisteredJInternalFrame implements
-		ActionListener {
+public class OVTK2LayoutOptions extends RegisteredJInternalFrame implements ActionListener {
 
 	// generated
 	private static final long serialVersionUID = 5016903790709100530L;
@@ -51,9 +50,7 @@ public class OVTK2LayoutOptions extends RegisteredJInternalFrame implements
 	 */
 	public OVTK2LayoutOptions(OVTK2Viewer viewer) {
 		// set title and icon
-		super(Config.language.getProperty("Options.Title"), "Options",
-				Config.language.getProperty("Options.Title"), true, true, true,
-				true);
+		super(Config.language.getProperty("Options.Title"), "Options", Config.language.getProperty("Options.Title"), true, true, true, true);
 
 		this.viewer = viewer;
 
@@ -71,8 +68,7 @@ public class OVTK2LayoutOptions extends RegisteredJInternalFrame implements
 	 * 
 	 */
 	private void initIcon() {
-		File imgLocation = new File(
-				"config/toolbarButtonGraphics/development/Application16.gif");
+		File imgLocation = new File("config/toolbarButtonGraphics/development/Application16.gif");
 		URL imageURL = null;
 
 		try {
@@ -96,8 +92,7 @@ public class OVTK2LayoutOptions extends RegisteredJInternalFrame implements
 		JScrollPane scroll = new JScrollPane(ovtk2layouter.getOptionPanel());
 		scroll.setPreferredSize(preferredSize);
 
-		JButton button = new JButton(
-				Config.language.getProperty("Options.Relayout"));
+		JButton button = new JButton(Config.language.getProperty("Options.Relayout"));
 		button.addActionListener(this);
 
 		// add to content pane
@@ -117,8 +112,7 @@ public class OVTK2LayoutOptions extends RegisteredJInternalFrame implements
 	public void setViewer(OVTK2Viewer viewer) {
 		this.viewer = viewer;
 
-		ObservableCachingLayout<ONDEXConcept, ONDEXRelation> layouter = (ObservableCachingLayout<ONDEXConcept, ONDEXRelation>) viewer
-				.getVisualizationViewer().getGraphLayout();
+		ObservableCachingLayout<ONDEXConcept, ONDEXRelation> layouter = (ObservableCachingLayout<ONDEXConcept, ONDEXRelation>) viewer.getVisualizationViewer().getGraphLayout();
 		if (layouter.getDelegate() instanceof OVTK2Layouter) {
 			setLayouter((OVTK2Layouter) layouter.getDelegate());
 		} else {
@@ -142,8 +136,7 @@ public class OVTK2LayoutOptions extends RegisteredJInternalFrame implements
 
 	public void actionPerformed(ActionEvent arg0) {
 		if (ovtk2layouter != null && viewer != null) {
-			VisualisationUtils.relayout(viewer, OVTK2Desktop.getInstance()
-					.getMainFrame());
+			VisualisationUtils.relayout(viewer, OVTK2Desktop.getInstance().getMainFrame());
 		}
 	}
 

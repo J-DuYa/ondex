@@ -27,9 +27,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  * @author taubertj
  * 
  */
-public abstract class JUNGGraphAdapter extends
-		AbstractGraph<ONDEXConcept, ONDEXRelation> implements
-		DirectedGraph<ONDEXConcept, ONDEXRelation>, ONDEXGraph {
+public abstract class JUNGGraphAdapter extends AbstractGraph<ONDEXConcept, ONDEXRelation> implements DirectedGraph<ONDEXConcept, ONDEXRelation>, ONDEXGraph {
 
 	/**
 	 * generated
@@ -39,24 +37,22 @@ public abstract class JUNGGraphAdapter extends
 	/**
 	 * show a vertex or not, index by ONDEXConcept id
 	 */
-	private Map<Integer, Boolean> vertex_visibility = LazyMap.decorate(
-			new HashMap<Integer, Boolean>(), new Factory<Boolean>() {
-				@Override
-				public Boolean create() {
-					return Boolean.FALSE;
-				}
-			});
+	private Map<Integer, Boolean> vertex_visibility = LazyMap.decorate(new HashMap<Integer, Boolean>(), new Factory<Boolean>() {
+		@Override
+		public Boolean create() {
+			return Boolean.FALSE;
+		}
+	});
 
 	/**
 	 * show an edge or not, index by ONDEXRelation id
 	 */
-	private Map<Integer, Boolean> edge_visibility = LazyMap.decorate(
-			new HashMap<Integer, Boolean>(), new Factory<Boolean>() {
-				@Override
-				public Boolean create() {
-					return Boolean.FALSE;
-				}
-			});
+	private Map<Integer, Boolean> edge_visibility = LazyMap.decorate(new HashMap<Integer, Boolean>(), new Factory<Boolean>() {
+		@Override
+		public Boolean create() {
+			return Boolean.FALSE;
+		}
+	});
 
 	/**
 	 * keep last visibility state across all nodes and edges
@@ -104,9 +100,7 @@ public abstract class JUNGGraphAdapter extends
 	public boolean isVisible(ONDEXRelation edge) {
 		if (edge == null)
 			return false;
-		return edge_visibility.get(edge.getId())
-				&& vertex_visibility.get(edge.getFromConcept().getId())
-				&& vertex_visibility.get(edge.getToConcept().getId());
+		return edge_visibility.get(edge.getId()) && vertex_visibility.get(edge.getFromConcept().getId()) && vertex_visibility.get(edge.getToConcept().getId());
 	}
 
 	/**
@@ -150,16 +144,14 @@ public abstract class JUNGGraphAdapter extends
 	 * @param visible
 	 *            visibility flag
 	 */
-	public void setVisibility(Iterable<? extends ONDEXEntity> entities,
-			boolean visible) {
+	public void setVisibility(Iterable<? extends ONDEXEntity> entities, boolean visible) {
 		for (ONDEXEntity entity : entities) {
 			if (entity instanceof ONDEXConcept) {
 				setVisibility((ONDEXConcept) entity, visible);
 			} else if (entity instanceof ONDEXRelation) {
 				setVisibility((ONDEXRelation) entity, visible);
 			} else {
-				throw new IllegalArgumentException(
-						"List contains wrong type of ONDEXEntity.");
+				throw new IllegalArgumentException("List contains wrong type of ONDEXEntity.");
 			}
 		}
 	}
@@ -242,8 +234,7 @@ public abstract class JUNGGraphAdapter extends
 	}
 
 	@Override
-	public boolean addEdge(ONDEXRelation edge,
-			Pair<? extends ONDEXConcept> endpoints, EdgeType edgeType) {
+	public boolean addEdge(ONDEXRelation edge, Pair<? extends ONDEXConcept> endpoints, EdgeType edgeType) {
 		throw new IllegalArgumentException("Method not supported.");
 	}
 
@@ -318,8 +309,7 @@ public abstract class JUNGGraphAdapter extends
 		if (!containsEdge(edge))
 			return null;
 
-		Pair<ONDEXConcept> pair = new Pair<ONDEXConcept>(edge.getFromConcept(),
-				edge.getToConcept());
+		Pair<ONDEXConcept> pair = new Pair<ONDEXConcept>(edge.getFromConcept(), edge.getToConcept());
 		return pair;
 	}
 
@@ -460,8 +450,7 @@ public abstract class JUNGGraphAdapter extends
 	 * 
 	 * @param sparseONDEXListener
 	 */
-	public void registerSparseONDEXListener(
-			SparseONDEXListener sparseONDEXListener) {
+	public void registerSparseONDEXListener(SparseONDEXListener sparseONDEXListener) {
 		synchronized (sgListeners) {
 			sgListeners.add(sparseONDEXListener);
 		}
@@ -472,8 +461,7 @@ public abstract class JUNGGraphAdapter extends
 	 * 
 	 * @param sparseONDEXListener
 	 */
-	public void deregisterSparseONDEXListener(
-			SparseONDEXListener sparseONDEXListener) {
+	public void deregisterSparseONDEXListener(SparseONDEXListener sparseONDEXListener) {
 		synchronized (sgListeners) {
 			sgListeners.remove(sparseONDEXListener);
 		}

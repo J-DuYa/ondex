@@ -17,8 +17,7 @@ import net.sourceforge.ondex.core.ONDEXConcept;
  * @author taubertj
  * 
  */
-public class ConceptNameTableCellEditor extends DefaultCellEditor implements
-		MouseListener {
+public class ConceptNameTableCellEditor extends DefaultCellEditor implements MouseListener {
 
 	/**
 	 * generated
@@ -47,8 +46,7 @@ public class ConceptNameTableCellEditor extends DefaultCellEditor implements
 
 	// Implement the one method defined by TableCellEditor.
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 
 		// which concept we are working on
 		concept = (ONDEXConcept) table.getValueAt(row, 0);
@@ -62,8 +60,7 @@ public class ConceptNameTableCellEditor extends DefaultCellEditor implements
 		}
 
 		// use default text field editor
-		return super.getTableCellEditorComponent(table, value, isSelected, row,
-				column);
+		return super.getTableCellEditorComponent(table, value, isSelected, row, column);
 	}
 
 	@Override
@@ -84,8 +81,7 @@ public class ConceptNameTableCellEditor extends DefaultCellEditor implements
 				concept.deleteConceptName(name.getName());
 				// keep preferred setting and create non empty name
 				if (newName.trim().length() > 0)
-					name = concept
-							.createConceptName(newName, old.isPreferred());
+					name = concept.createConceptName(newName, old.isPreferred());
 				else
 					// clear existing concept name from table
 					name = null;

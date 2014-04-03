@@ -52,16 +52,14 @@ public class ONDEXEdgeColors implements Transformer<ONDEXRelation, Paint> {
 	 */
 	public ONDEXEdgeColors(PickedInfo<ONDEXRelation> pi) {
 		if (pi == null)
-			throw new IllegalArgumentException(
-					"PickedInfo instance must be non-null");
+			throw new IllegalArgumentException("PickedInfo instance must be non-null");
 		this.pi = pi;
-		this.colors = LazyMap.decorate(new HashMap<ONDEXRelation, Paint>(),
-				new Factory<Paint>() {
-					@Override
-					public Paint create() {
-						return Config.defaultColor;
-					}
-				});
+		this.colors = LazyMap.decorate(new HashMap<ONDEXRelation, Paint>(), new Factory<Paint>() {
+			@Override
+			public Paint create() {
+				return Config.defaultColor;
+			}
+		});
 
 		// get colouring strategy from visual.xml
 		String s = Config.visual.getProperty(GRAPH_COLORING_RELATION_STRATEGY);

@@ -14,8 +14,7 @@ import org.apache.commons.collections15.Transformer;
  * @author taubertj
  * 
  */
-public class ONDEXMetaConceptLabels implements
-		Transformer<ONDEXMetaConcept, String> {
+public class ONDEXMetaConceptLabels implements Transformer<ONDEXMetaConcept, String> {
 
 	// current ONDEXJUNGGraph
 	private ONDEXJUNGGraph graph = null;
@@ -37,7 +36,7 @@ public class ONDEXMetaConceptLabels implements
 		// initialise labels
 		updateAll();
 	}
-	
+
 	/**
 	 * Extracts the label from a given ConceptClass.
 	 * 

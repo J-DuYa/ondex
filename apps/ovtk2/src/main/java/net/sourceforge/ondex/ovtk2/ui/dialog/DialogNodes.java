@@ -56,11 +56,7 @@ public class DialogNodes extends OVTK2Dialog {
 		private static final long serialVersionUID = -1136701487783067755L;
 
 		// table header
-		private String[] columnNames = new String[] { "",
-				Config.language.getProperty("Dialog.Nodes.TableLabel"),
-				Config.language.getProperty("Dialog.Nodes.ConceptClassLabel"),
-				Config.language.getProperty("Dialog.Nodes.TableVisible"),
-				Config.language.getProperty("Dialog.Nodes.TableLabelVisible") };
+		private String[] columnNames = new String[] { "", Config.language.getProperty("Dialog.Nodes.TableLabel"), Config.language.getProperty("Dialog.Nodes.ConceptClassLabel"), Config.language.getProperty("Dialog.Nodes.TableVisible"), Config.language.getProperty("Dialog.Nodes.TableLabelVisible") };
 
 		// contains node to visible mapping
 		private Map<ONDEXConcept, Boolean> nodes = null;
@@ -130,15 +126,13 @@ public class DialogNodes extends OVTK2Dialog {
 		public void setValueAt(Object value, int row, int col) {
 			// change to visible flag
 			if (col == 3) {
-				ONDEXConcept[] keys = nodes.keySet().toArray(
-						new ONDEXConcept[0]);
+				ONDEXConcept[] keys = nodes.keySet().toArray(new ONDEXConcept[0]);
 				ONDEXConcept key = keys[row];
 				nodes.put(key, (Boolean) value);
 				this.fireTableDataChanged();
 			}
 			if (col == 4) {
-				ONDEXConcept[] keys = nodes.keySet().toArray(
-						new ONDEXConcept[0]);
+				ONDEXConcept[] keys = nodes.keySet().toArray(new ONDEXConcept[0]);
 				ONDEXConcept key = keys[row];
 				nlv.put(key, (Boolean) value);
 				this.fireTableDataChanged();
@@ -221,16 +215,14 @@ public class DialogNodes extends OVTK2Dialog {
 
 		// make sure visible attribute name is there
 		if (!graph.getMetaData().checkAttributeName("visible")) {
-			this.an = graph.getMetaData().getFactory()
-					.createAttributeName("visible", Boolean.class);
+			this.an = graph.getMetaData().getFactory().createAttributeName("visible", Boolean.class);
 		} else {
 			this.an = graph.getMetaData().getAttributeName("visible");
 		}
 
 		// make sure visibleNLV attribute name is there
 		if (!graph.getMetaData().checkAttributeName("visibleNLV")) {
-			this.anNLV = graph.getMetaData().getFactory()
-					.createAttributeName("visibleNLV", Boolean.class);
+			this.anNLV = graph.getMetaData().getFactory().createAttributeName("visibleNLV", Boolean.class);
 		} else {
 			this.anNLV = graph.getMetaData().getAttributeName("visibleNLV");
 		}
@@ -293,20 +285,16 @@ public class DialogNodes extends OVTK2Dialog {
 		// init properties layout
 		JPanel properties = new JPanel(new BorderLayout());
 
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.Nodes.Nodes"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.Nodes.Nodes"));
 		properties.setBorder(propertiesBorder);
 
 		TableColumn preferred = table.getColumnModel().getColumn(3);
-		int width = Config.language.getProperty("Dialog.Nodes.TableVisible")
-				.length() * 7;
+		int width = Config.language.getProperty("Dialog.Nodes.TableVisible").length() * 7;
 		preferred.setMaxWidth(width);
 		preferred.setMinWidth(width);
 
 		TableColumn preferredNLV = table.getColumnModel().getColumn(4);
-		int widthNLV = Config.language.getProperty(
-				"Dialog.Nodes.TableLabelVisible").length() * 7;
+		int widthNLV = Config.language.getProperty("Dialog.Nodes.TableLabelVisible").length() * 7;
 		preferredNLV.setMaxWidth(widthNLV);
 		preferredNLV.setMinWidth(widthNLV);
 
@@ -325,26 +313,22 @@ public class DialogNodes extends OVTK2Dialog {
 		gdsPane.setLayout(layout);
 		properties.add(gdsPane, BorderLayout.SOUTH);
 
-		JButton load = new JButton(
-				Config.language.getProperty("Dialog.Nodes.Load"));
+		JButton load = new JButton(Config.language.getProperty("Dialog.Nodes.Load"));
 		load.setActionCommand("load");
 		load.addActionListener(this);
 		gdsPane.add(load);
 
-		JButton store = new JButton(
-				Config.language.getProperty("Dialog.Nodes.Store"));
+		JButton store = new JButton(Config.language.getProperty("Dialog.Nodes.Store"));
 		store.setActionCommand("store");
 		store.addActionListener(this);
 		gdsPane.add(store);
 
-		visibleAll = new JButton(
-				Config.language.getProperty("Dialog.Nodes.DeSelectAllVisible"));
+		visibleAll = new JButton(Config.language.getProperty("Dialog.Nodes.DeSelectAllVisible"));
 		visibleAll.setActionCommand("visible");
 		visibleAll.addActionListener(this);
 		gdsPane.add(visibleAll);
 
-		labelsAll = new JButton(
-				Config.language.getProperty("Dialog.Nodes.SelectAllLabels"));
+		labelsAll = new JButton(Config.language.getProperty("Dialog.Nodes.SelectAllLabels"));
 		labelsAll.setActionCommand("labels");
 		labelsAll.addActionListener(this);
 		gdsPane.add(labelsAll);
@@ -361,8 +345,7 @@ public class DialogNodes extends OVTK2Dialog {
 		// sync visibility
 		if (cmd.equals("apply")) {
 
-			StateEdit edit = new StateEdit(new VisibilityUndo(graph),
-					this.getName());
+			StateEdit edit = new StateEdit(new VisibilityUndo(graph), this.getName());
 
 			// this is for node visibility
 			Map<ONDEXConcept, Boolean> visible = model.getData();
@@ -382,11 +365,10 @@ public class DialogNodes extends OVTK2Dialog {
 			BitSet expanded = new BitSet();
 			if (levelValue > 0) {
 				for (ONDEXConcept concept : visibleSet) {
-					BitSet[] temp = StandardFunctions
-							.getNeighboursAtLevel(concept, graph, levelValue);
+					BitSet[] temp = StandardFunctions.getNeighboursAtLevel(concept, graph, levelValue);
 					expanded.or(temp[0]);
 				}
-				for(int i=expanded.nextSetBit(0); i>=0; i=expanded.nextSetBit(i+1))
+				for (int i = expanded.nextSetBit(0); i >= 0; i = expanded.nextSetBit(i + 1))
 					visibleSet.add(graph.getConcept(i));
 			}
 
@@ -432,8 +414,7 @@ public class DialogNodes extends OVTK2Dialog {
 			// fill from Attribute
 			for (ONDEXConcept concept : graph.getConceptsOfAttributeName(anNLV)) {
 				Attribute attribute = concept.getAttribute(anNLV);
-				nlv.put(concept,
-						((Boolean) attribute.getValue()).booleanValue());
+				nlv.put(concept, ((Boolean) attribute.getValue()).booleanValue());
 			}
 
 			model.fireTableDataChanged();
@@ -462,46 +443,32 @@ public class DialogNodes extends OVTK2Dialog {
 
 		// toggle all visible
 		else if (cmd.equals("visible")) {
-			if (visibleAll.getText().equals(
-					Config.language
-							.getProperty("Dialog.Nodes.SelectAllVisible"))) {
+			if (visibleAll.getText().equals(Config.language.getProperty("Dialog.Nodes.SelectAllVisible"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
 					table.setValueAt(true, x, table.convertColumnIndexToView(3));
 				}
-				visibleAll.setText(Config.language
-						.getProperty("Dialog.Nodes.DeSelectAllVisible"));
-			} else if (visibleAll.getText().equals(
-					Config.language
-							.getProperty("Dialog.Nodes.DeSelectAllVisible"))) {
+				visibleAll.setText(Config.language.getProperty("Dialog.Nodes.DeSelectAllVisible"));
+			} else if (visibleAll.getText().equals(Config.language.getProperty("Dialog.Nodes.DeSelectAllVisible"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
-					table.setValueAt(false, x,
-							table.convertColumnIndexToView(3));
+					table.setValueAt(false, x, table.convertColumnIndexToView(3));
 				}
-				visibleAll.setText(Config.language
-						.getProperty("Dialog.Nodes.SelectAllVisible"));
+				visibleAll.setText(Config.language.getProperty("Dialog.Nodes.SelectAllVisible"));
 			}
 			visibleAll.repaint();
 		}
 
 		// toggle all labels
 		else if (cmd.equals("labels")) {
-			if (labelsAll.getText()
-					.equals(Config.language
-							.getProperty("Dialog.Nodes.SelectAllLabels"))) {
+			if (labelsAll.getText().equals(Config.language.getProperty("Dialog.Nodes.SelectAllLabels"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
 					table.setValueAt(true, x, table.convertColumnIndexToView(4));
 				}
-				labelsAll.setText(Config.language
-						.getProperty("Dialog.Nodes.DeSelectAllLabels"));
-			} else if (labelsAll.getText().equals(
-					Config.language
-							.getProperty("Dialog.Nodes.DeSelectAllLabels"))) {
+				labelsAll.setText(Config.language.getProperty("Dialog.Nodes.DeSelectAllLabels"));
+			} else if (labelsAll.getText().equals(Config.language.getProperty("Dialog.Nodes.DeSelectAllLabels"))) {
 				for (int x = 0, y = table.getRowCount(); x < y; x++) {
-					table.setValueAt(false, x,
-							table.convertColumnIndexToView(4));
+					table.setValueAt(false, x, table.convertColumnIndexToView(4));
 				}
-				labelsAll.setText(Config.language
-						.getProperty("Dialog.Nodes.SelectAllLabels"));
+				labelsAll.setText(Config.language.getProperty("Dialog.Nodes.SelectAllLabels"));
 			}
 			labelsAll.repaint();
 		}

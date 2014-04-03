@@ -58,8 +58,7 @@ public class CDOptionsDialog extends JDialog implements ActionListener {
 	/**
 	 * the constructor. sets up everything.
 	 */
-	public CDOptionsDialog(Frame owner, Vector<String> pluginOrder,
-			Map<String, Boolean> name2activation) {
+	public CDOptionsDialog(Frame owner, Vector<String> pluginOrder, Map<String, Boolean> name2activation) {
 		super(owner, "Contents display options", true);
 
 		this.pluginOrder = pluginOrder;
@@ -71,7 +70,7 @@ public class CDOptionsDialog extends JDialog implements ActionListener {
 
 		pack();
 		setVisible(true);
-		
+
 		// restrict to a reasonable height
 		setSize(getSize().width, 800);
 	}
@@ -114,8 +113,7 @@ public class CDOptionsDialog extends JDialog implements ActionListener {
 	 * @author Jochen Weile, B.Sc.
 	 * 
 	 */
-	private class DraggableList extends JPanel implements MouseListener,
-			ActionListener, MouseMotionListener {
+	private class DraggableList extends JPanel implements MouseListener, ActionListener, MouseMotionListener {
 
 		/**
 		 * version.
@@ -214,9 +212,7 @@ public class CDOptionsDialog extends JDialog implements ActionListener {
 			}
 			if (rectPosX >= 0 && rectPosY >= 0) {
 				float dash1[] = { 3.0f };
-				BasicStroke dashed = new BasicStroke(1.0f,
-						BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
-						dash1, 0.0f);
+				BasicStroke dashed = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 				g2.setStroke(dashed);
 				int x = rectPosX - (elementWidth / 2);
 				int y = rectPosY - (elementHeight / 2);
@@ -327,8 +323,7 @@ public class CDOptionsDialog extends JDialog implements ActionListener {
 
 				int dest_index = resolveBorderIndex(y);
 
-				if (dest_index == touched_index
-						|| dest_index == touched_index + 1) {
+				if (dest_index == touched_index || dest_index == touched_index + 1) {
 					// do nothing cause it's the same place.
 				} else {
 					String[] dummy = new String[pluginOrder.size()];
@@ -336,8 +331,7 @@ public class CDOptionsDialog extends JDialog implements ActionListener {
 						for (int i = 0; i < dest_index; i++) {
 							dummy[i] = pluginOrder.elementAt(i);
 						}
-						dummy[dest_index] = pluginOrder
-								.elementAt(touched_index);
+						dummy[dest_index] = pluginOrder.elementAt(touched_index);
 						for (int i = dest_index + 1; i <= touched_index; i++) {
 							dummy[i] = pluginOrder.elementAt(i - 1);
 						}
@@ -351,8 +345,7 @@ public class CDOptionsDialog extends JDialog implements ActionListener {
 						for (int i = touched_index; i < dest_index - 1; i++) {
 							dummy[i] = pluginOrder.elementAt(i + 1);
 						}
-						dummy[dest_index - 1] = pluginOrder
-								.elementAt(touched_index);
+						dummy[dest_index - 1] = pluginOrder.elementAt(touched_index);
 						for (int i = dest_index; i < pluginOrder.size(); i++) {
 							dummy[i] = pluginOrder.elementAt(i);
 						}

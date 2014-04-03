@@ -32,20 +32,16 @@ public class WebserviceExport extends Export {
 		return "OVTK_Webservice_exporter";
 	}
 
-	public WebserviceExport(ONDEXGraph aog, URL url, String name)
-			throws XMLStreamException, IOException, JAXBException,
-			WebserviceException_Exception {
+	public WebserviceExport(ONDEXGraph aog, URL url, String name) throws XMLStreamException, IOException, JAXBException, WebserviceException_Exception {
 
-		XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2
-				.newInstance();
+		XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
 		xmlOutput.configureForSpeed();
 		xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES, false);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		BufferedOutputStream outStream = new BufferedOutputStream(baos);
 
-		XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput
-				.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
+		XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
 		buildDocument(xmlWriteStream, aog);
 
 		xmlWriteStream.flush();

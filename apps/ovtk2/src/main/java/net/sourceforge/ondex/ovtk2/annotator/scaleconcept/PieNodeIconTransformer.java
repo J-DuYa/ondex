@@ -56,9 +56,7 @@ public class PieNodeIconTransformer implements Transformer<ONDEXConcept, Icon> {
 	 * @param absoluteValues
 	 *            treat more negative values as greater
 	 */
-	public PieNodeIconTransformer(Map<Integer, Map<ONDEXConcept, Double>> data,
-			Map<ONDEXConcept, Double> significanceMap, int targMin,
-			int targMax, boolean absoluteValues) {
+	public PieNodeIconTransformer(Map<Integer, Map<ONDEXConcept, Double>> data, Map<ONDEXConcept, Double> significanceMap, int targMin, int targMax, boolean absoluteValues) {
 		this.data = data;
 		this.significanceMap = significanceMap;
 		if (significanceMap != null) {
@@ -167,8 +165,7 @@ public class PieNodeIconTransformer implements Transformer<ONDEXConcept, Icon> {
 				} else {
 					percentBase = (valuesForCategory.get(c) - min) / max;
 				}
-				normalizedValuesForCategory.put(c, targMin
-						+ (percentBase * sizeRange));
+				normalizedValuesForCategory.put(c, targMin + (percentBase * sizeRange));
 			}
 			normalized.put(category, normalizedValuesForCategory);
 		}
@@ -182,8 +179,7 @@ public class PieNodeIconTransformer implements Transformer<ONDEXConcept, Icon> {
 				} else {
 					percentBase = (value - min) / max;
 				}
-				normalizedSignificanceMap.put(c, targMin
-						+ (percentBase * sizeRange));
+				normalizedSignificanceMap.put(c, targMin + (percentBase * sizeRange));
 			}
 		}
 	}
@@ -192,8 +188,7 @@ public class PieNodeIconTransformer implements Transformer<ONDEXConcept, Icon> {
 	public Icon transform(ONDEXConcept input) {
 		// lazy initialisation of icon map
 		if (!iconMap.containsKey(input)) {
-			PieIcon icon = new PieIcon(input, normalized, data,
-					significanceMap, normalizedSignificanceMap);
+			PieIcon icon = new PieIcon(input, normalized, data, significanceMap, normalizedSignificanceMap);
 			if (icon.created())
 				iconMap.put(input, icon);
 			else

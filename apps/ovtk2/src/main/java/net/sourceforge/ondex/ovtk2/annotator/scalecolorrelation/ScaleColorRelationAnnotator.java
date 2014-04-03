@@ -49,8 +49,7 @@ import org.apache.commons.collections15.Transformer;
  * @author taubertj, lysenkoa
  * @version 06.04.2011
  */
-public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
-		ListSelectionListener, ActionListener {
+public class ScaleColorRelationAnnotator extends OVTK2Annotator implements ListSelectionListener, ActionListener {
 
 	/**
 	 * generated
@@ -141,8 +140,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 		maxField = new JFormattedTextField(20);
 		maxField.setColumns(5);
 		sizeConstraints.add(maxField);
-		SpringUtilities.makeCompactGrid(sizeConstraints,
-				sizeConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
+		SpringUtilities.makeCompactGrid(sizeConstraints, sizeConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
 		sizeConstraints.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		groupScale.add(sizeConstraints);
@@ -165,8 +163,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 
 		// node sizes
 		JPanel colorConstraints = new JPanel(new SpringLayout());
-		colorConstraints
-				.setToolTipText("Click on the coloured field to change colours");
+		colorConstraints.setToolTipText("Click on the coloured field to change colours");
 		colorConstraints.setBorder(BorderFactory.createEtchedBorder());
 
 		colorConstraints.add(new JLabel("Min colour:"));
@@ -197,14 +194,10 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 				if (e.getID() == 1001) {
 					if (rainbowColor.isSelected()) {
 						lastMinChoice = minColour.getBackground();
-						minColour
-								.setBackground(ScaleColorRelationAnnotator.this
-										.getBackground());
+						minColour.setBackground(ScaleColorRelationAnnotator.this.getBackground());
 						minColour.removeMouseListener(cl);
 						lastMaxChoice = maxColour.getBackground();
-						maxColour
-								.setBackground(ScaleColorRelationAnnotator.this
-										.getBackground());
+						maxColour.setBackground(ScaleColorRelationAnnotator.this.getBackground());
 						maxColour.removeMouseListener(cl);
 					} else {
 						minColour.setBackground(lastMinChoice);
@@ -219,8 +212,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 		colorConstraints.add(rainbowColor);
 		colorConstraints.add(new JLabel(""));
 
-		SpringUtilities.makeCompactGrid(colorConstraints,
-				colorConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
+		SpringUtilities.makeCompactGrid(colorConstraints, colorConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
 		add(colorConstraints);
 
 		// log values first
@@ -238,13 +230,10 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 		for (AttributeName attName : graph.getMetaData().getAttributeNames()) {
 			// check its numerically comparable
 			if (Number.class.isAssignableFrom(attName.getDataType())) {
-				Set<ONDEXRelation> relations = graph
-						.getRelationsOfAttributeName(attName);
+				Set<ONDEXRelation> relations = graph.getRelationsOfAttributeName(attName);
 				if (relations != null) {
 					// check relations exists on this attribute name
-					if (relations.size() > 0
-							&& !AppearanceSynchronizer.attr.contains(attName
-									.getId())) {
+					if (relations.size() > 0 && !AppearanceSynchronizer.attr.contains(attName.getId())) {
 						anlm.addAttributeName(attName);
 					}
 				}
@@ -253,8 +242,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 
 		// populate list
 		if (anlm.getSize() == 0) {
-			add(new JLabel(
-					"There are no attributes with numerical values in the graph."));
+			add(new JLabel("There are no attributes with numerical values in the graph."));
 		} else {
 			list.validate();
 			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -267,8 +255,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 			add(goButton);
 		}
 
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 	}
 
 	/**
@@ -283,17 +270,14 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 	 * @param color
 	 *            colour edges red/green
 	 */
-	private void updateGraph(final int targMin, int targMax, boolean inverse,
-			boolean color, boolean resize, boolean useNoAttColour,
-			Color... colors) {
+	private void updateGraph(final int targMin, int targMax, boolean inverse, boolean color, boolean resize, boolean useNoAttColour, Color... colors) {
 
 		int sizeRange = targMax - targMin;
 		System.out.println("Annotation range: " + sizeRange);
 
 		if (colors[2] != null) {
 			// setting special alpha value for none matching relations?
-			colors[2] = new Color(colors[2].getRed(), colors[2].getGreen(),
-					colors[2].getBlue(), 200);
+			colors[2] = new Color(colors[2].getRed(), colors[2].getGreen(), colors[2].getBlue(), 200);
 		}
 
 		if (targets.size() == 1) {
@@ -346,8 +330,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 				}
 				// this is the base size
 				if (percentBase == 0) {
-					amplification.put(r,
-							(int) Math.floor(targMin + (sizeRange / 2)));
+					amplification.put(r, (int) Math.floor(targMin + (sizeRange / 2)));
 				}
 				percent.put(r, percentBase);
 				if (resize) {
@@ -363,8 +346,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 			if (preserveNoAtt.isSelected()) {
 				// update amplifications for non-matching edges
 				ONDEXEdgeStrokes edgeStrokes = viewer.getEdgeStrokes();
-				Transformer<ONDEXRelation, Integer> old = edgeStrokes
-						.getEdgeSizeTransformer();
+				Transformer<ONDEXRelation, Integer> old = edgeStrokes.getEdgeSizeTransformer();
 				if (old != null)
 					for (ONDEXRelation r : noAttvalues) {
 						amplification.put(r, old.transform(r));
@@ -391,12 +373,9 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 				for (ONDEXRelation r : values.keySet()) {
 					// decide on colouring scheme
 					if (rainbowColor.isSelected()) {
-						Annotation.setColor(viewer, r,
-								Annotation.getRainbowColor(percent.get(r)));
+						Annotation.setColor(viewer, r, Annotation.getRainbowColor(percent.get(r)));
 					} else {
-						Annotation.setColor(viewer, r, Annotation
-								.getColorRatio(colors[0], colors[1],
-										percent.get(r)));
+						Annotation.setColor(viewer, r, Annotation.getColorRatio(colors[0], colors[1], percent.get(r)));
 					}
 				}
 
@@ -422,8 +401,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 
 	@Override
 	public String getName() {
-		return Config.language
-				.getProperty("Name.Menu.Annotator.ScaleColorRelation");
+		return Config.language.getProperty("Name.Menu.Annotator.ScaleColorRelation");
 	}
 
 	/**
@@ -436,8 +414,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 			goButton.setEnabled(true);
 			targets = new ArrayList<AttributeName>();
 			for (int i : indices) {
-				targets.add(((AttributeNameListModel) list.getModel())
-						.getAttributeNameAt(i));
+				targets.add(((AttributeNameListModel) list.getModel()).getAttributeNameAt(i));
 			}
 		}
 	}
@@ -476,8 +453,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 				colours[0] = minColour.getBackground();
 				colours[1] = maxColour.getBackground();
 			}
-			updateGraph(min, max, inverse.isSelected(), color.isSelected(),
-					resize.isSelected(), noAtt.isSelected(), colours);
+			updateGraph(min, max, inverse.isSelected(), color.isSelected(), resize.isSelected(), noAtt.isSelected(), colours);
 
 			used = true;
 		}
@@ -491,8 +467,7 @@ public class ScaleColorRelationAnnotator extends OVTK2Annotator implements
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			Component c = arg0.getComponent();
-			c.setBackground(JColorChooser.showDialog(c, "Select new colour",
-					c.getBackground()));
+			c.setBackground(JColorChooser.showDialog(c, "Select new colour", c.getBackground()));
 		}
 
 		public void mousePressed(MouseEvent arg0) {

@@ -35,8 +35,7 @@ public class MultiColorEdgePaint implements Paint {
 	}
 
 	@Override
-	public PaintContext createContext(ColorModel cm, Rectangle deviceBounds,
-			Rectangle2D userBounds, AffineTransform xform, RenderingHints hints) {
+	public PaintContext createContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform xform, RenderingHints hints) {
 		// fractions of when particular colour peaks, equal distance
 		float[] fractions = new float[colors.length];
 		float div = 1.0f / colors.length;
@@ -45,15 +44,11 @@ public class MultiColorEdgePaint implements Paint {
 		}
 
 		// start and end point
-		Point2D dStart = new Point2D.Double(userBounds.getX(), userBounds
-				.getY());
-		Point2D dEnd = new Point2D.Double(userBounds.getX()
-				+ userBounds.getWidth(), userBounds.getY());
+		Point2D dStart = new Point2D.Double(userBounds.getX(), userBounds.getY());
+		Point2D dEnd = new Point2D.Double(userBounds.getX() + userBounds.getWidth(), userBounds.getY());
 
 		try {
-			return new LinearGradientPaintContext(cm, deviceBounds, userBounds,
-					xform, hints, dStart, dEnd, fractions, colors,
-					MultipleGradientPaint.NO_CYCLE, MultipleGradientPaint.SRGB);
+			return new LinearGradientPaintContext(cm, deviceBounds, userBounds, xform, hints, dStart, dEnd, fractions, colors, MultipleGradientPaint.NO_CYCLE, MultipleGradientPaint.SRGB);
 		} catch (NoninvertibleTransformException nte) {
 			nte.printStackTrace();
 		}

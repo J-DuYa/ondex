@@ -23,8 +23,7 @@ public class RelationTableCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 8828015808135323073L;
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
 		// display id of a relation
 		if (value instanceof ONDEXRelation) {
@@ -51,7 +50,6 @@ public class RelationTableCellRenderer extends DefaultTableCellRenderer {
 			value = list.toString();
 		}
 
-		return super.getTableCellRendererComponent(table, value, isSelected,
-				hasFocus, row, column);
+		return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	}
 }

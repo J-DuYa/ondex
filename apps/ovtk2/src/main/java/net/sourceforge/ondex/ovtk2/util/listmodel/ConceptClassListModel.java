@@ -15,8 +15,7 @@ import net.sourceforge.ondex.core.ConceptClass;
  * 
  * @author hindlem, taubertj
  */
-public class ConceptClassListModel extends AbstractListModel implements
-		MutableListModel {
+public class ConceptClassListModel extends AbstractListModel implements MutableListModel {
 
 	/**
 	 * default

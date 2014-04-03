@@ -20,8 +20,7 @@ import edu.uci.ics.jung.visualization.control.AbstractPopupGraphMousePlugin;
  * 
  * @author Dr. Greg M. Bernstein
  */
-public class PopupVertexEdgeMenuMousePlugin<V, E> extends
-		AbstractPopupGraphMousePlugin {
+public class PopupVertexEdgeMenuMousePlugin<V, E> extends AbstractPopupGraphMousePlugin {
 
 	// both popups
 	private JPopupMenu edgePopup, vertexPopup;
@@ -71,21 +70,18 @@ public class PopupVertexEdgeMenuMousePlugin<V, E> extends
 	 */
 	@SuppressWarnings("unchecked")
 	protected void handlePopup(MouseEvent e) {
-		VisualizationViewer<V, E> vv = (VisualizationViewer<V, E>) e
-				.getSource();
+		VisualizationViewer<V, E> vv = (VisualizationViewer<V, E>) e.getSource();
 		Point p = e.getPoint();
 
 		GraphElementAccessor<V, E> pickSupport = vv.getPickSupport();
 		if (pickSupport != null) {
-			final V v = pickSupport.getVertex(vv.getGraphLayout(), p.getX(), p
-					.getY());
+			final V v = pickSupport.getVertex(vv.getGraphLayout(), p.getX(), p.getY());
 			if (v != null) {
 				// System.out.println("Vertex " + v + " was right clicked");
 				updateVertexMenu(v, vv, p);
 				vertexPopup.show(vv, e.getX(), e.getY());
 			} else {
-				final E edge = pickSupport.getEdge(vv.getGraphLayout(), p
-						.getX(), p.getY());
+				final E edge = pickSupport.getEdge(vv.getGraphLayout(), p.getX(), p.getY());
 				if (edge != null) {
 					// System.out.println("Edge " + edge + " was right
 					// clicked");
@@ -125,8 +121,7 @@ public class PopupVertexEdgeMenuMousePlugin<V, E> extends
 	 *            Point2D
 	 */
 	@SuppressWarnings("unchecked")
-	private void updateEdgeMenu(E edge, VisualizationViewer<V, E> vv,
-			Point point) {
+	private void updateEdgeMenu(E edge, VisualizationViewer<V, E> vv, Point point) {
 		if (edgePopup == null)
 			return;
 		if (edgePopup instanceof EdgeMenuListener) {

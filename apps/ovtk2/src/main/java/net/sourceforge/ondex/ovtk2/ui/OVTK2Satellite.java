@@ -29,8 +29,7 @@ import edu.uci.ics.jung.visualization.control.ScalingControl;
  * @author taubertj
  * 
  */
-public class OVTK2Satellite extends RegisteredJInternalFrame implements
-		ActionListener {
+public class OVTK2Satellite extends RegisteredJInternalFrame implements ActionListener {
 
 	// generated
 	private static final long serialVersionUID = 5016903790709100530L;
@@ -55,9 +54,7 @@ public class OVTK2Satellite extends RegisteredJInternalFrame implements
 	 */
 	public OVTK2Satellite(OVTK2Viewer viewer) {
 		// set title and icon
-		super(Config.language.getProperty("Satellite.Title"), "Satellite",
-				Config.language.getProperty("Satellite.Title"), true, true,
-				true, true);
+		super(Config.language.getProperty("Satellite.Title"), "Satellite", Config.language.getProperty("Satellite.Title"), true, true, true, true);
 
 		// dispose viewer on close
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -75,8 +72,7 @@ public class OVTK2Satellite extends RegisteredJInternalFrame implements
 	 * 
 	 */
 	private void initIcon() {
-		File imgLocation = new File(
-				"config/toolbarButtonGraphics/development/Application16.gif");
+		File imgLocation = new File("config/toolbarButtonGraphics/development/Application16.gif");
 		URL imageURL = null;
 
 		try {
@@ -97,8 +93,7 @@ public class OVTK2Satellite extends RegisteredJInternalFrame implements
 		Point2D[] result = new Point2D[2];
 		Point2D min = null;
 		Point2D max = null;
-		Layout<ONDEXConcept, ONDEXRelation> layout = viewer
-				.getVisualizationViewer().getGraphLayout();
+		Layout<ONDEXConcept, ONDEXRelation> layout = viewer.getVisualizationViewer().getGraphLayout();
 		Iterator<ONDEXConcept> it = layout.getGraph().getVertices().iterator();
 		while (it.hasNext()) {
 			Point2D point = layout.transform(it.next());
@@ -110,10 +105,8 @@ public class OVTK2Satellite extends RegisteredJInternalFrame implements
 				max = new Point2D.Double(0, 0);
 				max.setLocation(point);
 			}
-			min.setLocation(Math.min(min.getX(), point.getX()),
-					Math.min(min.getY(), point.getY()));
-			max.setLocation(Math.max(max.getX(), point.getX()),
-					Math.max(max.getY(), point.getY()));
+			min.setLocation(Math.min(min.getX(), point.getX()), Math.min(min.getY(), point.getY()));
+			max.setLocation(Math.max(max.getX(), point.getX()), Math.max(max.getY(), point.getY()));
 		}
 		result[0] = min;
 		result[1] = max;
@@ -127,34 +120,23 @@ public class OVTK2Satellite extends RegisteredJInternalFrame implements
 	public void scaleToFit() {
 
 		// reset scaling for predictive behaviour
-		satellite.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.LAYOUT).setToIdentity();
-		satellite.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW).setToIdentity();
+		satellite.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).setToIdentity();
+		satellite.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).setToIdentity();
 
 		// place layout center in center of the view
 		Point2D[] calc = calcBounds();
 		Point2D min = calc[0];
 		Point2D max = calc[1];
-		Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(),
-				max.getY() - min.getY());
+		Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(), max.getY() - min.getY());
 		// layouter produced nice bounds
 		if (layout_bounds.getX() > 0 && layout_bounds.getY() > 0) {
 			Point2D screen_center = satellite.getCenter();
-			Point2D layout_center = new Point2D.Double(screen_center.getX()
-					- (layout_bounds.getX() / 2) - min.getX(),
-					screen_center.getY() - (layout_bounds.getY() / 2)
-							- min.getY());
-			satellite.getRenderContext().getMultiLayerTransformer()
-					.getTransformer(Layer.VIEW)
-					.translate(layout_center.getX(), layout_center.getY());
+			Point2D layout_center = new Point2D.Double(screen_center.getX() - (layout_bounds.getX() / 2) - min.getX(), screen_center.getY() - (layout_bounds.getY() / 2) - min.getY());
+			satellite.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).translate(layout_center.getX(), layout_center.getY());
 
 			// scale graph
-			Point2D scale_bounds = new Point2D.Double(satellite.getWidth()
-					/ layout_bounds.getX(), satellite.getHeight()
-					/ layout_bounds.getY());
-			float scale = (float) Math.min(scale_bounds.getX(),
-					scale_bounds.getY());
+			Point2D scale_bounds = new Point2D.Double(satellite.getWidth() / layout_bounds.getX(), satellite.getHeight() / layout_bounds.getY());
+			float scale = (float) Math.min(scale_bounds.getX(), scale_bounds.getY());
 			scale = 0.85f * scale;
 			scaler.scale(satellite, scale, satellite.getCenter());
 		} else {
@@ -173,34 +155,25 @@ public class OVTK2Satellite extends RegisteredJInternalFrame implements
 		this.viewer = viewer;
 
 		// new satellite viewer
-		satellite = new SatelliteVisualizationViewer<ONDEXConcept, ONDEXRelation>(
-				viewer.getVisualizationViewer(), preferredSize);
+		satellite = new SatelliteVisualizationViewer<ONDEXConcept, ONDEXRelation>(viewer.getVisualizationViewer(), preferredSize);
 		satellite.setPreferredSize(this.preferredSize);
 		satellite.setSize(this.preferredSize);
 
-		RenderContext<ONDEXConcept, ONDEXRelation> context = viewer
-				.getVisualizationViewer().getRenderContext();
+		RenderContext<ONDEXConcept, ONDEXRelation> context = viewer.getVisualizationViewer().getRenderContext();
 
 		// configure satellite appearance
-		satellite.getRenderContext().setVertexDrawPaintTransformer(
-				context.getVertexDrawPaintTransformer());
-		satellite.getRenderContext().setVertexFillPaintTransformer(
-				context.getVertexFillPaintTransformer());
-		satellite.getRenderContext().setVertexShapeTransformer(
-				context.getVertexShapeTransformer());
-		satellite.getRenderContext().setEdgeDrawPaintTransformer(
-				context.getEdgeDrawPaintTransformer());
-		satellite.getRenderContext().setEdgeArrowPredicate(
-				context.getEdgeArrowPredicate());
-		satellite.getRenderContext().setEdgeStrokeTransformer(
-				context.getEdgeStrokeTransformer());
+		satellite.getRenderContext().setVertexDrawPaintTransformer(context.getVertexDrawPaintTransformer());
+		satellite.getRenderContext().setVertexFillPaintTransformer(context.getVertexFillPaintTransformer());
+		satellite.getRenderContext().setVertexShapeTransformer(context.getVertexShapeTransformer());
+		satellite.getRenderContext().setEdgeDrawPaintTransformer(context.getEdgeDrawPaintTransformer());
+		satellite.getRenderContext().setEdgeArrowPredicate(context.getEdgeArrowPredicate());
+		satellite.getRenderContext().setEdgeStrokeTransformer(context.getEdgeStrokeTransformer());
 
 		// add to content pane
 		this.getContentPane().removeAll();
 		this.getContentPane().add(satellite, BorderLayout.CENTER);
 
-		JButton scaleToFit = new JButton(
-				Config.language.getProperty("Satellite.ScaleToFit"));
+		JButton scaleToFit = new JButton(Config.language.getProperty("Satellite.ScaleToFit"));
 		scaleToFit.addActionListener(this);
 		this.getContentPane().add(scaleToFit, BorderLayout.SOUTH);
 		this.revalidate();

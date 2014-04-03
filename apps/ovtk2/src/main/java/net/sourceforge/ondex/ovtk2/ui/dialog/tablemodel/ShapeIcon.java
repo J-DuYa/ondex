@@ -70,8 +70,7 @@ public class ShapeIcon implements Icon {
 		Graphics2D g2d = (Graphics2D) g;
 
 		// turn anti-aliasing on
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		g2d.translate(x, y);
 		g2d.translate(width / 2, height / 2);

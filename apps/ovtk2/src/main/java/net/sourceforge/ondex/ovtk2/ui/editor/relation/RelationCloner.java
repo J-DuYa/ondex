@@ -40,8 +40,7 @@ public class RelationCloner {
 	 *            the positional state for new concept, e.g. from
 	 * @return new ONDEXRelation
 	 */
-	public ONDEXRelation clone(ONDEXRelation oldR, ONDEXConcept newC,
-			STATE state) {
+	public ONDEXRelation clone(ONDEXRelation oldR, ONDEXConcept newC, STATE state) {
 
 		// clone new relation
 		ONDEXRelation newR = null;
@@ -50,19 +49,15 @@ public class RelationCloner {
 
 		case FROM:
 			// relation with new from concept
-			newR = graph.getRelation(newC, oldR.getToConcept(),
-					oldR.getOfType());
+			newR = graph.getRelation(newC, oldR.getToConcept(), oldR.getOfType());
 			if (newR == null)
-				newR = graph.createRelation(newC, oldR.getToConcept(),
-						oldR.getOfType(), oldR.getEvidence());
+				newR = graph.createRelation(newC, oldR.getToConcept(), oldR.getOfType(), oldR.getEvidence());
 			break;
 		case TO:
 			// relation with new to concept
-			newR = graph.getRelation(oldR.getFromConcept(), newC,
-					oldR.getOfType());
+			newR = graph.getRelation(oldR.getFromConcept(), newC, oldR.getOfType());
 			if (newR == null)
-				newR = graph.createRelation(oldR.getFromConcept(), newC,
-						oldR.getOfType(), oldR.getEvidence());
+				newR = graph.createRelation(oldR.getFromConcept(), newC, oldR.getOfType(), oldR.getEvidence());
 			break;
 		default:
 			throw new RuntimeException("State not allowed: " + state);
@@ -86,11 +81,9 @@ public class RelationCloner {
 	public ONDEXRelation clone(ONDEXRelation oldR, RelationType newRT) {
 
 		// first clone concept with new ConceptClass
-		ONDEXRelation newR = graph.getRelation(oldR.getFromConcept(),
-				oldR.getToConcept(), oldR.getOfType());
+		ONDEXRelation newR = graph.getRelation(oldR.getFromConcept(), oldR.getToConcept(), oldR.getOfType());
 		if (newR == null)
-			graph.createRelation(oldR.getFromConcept(), oldR.getToConcept(),
-					oldR.getOfType(), oldR.getEvidence());
+			graph.createRelation(oldR.getFromConcept(), oldR.getToConcept(), oldR.getOfType(), oldR.getEvidence());
 
 		// copies everything else
 		copyEverythingElse(oldR, newR);
@@ -147,8 +140,7 @@ public class RelationCloner {
 				// old Attribute gets overridden
 				newR.deleteAttribute(attribute.getOfType());
 			else
-				newR.createAttribute(attribute.getOfType(),
-						attribute.getValue(), attribute.isDoIndex());
+				newR.createAttribute(attribute.getOfType(), attribute.getValue(), attribute.isDoIndex());
 		}
 	}
 }

@@ -53,8 +53,7 @@ public class CustomMouseListener implements MouseListener {
 		if (e.getSource() instanceof CustomJMenuItem) {
 			CustomJMenuItem menu = (CustomJMenuItem) e.getSource();
 			CustomIcon icon = menu.getCustomIcon();
-			if (e.getX() > icon.getRegionMin()
-					&& e.getX() < icon.getRegionMax()) {
+			if (e.getX() > icon.getRegionMin() && e.getX() < icon.getRegionMax()) {
 				pressed = true;
 			}
 		}
@@ -66,15 +65,14 @@ public class CustomMouseListener implements MouseListener {
 			CustomJMenuItem menu = (CustomJMenuItem) e.getSource();
 			CustomIcon icon = menu.getCustomIcon();
 			// make sure mouse was pressed and released on icon
-			if (hb != null && pressed && e.getX() > icon.getRegionMin()
-					&& e.getX() < icon.getRegionMax()) {
+			if (hb != null && pressed && e.getX() > icon.getRegionMin() && e.getX() < icon.getRegionMax()) {
 				String cmd = menu.getActionCommand().substring(5);
 				// try to call context sensitive help
 				try {
 					hb.setCurrentID(cmd);
 					hb.setDisplayed(true);
 				} catch (Exception ee) {
-					//ee.printStackTrace();
+					// ee.printStackTrace();
 				}
 			}
 		}

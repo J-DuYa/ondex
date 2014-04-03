@@ -18,7 +18,7 @@ import net.sourceforge.ondex.ovtk2.ui.OVTK2Desktop;
  */
 public class NoTavernaMenuAction implements ActionListener {
 
-    Icon icon = new ImageIcon("config/toolbarButtonGraphics/taverna/taverna.jpeg");
+	Icon icon = new ImageIcon("config/toolbarButtonGraphics/taverna/taverna.jpeg");
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -28,12 +28,7 @@ public class NoTavernaMenuAction implements ActionListener {
 
 		// simple about message
 		if (cmd.equals("TavernaMissing")) {
-			JOptionPane
-					.showInternalMessageDialog(
-							desktop.getDesktopPane(),
-							Config.language.getProperty("Taverna.Missing.Text"),
-							Config.language.getProperty("Taverna.Missing.Title"),
-							JOptionPane.PLAIN_MESSAGE, icon);
+			JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), Config.language.getProperty("Taverna.Missing.Text"), Config.language.getProperty("Taverna.Missing.Title"), JOptionPane.PLAIN_MESSAGE, icon);
 		}
 
 	}

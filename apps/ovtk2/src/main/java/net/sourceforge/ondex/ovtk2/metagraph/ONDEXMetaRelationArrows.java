@@ -13,9 +13,7 @@ import edu.uci.ics.jung.graph.util.Context;
  * @author taubertj
  * 
  */
-public class ONDEXMetaRelationArrows
-		implements
-		Predicate<Context<Graph<ONDEXMetaConcept, ONDEXMetaRelation>, ONDEXMetaRelation>> {
+public class ONDEXMetaRelationArrows implements Predicate<Context<Graph<ONDEXMetaConcept, ONDEXMetaRelation>, ONDEXMetaRelation>> {
 
 	/**
 	 * Initializes the arrow predicate for the edges in the graph.
@@ -35,8 +33,7 @@ public class ONDEXMetaRelationArrows
 	 *            ONDEXMetaRelation>
 	 * @return boolean
 	 */
-	public boolean evaluate(
-			Context<Graph<ONDEXMetaConcept, ONDEXMetaRelation>, ONDEXMetaRelation> object) {
+	public boolean evaluate(Context<Graph<ONDEXMetaConcept, ONDEXMetaRelation>, ONDEXMetaRelation> object) {
 		return true;
 	}
 

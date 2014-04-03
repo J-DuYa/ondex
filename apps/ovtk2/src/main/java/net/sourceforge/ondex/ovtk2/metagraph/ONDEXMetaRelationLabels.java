@@ -15,8 +15,7 @@ import org.apache.commons.collections15.Transformer;
  * @author taubertj
  * 
  */
-public class ONDEXMetaRelationLabels implements
-		Transformer<ONDEXMetaRelation, String> {
+public class ONDEXMetaRelationLabels implements Transformer<ONDEXMetaRelation, String> {
 
 	// current ONDEXJUNGGraph
 	private ONDEXJUNGGraph graph = null;

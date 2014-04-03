@@ -68,8 +68,7 @@ import ca.odell.glazedlists.swing.AutoCompleteSupport;
  * @author hindlem
  * @version 14.07.2008
  */
-public class MenuGraphSearchBox extends JPanel implements ActionListener,
-		CaretListener {
+public class MenuGraphSearchBox extends JPanel implements ActionListener, CaretListener {
 
 	/**
 	 * Wraps meta data elements for comparison with String
@@ -96,8 +95,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		@Override
 		public int compareTo(Object o) {
 			if (o instanceof MetaDataWrapper)
-				return s.toUpperCase().compareTo(
-						((MetaDataWrapper) o).s.toUpperCase());
+				return s.toUpperCase().compareTo(((MetaDataWrapper) o).s.toUpperCase());
 			return 1;
 		}
 
@@ -188,16 +186,12 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 	/**
 	 * Search restrictions concept classes
 	 */
-	private JComboBox conceptClasses = new JComboBox(
-			new String[] { Config.language
-					.getProperty("ToolBar.Search.ConceptClass") });
+	private JComboBox conceptClasses = new JComboBox(new String[] { Config.language.getProperty("ToolBar.Search.ConceptClass") });
 
 	/**
 	 * Search restrictions data source
 	 */
-	private JComboBox dataSources = new JComboBox(
-			new String[] { Config.language
-					.getProperty("ToolBar.Search.DataSource") });
+	private JComboBox dataSources = new JComboBox(new String[] { Config.language.getProperty("ToolBar.Search.DataSource") });
 
 	/**
 	 * Keep default text field colour
@@ -237,13 +231,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 	/**
 	 * Decide search mode
 	 */
-	private JComboBox searchMode = new JComboBox(new String[] {
-			Config.language.getProperty("ToolBar.Search.Mode.Default"),
-			Config.language.getProperty("ToolBar.Search.Mode.SMILES"),
-			Config.language.getProperty("ToolBar.Search.Mode.InChI"),
-			Config.language.getProperty("ToolBar.Search.Mode.InChIKey"),
-			Config.language.getProperty("ToolBar.Search.Mode.ChEMBL"),
-			Config.language.getProperty("ToolBar.Search.Mode.UniProt") });
+	private JComboBox searchMode = new JComboBox(new String[] { Config.language.getProperty("ToolBar.Search.Mode.Default"), Config.language.getProperty("ToolBar.Search.Mode.SMILES"), Config.language.getProperty("ToolBar.Search.Mode.InChI"), Config.language.getProperty("ToolBar.Search.Mode.InChIKey"), Config.language.getProperty("ToolBar.Search.Mode.ChEMBL"), Config.language.getProperty("ToolBar.Search.Mode.UniProt") });
 
 	/**
 	 * auto completion of user entry
@@ -263,8 +251,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 	/**
 	 * Search restrictions concept tags
 	 */
-	private JComboBox tags = new JComboBox(
-			new String[] { Config.language.getProperty("ToolBar.Search.Tag") });
+	private JComboBox tags = new JComboBox(new String[] { Config.language.getProperty("ToolBar.Search.Tag") });
 
 	/**
 	 * Spinner for tanimoto cutoff
@@ -274,8 +261,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 	/**
 	 * Use ChEMBL for SMILES or InCHI search
 	 */
-	private JCheckBox useChEMBL = new JCheckBox(
-			Config.language.getProperty("ToolBar.Search.ChEMBL"));
+	private JCheckBox useChEMBL = new JCheckBox(Config.language.getProperty("ToolBar.Search.ChEMBL"));
 
 	/**
 	 * Initialise layout.
@@ -296,33 +282,22 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		if (SEARCH.equals(e.getActionCommand())) {
 			// default mode
-			if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.Default"))) {
+			if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.Default"))) {
 				// validate regex
-				if (!isRegexBox.isSelected()
-						|| isValidRegex(searchField.getText())) {
+				if (!isRegexBox.isSelected() || isValidRegex(searchField.getText())) {
 					fireActionPerformed();
 				}
 			}
 			// chemical mode validate SMILE
-			else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.SMILES"))
-					&& isValidSMILE(searchField.getText())) {
+			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.SMILES")) && isValidSMILE(searchField.getText())) {
 				fireActionPerformed();
-			} else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.InChI"))
-					&& isValidInChI(searchField.getText())) {
+			} else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.InChI")) && isValidInChI(searchField.getText())) {
 				fireActionPerformed();
-			} else if (searchMode.getSelectedItem()
-					.equals(Config.language
-							.getProperty("ToolBar.Search.Mode.InChIKey"))) {
+			} else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.InChIKey"))) {
 				fireActionPerformed();
-			} else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.ChEMBL"))
-					&& isValidChEMBL(searchField.getText())) {
+			} else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.ChEMBL")) && isValidChEMBL(searchField.getText())) {
 				fireActionPerformed();
-			} else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.UniProt"))) {
+			} else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.UniProt"))) {
 				fireActionPerformed();
 			}
 		} else if (e.getActionCommand().equals("MODE")) {
@@ -330,50 +305,39 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 			optionsPanel.removeAll();
 
 			// default search mode with two check boxes
-			if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.Default"))) {
+			if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.Default"))) {
 				optionsPanel.add(isRegexBox);
 				optionsPanel.add(caseSensitiveBox);
 			}
 
 			// add chemical options for SMILES
-			else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.SMILES"))) {
+			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.SMILES"))) {
 				optionsPanel.add(tanimoto);
 				optionsPanel.add(useChEMBL);
 			}
 
 			// with InChi only local search supported
-			else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.InChI"))) {
+			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.InChI"))) {
 				optionsPanel.add(tanimoto);
-				JCheckBox box = new JCheckBox(
-						Config.language.getProperty("ToolBar.Search.LocalOnly"));
+				JCheckBox box = new JCheckBox(Config.language.getProperty("ToolBar.Search.LocalOnly"));
 				box.setSelected(true);
 				box.setEnabled(false);
 				optionsPanel.add(box);
 			}
 
 			// with InChiKey only remote search supported
-			else if (searchMode.getSelectedItem()
-					.equals(Config.language
-							.getProperty("ToolBar.Search.Mode.InChIKey"))) {
-				optionsPanel.add(new JLabel(Config.language
-						.getProperty("ToolBar.Search.RemoteOnly")));
+			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.InChIKey"))) {
+				optionsPanel.add(new JLabel(Config.language.getProperty("ToolBar.Search.RemoteOnly")));
 			}
 
 			// with ChEMBL ID only remote search supported
-			else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.ChEMBL"))) {
-				optionsPanel.add(new JLabel(Config.language
-						.getProperty("ToolBar.Search.RemoteOnly")));
+			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.ChEMBL"))) {
+				optionsPanel.add(new JLabel(Config.language.getProperty("ToolBar.Search.RemoteOnly")));
 			}
 
 			// with ChEMBL ID only remote search supported
-			else if (searchMode.getSelectedItem().equals(
-					Config.language.getProperty("ToolBar.Search.Mode.UniProt"))) {
-				optionsPanel.add(new JLabel(Config.language
-						.getProperty("ToolBar.Search.RemoteOnly")));
+			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.UniProt"))) {
+				optionsPanel.add(new JLabel(Config.language.getProperty("ToolBar.Search.RemoteOnly")));
 			}
 
 			optionsPanel.revalidate();
@@ -405,8 +369,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		// request the event-dispatching thread to run certain code
 		Runnable doWorkRunnable = new Runnable() {
 			public void run() {
-				SortedList<Object> sorted = new SortedList<Object>(
-						GlazedLists.eventListOf(elements));
+				SortedList<Object> sorted = new SortedList<Object>(GlazedLists.eventListOf(elements));
 
 				// auto completion support for selection list
 				if (box == tags) {
@@ -415,32 +378,25 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 					supportTag.setStrict(true);
 					supportTag.setFilterMode(TextMatcherEditor.STARTS_WITH);
 				} else if (box == dataSources) {
-					if (supportDataSource == null
-							|| !supportDataSource.isInstalled())
-						supportDataSource = AutoCompleteSupport.install(box,
-								sorted);
+					if (supportDataSource == null || !supportDataSource.isInstalled())
+						supportDataSource = AutoCompleteSupport.install(box, sorted);
 					supportDataSource.setStrict(true);
-					supportDataSource
-							.setFilterMode(TextMatcherEditor.STARTS_WITH);
+					supportDataSource.setFilterMode(TextMatcherEditor.STARTS_WITH);
 				} else if (box == conceptClasses) {
-					if (supportConceptClass == null
-							|| !supportConceptClass.isInstalled())
-						supportConceptClass = AutoCompleteSupport.install(box,
-								sorted);
+					if (supportConceptClass == null || !supportConceptClass.isInstalled())
+						supportConceptClass = AutoCompleteSupport.install(box, sorted);
 					supportConceptClass.setStrict(true);
-					supportConceptClass
-							.setFilterMode(TextMatcherEditor.STARTS_WITH);
+					supportConceptClass.setFilterMode(TextMatcherEditor.STARTS_WITH);
 				}
 
 				// OVTK-328
-				box.getEditor().getEditorComponent()
-						.addKeyListener(new KeyAdapter() {
-							public void keyPressed(KeyEvent evt) {
-								if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-									goButton.doClick();
-								}
-							}
-						});
+				box.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+					public void keyPressed(KeyEvent evt) {
+						if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+							goButton.doClick();
+						}
+					}
+				});
 				box.revalidate();
 			}
 		};
@@ -451,14 +407,12 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 	public void caretUpdate(CaretEvent e) {
 		JTextField box = ((JTextField) e.getSource());
 		// let filler in text field disappear once clicked
-		if (box.getText().equals(
-				Config.language.getProperty("ToolBar.Search.Filler"))) {
+		if (box.getText().equals(Config.language.getProperty("ToolBar.Search.Filler"))) {
 			box.setText("");
 		}
 
 		// valid input SMILE
-		if (searchMode.getSelectedItem().equals(
-				Config.language.get("ToolBar.Search.Mode.SMILES"))) {
+		if (searchMode.getSelectedItem().equals(Config.language.get("ToolBar.Search.Mode.SMILES"))) {
 			if (isValidSMILE(box.getText())) {
 				box.setBackground(defaultBackColor);
 			} else {
@@ -467,8 +421,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		}
 
 		// valid input InChI
-		else if (searchMode.getSelectedItem().equals(
-				Config.language.get("ToolBar.Search.Mode.InChI"))) {
+		else if (searchMode.getSelectedItem().equals(Config.language.get("ToolBar.Search.Mode.InChI"))) {
 			if (isValidInChI(box.getText())) {
 				box.setBackground(defaultBackColor);
 			} else {
@@ -477,15 +430,13 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		}
 
 		// valid input InChIKey
-		else if (searchMode.getSelectedItem().equals(
-				Config.language.get("ToolBar.Search.Mode.InChIKey"))) {
+		else if (searchMode.getSelectedItem().equals(Config.language.get("ToolBar.Search.Mode.InChIKey"))) {
 			// reset background
 			box.setBackground(defaultBackColor);
 		}
 
 		// valid input ChEMBL id
-		else if (searchMode.getSelectedItem().equals(
-				Config.language.get("ToolBar.Search.Mode.ChEMBL"))) {
+		else if (searchMode.getSelectedItem().equals(Config.language.get("ToolBar.Search.Mode.ChEMBL"))) {
 			if (isValidChEMBL(box.getText())) {
 				box.setBackground(defaultBackColor);
 			} else {
@@ -494,8 +445,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		}
 
 		// valid input UniProt id
-		else if (searchMode.getSelectedItem().equals(
-				Config.language.get("ToolBar.Search.Mode.UniProt"))) {
+		else if (searchMode.getSelectedItem().equals(Config.language.get("ToolBar.Search.Mode.UniProt"))) {
 			// reset background
 			box.setBackground(defaultBackColor);
 		}
@@ -527,9 +477,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		} else if (currentEvent instanceof ActionEvent) {
 			modifiers = ((ActionEvent) currentEvent).getModifiers();
 		}
-		ActionEvent e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-				(command != null) ? command : searchField.getText(),
-				EventQueue.getMostRecentEventTime(), modifiers);
+		ActionEvent e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, (command != null) ? command : searchField.getText(), EventQueue.getMostRecentEventTime(), modifiers);
 
 		// Process the listeners last to first, notifying
 		// those that are interested in this event
@@ -635,78 +583,63 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		layout.setAutoCreateContainerGaps(false);
 
 		// top line first
-		searchMode.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.Mode.ToolTip"));
+		searchMode.setToolTipText(Config.language.getProperty("ToolBar.Search.Mode.ToolTip"));
 		searchMode.setActionCommand("MODE");
 		searchMode.addActionListener(this);
 
 		// top line
-		searchField = new JTextField(
-				Config.language.getProperty("ToolBar.Search.Filler"));
+		searchField = new JTextField(Config.language.getProperty("ToolBar.Search.Filler"));
 		searchField.addCaretListener(this);
 		searchField.addActionListener(this);
 		searchField.setActionCommand(SEARCH);
-		searchField.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.ToolTip"));
+		searchField.setToolTipText(Config.language.getProperty("ToolBar.Search.ToolTip"));
 
 		defaultBackColor = searchField.getBackground();
 
 		// top line
 		// JButton goButton = new JButton(Config.language
 		// .getProperty("ToolBar.Search.Button"));
-		URL url = makeFileURL(Config.ovtkDir, "themes",
-				Config.config.getProperty("Program.Theme"), "icons",
-				"search_11x11.png");
+		URL url = makeFileURL(Config.ovtkDir, "themes", Config.config.getProperty("Program.Theme"), "icons", "search_11x11.png");
 		// System.out.println(url);
 		Icon icon = new ImageIcon(url);
 		goButton = new JButton(icon);
 		goButton.addActionListener(this);
 		goButton.setActionCommand(SEARCH);
-		goButton.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.Button.ToolTip"));
+		goButton.setToolTipText(Config.language.getProperty("ToolBar.Search.Button.ToolTip"));
 
 		// bottom line
-		JLabel searchLabel = new JLabel(
-				Config.language.getProperty("ToolBar.Search.RestrictBy"));
+		JLabel searchLabel = new JLabel(Config.language.getProperty("ToolBar.Search.RestrictBy"));
 
 		// bottom line
-		conceptClasses.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.ConceptClass"));
+		conceptClasses.setToolTipText(Config.language.getProperty("ToolBar.Search.ConceptClass"));
 
 		// bottom line
-		dataSources.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.DataSource"));
+		dataSources.setToolTipText(Config.language.getProperty("ToolBar.Search.DataSource"));
 
 		// bottom line
 		tags.setToolTipText(Config.language.getProperty("ToolBar.Search.Tag"));
 
 		// flexible options panel
 		optionsPanel = new JPanel();
-		BoxLayout optionsLayout = new BoxLayout(optionsPanel,
-				BoxLayout.PAGE_AXIS);
+		BoxLayout optionsLayout = new BoxLayout(optionsPanel, BoxLayout.PAGE_AXIS);
 		optionsPanel.setLayout(optionsLayout);
 
 		// at the right
-		isRegexBox = new JCheckBox(
-				Config.language.getProperty("ToolBar.Search.IsRegexButton"));
+		isRegexBox = new JCheckBox(Config.language.getProperty("ToolBar.Search.IsRegexButton"));
 		isRegexBox.setActionCommand(REGEXBUTTON);
-		isRegexBox.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.IsRegexButton.ToolTip"));
+		isRegexBox.setToolTipText(Config.language.getProperty("ToolBar.Search.IsRegexButton.ToolTip"));
 		optionsPanel.add(isRegexBox);
 
 		// at the right
-		caseSensitiveBox = new JCheckBox(
-				Config.language.getProperty("ToolBar.Search.CaseSensitive"));
+		caseSensitiveBox = new JCheckBox(Config.language.getProperty("ToolBar.Search.CaseSensitive"));
 		caseSensitiveBox.setActionCommand(CASE_SENSITIVE);
-		caseSensitiveBox.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.CaseSensitive.ToolTip"));
+		caseSensitiveBox.setToolTipText(Config.language.getProperty("ToolBar.Search.CaseSensitive.ToolTip"));
 		optionsPanel.add(caseSensitiveBox);
 
 		// setup spinner for cutoff
 		SpinnerModel model = new SpinnerNumberModel(90, 70, 100, 1);
 		tanimoto = new JSpinner(model);
-		tanimoto.setToolTipText(Config.language
-				.getProperty("ToolBar.Search.Tanimoto"));
+		tanimoto.setToolTipText(Config.language.getProperty("ToolBar.Search.Tanimoto"));
 
 		JPanel searchPanel = new JPanel(new BorderLayout());
 		searchPanel.add(searchMode, BorderLayout.WEST);
@@ -714,36 +647,10 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		searchPanel.add(goButton, BorderLayout.EAST);
 
 		// horizontal arrangement
-		layout.setHorizontalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup()
-								.addComponent(searchPanel)
-								.addGroup(
-										layout.createSequentialGroup()
-												.addComponent(searchLabel)
-												.addComponent(conceptClasses)
-												.addComponent(dataSources)
-												.addComponent(tags)))
-				.addComponent(optionsPanel, 100, 100, 100));
+		layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup().addComponent(searchPanel).addGroup(layout.createSequentialGroup().addComponent(searchLabel).addComponent(conceptClasses).addComponent(dataSources).addComponent(tags))).addComponent(optionsPanel, 100, 100, 100));
 
 		// vertical arrangement
-		layout.setVerticalGroup(layout
-				.createParallelGroup()
-				.addGroup(
-						layout.createSequentialGroup()
-								.addGroup(
-										layout.createParallelGroup(
-												Alignment.BASELINE)
-												.addComponent(searchPanel))
-								.addGroup(
-										layout.createParallelGroup(
-												Alignment.BASELINE)
-												.addComponent(searchLabel)
-												.addComponent(conceptClasses)
-												.addComponent(dataSources)
-												.addComponent(tags)))
-				.addComponent(optionsPanel));
+		layout.setVerticalGroup(layout.createParallelGroup().addGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(searchPanel)).addGroup(layout.createParallelGroup(Alignment.BASELINE).addComponent(searchLabel).addComponent(conceptClasses).addComponent(dataSources).addComponent(tags))).addComponent(optionsPanel));
 
 	}
 
@@ -796,8 +703,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		// turn search string InChI into chemical structure
 		try {
 			InChIGeneratorFactory factory = InChIGeneratorFactory.getInstance();
-			InChIToStructure intostruct = factory.getInChIToStructure(s,
-					DefaultChemObjectBuilder.getInstance());
+			InChIToStructure intostruct = factory.getInChIToStructure(s, DefaultChemObjectBuilder.getInstance());
 			INCHI_RET ret = intostruct.getReturnStatus();
 			if (ret == INCHI_RET.WARNING) {
 				// Structure generated, but with warning message
@@ -886,23 +792,17 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		final List<Object> list = new ArrayList<Object>();
 		Runnable doWorkRunnable = new Runnable() {
 			public void run() {
-				if (supportConceptClass != null
-						&& supportConceptClass.isInstalled())
+				if (supportConceptClass != null && supportConceptClass.isInstalled())
 					supportConceptClass.uninstall();
 				conceptClasses.removeAllItems();
-				list.add(Config.language
-						.getProperty("ToolBar.Search.ConceptClass"));
-				conceptClasses.addItem(Config.language
-						.getProperty("ToolBar.Search.ConceptClass"));
+				list.add(Config.language.getProperty("ToolBar.Search.ConceptClass"));
+				conceptClasses.addItem(Config.language.getProperty("ToolBar.Search.ConceptClass"));
 				boolean hasCCs = false;
-				for (ConceptClass conceptClass : graph.getMetaData()
-						.getConceptClasses()) {
-					Set<ONDEXConcept> view = graph
-							.getConceptsOfConceptClass(conceptClass);
+				for (ConceptClass conceptClass : graph.getMetaData().getConceptClasses()) {
+					Set<ONDEXConcept> view = graph.getConceptsOfConceptClass(conceptClass);
 					if (view.size() > 0) {
 						hasCCs = true;
-						MetaDataWrapper wrapper = new MetaDataWrapper(
-								conceptClass);
+						MetaDataWrapper wrapper = new MetaDataWrapper(conceptClass);
 						conceptClasses.addItem(wrapper);
 						list.add(wrapper);
 					}
@@ -931,23 +831,17 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		final List<Object> list = new ArrayList<Object>();
 		Runnable doWorkRunnable = new Runnable() {
 			public void run() {
-				if (supportDataSource != null
-						&& supportDataSource.isInstalled())
+				if (supportDataSource != null && supportDataSource.isInstalled())
 					supportDataSource.uninstall();
 				dataSources.removeAllItems();
-				list.add(Config.language
-						.getProperty("ToolBar.Search.DataSource"));
-				dataSources.addItem(Config.language
-						.getProperty("ToolBar.Search.DataSource"));
+				list.add(Config.language.getProperty("ToolBar.Search.DataSource"));
+				dataSources.addItem(Config.language.getProperty("ToolBar.Search.DataSource"));
 				boolean hasDSs = false;
-				for (DataSource dataSource : graph.getMetaData()
-						.getDataSources()) {
-					Set<ONDEXConcept> view = graph
-							.getConceptsOfDataSource(dataSource);
+				for (DataSource dataSource : graph.getMetaData().getDataSources()) {
+					Set<ONDEXConcept> view = graph.getConceptsOfDataSource(dataSource);
 					if (view.size() > 0) {
 						hasDSs = true;
-						MetaDataWrapper wrapper = new MetaDataWrapper(
-								dataSource);
+						MetaDataWrapper wrapper = new MetaDataWrapper(dataSource);
 						dataSources.addItem(wrapper);
 						list.add(wrapper);
 					}
@@ -984,8 +878,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 				for (ONDEXConcept c : graph.getAllTags()) {
 					hasContexts = true;
 					String name = ConceptListUtils.getDefaultNameForConcept(c);
-					IntegerStringWrapper wrapper = new IntegerStringWrapper(
-							c.getId(), name);
+					IntegerStringWrapper wrapper = new IntegerStringWrapper(c.getId(), name);
 					tags.addItem(wrapper);
 					list.add(wrapper);
 				}
@@ -1037,26 +930,22 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 			CaretListener[] listeners = searchField.getCaretListeners();
 			for (CaretListener l : listeners)
 				searchField.removeCaretListener(l);
-			searchField.setText(Config.language
-					.getProperty("ToolBar.Search.Filler"));
+			searchField.setText(Config.language.getProperty("ToolBar.Search.Filler"));
 			for (CaretListener l : listeners)
 				searchField.addCaretListener(l);
 
 			// clear concept classes
-			if (supportConceptClass != null
-					&& supportConceptClass.isInstalled())
+			if (supportConceptClass != null && supportConceptClass.isInstalled())
 				supportConceptClass.uninstall();
 			conceptClasses.removeAllItems();
-			conceptClasses.addItem(Config.language
-					.getProperty("ToolBar.Search.ConceptClass"));
+			conceptClasses.addItem(Config.language.getProperty("ToolBar.Search.ConceptClass"));
 			conceptClasses.setEnabled(false);
 
 			// clear data sources
 			if (supportDataSource != null && supportDataSource.isInstalled())
 				supportDataSource.uninstall();
 			dataSources.removeAllItems();
-			dataSources.addItem(Config.language
-					.getProperty("ToolBar.Search.DataSource"));
+			dataSources.addItem(Config.language.getProperty("ToolBar.Search.DataSource"));
 			dataSources.setEnabled(false);
 
 			// clear tag lists
@@ -1079,8 +968,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener,
 		}
 
 		// only update if viewer really has changed
-		if (viewer.equals(lastViewer)
-				&& lastCount == viewer.getONDEXJUNGGraph().getVertexCount())
+		if (viewer.equals(lastViewer) && lastCount == viewer.getONDEXJUNGGraph().getVertexCount())
 			return;
 		else {
 			lastViewer = viewer;

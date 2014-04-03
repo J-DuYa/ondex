@@ -29,8 +29,7 @@ import net.sourceforge.ondex.ovtk2.ui.editor.relationgds.RelationGDSPanel;
  * @author taubertj
  * 
  */
-public class GraphTableEditor extends RegisteredJInternalFrame implements
-		ChangeListener {
+public class GraphTableEditor extends RegisteredJInternalFrame implements ChangeListener {
 
 	/**
 	 * generated
@@ -75,8 +74,7 @@ public class GraphTableEditor extends RegisteredJInternalFrame implements
 	 *            ONDEXGraph to work with
 	 */
 	public GraphTableEditor(ONDEXGraph graph) {
-		super(graph.getName(), "Editor", "ONDEX Graph Editor", true, true,
-				true, true);
+		super(graph.getName(), "Editor", "ONDEX Graph Editor", true, true, true, true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// default size
@@ -103,40 +101,32 @@ public class GraphTableEditor extends RegisteredJInternalFrame implements
 	private void populatePane(ONDEXGraph graph, JTabbedPane pane) {
 
 		ConceptPanel conceptPanel = new ConceptPanel(graph);
-		conceptPanel.getTable().getSelectionModel().setSelectionMode(
-				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		conceptPanel.getTable().getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		pane.addTab("Concepts", conceptPanel);
 		conceptRegister.put(CATEGORY.CONCEPT, conceptPanel.getTable());
 
 		ConceptNamePanel conceptNamePanel = new ConceptNamePanel(graph);
-		conceptNamePanel.getTable().getSelectionModel().setSelectionMode(
-				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		conceptNamePanel.getTable().getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		pane.addTab("Concept Names", conceptNamePanel);
 		conceptRegister.put(CATEGORY.CONCEPT_NAME, conceptNamePanel.getTable());
 
-		ConceptAccessionPanel conceptAccessionPanel = new ConceptAccessionPanel(
-				graph);
-		conceptAccessionPanel.getTable().getSelectionModel().setSelectionMode(
-				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		ConceptAccessionPanel conceptAccessionPanel = new ConceptAccessionPanel(graph);
+		conceptAccessionPanel.getTable().getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		pane.addTab("Concept Accessions", conceptAccessionPanel);
-		conceptRegister.put(CATEGORY.CONCEPT_ACCESSION, conceptAccessionPanel
-				.getTable());
+		conceptRegister.put(CATEGORY.CONCEPT_ACCESSION, conceptAccessionPanel.getTable());
 
 		ConceptGDSPanel conceptGDSPanel = new ConceptGDSPanel(graph);
-		conceptGDSPanel.getTable().getSelectionModel().setSelectionMode(
-				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		conceptGDSPanel.getTable().getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		pane.addTab("Concept Attribute", conceptGDSPanel);
 		conceptRegister.put(CATEGORY.CONCEPT_GDS, conceptGDSPanel.getTable());
 
 		RelationPanel relationPanel = new RelationPanel(graph);
-		relationPanel.getTable().getSelectionModel().setSelectionMode(
-				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		relationPanel.getTable().getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		pane.addTab("Relations", relationPanel);
 		relationRegister.put(CATEGORY.RELATION, relationPanel.getTable());
 
 		RelationGDSPanel relatioGDSPanel = new RelationGDSPanel(graph);
-		relatioGDSPanel.getTable().getSelectionModel().setSelectionMode(
-				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		relatioGDSPanel.getTable().getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		pane.addTab("Relation Attribute", relatioGDSPanel);
 		relationRegister.put(CATEGORY.RELATION_GDS, relatioGDSPanel.getTable());
 	}
@@ -211,10 +201,8 @@ public class GraphTableEditor extends RegisteredJInternalFrame implements
 		int[] selection = oldTable.getSelectedRows();
 		for (int i = 0; i < selection.length; i++) {
 			// conversion necessary because of possible row sorting differently
-			selection[i] = newTable.convertRowIndexToView(oldTable
-					.convertRowIndexToModel(selection[i]));
-			newTable.getSelectionModel().addSelectionInterval(selection[i],
-					selection[i]);
+			selection[i] = newTable.convertRowIndexToView(oldTable.convertRowIndexToModel(selection[i]));
+			newTable.getSelectionModel().addSelectionInterval(selection[i], selection[i]);
 		}
 	}
 }

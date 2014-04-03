@@ -77,11 +77,8 @@ public class ONDEXJUNGGraph extends JUNGGraphAdapter {
 	 *      net.sourceforge.ondex.core.DataSource,
 	 *      net.sourceforge.ondex.core.ConceptClass, java.util.Collection)
 	 */
-	public ONDEXConcept createConcept(String pid, String annotation,
-			String description, DataSource elementOf, ConceptClass ofType,
-			Collection<EvidenceType> evidence) {
-		return og.createConcept(pid, annotation, description, elementOf,
-				ofType, evidence);
+	public ONDEXConcept createConcept(String pid, String annotation, String description, DataSource elementOf, ConceptClass ofType, Collection<EvidenceType> evidence) {
+		return og.createConcept(pid, annotation, description, elementOf, ofType, evidence);
 	}
 
 	/**
@@ -94,9 +91,7 @@ public class ONDEXJUNGGraph extends JUNGGraphAdapter {
 	 *      net.sourceforge.ondex.core.ONDEXConcept,
 	 *      net.sourceforge.ondex.core.RelationType, java.util.Collection)
 	 */
-	public ONDEXRelation createRelation(ONDEXConcept fromConcept,
-			ONDEXConcept toConcept, RelationType ofType,
-			Collection<EvidenceType> evidence) {
+	public ONDEXRelation createRelation(ONDEXConcept fromConcept, ONDEXConcept toConcept, RelationType ofType, Collection<EvidenceType> evidence) {
 		return og.createRelation(fromConcept, toConcept, ofType, evidence);
 	}
 
@@ -127,8 +122,7 @@ public class ONDEXJUNGGraph extends JUNGGraphAdapter {
 	 *      net.sourceforge.ondex.core.ONDEXConcept,
 	 *      net.sourceforge.ondex.core.RelationType)
 	 */
-	public boolean deleteRelation(ONDEXConcept fromConcept,
-			ONDEXConcept toConcept, RelationType ofType) {
+	public boolean deleteRelation(ONDEXConcept fromConcept, ONDEXConcept toConcept, RelationType ofType) {
 		return og.deleteRelation(fromConcept, toConcept, ofType);
 	}
 
@@ -244,8 +238,7 @@ public class ONDEXJUNGGraph extends JUNGGraphAdapter {
 	 *      net.sourceforge.ondex.core.ONDEXConcept,
 	 *      net.sourceforge.ondex.core.RelationType)
 	 */
-	public ONDEXRelation getRelation(ONDEXConcept fromConcept,
-			ONDEXConcept toConcept, RelationType ofType) {
+	public ONDEXRelation getRelation(ONDEXConcept fromConcept, ONDEXConcept toConcept, RelationType ofType) {
 		return og.getRelation(fromConcept, toConcept, ofType);
 	}
 

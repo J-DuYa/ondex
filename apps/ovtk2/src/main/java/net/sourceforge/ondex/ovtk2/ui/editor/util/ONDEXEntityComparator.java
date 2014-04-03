@@ -8,9 +8,9 @@ import net.sourceforge.ondex.core.ONDEXEntity;
  * Compares ONDEXEntity by there Integer ids.
  * 
  * @author taubertj
- *
+ * 
  */
-public class ONDEXEntityComparator implements Comparator<ONDEXEntity>{
+public class ONDEXEntityComparator implements Comparator<ONDEXEntity> {
 
 	@Override
 	public int compare(ONDEXEntity o1, ONDEXEntity o2) {

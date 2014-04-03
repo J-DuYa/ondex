@@ -32,8 +32,7 @@ import net.sourceforge.ondex.ovtk2.util.renderer.CustomCellRenderer;
  * @author Jochen Weile, B.Sc.
  * 
  */
-public class ElementChooserPanel extends JPanel implements
-		ListSelectionListener {
+public class ElementChooserPanel extends JPanel implements ListSelectionListener {
 
 	// ####FIELDS####
 
@@ -86,8 +85,7 @@ public class ElementChooserPanel extends JPanel implements
 	 */
 	public ElementChooserPanel(ONDEXGraph aog) {
 		this.aog = aog;
-		setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), engl("Fields")));
+		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), engl("Fields")));
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
 		createLists();
@@ -122,8 +120,7 @@ public class ElementChooserPanel extends JPanel implements
 		anList.addListSelectionListener(this);
 
 		for (AttributeName an : aog.getMetaData().getAttributeNames()) {
-			if (aog.getConceptsOfAttributeName(an).size() > 0
-					|| aog.getRelationsOfAttributeName(an).size() > 0)
+			if (aog.getConceptsOfAttributeName(an).size() > 0 || aog.getRelationsOfAttributeName(an).size() > 0)
 				anListModel.addAttributeName(an);
 		}
 
@@ -170,8 +167,7 @@ public class ElementChooserPanel extends JPanel implements
 			JList list = (JList) e.getSource();
 			if (list.getSelectedValue() != null) {
 				Object val = list.getSelectedValue();
-				String id = (val instanceof JLabel) ? ((JLabel) val).getName()
-						: (String) val;
+				String id = (val instanceof JLabel) ? ((JLabel) val).getName() : (String) val;
 				if (list.equals(anList)) {
 					currentSelection = aog.getMetaData().getAttributeName(id);
 					ccList.clearSelection();

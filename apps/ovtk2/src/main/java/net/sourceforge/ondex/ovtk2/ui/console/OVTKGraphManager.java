@@ -46,8 +46,7 @@ public class OVTKGraphManager implements ResourceAccess {
 	}
 
 	public void detachResource(String resourceName) {
-		for (OVTK2PropertiesAggregator ov : graphsToViewer.get(graphsByName
-				.get(resourceName))) {
+		for (OVTK2PropertiesAggregator ov : graphsToViewer.get(graphsByName.get(resourceName))) {
 			if (ov instanceof OVTK2Viewer)
 				((OVTK2Viewer) ov).dispose();
 		}

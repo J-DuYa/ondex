@@ -32,8 +32,7 @@ import net.sourceforge.ondex.ovtk2.util.WindowRegisteryChangeListener;
  * @author hindlem
  * 
  */
-public class JInternalFrameSelector extends JMenu implements
-		WindowRegisteryChangeListener, ActionListener {
+public class JInternalFrameSelector extends JMenu implements WindowRegisteryChangeListener, ActionListener {
 
 	private class CloseListener implements ActionListener {
 
@@ -59,13 +58,7 @@ public class JInternalFrameSelector extends JMenu implements
 			}
 
 			// show warning message
-			int result = JOptionPane.showConfirmDialog(
-					(Component) e.getSource(),
-					Config.language.getProperty("Menu.Windows.ClosureWarning")
-							.toString(),
-					Config.language.getProperty(
-							"Menu.Windows.ClosureWarningTitle").toString(),
-					JOptionPane.YES_NO_OPTION);
+			int result = JOptionPane.showConfirmDialog((Component) e.getSource(), Config.language.getProperty("Menu.Windows.ClosureWarning").toString(), Config.language.getProperty("Menu.Windows.ClosureWarningTitle").toString(), JOptionPane.YES_NO_OPTION);
 
 			if (result == JOptionPane.NO_OPTION) {
 				return;
@@ -77,8 +70,7 @@ public class JInternalFrameSelector extends JMenu implements
 			// collect frame to close
 			List<JInternalFrame> closableFrames = new ArrayList<JInternalFrame>();
 			for (RegisteredFrame frame : frameRegistry.getInternalFrames()) {
-				if (frame instanceof JInternalFrame
-						&& (group == null || frame.getGroup().equals(group))) {
+				if (frame instanceof JInternalFrame && (group == null || frame.getGroup().equals(group))) {
 					JInternalFrame internalF = ((JInternalFrame) frame);
 					if (internalF.isClosable()) {
 						closableFrames.add(internalF);
@@ -91,8 +83,7 @@ public class JInternalFrameSelector extends JMenu implements
 				try {
 					// close frame
 					internalF.setClosed(true);
-					frameRegistry
-							.deregisterInternalFrame((RegisteredFrame) internalF);
+					frameRegistry.deregisterInternalFrame((RegisteredFrame) internalF);
 				} catch (PropertyVetoException e1) {
 					// it is legal to veto the close
 				}
@@ -117,8 +108,7 @@ public class JInternalFrameSelector extends JMenu implements
 	 * @author hindlem
 	 * 
 	 */
-	private class InternalFrameMenuItem extends JMenuItem implements
-			ActionListener {
+	private class InternalFrameMenuItem extends JMenuItem implements ActionListener {
 
 		private static final long serialVersionUID = 1L;
 
@@ -128,8 +118,7 @@ public class JInternalFrameSelector extends JMenu implements
 			this(frame, text, null);
 		}
 
-		public InternalFrameMenuItem(RegisteredFrame frame, String text,
-				Icon icon) {
+		public InternalFrameMenuItem(RegisteredFrame frame, String text, Icon icon) {
 			super(text, icon);
 			this.frame = frame;
 			this.addActionListener(this);
@@ -176,8 +165,7 @@ public class JInternalFrameSelector extends JMenu implements
 		public void actionPerformed(ActionEvent e) {
 			List<RegisteredFrame> frames = frameRegistry.getInternalFrames();
 			for (RegisteredFrame frame : frames) {
-				if (frame instanceof JInternalFrame
-						&& (group == null || frame.getGroup().equals(group))) {
+				if (frame instanceof JInternalFrame && (group == null || frame.getGroup().equals(group))) {
 					JInternalFrame internalF = ((JInternalFrame) frame);
 					if (internalF.isIconifiable() && !internalF.isIcon()) {
 						try {
@@ -213,8 +201,7 @@ public class JInternalFrameSelector extends JMenu implements
 		public void actionPerformed(ActionEvent e) {
 			List<RegisteredFrame> frames = frameRegistry.getInternalFrames();
 			for (RegisteredFrame frame : frames) {
-				if (frame instanceof JInternalFrame
-						&& (group == null || frame.getGroup().equals(group))) {
+				if (frame instanceof JInternalFrame && (group == null || frame.getGroup().equals(group))) {
 					JInternalFrame internalF = ((JInternalFrame) frame);
 					if (internalF.isIconifiable() && internalF.isIcon()) {
 						try {
@@ -274,8 +261,7 @@ public class JInternalFrameSelector extends JMenu implements
 			if (list == null) {
 				list = new ArrayList<RegisteredFrame>();
 				String group = NONE;
-				if (frame.getGroup() != null
-						|| frame.getGroup().trim().length() != 0)
+				if (frame.getGroup() != null || frame.getGroup().trim().length() != 0)
 					group = frame.getGroup();
 
 				groupToName.put(group, list);
@@ -301,33 +287,27 @@ public class JInternalFrameSelector extends JMenu implements
 					if (!NONE.equals(group) && group.length() > 0) {
 						name = frame.getGroup() + " - " + name;
 					}
-					InternalFrameMenuItem item = new InternalFrameMenuItem(
-							frame, name);
+					InternalFrameMenuItem item = new InternalFrameMenuItem(frame, name);
 					add(item);
 				}
 			} else {
 				JMenu submenu = new JMenu(group);
 				for (RegisteredFrame frame : list) {
 					String name = frame.getName();
-					InternalFrameMenuItem item = new InternalFrameMenuItem(
-							frame, name);
+					InternalFrameMenuItem item = new InternalFrameMenuItem(frame, name);
 					submenu.add(item);
 				}
 				submenu.addSeparator();
 
-				JMenuItem minimize = new JMenuItem(
-						Config.language
-								.getProperty("Menu.Windows.MinimizeGroup"));
+				JMenuItem minimize = new JMenuItem(Config.language.getProperty("Menu.Windows.MinimizeGroup"));
 				minimize.addActionListener(new MinimizeListener(group));
 				submenu.add(minimize);
 
-				JMenuItem show = new JMenuItem(
-						Config.language.getProperty("Menu.Windows.ShowGroup"));
+				JMenuItem show = new JMenuItem(Config.language.getProperty("Menu.Windows.ShowGroup"));
 				show.addActionListener(new ShowListener(group));
 				submenu.add(show);
 
-				JMenuItem close = new JMenuItem(
-						Config.language.getProperty("Menu.Windows.CloseGroup"));
+				JMenuItem close = new JMenuItem(Config.language.getProperty("Menu.Windows.CloseGroup"));
 				close.addActionListener(new CloseListener(group));
 				submenu.add(close);
 
@@ -336,35 +316,29 @@ public class JInternalFrameSelector extends JMenu implements
 			start = false;
 		}
 		addSeparator();
-		JMenuItem minimizeAll = new JMenuItem(
-				Config.language.getProperty("Menu.Windows.MinimizeAll"));
+		JMenuItem minimizeAll = new JMenuItem(Config.language.getProperty("Menu.Windows.MinimizeAll"));
 		minimizeAll.addActionListener(new MinimizeListener());
 		add(minimizeAll);
-		
-		JMenuItem showAll = new JMenuItem(
-				Config.language.getProperty("Menu.Windows.ShowAll"));
+
+		JMenuItem showAll = new JMenuItem(Config.language.getProperty("Menu.Windows.ShowAll"));
 		showAll.addActionListener(new ShowListener());
 		add(showAll);
 
-		JMenuItem closeAll = new JMenuItem(
-				Config.language.getProperty("Menu.Windows.CloseAll"));
+		JMenuItem closeAll = new JMenuItem(Config.language.getProperty("Menu.Windows.CloseAll"));
 		closeAll.addActionListener(new CloseListener());
 		add(closeAll);
 
 		addSeparator();
 
-		nextItem = new JMenuItem(
-				Config.language.getProperty("Menu.Windows.Next"));
+		nextItem = new JMenuItem(Config.language.getProperty("Menu.Windows.Next"));
 		nextItem.addActionListener(this);
 		add(nextItem);
 
-		cascadeItem = new JMenuItem(
-				Config.language.getProperty("Menu.Windows.Cascade"));
+		cascadeItem = new JMenuItem(Config.language.getProperty("Menu.Windows.Cascade"));
 		cascadeItem.addActionListener(this);
 		add(cascadeItem);
 
-		tileItem = new JMenuItem(
-				Config.language.getProperty("Menu.Windows.Tile"));
+		tileItem = new JMenuItem(Config.language.getProperty("Menu.Windows.Tile"));
 		tileItem.addActionListener(this);
 		add(tileItem);
 

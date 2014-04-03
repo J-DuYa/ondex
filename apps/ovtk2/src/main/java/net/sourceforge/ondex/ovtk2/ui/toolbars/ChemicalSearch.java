@@ -157,10 +157,7 @@ public class ChemicalSearch implements Monitorable {
 	 * @param percentSimilarity
 	 * @param useChEMBL
 	 */
-	public ChemicalSearch(OVTK2PropertiesAggregator viewer, String search,
-			ConceptClass restrictConceptClass, DataSource restrictDataSource,
-			ONDEXConcept restrictContext, String searchMode,
-			int percentSimilarity, boolean useChEMBL) {
+	public ChemicalSearch(OVTK2PropertiesAggregator viewer, String search, ConceptClass restrictConceptClass, DataSource restrictDataSource, ONDEXConcept restrictContext, String searchMode, int percentSimilarity, boolean useChEMBL) {
 		this.viewer = viewer;
 		this.search = search;
 		this.conceptClass = restrictConceptClass;
@@ -195,15 +192,13 @@ public class ChemicalSearch implements Monitorable {
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
-	private int getCompounds(URL url, String s) throws IOException,
-			ParserConfigurationException, SAXException {
+	private int getCompounds(URL url, String s) throws IOException, ParserConfigurationException, SAXException {
 
 		Set<ONDEXConcept> created = new HashSet<ONDEXConcept>();
-		
+
 		// utility class providing XML parsing
 		ChEMBLWrapper wrapper = new ChEMBLWrapper(graph);
-		AttributeName anChemicalStructure = graph.getMetaData()
-				.getAttributeName("ChemicalStructure");
+		AttributeName anChemicalStructure = graph.getMetaData().getAttributeName("ChemicalStructure");
 
 		// open http connection
 		HttpURLConnection uc = (HttpURLConnection) url.openConnection();
@@ -221,8 +216,7 @@ public class ChemicalSearch implements Monitorable {
 			InputStream in = new BufferedInputStream(uc.getInputStream());
 
 			// parse XML content
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(in);
 			doc.getDocumentElement().normalize();
@@ -238,16 +232,13 @@ public class ChemicalSearch implements Monitorable {
 					ONDEXConcept ac = wrapper.parseCompound(eElement, null);
 					created.add(ac);
 
-					ChemicalStructure cs = (ChemicalStructure) ac.getAttribute(
-							anChemicalStructure).getValue();
+					ChemicalStructure cs = (ChemicalStructure) ac.getAttribute(anChemicalStructure).getValue();
 
 					// track matching part
 					List<String> match = new ArrayList<String>();
 					if (ChEMBLWrapper.getTagValue("similarity", eElement) != null) {
-						double tanimoto = Double.valueOf(ChEMBLWrapper
-								.getTagValue("similarity", eElement)) / 100.0;
-						match.add(cs.getSMILES() + " [" + nf.format(tanimoto)
-								+ "]");
+						double tanimoto = Double.valueOf(ChEMBLWrapper.getTagValue("similarity", eElement)) / 100.0;
+						match.add(cs.getSMILES() + " [" + nf.format(tanimoto) + "]");
 					} else {
 						if (s != null)
 							match.add(s);
@@ -261,8 +252,7 @@ public class ChemicalSearch implements Monitorable {
 					IdLabel label = new IdLabel(ac.getId(), name);
 
 					matches.put(label, match);
-					infos.put(label, ac.getOfType() + " [" + ac.getElementOf()
-							+ "]");
+					infos.put(label, ac.getOfType() + " [" + ac.getElementOf() + "]");
 				}
 			}
 			System.out.println("Created " + created.size() + " concepts");
@@ -271,16 +261,15 @@ public class ChemicalSearch implements Monitorable {
 			viewer.getONDEXJUNGGraph().setVisibility(created, true);
 
 			// layout nodes on big circle
-			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), null,
-					created);
+			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), null, created);
 
 			if (viewer.getMetaGraph() != null)
 				viewer.getMetaGraph().updateMetaData();
 		}
-		
+
 		return created.size();
 	}
-	
+
 	/**
 	 * Parses target concepts from given ChEMBL URL
 	 * 
@@ -290,11 +279,10 @@ public class ChemicalSearch implements Monitorable {
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
-	private int getTargets(URL url, String s) throws IOException,
-			ParserConfigurationException, SAXException {
+	private int getTargets(URL url, String s) throws IOException, ParserConfigurationException, SAXException {
 
 		Set<ONDEXConcept> created = new HashSet<ONDEXConcept>();
-		
+
 		// utility class providing XML parsing
 		ChEMBLWrapper wrapper = new ChEMBLWrapper(graph);
 
@@ -314,8 +302,7 @@ public class ChemicalSearch implements Monitorable {
 			InputStream in = new BufferedInputStream(uc.getInputStream());
 
 			// parse XML content
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(in);
 			doc.getDocumentElement().normalize();
@@ -335,15 +322,14 @@ public class ChemicalSearch implements Monitorable {
 					List<String> match = new ArrayList<String>();
 					if (s != null)
 						match.add(s);
-					
+
 					String name = String.valueOf(ac.getId());
 					if (ac.getConceptName() != null)
 						name = ac.getConceptName().getName();
 					IdLabel label = new IdLabel(ac.getId(), name);
 
 					matches.put(label, match);
-					infos.put(label, ac.getOfType() + " [" + ac.getElementOf()
-							+ "]");
+					infos.put(label, ac.getOfType() + " [" + ac.getElementOf() + "]");
 				}
 			}
 			System.out.println("Created " + created.size() + " concepts");
@@ -352,16 +338,14 @@ public class ChemicalSearch implements Monitorable {
 			viewer.getONDEXJUNGGraph().setVisibility(created, true);
 
 			// layout nodes on big circle
-			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), null,
-					created);
+			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), null, created);
 
 			if (viewer.getMetaGraph() != null)
 				viewer.getMetaGraph().updateMetaData();
 		}
-		
+
 		return created.size();
 	}
-
 
 	@Override
 	public int getMaxProgress() {
@@ -439,9 +423,7 @@ public class ChemicalSearch implements Monitorable {
 	public Vector<Vector<Object>> search() throws Exception {
 
 		// search for ChEMBL compounds by similarity
-		if (useChEMBL
-				&& mode.equals(Config.language
-						.get("ToolBar.Search.Mode.SMILES"))) {
+		if (useChEMBL && mode.equals(Config.language.get("ToolBar.Search.Mode.SMILES"))) {
 
 			state = "Searching webservice...";
 
@@ -450,10 +432,7 @@ public class ChemicalSearch implements Monitorable {
 			progressMax = 1;
 
 			// build query URL
-			URL url = new URL(
-					"https://www.ebi.ac.uk/chemblws/compounds/similarity/"
-							+ search.trim() + "/"
-							+ Math.round(this.cutoff * 100));
+			URL url = new URL("https://www.ebi.ac.uk/chemblws/compounds/similarity/" + search.trim() + "/" + Math.round(this.cutoff * 100));
 			System.out.println(url);
 
 			getCompounds(url, null);
@@ -462,8 +441,7 @@ public class ChemicalSearch implements Monitorable {
 		}
 
 		// search for ChEMBL compound by StdInChiKey
-		else if (mode.equals(Config.language
-				.get("ToolBar.Search.Mode.InChIKey"))) {
+		else if (mode.equals(Config.language.get("ToolBar.Search.Mode.InChIKey"))) {
 
 			state = "Searching webservice...";
 
@@ -474,9 +452,7 @@ public class ChemicalSearch implements Monitorable {
 			for (String s : search.trim().split("\\|")) {
 
 				// build query URL
-				URL url = new URL(
-						"https://www.ebi.ac.uk/chemblws/compounds/stdinchikey/"
-								+ s.trim());
+				URL url = new URL("https://www.ebi.ac.uk/chemblws/compounds/stdinchikey/" + s.trim());
 				System.out.println(url);
 
 				getCompounds(url, s.trim());
@@ -497,18 +473,16 @@ public class ChemicalSearch implements Monitorable {
 			for (String s : search.trim().split("\\|")) {
 
 				// build query URL
-				URL url = new URL("https://www.ebi.ac.uk/chemblws/compounds/"
-						+ s.trim());
+				URL url = new URL("https://www.ebi.ac.uk/chemblws/compounds/" + s.trim());
 				System.out.println(url);
 
 				int nb = getCompounds(url, s.trim());
-				
+
 				// no compounds found, try target next
 				if (nb == 0) {
-					url = new URL("https://www.ebi.ac.uk/chemblws/targets/"
-							+ s.trim());
+					url = new URL("https://www.ebi.ac.uk/chemblws/targets/" + s.trim());
 					System.out.println(url);
-					
+
 					getTargets(url, s.trim());
 				}
 			}
@@ -520,8 +494,7 @@ public class ChemicalSearch implements Monitorable {
 		else {
 
 			// check for existence of attribute
-			AttributeName an = graph.getMetaData().getAttributeName(
-					"ChemicalStructure");
+			AttributeName an = graph.getMetaData().getAttributeName("ChemicalStructure");
 			if (an == null || graph.getConceptsOfAttributeName(an).size() == 0)
 				return processMatches();
 
@@ -549,29 +522,21 @@ public class ChemicalSearch implements Monitorable {
 
 			if (mode.equals(Config.language.get("ToolBar.Search.Mode.SMILES"))) {
 				// turn search string SMILE into chemical structure
-				SMILESReader smilesReader = new SMILESReader(new StringReader(
-						search));
+				SMILESReader smilesReader = new SMILESReader(new StringReader(search));
 				IMoleculeSet ms = new MoleculeSet();
 				smilesReader.read(ms);
 				queryMolecule = ms.getMolecule(0);
-			} else if (mode.equals(Config.language
-					.get("ToolBar.Search.Mode.InChI"))) {
+			} else if (mode.equals(Config.language.get("ToolBar.Search.Mode.InChI"))) {
 				// turn search string InChI into chemical structure
-				InChIGeneratorFactory factory = InChIGeneratorFactory
-						.getInstance();
-				InChIToStructure intostruct = factory.getInChIToStructure(
-						search, DefaultChemObjectBuilder.getInstance());
+				InChIGeneratorFactory factory = InChIGeneratorFactory.getInstance();
+				InChIToStructure intostruct = factory.getInChIToStructure(search, DefaultChemObjectBuilder.getInstance());
 				INCHI_RET ret = intostruct.getReturnStatus();
 				if (ret == INCHI_RET.WARNING) {
 					// Structure generated, but with warning message
-					System.out.println("InChI warning: "
-							+ intostruct.getMessage());
+					System.out.println("InChI warning: " + intostruct.getMessage());
 				} else if (ret != INCHI_RET.OKAY) {
 					// Structure generation failed
-					throw new CDKException(
-							"Structure generation failed failed: "
-									+ ret.toString() + " ["
-									+ intostruct.getMessage() + "]");
+					throw new CDKException("Structure generation failed failed: " + ret.toString() + " [" + intostruct.getMessage() + "]");
 				}
 				queryMolecule = intostruct.getAtomContainer();
 			}
@@ -599,8 +564,7 @@ public class ChemicalSearch implements Monitorable {
 					if (mol != null && mol.length() > 0) {
 
 						// try to read in molecule from mol file
-						MDLV2000Reader mdl = new MDLV2000Reader(
-								new StringReader(mol));
+						MDLV2000Reader mdl = new MDLV2000Reader(new StringReader(mol));
 						mdl.read(targetMolecule);
 
 						// construct SMILE string for molecule
@@ -620,8 +584,7 @@ public class ChemicalSearch implements Monitorable {
 
 						// construct molecule from SMILES
 						if (cs.getSMILES().length() > 0) {
-							SMILESReader sr = new SMILESReader(
-									new StringReader(cs.getSMILES()));
+							SMILESReader sr = new SMILESReader(new StringReader(cs.getSMILES()));
 							MoleculeSet ms = new MoleculeSet();
 							sr.read(ms);
 							// not sure this is right, but I assume there is
@@ -633,14 +596,12 @@ public class ChemicalSearch implements Monitorable {
 
 					// get fingerprint for target
 					try {
-						BitSet targetFP = fingerprinter
-								.getFingerprint(targetMolecule);
+						BitSet targetFP = fingerprinter.getFingerprint(targetMolecule);
 
 						// to calculate tanimoto distance
 						float tanimoto = Tanimoto.calculate(queryFP, targetFP);
 						if (tanimoto >= cutoff) {
-							match.add(cs.getSMILES() + " ["
-									+ nf.format(tanimoto) + "]");
+							match.add(cs.getSMILES() + " [" + nf.format(tanimoto) + "]");
 						}
 					} catch (CDKException cdk) {
 						// continue search even with buggy data
@@ -656,8 +617,7 @@ public class ChemicalSearch implements Monitorable {
 						name = ac.getConceptName().getName();
 					IdLabel label = new IdLabel(ac.getId(), name);
 					matches.put(label, match);
-					infos.put(label, ac.getOfType() + " [" + ac.getElementOf()
-							+ "]");
+					infos.put(label, ac.getOfType() + " [" + ac.getElementOf() + "]");
 				}
 
 				// update progress bar

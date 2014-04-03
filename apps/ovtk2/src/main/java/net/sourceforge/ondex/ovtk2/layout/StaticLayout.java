@@ -76,18 +76,14 @@ public class StaticLayout extends OVTK2Layouter implements Monitorable {
 			ONDEXGraphMetaData meta = graph.getMetaData();
 			AttributeName attrGraphicalX, attrGraphicalY, attrVisible;
 			if ((attrGraphicalX = meta.getAttributeName("graphicalX")) == null)
-				attrGraphicalX = meta.getFactory().createAttributeName(
-						"graphicalX", Double.class);
+				attrGraphicalX = meta.getFactory().createAttributeName("graphicalX", Double.class);
 			if ((attrGraphicalY = meta.getAttributeName("graphicalY")) == null)
-				attrGraphicalY = meta.getFactory().createAttributeName(
-						"graphicalY", Double.class);
+				attrGraphicalY = meta.getFactory().createAttributeName("graphicalY", Double.class);
 			if ((attrVisible = meta.getAttributeName("visible")) == null)
-				attrVisible = meta.getFactory().createAttributeName("visible",
-						Boolean.class);
+				attrVisible = meta.getFactory().createAttributeName("visible", Boolean.class);
 
 			// if meta data incomplete return
-			if (attrVisible == null || attrGraphicalX == null
-					|| attrGraphicalY == null)
+			if (attrVisible == null || attrGraphicalX == null || attrGraphicalY == null)
 				return;
 			progress++;
 			if (cancelled)
@@ -177,9 +173,9 @@ public class StaticLayout extends OVTK2Layouter implements Monitorable {
 	public void setCancelled(boolean c) {
 		cancelled = c;
 	}
-	
-	@Override 
-	public void cleanUp(){
+
+	@Override
+	public void cleanUp() {
 		oldLayouter = null;
 	}
 }

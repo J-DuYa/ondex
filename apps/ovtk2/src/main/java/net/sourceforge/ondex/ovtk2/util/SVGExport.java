@@ -68,22 +68,14 @@ public class SVGExport {
 		svgGenerator.clip(rect);
 
 		// make rendering look nice
-		Map<Key, Object> m = new HashMap<Key, Object>(viewer
-				.getVisualizationViewer().getRenderingHints());
-		vv.getRenderingHints().put(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		vv.getRenderingHints().put(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_NORMALIZE);
-		vv.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-		vv.getRenderingHints().put(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
-		vv.getRenderingHints().put(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-		vv.getRenderingHints().put(RenderingHints.KEY_COLOR_RENDERING,
-				RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-		vv.getRenderingHints().put(RenderingHints.KEY_DITHERING,
-				RenderingHints.VALUE_DITHER_ENABLE);
+		Map<Key, Object> m = new HashMap<Key, Object>(viewer.getVisualizationViewer().getRenderingHints());
+		vv.getRenderingHints().put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		vv.getRenderingHints().put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+		vv.getRenderingHints().put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		vv.getRenderingHints().put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+		vv.getRenderingHints().put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+		vv.getRenderingHints().put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+		vv.getRenderingHints().put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
 		vv.setDoubleBuffered(false);
 
 		// paint once on SVG
@@ -93,15 +85,14 @@ public class SVGExport {
 		try {
 			fos = new FileOutputStream(file);
 			if (option.equalsIgnoreCase("svg")) {
-				svgGenerator.stream(new OutputStreamWriter(fos, "UTF-8"),useCSS);
-			} else if (option.equalsIgnoreCase("jpg")
-					|| option.equalsIgnoreCase("jpeg")) {
+				svgGenerator.stream(new OutputStreamWriter(fos, "UTF-8"), useCSS);
+			} else if (option.equalsIgnoreCase("jpg") || option.equalsIgnoreCase("jpeg")) {
 				JPEGImageWriter jiw = new JPEGImageWriter();
 				jiw.isFunctional();
 				JPEGTranscoder t = new JPEGTranscoder();
 				t.setErrorHandler(new ErrorHandlerBridge());
 				t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, new Float(1.0));
-				t.addTranscodingHint(JPEGTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER, new Float(25.4f/300f));
+				t.addTranscodingHint(JPEGTranscoder.KEY_PIXEL_UNIT_TO_MILLIMETER, new Float(25.4f / 300f));
 				transcode(t, svgGenerator, useCSS, rect, fos);
 			} else if (option.equalsIgnoreCase("eps")) {
 				EPSTranscoder t = new EPSTranscoder();
@@ -158,16 +149,12 @@ public class SVGExport {
 	 * @throws IOException
 	 * @throws TranscoderException
 	 */
-	public static void transcode(Transcoder t, SVGGraphics2D svgGenerator,
-			boolean useCSS, Rectangle rect, FileOutputStream fos)
-			throws IOException, TranscoderException {
+	public static void transcode(Transcoder t, SVGGraphics2D svgGenerator, boolean useCSS, Rectangle rect, FileOutputStream fos) throws IOException, TranscoderException {
 		PipedWriter pout = new PipedWriter();
 		BufferedReader rin = new BufferedReader(new PipedReader(pout));
 		new Piper(svgGenerator, useCSS, pout).start();
-		t.addTranscodingHint(JPEGTranscoder.KEY_HEIGHT,
-				Float.valueOf(rect.height));
-		t.addTranscodingHint(JPEGTranscoder.KEY_WIDTH,
-				Float.valueOf(rect.width));
+		t.addTranscodingHint(JPEGTranscoder.KEY_HEIGHT, Float.valueOf(rect.height));
+		t.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, Float.valueOf(rect.width));
 		t.transcode(new TranscoderInput(rin), new TranscoderOutput(fos));
 	}
 
@@ -202,23 +189,17 @@ public class SVGExport {
 	private class ErrorHandlerBridge implements ErrorHandler {
 		@Override
 		public void error(TranscoderException e) throws TranscoderException {
-			net.sourceforge.ondex.ovtk2.util.ErrorHandler.getInstance()
-					.uncaughtException(Thread.currentThread(), e);
+			net.sourceforge.ondex.ovtk2.util.ErrorHandler.getInstance().uncaughtException(Thread.currentThread(), e);
 		}
 
 		@Override
-		public void fatalError(TranscoderException e)
-				throws TranscoderException {
-			net.sourceforge.ondex.ovtk2.util.ErrorHandler.getInstance()
-					.uncaughtException(Thread.currentThread(), e);
+		public void fatalError(TranscoderException e) throws TranscoderException {
+			net.sourceforge.ondex.ovtk2.util.ErrorHandler.getInstance().uncaughtException(Thread.currentThread(), e);
 		}
 
 		@Override
-		public void warning(TranscoderException arg0)
-				throws TranscoderException {
-			JOptionPane.showMessageDialog(OVTK2Desktop.getInstance()
-					.getMainFrame(), arg0.getMessage(), "Warning",
-					JOptionPane.WARNING_MESSAGE);
+		public void warning(TranscoderException arg0) throws TranscoderException {
+			JOptionPane.showMessageDialog(OVTK2Desktop.getInstance().getMainFrame(), arg0.getMessage(), "Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }

@@ -39,15 +39,14 @@ public class ONDEXEdgeLabels implements Transformer<ONDEXRelation, String> {
 	 */
 	public ONDEXEdgeLabels() {
 		this.labels = new HashMap<ONDEXRelation, String>();
-		this.mask = LazyMap.decorate(new HashMap<ONDEXRelation, Boolean>(),
-				new Factory<Boolean>() {
+		this.mask = LazyMap.decorate(new HashMap<ONDEXRelation, Boolean>(), new Factory<Boolean>() {
 
-					@Override
-					public Boolean create() {
-						// return default mask
-						return defaultMask;
-					}
-				});
+			@Override
+			public Boolean create() {
+				// return default mask
+				return defaultMask;
+			}
+		});
 	}
 
 	/**

@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class LauncherFrame implements RegisteredFrame, WindowListener {
 
 	JFrame frame;
-	
+
 	String group, name;
 
 	public LauncherFrame(JFrame frame, String group, String name) {
@@ -22,7 +22,7 @@ public class LauncherFrame implements RegisteredFrame, WindowListener {
 	public JFrame getJFrame() {
 		return frame;
 	}
-	
+
 	@Override
 	public String getGroup() {
 		return group;

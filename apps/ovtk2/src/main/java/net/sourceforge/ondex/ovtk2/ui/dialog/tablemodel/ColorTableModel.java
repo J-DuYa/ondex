@@ -40,12 +40,9 @@ public class ColorTableModel extends AbstractTableModel {
 	 */
 	public ColorTableModel(Hashtable<String, Color> colors, String tableName, String idType) {
 		this.colors = colors;
-		this.columnNames = new String[] {
-				tableName, idType, ""
-		};
-		
-		File imgLocation = new File(
-				"config/toolbarButtonGraphics/general/delete16.gif");
+		this.columnNames = new String[] { tableName, idType, "" };
+
+		File imgLocation = new File("config/toolbarButtonGraphics/general/delete16.gif");
 		URL imageURL = null;
 
 		try {

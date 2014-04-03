@@ -35,8 +35,7 @@ import net.sourceforge.ondex.ovtk2.util.ErrorDialog;
  * @author taubertj
  * @version 18.02.2010
  */
-public class WelcomeDialog extends JInternalFrame implements ItemListener,
-		HyperlinkListener {
+public class WelcomeDialog extends JInternalFrame implements ItemListener, HyperlinkListener {
 
 	/**
 	 * Provides background image functionality.
@@ -64,8 +63,7 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 		 */
 		public Background(ImageIcon icon) {
 			this.icon = icon;
-			this.setPreferredSize(new Dimension(icon.getIconWidth(), icon
-					.getIconHeight()));
+			this.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 		}
 
 		@Override
@@ -104,24 +102,19 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 	 *            current OVTK2Desktop
 	 */
 	private WelcomeDialog(OVTK2Desktop desktop) {
-		super(Config.language.getProperty("Welcome.Title"), true, true, true,
-				true);
+		super(Config.language.getProperty("Welcome.Title"), true, true, true, true);
 		this.setDefaultCloseOperation(JInternalFrame.HIDE_ON_CLOSE);
 		String s = File.separator;
 
 		// get small icon
-		String path = Config.ovtkDir + s + "themes" + s
-				+ Config.config.getProperty("Program.Theme") + s + "icons" + s
-				+ "wizard.png";
+		String path = Config.ovtkDir + s + "themes" + s + Config.config.getProperty("Program.Theme") + s + "icons" + s + "wizard.png";
 		if (!new File(path).exists()) {
 			ErrorDialog.show(new IOException("File not found " + path));
 		}
 		this.setFrameIcon(createImageIcon(path));
 
 		// get background image
-		path = Config.ovtkDir + s + "themes" + s
-				+ Config.config.getProperty("Program.Theme") + s + "images" + s
-				+ "welcome.png";
+		path = Config.ovtkDir + s + "themes" + s + Config.config.getProperty("Program.Theme") + s + "images" + s + "welcome.png";
 		if (!new File(path).exists()) {
 			ErrorDialog.show(new IOException("File not found " + path));
 		}
@@ -138,9 +131,7 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 		text.setEditable(false);
 
 		// construct URL
-		File helpLocation = new File(Config.ovtkDir + s + "help" + s
-				+ Config.config.getProperty("Program.Language") + s
-				+ "welcome.html");
+		File helpLocation = new File(Config.ovtkDir + s + "help" + s + Config.config.getProperty("Program.Language") + s + "welcome.html");
 		URL helpURL = null;
 		try {
 			helpURL = helpLocation.toURI().toURL();
@@ -154,22 +145,19 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 				ErrorDialog.show(e);
 			}
 		} else {
-			System.err.println("Couldn't find file: "
-					+ helpLocation.getAbsolutePath());
+			System.err.println("Couldn't find file: " + helpLocation.getAbsolutePath());
 		}
 
 		// add hyper link functionality for system browser
 		text.addHyperlinkListener(new OVTK2HyperlinkListener(desktop));
 		text.addHyperlinkListener(this);
 
-		JCheckBox checkBox = new JCheckBox(
-				Config.language.getProperty("Welcome.CheckBox"));
+		JCheckBox checkBox = new JCheckBox(Config.language.getProperty("Welcome.CheckBox"));
 		checkBox.addItemListener(this);
 		checkBox.setSelected(true);
 		checkBox.setOpaque(false);
 
-		JLabel version = new JLabel("Build version: "
-				+ DesktopUtils.extractBuildNumber());
+		JLabel version = new JLabel("Build version: " + DesktopUtils.extractBuildNumber());
 
 		// use JAVA6 group layout
 		GroupLayout layout = new GroupLayout(getContentPane());
@@ -177,17 +165,9 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(GroupLayout.Alignment.CENTER)
-				.addComponent(text).addComponent(checkBox)
-				.addComponent(version));
+		layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(text).addComponent(checkBox).addComponent(version));
 
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addComponent(text)
-				.addGroup(
-						layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-								.addComponent(checkBox)).addComponent(version));
+		layout.setVerticalGroup(layout.createSequentialGroup().addComponent(text).addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(checkBox)).addComponent(version));
 
 		this.pack();
 		desktop.display(this, Position.centered);
@@ -216,8 +196,7 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			if (e.getDescription().startsWith("ovtk2://")
-					|| e.getDescription().equals("close")) {
+			if (e.getDescription().startsWith("ovtk2://") || e.getDescription().equals("close")) {
 				// close this welcome dialog once action has been performed
 				instance.setVisible(false);
 			}
@@ -234,8 +213,7 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 			// modify existing config file
 			File file = new File(Config.ovtkDir + File.separator + "config.xml");
 			if (!file.exists()) {
-				ErrorDialog.show(new IOException("File not found "
-						+ file.getAbsolutePath()));
+				ErrorDialog.show(new IOException("File not found " + file.getAbsolutePath()));
 			}
 			properties.loadFromXML(new FileInputStream(file));
 
@@ -244,12 +222,9 @@ public class WelcomeDialog extends JInternalFrame implements ItemListener,
 			} else {
 				properties.setProperty("Welcome.Show", "true");
 			}
-			properties.storeToXML(new FileOutputStream(file), "Modified by "
-					+ Config.config.getProperty("Program.Name") + " - Version "
-					+ Config.config.getProperty("Program.Version"));
+			properties.storeToXML(new FileOutputStream(file), "Modified by " + Config.config.getProperty("Program.Name") + " - Version " + Config.config.getProperty("Program.Version"));
 			// update current config
-			Config.config.setProperty("Welcome.Show",
-					properties.getProperty("Welcome.Show"));
+			Config.config.setProperty("Welcome.Show", properties.getProperty("Welcome.Show"));
 
 		} catch (Exception e) {
 			ErrorDialog.show(e);

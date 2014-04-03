@@ -15,17 +15,19 @@ import net.sourceforge.ondex.ovtk2.ui.RegisteredJInternalFrame;
 /**
  * 
  * @author lysenkoa
- *
+ * 
  */
 public class CommandLineMouseListener implements MouseListener {
 
 	private JDesktopPane desktop;
 	private JScrollPane frame;
-	
+
 	/**
 	 * 
-	 * @param desktop the ovt2 desktop pane
-	 * @param frame the command line frame
+	 * @param desktop
+	 *            the ovt2 desktop pane
+	 * @param frame
+	 *            the command line frame
 	 */
 	public CommandLineMouseListener(JDesktopPane desktop, JScrollPane frame) {
 		this.desktop = desktop;
@@ -34,10 +36,8 @@ public class CommandLineMouseListener implements MouseListener {
 
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() > 1) {
-			JScrollPane pane = (JScrollPane) ((Component) e.getSource())
-					.getParent().getParent();
-			Component temp = pane.getParent().getParent().getParent()
-					.getParent();
+			JScrollPane pane = (JScrollPane) ((Component) e.getSource()).getParent().getParent();
+			Component temp = pane.getParent().getParent().getParent().getParent();
 			if (temp instanceof JInternalFrame) {
 				cmdToBar(pane, (JInternalFrame) temp);
 			} else {
@@ -49,18 +49,15 @@ public class CommandLineMouseListener implements MouseListener {
 	public void cmdToBar(JScrollPane scrollPane, JInternalFrame cmdFrame) {
 		desktop.remove(cmdFrame);
 		cmdFrame.dispose();
-		scrollPane.getViewport().setMaximumSize(
-				new Dimension(frame.getSize().width, 35));
-		scrollPane.getViewport().setPreferredSize(
-				new Dimension(frame.getSize().width, 35));
+		scrollPane.getViewport().setMaximumSize(new Dimension(frame.getSize().width, 35));
+		scrollPane.getViewport().setPreferredSize(new Dimension(frame.getSize().width, 35));
 		frame.add(scrollPane, BorderLayout.PAGE_END);
 		desktop.updateUI();
 	}
 
 	public void cmdToFrame(JScrollPane scrollingArea) {
 		frame.remove(scrollingArea);
-		JInternalFrame cmdFrame = new RegisteredJInternalFrame("Scripting",
-				"Console", "Command console", true, false, false, true);
+		JInternalFrame cmdFrame = new RegisteredJInternalFrame("Scripting", "Console", "Command console", true, false, false, true);
 		cmdFrame.add(scrollingArea);
 		cmdFrame.setVisible(true);
 		cmdFrame.pack();
@@ -74,8 +71,7 @@ public class CommandLineMouseListener implements MouseListener {
 		if (width > frame.getSize().width) {
 			width = frame.getSize().width;
 		}
-		scrollingArea.getViewport().setPreferredSize(
-				new Dimension(width, height));
+		scrollingArea.getViewport().setPreferredSize(new Dimension(width, height));
 		cmdFrame.setSize(width, height);
 		cmdFrame.setLocation(-4, yPosition - 87);
 		desktop.add(cmdFrame);

@@ -29,12 +29,10 @@ public class MetaGraphXMLReader {
 	 *            MetaGraph to get modified
 	 * @throws XMLStreamException
 	 */
-	public static void read(XMLStreamReader2 xmlr, OVTK2MetaGraph meta)
-			throws XMLStreamException {
+	public static void read(XMLStreamReader2 xmlr, OVTK2MetaGraph meta) throws XMLStreamException {
 
 		// layout to modify
-		Layout<ONDEXMetaConcept, ONDEXMetaRelation> layout = meta.getViewer()
-				.getMetaGraphPanel().getVisualizationViewer().getGraphLayout();
+		Layout<ONDEXMetaConcept, ONDEXMetaRelation> layout = meta.getViewer().getMetaGraphPanel().getVisualizationViewer().getGraphLayout();
 
 		// iterate over XML
 		while (xmlr.hasNext()) {

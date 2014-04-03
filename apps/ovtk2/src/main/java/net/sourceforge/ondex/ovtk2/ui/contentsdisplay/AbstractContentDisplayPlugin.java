@@ -43,7 +43,8 @@ public abstract class AbstractContentDisplayPlugin {
 
 	/**
 	 * takes a ONDEXEntity (either a concept or a relation) and generates HTML
-	 * code about it according to whatever the function of your producer will be.
+	 * code about it according to whatever the function of your producer will
+	 * be.
 	 * 
 	 * @param e
 	 *            the concept or relation.

@@ -43,8 +43,7 @@ public class SwingExceptionHandler implements Thread.UncaughtExceptionHandler {
 	private void showMessage(Thread t, Throwable e) {
 		String stackTrace = generateStackTrace(e);
 		// show an error dialog
-		JOptionPane.showMessageDialog(findActiveOrVisibleFrame(), stackTrace,
-				"Exception Occurred in " + t, JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(findActiveOrVisibleFrame(), stackTrace, "Exception Occurred in " + t, JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**

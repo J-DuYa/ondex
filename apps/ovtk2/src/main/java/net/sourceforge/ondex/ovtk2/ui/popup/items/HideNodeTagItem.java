@@ -29,13 +29,11 @@ public class HideNodeTagItem extends EntityMenuItem<ONDEXConcept> {
 		for (ONDEXConcept vertex : entities) {
 			ONDEXConcept c = vertex;
 			// first set relations invisible
-			for (ONDEXRelation r : viewer.getONDEXJUNGGraph()
-					.getRelationsOfTag(c)) {
+			for (ONDEXRelation r : viewer.getONDEXJUNGGraph().getRelationsOfTag(c)) {
 				viewer.getONDEXJUNGGraph().setVisibility(r, false);
 			}
 			// second set concepts invisible
-			for (ONDEXConcept co : viewer.getONDEXJUNGGraph()
-					.getConceptsOfTag(c)) {
+			for (ONDEXConcept co : viewer.getONDEXJUNGGraph().getConceptsOfTag(c)) {
 				viewer.getONDEXJUNGGraph().setVisibility(co, false);
 			}
 		}

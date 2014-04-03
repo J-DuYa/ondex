@@ -15,8 +15,7 @@ import net.sourceforge.ondex.core.RelationType;
  * 
  * @author hindlem, taubertj, weilej
  */
-public class RelationTypeListModel extends AbstractListModel implements
-		MutableListModel {
+public class RelationTypeListModel extends AbstractListModel implements MutableListModel {
 
 	/**
 	 * default
@@ -72,8 +71,7 @@ public class RelationTypeListModel extends AbstractListModel implements
 				name = rt.getId();
 			label = new JLabel(name);
 			label.setName(rt.getId());
-			label.setToolTipText("(" + rt.getId() + ") "
-					+ rt.getDescription().replaceAll("\\s+", " "));
+			label.setToolTipText("(" + rt.getId() + ") " + rt.getDescription().replaceAll("\\s+", " "));
 		}
 		return label;
 	}

@@ -62,22 +62,14 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	protected ColorModel model;
 
 	/** Color model used if gradient colors are all opaque */
-	private static ColorModel lrgbmodel_NA = new DirectColorModel(ColorSpace
-			.getInstance(ColorSpace.CS_LINEAR_RGB), 24, 0xff0000, 0xFF00, 0xFF,
-			0x0, false, DataBuffer.TYPE_INT);
+	private static ColorModel lrgbmodel_NA = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 24, 0xff0000, 0xFF00, 0xFF, 0x0, false, DataBuffer.TYPE_INT);
 
-	private static ColorModel srgbmodel_NA = new DirectColorModel(ColorSpace
-			.getInstance(ColorSpace.CS_sRGB), 24, 0xff0000, 0xFF00, 0xFF, 0x0,
-			false, DataBuffer.TYPE_INT);
+	private static ColorModel srgbmodel_NA = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 24, 0xff0000, 0xFF00, 0xFF, 0x0, false, DataBuffer.TYPE_INT);
 
 	/** Color model used if some gradient colors are transparent */
-	private static ColorModel lrgbmodel_A = new DirectColorModel(ColorSpace
-			.getInstance(ColorSpace.CS_LINEAR_RGB), 32, 0xff0000, 0xFF00, 0xFF,
-			0xFF000000, false, DataBuffer.TYPE_INT);
+	private static ColorModel lrgbmodel_A = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 32, 0xff0000, 0xFF00, 0xFF, 0xFF000000, false, DataBuffer.TYPE_INT);
 
-	private static ColorModel srgbmodel_A = new DirectColorModel(ColorSpace
-			.getInstance(ColorSpace.CS_sRGB), 32, 0xff0000, 0xFF00, 0xFF,
-			0xFF000000, false, DataBuffer.TYPE_INT);
+	private static ColorModel srgbmodel_A = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32, 0xff0000, 0xFF00, 0xFF, 0xFF000000, false, DataBuffer.TYPE_INT);
 
 	/** The cached colorModel */
 	protected static ColorModel cachedModel;
@@ -196,12 +188,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 * computation is done in the superclass constructor which always gets
 	 * called first.
 	 **/
-	protected MultipleGradientPaintContext(ColorModel cm,
-			Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform t,
-			RenderingHints hints, float[] fractions, Color[] colors,
-			MultipleGradientPaint.CycleMethodEnum cycleMethod,
-			MultipleGradientPaint.ColorSpaceEnum colorSpace)
-			throws NoninvertibleTransformException {
+	protected MultipleGradientPaintContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform t, RenderingHints hints, float[] fractions, Color[] colors, MultipleGradientPaint.CycleMethodEnum cycleMethod, MultipleGradientPaint.ColorSpaceEnum colorSpace) throws NoninvertibleTransformException {
 		// We have to deal with the cases where the 1st gradient stop is not
 		// equal to 0 and/or the last gradient stop is not equal to 1.
 		// In both cases, create a new point and replicate the previous
@@ -291,13 +278,11 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		else if (cm.getColorSpace() == srgbmodel_A.getColorSpace())
 			dataModel = srgbmodel_A;
 		else
-			throw new IllegalArgumentException(
-					"Unsupported ColorSpace for interpolation");
+			throw new IllegalArgumentException("Unsupported ColorSpace for interpolation");
 
 		calculateGradientFractions(loColors, hiColors);
 
-		model = GraphicsUtil.coerceColorModel(dataModel, cm
-				.isAlphaPremultiplied());
+		model = GraphicsUtil.coerceColorModel(dataModel, cm.isAlphaPremultiplied());
 	}
 
 	/**
@@ -305,8 +290,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 * gradient colors based on an array of fractions and color values at those
 	 * fractions.
 	 */
-	protected final void calculateGradientFractions(Color[] loColors,
-			Color[] hiColors) {
+	protected final void calculateGradientFractions(Color[] loColors, Color[] hiColors) {
 
 		// if interpolation should occur in Linear RGB space, convert the
 		// colors using the lookup table
@@ -369,14 +353,12 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		if (estimatedSize > MAX_GRADIENT_ARRAY_SIZE) {
 			// slow method
 			calculateMultipleArrayGradient(loColors, hiColors);
-			if ((cycleMethod == MultipleGradientPaint.REPEAT)
-					&& (gradients[0][0] != gradients[gradients.length - 1][GRADIENT_SIZE_INDEX]))
+			if ((cycleMethod == MultipleGradientPaint.REPEAT) && (gradients[0][0] != gradients[gradients.length - 1][GRADIENT_SIZE_INDEX]))
 				hasDiscontinuity = true;
 		} else {
 			// fast method
 			calculateSingleArrayGradient(loColors, hiColors, Imin);
-			if ((cycleMethod == MultipleGradientPaint.REPEAT)
-					&& (gradient[0] != gradient[fastGradientArraySize]))
+			if ((cycleMethod == MultipleGradientPaint.REPEAT) && (gradient[0] != gradient[fastGradientArraySize]))
 				hasDiscontinuity = true;
 		}
 
@@ -405,10 +387,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 
 		int oldColor = inColor.getRGB();
 
-		int newColorValue = ((workTbl[(oldColor >> 24) & 0xff] & 0xff) << 24)
-				| ((workTbl[(oldColor >> 16) & 0xff] & 0xff) << 16)
-				| ((workTbl[(oldColor >> 8) & 0xff] & 0xff) << 8)
-				| ((workTbl[(oldColor) & 0xff] & 0xff));
+		int newColorValue = ((workTbl[(oldColor >> 24) & 0xff] & 0xff) << 24) | ((workTbl[(oldColor >> 16) & 0xff] & 0xff) << 16) | ((workTbl[(oldColor >> 8) & 0xff] & 0xff) << 8) | ((workTbl[(oldColor) & 0xff] & 0xff));
 
 		return new Color(newColorValue, true);
 	}
@@ -438,8 +417,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 *            the size of the smallest interval
 	 * 
 	 */
-	private void calculateSingleArrayGradient(Color[] loColors,
-			Color[] hiColors, float Imin) {
+	private void calculateSingleArrayGradient(Color[] loColors, Color[] hiColors, float Imin) {
 
 		// set the flag so we know later it is a non-simple lookup
 		isSimpleLookup = true;
@@ -480,15 +458,13 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			transparencyTest &= rgb1 & rgb2;
 		}
 
-		gradientAverage = (((aveA & 0xFF0000) << 8) | ((aveR & 0xFF0000))
-				| ((aveG & 0xFF0000) >> 8) | ((aveB & 0xFF0000) >> 16));
+		gradientAverage = (((aveA & 0xFF0000) << 8) | ((aveR & 0xFF0000)) | ((aveG & 0xFF0000) >> 8) | ((aveB & 0xFF0000) >> 16));
 
 		// Put all gradients in a single array
 		gradient = new int[gradientsTot];
 		int curOffset = 0;
 		for (int i = 0; i < gradients.length; i++) {
-			System.arraycopy(gradients[i], 0, gradient, curOffset,
-					gradients[i].length);
+			System.arraycopy(gradients[i], 0, gradient, curOffset, gradients[i].length);
 			curOffset += gradients[i].length;
 		}
 		gradient[gradient.length - 1] = hiColors[hiColors.length - 1].getRGB();
@@ -496,16 +472,14 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		// if interpolation occurred in Linear RGB space, convert the
 		// gradients back to SRGB using the lookup table
 		if (colorSpace == LinearGradientPaint.LINEAR_RGB) {
-			if (dataModel.getColorSpace() == ColorSpace
-					.getInstance(ColorSpace.CS_sRGB)) {
+			if (dataModel.getColorSpace() == ColorSpace.getInstance(ColorSpace.CS_sRGB)) {
 				for (int i = 0; i < gradient.length; i++) {
 					gradient[i] = convertEntireColorLinearRGBtoSRGB(gradient[i]);
 				}
 				gradientAverage = convertEntireColorLinearRGBtoSRGB(gradientAverage);
 			}
 		} else {
-			if (dataModel.getColorSpace() == ColorSpace
-					.getInstance(ColorSpace.CS_LINEAR_RGB)) {
+			if (dataModel.getColorSpace() == ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB)) {
 				for (int i = 0; i < gradient.length; i++) {
 					gradient[i] = convertEntireColorSRGBtoLinearRGB(gradient[i]);
 				}
@@ -534,8 +508,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 * time-space tradeoff.
 	 * 
 	 */
-	private void calculateMultipleArrayGradient(Color[] loColors,
-			Color[] hiColors) {
+	private void calculateMultipleArrayGradient(Color[] loColors, Color[] hiColors) {
 
 		// set the flag so we know later it is a non-simple lookup
 		isSimpleLookup = false;
@@ -579,14 +552,12 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			transparencyTest &= rgb2;
 		}
 
-		gradientAverage = (((aveA & 0xFF0000) << 8) | ((aveR & 0xFF0000))
-				| ((aveG & 0xFF0000) >> 8) | ((aveB & 0xFF0000) >> 16));
+		gradientAverage = (((aveA & 0xFF0000) << 8) | ((aveR & 0xFF0000)) | ((aveG & 0xFF0000) >> 8) | ((aveB & 0xFF0000) >> 16));
 
 		// if interpolation occurred in Linear RGB space, convert the
 		// gradients back to SRGB using the lookup table
 		if (colorSpace == LinearGradientPaint.LINEAR_RGB) {
-			if (dataModel.getColorSpace() == ColorSpace
-					.getInstance(ColorSpace.CS_sRGB)) {
+			if (dataModel.getColorSpace() == ColorSpace.getInstance(ColorSpace.CS_sRGB)) {
 				for (int j = 0; j < gradients.length; j++) {
 					for (int i = 0; i < gradients[j].length; i++) {
 						gradients[j][i] = convertEntireColorLinearRGBtoSRGB(gradients[j][i]);
@@ -595,8 +566,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 				gradientAverage = convertEntireColorLinearRGBtoSRGB(gradientAverage);
 			}
 		} else {
-			if (dataModel.getColorSpace() == ColorSpace
-					.getInstance(ColorSpace.CS_LINEAR_RGB)) {
+			if (dataModel.getColorSpace() == ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB)) {
 				for (int j = 0; j < gradients.length; j++) {
 					for (int i = 0; i < gradients[j].length; i++) {
 						gradients[j][i] = convertEntireColorSRGBtoLinearRGB(gradients[j][i]);
@@ -669,10 +639,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		output[nSteps] = rgb2; // the last color is also fixed
 		for (int i = 1; i < nSteps; i++) {
 			float fI = i;
-			output[i] = ((a1 + ((((int) (fI * tempA)) + 1) >> 1) & 0xff) << 24)
-					| ((r1 + ((((int) (fI * tempR)) + 1) >> 1) & 0xff) << 16)
-					| ((g1 + ((((int) (fI * tempG)) + 1) >> 1) & 0xff) << 8)
-					| ((b1 + ((((int) (fI * tempB)) + 1) >> 1) & 0xff));
+			output[i] = ((a1 + ((((int) (fI * tempA)) + 1) >> 1) & 0xff) << 24) | ((r1 + ((((int) (fI * tempR)) + 1) >> 1) & 0xff) << 16) | ((g1 + ((((int) (fI * tempG)) + 1) >> 1) & 0xff) << 8) | ((b1 + ((((int) (fI * tempB)) + 1) >> 1) & 0xff));
 		}
 
 	}
@@ -784,8 +751,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 						delta = ((delta / normalizedIntervals[i]) * GRADIENT_SIZE);
 						// this is the interval we want.
 						int index = (int) delta;
-						if ((index + 1 < gradients[i].length)
-								|| (i + 1 < gradientsLength))
+						if ((index + 1 < gradients[i].length) || (i + 1 < gradientsLength))
 							return gradients[i][index];
 
 						w = (int) ((delta - index) * (1 << 16));
@@ -796,13 +762,11 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 				}
 			}
 
-			return ((((((c1 >> 8) & 0xFF0000) + ((((c2 >>> 24)) - ((c1 >>> 24))) * w)) & 0xFF0000) << 8)
-					|
+			return ((((((c1 >> 8) & 0xFF0000) + ((((c2 >>> 24)) - ((c1 >>> 24))) * w)) & 0xFF0000) << 8) |
 
-					(((((c1) & 0xFF0000) + ((((c2 >> 16) & 0xFF) - ((c1 >> 16) & 0xFF)) * w)) & 0xFF0000))
-					|
+			(((((c1) & 0xFF0000) + ((((c2 >> 16) & 0xFF) - ((c1 >> 16) & 0xFF)) * w)) & 0xFF0000)) |
 
-					(((((c1 << 8) & 0xFF0000) + ((((c2 >> 8) & 0xFF) - ((c1 >> 8) & 0xFF)) * w)) & 0xFF0000) >> 8) |
+			(((((c1 << 8) & 0xFF0000) + ((((c2 >> 8) & 0xFF) - ((c1 >> 8) & 0xFF)) * w)) & 0xFF0000) >> 8) |
 
 			(((((c1 << 16) & 0xFF0000) + ((((c2) & 0xFF) - ((c1) & 0xFF)) * w)) & 0xFF0000) >> 16));
 
@@ -929,8 +893,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 				pB += (((tPix << 4) & 0xFF0) * norm) >> 16;
 			}
 
-			return (((pA & 0xFF0) << 20) | ((pR & 0xFF0) << 12)
-					| ((pG & 0xFF0) << 4) | ((pB & 0xFF0) >> 4));
+			return (((pA & 0xFF0) << 20) | ((pR & 0xFF0) << 12) | ((pG & 0xFF0) << 4) | ((pB & 0xFF0) >> 4));
 		}
 
 		// See how many times we are going to "wrap around" the gradient,
@@ -1030,8 +993,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		return getAntiAlias(p1, p1_up, p2, p2_up, sz, weight);
 	}
 
-	private final int getAntiAlias(float p1, boolean p1_up, float p2,
-			boolean p2_up, float sz, float weight) {
+	private final int getAntiAlias(float p1, boolean p1_up, float p2, boolean p2_up, float sz, float weight) {
 
 		// Until the last set of ops these are 28.4 fixed point values.
 		int ach = 0, rch = 0, gch = 0, bch = 0;
@@ -1170,8 +1132,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			}
 
 			if (DEBUG)
-				System.out.println("I1: " + i1 + " Idx1: " + idx1 + " I2: "
-						+ i2 + " Idx2: " + idx2);
+				System.out.println("I1: " + i1 + " Idx1: " + idx1 + " I2: " + i2 + " Idx2: " + idx2);
 
 			// Simple case within one gradient array (so the average
 			// of the two idx gives us the true average of colors).
@@ -1276,8 +1237,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			gch = (gch + 0x08) >> 4;
 			bch = (bch + 0x08) >> 4;
 			if (DEBUG)
-				System.out.println("Pix: [" + ach + ", " + rch + ", " + gch
-						+ ", " + bch + ']');
+				System.out.println("Pix: [" + ach + ", " + rch + ", " + gch + ", " + bch + ']');
 		}
 
 		if (weight != 1) {
@@ -1357,8 +1317,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			// NOTE:We would like to use 'x' & 'y' here instead of
 			// '0', '0' but this will fail on MacOSX. Since it
 			// doesn't have an effect on other JVMs.
-			raster = raster.createWritableChild(raster.getMinX(), raster
-					.getMinY(), w, h, 0, 0, null);
+			raster = raster.createWritableChild(raster.getMinX(), raster.getMinY(), w, h, 0, 0, null);
 		}
 
 		// Access raster internal int array. Because we use a DirectColorModel,
@@ -1370,29 +1329,25 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		DataBufferInt rasterDB = (DataBufferInt) raster.getDataBuffer();
 		int[] pixels = rasterDB.getBankData()[0];
 		int off = rasterDB.getOffset();
-		int scanlineStride = ((SinglePixelPackedSampleModel) raster
-				.getSampleModel()).getScanlineStride();
+		int scanlineStride = ((SinglePixelPackedSampleModel) raster.getSampleModel()).getScanlineStride();
 		int adjust = scanlineStride - w;
 
 		fillRaster(pixels, off, adjust, x, y, w, h); // delegate to subclass.
 
-		GraphicsUtil
-				.coerceData(raster, dataModel, model.isAlphaPremultiplied());
+		GraphicsUtil.coerceData(raster, dataModel, model.isAlphaPremultiplied());
 
 		return raster;
 	}
 
 	/** Subclasses should implement this. */
-	protected abstract void fillRaster(int[] pixels, int off, int adjust,
-			int x, int y, int w, int h);
+	protected abstract void fillRaster(int[] pixels, int off, int adjust, int x, int y, int w, int h);
 
 	/**
 	 * Took this cacheRaster code from GradientPaint. It appears to recycle
 	 * rasters for use by any other instance, as long as they are sufficiently
 	 * large.
 	 */
-	protected static final synchronized WritableRaster getCachedRaster(
-			ColorModel cm, int w, int h) {
+	protected static final synchronized WritableRaster getCachedRaster(ColorModel cm, int w, int h) {
 		if (cm == cachedModel) {
 			if (cached != null) {
 				WritableRaster ras = cached.get();
@@ -1415,8 +1370,7 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 	 * rasters for use by any other instance, as long as they are sufficiently
 	 * large.
 	 */
-	protected static final synchronized void putCachedRaster(ColorModel cm,
-			WritableRaster ras) {
+	protected static final synchronized void putCachedRaster(ColorModel cm, WritableRaster ras) {
 		if (cached != null) {
 			WritableRaster cras = cached.get();
 			if (cras != null) {

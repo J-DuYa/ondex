@@ -12,11 +12,9 @@ import edu.uci.ics.jung.visualization.annotations.AnnotationManager;
  * @author taubertj
  * 
  */
-public class OVTK2AnnotatingGraphMousePlugin extends
-		AnnotatingGraphMousePlugin<ONDEXConcept, ONDEXRelation> {
+public class OVTK2AnnotatingGraphMousePlugin extends AnnotatingGraphMousePlugin<ONDEXConcept, ONDEXRelation> {
 
-	public OVTK2AnnotatingGraphMousePlugin(
-			RenderContext<ONDEXConcept, ONDEXRelation> rc) {
+	public OVTK2AnnotatingGraphMousePlugin(RenderContext<ONDEXConcept, ONDEXRelation> rc) {
 		super(rc);
 	}
 

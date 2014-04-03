@@ -49,20 +49,8 @@ public class ToolBarAction implements ActionListener {
 		// add a concept or relation to the active viewer
 		if (cmd.equals("add")) {
 			if (viewer != null) {
-				Object[] options = {
-						Config.language.getProperty("Dialog.Add.ChoiceConcept"),
-						Config.language
-								.getProperty("Dialog.Add.ChoiceRelation") };
-				int n = JOptionPane
-						.showInternalOptionDialog(
-								desktop.getDesktopPane(),
-								Config.language.getProperty("Dialog.Add.Text"),
-								Config.language.getProperty("Dialog.Add.Title"),
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE,
-								new ImageIcon(
-										"config/toolbarButtonGraphics/general/Add24.gif"),
-								options, options[0]);
+				Object[] options = { Config.language.getProperty("Dialog.Add.ChoiceConcept"), Config.language.getProperty("Dialog.Add.ChoiceRelation") };
+				int n = JOptionPane.showInternalOptionDialog(desktop.getDesktopPane(), Config.language.getProperty("Dialog.Add.Text"), Config.language.getProperty("Dialog.Add.Title"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon("config/toolbarButtonGraphics/general/Add24.gif"), options, options[0]);
 				if (n == 0) {
 					DialogConcept dialog = new DialogConcept(viewer, null);
 					desktop.display(dialog, Position.centered);
@@ -76,16 +64,12 @@ public class ToolBarAction implements ActionListener {
 		// edit select node or edge
 		else if (cmd.equals("edit")) {
 			if (viewer != null) {
-				if (viewer.getPickedNodes().size() == 1
-						&& viewer.getPickedEdges().size() == 0) {
-					ONDEXConcept node = viewer.getPickedNodes().iterator()
-							.next();
+				if (viewer.getPickedNodes().size() == 1 && viewer.getPickedEdges().size() == 0) {
+					ONDEXConcept node = viewer.getPickedNodes().iterator().next();
 					DialogConcept dialog = new DialogConcept(viewer, node);
 					desktop.display(dialog, Position.centered);
-				} else if (viewer.getPickedNodes().size() == 0
-						&& viewer.getPickedEdges().size() == 1) {
-					ONDEXRelation edge = viewer.getPickedEdges().iterator()
-							.next();
+				} else if (viewer.getPickedNodes().size() == 0 && viewer.getPickedEdges().size() == 1) {
+					ONDEXRelation edge = viewer.getPickedEdges().iterator().next();
 					DialogRelation dialog = new DialogRelation(viewer, edge);
 					desktop.display(dialog, Position.centered);
 				}
@@ -96,10 +80,7 @@ public class ToolBarAction implements ActionListener {
 		else if (cmd.equals("delete")) {
 			if (viewer != null) {
 				// ask user if he really wants to delete them
-				int answer = JOptionPane.showInternalConfirmDialog(viewer,
-						Config.language.getProperty("ToolBar.DeleteWarning"),
-						"Warning", JOptionPane.YES_NO_OPTION,
-						JOptionPane.WARNING_MESSAGE);
+				int answer = JOptionPane.showInternalConfirmDialog(viewer, Config.language.getProperty("ToolBar.DeleteWarning"), "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 				if (answer == JOptionPane.YES_OPTION) {
 
@@ -114,10 +95,8 @@ public class ToolBarAction implements ActionListener {
 					}
 
 					// notify model of change
-					viewer.getVisualizationViewer().getModel()
-							.fireStateChanged();
-					((ActionListener) viewer).actionPerformed(new ActionEvent(
-							this, 0, REFRESH));
+					viewer.getVisualizationViewer().getModel().fireStateChanged();
+					((ActionListener) viewer).actionPerformed(new ActionEvent(this, 0, REFRESH));
 
 					viewer.getMetaGraph().updateMetaData();
 
@@ -138,38 +117,29 @@ public class ToolBarAction implements ActionListener {
 				OVTK2Viewer current = viewer;
 				ONDEXGraph old = current.getONDEXJUNGGraph();
 
-				int option = JOptionPane.showInternalConfirmDialog(
-						desktop.getDesktopPane(),
-						Config.language.getProperty("Dialog.Copy.Text"),
-						Config.language.getProperty("Dialog.Copy.Title"),
-						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+				int option = JOptionPane.showInternalConfirmDialog(desktop.getDesktopPane(), Config.language.getProperty("Dialog.Copy.Text"), Config.language.getProperty("Dialog.Copy.Title"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (option == JOptionPane.YES_OPTION) {
 					// initialise new OVTK2Viewer
 					resources.setSelectedViewer(DesktopUtils.initViewer(old));
 					viewer = (OVTK2Viewer) resources.getSelectedViewer();
 
-					Map<Integer, Boolean> node_visibility = current
-							.getONDEXJUNGGraph().getVertices_visibility();
-					Map<Integer, Boolean> edge_visibility = current
-							.getONDEXJUNGGraph().getEdges_visibility();
+					Map<Integer, Boolean> node_visibility = current.getONDEXJUNGGraph().getVertices_visibility();
+					Map<Integer, Boolean> edge_visibility = current.getONDEXJUNGGraph().getEdges_visibility();
 
 					// synchronise visibility
 					Iterator<Integer> it = node_visibility.keySet().iterator();
 					while (it.hasNext()) {
 						int internal = it.next();
-						viewer.getONDEXJUNGGraph().getVertices_visibility()
-								.put(internal, node_visibility.get(internal));
+						viewer.getONDEXJUNGGraph().getVertices_visibility().put(internal, node_visibility.get(internal));
 					}
 					it = edge_visibility.keySet().iterator();
 					while (it.hasNext()) {
 						int internal = it.next();
-						viewer.getONDEXJUNGGraph().getEdges_visibility()
-								.put(internal, edge_visibility.get(internal));
+						viewer.getONDEXJUNGGraph().getEdges_visibility().put(internal, edge_visibility.get(internal));
 					}
 
 					// synchronise layout
-					viewer.getVisualizationViewer().setGraphLayout(
-							current.getVisualizationViewer().getGraphLayout());
+					viewer.getVisualizationViewer().setGraphLayout(current.getVisualizationViewer().getGraphLayout());
 				} else {
 					// initialise new OVTK2Viewer only
 					resources.setSelectedViewer(DesktopUtils.initViewer(old));
@@ -192,24 +162,21 @@ public class ToolBarAction implements ActionListener {
 		// refresh layout of graph
 		else if (REFRESH.equals(cmd)) {
 			if (viewer != null) {
-				VisualisationUtils.relayout(viewer, OVTK2Desktop.getInstance()
-						.getMainFrame());
+				VisualisationUtils.relayout(viewer, OVTK2Desktop.getInstance().getMainFrame());
 			}
 		}
 
 		// zoom in
 		else if (ZOOMIN.equals(cmd)) {
 			if (viewer != null) {
-				VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer
-						.getVisualizationViewer();
+				VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer.getVisualizationViewer();
 
 				// check for node selection
 				Set<ONDEXConcept> picked = viewer.getPickedNodes();
 				if (picked.size() > 0) {
 					VisualisationUtils.zoomIn(viewer);
 				} else {
-					OVTK2GraphMouse mouse = (OVTK2GraphMouse) vv
-							.getGraphMouse();
+					OVTK2GraphMouse mouse = (OVTK2GraphMouse) vv.getGraphMouse();
 					mouse.getScaler().scale(vv, 1.1f, vv.getCenter());
 				}
 			}
@@ -218,8 +185,7 @@ public class ToolBarAction implements ActionListener {
 		// zoom out
 		else if (ZOOMOUT.equals(cmd)) {
 			if (viewer != null) {
-				VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer
-						.getVisualizationViewer();
+				VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer.getVisualizationViewer();
 				OVTK2GraphMouse mouse = (OVTK2GraphMouse) vv.getGraphMouse();
 				mouse.getScaler().scale(vv, 0.9f, vv.getCenter());
 			}
@@ -246,10 +212,8 @@ public class ToolBarAction implements ActionListener {
 		// switch to annotation mode
 		else if (cmd.equals(OVTK2ToolBar.ANNOTATION_MODE)) {
 			if (viewer != null) {
-				VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer
-						.getVisualizationViewer();
-				ModalGraphMouse graphMouse = (ModalGraphMouse) vv
-						.getGraphMouse();
+				VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = viewer.getVisualizationViewer();
+				ModalGraphMouse graphMouse = (ModalGraphMouse) vv.getGraphMouse();
 				graphMouse.setMode(Mode.ANNOTATING);
 			}
 		}

@@ -30,14 +30,9 @@ public class ChangeNodeSetFlagItem extends EntityMenuItem<ONDEXConcept> {
 	public void init(OVTK2PropertiesAggregator v, Set<ONDEXConcept> e) {
 		super.init(v, e);
 		ONDEXJUNGGraph graph = this.viewer.getONDEXJUNGGraph();
-		anFlag = graph.getMetaData().getAttributeName(
-				AppearanceSynchronizer.FLAGGED);
+		anFlag = graph.getMetaData().getAttributeName(AppearanceSynchronizer.FLAGGED);
 		if (anFlag == null)
-			anFlag = graph
-					.getMetaData()
-					.getFactory()
-					.createAttributeName(AppearanceSynchronizer.FLAGGED,
-							"flagged concept", Boolean.class);
+			anFlag = graph.getMetaData().getFactory().createAttributeName(AppearanceSynchronizer.FLAGGED, "flagged concept", Boolean.class);
 	}
 
 	@Override

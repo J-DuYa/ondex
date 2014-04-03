@@ -44,8 +44,7 @@ import net.sourceforge.ondex.ovtk2.util.renderer.CustomCellRenderer;
  * 
  * @author lysenkoa
  */
-public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
-		ActionListener, ListSelectionListener {
+public class ScaleColorConceptAnnotator extends OVTK2Annotator implements ActionListener, ListSelectionListener {
 
 	/**
 	 * used to wrap attribute name list
@@ -85,8 +84,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 	/**
 	 * inverse value scaling and other switches
 	 */
-	private JCheckBox inverse, noAtt, noAttSizeChk, rainbowColor, drawColor,
-			fillColor, logValue;
+	private JCheckBox inverse, noAtt, noAttSizeChk, rainbowColor, drawColor, fillColor, logValue;
 
 	/**
 	 * track last colour
@@ -144,8 +142,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 		inverse = new JCheckBox("Use inverse scaling");
 		sizeConstraints.add(inverse);
 		sizeConstraints.add(new JLabel());
-		SpringUtilities.makeCompactGrid(sizeConstraints,
-				sizeConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
+		SpringUtilities.makeCompactGrid(sizeConstraints, sizeConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
 		sizeConstraints.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		add(sizeConstraints);
@@ -160,8 +157,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 		groupScale.setBorder(BorderFactory.createEtchedBorder());
 
 		JPanel colorConstraints = new JPanel(new SpringLayout());
-		colorConstraints
-				.setToolTipText("Click on the coloured field to change colours");
+		colorConstraints.setToolTipText("Click on the coloured field to change colours");
 		colorConstraints.setBorder(BorderFactory.createEtchedBorder());
 
 		colorConstraints.add(new JLabel("Min Colour:"));
@@ -196,12 +192,10 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 				if (e.getID() == 1001) {
 					if (rainbowColor.isSelected()) {
 						lastMinChoice = minColour.getBackground();
-						minColour.setBackground(ScaleColorConceptAnnotator.this
-								.getBackground());
+						minColour.setBackground(ScaleColorConceptAnnotator.this.getBackground());
 						minColour.removeMouseListener(cl);
 						lastMaxChoice = maxColour.getBackground();
-						maxColour.setBackground(ScaleColorConceptAnnotator.this
-								.getBackground());
+						maxColour.setBackground(ScaleColorConceptAnnotator.this.getBackground());
 						maxColour.removeMouseListener(cl);
 					} else {
 						minColour.setBackground(lastMinChoice);
@@ -253,13 +247,10 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 		for (AttributeName attName : graph.getMetaData().getAttributeNames()) {
 			// check its numerically comparable
 			if (Number.class.isAssignableFrom(attName.getDataType())) {
-				Set<ONDEXConcept> concpets = graph
-						.getConceptsOfAttributeName(attName);
+				Set<ONDEXConcept> concpets = graph.getConceptsOfAttributeName(attName);
 				if (concpets != null) {
 					// check relations exists on this attribute name
-					if (concpets.size() > 0
-							&& !AppearanceSynchronizer.attr.contains(attName
-									.getId())) {
+					if (concpets.size() > 0 && !AppearanceSynchronizer.attr.contains(attName.getId())) {
 						anlm.addAttributeName(attName);
 					}
 				}
@@ -268,8 +259,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 
 		// populate list
 		if (anlm.getSize() == 0) {
-			add(new JLabel(
-					"There are no attributes with numerical values in the graph."));
+			add(new JLabel("There are no attributes with numerical values in the graph."));
 		} else {
 			list.validate();
 			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -282,8 +272,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 			add(goButton);
 		}
 
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 
 	}
 
@@ -291,8 +280,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 
 	@Override
 	public String getName() {
-		return Config.language
-				.getProperty("Name.Menu.Annotator.ScaleColorConcept");
+		return Config.language.getProperty("Name.Menu.Annotator.ScaleColorConcept");
 	}
 
 	class ChangeColourOnClickListener implements MouseListener {
@@ -303,8 +291,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			Component c = arg0.getComponent();
-			c.setBackground(JColorChooser.showDialog(c, "Select new colour",
-					c.getBackground()));
+			c.setBackground(JColorChooser.showDialog(c, "Select new colour", c.getBackground()));
 		}
 
 		public void mousePressed(MouseEvent arg0) {
@@ -356,35 +343,25 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 			}
 			if (rainbowColor.isSelected()) {
 				if (this.fillColor.isSelected())
-					Annotation.annotateOnColorScaleFill(viewer, toAnnotate,
-							minmax);
+					Annotation.annotateOnColorScaleFill(viewer, toAnnotate, minmax);
 				if (this.drawColor.isSelected())
-					Annotation.annotateOnColorScaleDraw(viewer, toAnnotate,
-							minmax);
+					Annotation.annotateOnColorScaleDraw(viewer, toAnnotate, minmax);
 			} else {
 				if (this.fillColor.isSelected())
-					Annotation.annotateOnColorScaleFill(viewer, toAnnotate,
-							minmax, minColour.getBackground(),
-							maxColour.getBackground());
+					Annotation.annotateOnColorScaleFill(viewer, toAnnotate, minmax, minColour.getBackground(), maxColour.getBackground());
 				if (this.drawColor.isSelected())
-					Annotation.annotateOnColorScaleDraw(viewer, toAnnotate,
-							minmax, minColour.getBackground(),
-							maxColour.getBackground());
+					Annotation.annotateOnColorScaleDraw(viewer, toAnnotate, minmax, minColour.getBackground(), maxColour.getBackground());
 			}
 		}
 
 		if (resize.isSelected())
-			Annotation.annotateOnSizeScale(viewer, toAnnotate,
-					Integer.valueOf(minField.getText()),
-					Integer.valueOf(maxField.getText()), inverse.isSelected());
+			Annotation.annotateOnSizeScale(viewer, toAnnotate, Integer.valueOf(minField.getText()), Integer.valueOf(maxField.getText()), inverse.isSelected());
 
 		if (noAtt.isSelected()) {
 			if (this.fillColor.isSelected())
-				Annotation.setNodeFillColors(viewer, noAttSet,
-						noneColour.getBackground());
+				Annotation.setNodeFillColors(viewer, noAttSet, noneColour.getBackground());
 			if (this.drawColor.isSelected())
-				Annotation.setNodeDrawColors(viewer, noAttSet,
-						noneColour.getBackground());
+				Annotation.setNodeDrawColors(viewer, noAttSet, noneColour.getBackground());
 		}
 
 		if (noAttSizeChk.isSelected()) {
@@ -407,8 +384,7 @@ public class ScaleColorConceptAnnotator extends OVTK2Annotator implements
 			goButton.setEnabled(true);
 			targets = new ArrayList<AttributeName>();
 			for (int i : indices) {
-				targets.add(((AttributeNameListModel) list.getModel())
-						.getAttributeNameAt(i));
+				targets.add(((AttributeNameListModel) list.getModel()).getAttributeNameAt(i));
 			}
 		}
 	}

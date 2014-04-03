@@ -93,8 +93,7 @@ public class GraphSynchronizer implements Monitorable {
 				((OVTK2Viewer) v).setIcon(true);
 
 			// also hide meta graph away
-			OVTK2MetaGraph meta = OVTK2Desktop.getDesktopResources()
-					.getSelectedMetagraph();
+			OVTK2MetaGraph meta = OVTK2Desktop.getDesktopResources().getSelectedMetagraph();
 			if (meta != null)
 				meta.setIcon(true);
 		} catch (PropertyVetoException e) {
@@ -117,8 +116,7 @@ public class GraphSynchronizer implements Monitorable {
 				graph.deleteRelation(r.getId());
 				progress++;
 				if (progress % 5 == 4)
-					state = MonitoringToolKit
-							.calculateWaitingTime(before, this);
+					state = MonitoringToolKit.calculateWaitingTime(before, this);
 			}
 
 			// second remove invisible concepts
@@ -126,24 +124,20 @@ public class GraphSynchronizer implements Monitorable {
 				graph.deleteConcept(c.getId());
 				progress++;
 				if (progress % 5 == 4)
-					state = MonitoringToolKit
-							.calculateWaitingTime(before, this);
+					state = MonitoringToolKit.calculateWaitingTime(before, this);
 			}
 
 			// output total time it took
-			System.out.println("Graph synchronisation took: "
-					+ (System.currentTimeMillis() - before) + "msec.");
+			System.out.println("Graph synchronisation took: " + (System.currentTimeMillis() - before) + "msec.");
 
 			state = Monitorable.STATE_TERMINAL;
 
 			// refresh visualisation
 			if (v instanceof OVTK2Viewer)
-				((ActionListener) v).actionPerformed(new ActionEvent(this, 0,
-						"refresh"));
+				((ActionListener) v).actionPerformed(new ActionEvent(this, 0, "refresh"));
 
 			// show meta graph again
-			OVTK2MetaGraph meta = OVTK2Desktop.getDesktopResources()
-					.getSelectedMetagraph();
+			OVTK2MetaGraph meta = OVTK2Desktop.getDesktopResources().getSelectedMetagraph();
 			if (meta != null)
 				meta.setIcon(false);
 		} catch (Throwable t) {

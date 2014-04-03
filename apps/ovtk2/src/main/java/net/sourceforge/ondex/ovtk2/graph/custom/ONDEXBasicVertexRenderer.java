@@ -22,8 +22,7 @@ import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.renderers.BasicVertexRenderer;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
 
-public class ONDEXBasicVertexRenderer extends
-		BasicVertexRenderer<ONDEXConcept, ONDEXRelation> {
+public class ONDEXBasicVertexRenderer extends BasicVertexRenderer<ONDEXConcept, ONDEXRelation> {
 
 	ONDEXJUNGGraph graph;
 
@@ -40,28 +39,23 @@ public class ONDEXBasicVertexRenderer extends
 		Rectangle2D.Double rect2 = new Rectangle2D.Double(0, -length, 2, length);
 		path.append(rect2, true);
 		CubicCurve2D c = new CubicCurve2D.Double();
-		c.setCurve(0, -length, length / 4, -length - 20, length / 2,
-				-length + 10, length, -length);
+		c.setCurve(0, -length, length / 4, -length - 20, length / 2, -length + 10, length, -length);
 		path.append(c, true);
 		Line2D line = new Line2D.Double(length, -length, length, -length / 3);
 		path.append(line, true);
 		c = new CubicCurve2D.Double();
-		c.setCurve(length, -length / 3, length / 2, -length / 3 + 10,
-				length / 4, -length / 3 - 20, 0, -length / 3);
+		c.setCurve(length, -length / 3, length / 2, -length / 3 + 10, length / 4, -length / 3 - 20, 0, -length / 3);
 		path.append(c, true);
 		return path;
 	}
 
 	@Override
-	protected void paintIconForVertex(
-			RenderContext<ONDEXConcept, ONDEXRelation> rc, ONDEXConcept v,
-			Layout<ONDEXConcept, ONDEXRelation> layout) {
+	protected void paintIconForVertex(RenderContext<ONDEXConcept, ONDEXRelation> rc, ONDEXConcept v, Layout<ONDEXConcept, ONDEXRelation> layout) {
 		super.paintIconForVertex(rc, v, layout);
 
 		// check for flagged drawing
 		boolean flagged = false;
-		AttributeName anFlag = graph.getMetaData().getAttributeName(
-				AppearanceSynchronizer.FLAGGED);
+		AttributeName anFlag = graph.getMetaData().getAttributeName(AppearanceSynchronizer.FLAGGED);
 		if (anFlag != null && v.getAttribute(anFlag) != null) {
 			flagged = (Boolean) v.getAttribute(anFlag).getValue();
 		}
@@ -93,9 +87,7 @@ public class ONDEXBasicVertexRenderer extends
 	}
 
 	@Override
-	protected void paintShapeForVertex(
-			RenderContext<ONDEXConcept, ONDEXRelation> rc, ONDEXConcept v,
-			Shape shape) {
+	protected void paintShapeForVertex(RenderContext<ONDEXConcept, ONDEXRelation> rc, ONDEXConcept v, Shape shape) {
 
 		GraphicsDecorator g = rc.getGraphicsContext();
 		Paint oldPaint = g.getPaint();
@@ -103,8 +95,7 @@ public class ONDEXBasicVertexRenderer extends
 		if (fillPaint != null) {
 			g.setPaint(fillPaint);
 			// set alpha composite
-			if (fillPaint instanceof Color
-					&& ((Color) fillPaint).getAlpha() == 0) {
+			if (fillPaint instanceof Color && ((Color) fillPaint).getAlpha() == 0) {
 				// TODO: introduce proper alpha blending
 			} else {
 				g.fill(shape);
@@ -119,8 +110,7 @@ public class ONDEXBasicVertexRenderer extends
 			if (stroke != null) {
 				g.setStroke(stroke);
 			}
-			if (drawPaint instanceof Color
-					&& ((Color) drawPaint).getAlpha() == 0) {
+			if (drawPaint instanceof Color && ((Color) drawPaint).getAlpha() == 0) {
 				// TODO: introduce proper alpha blending
 			} else {
 				g.draw(shape);

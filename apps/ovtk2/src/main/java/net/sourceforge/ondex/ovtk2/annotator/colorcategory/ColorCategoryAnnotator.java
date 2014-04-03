@@ -43,8 +43,7 @@ import net.sourceforge.ondex.ovtk2.util.renderer.CustomCellRenderer;
  * 
  * @author Jochen Weile, B.Sc.
  */
-public class ColorCategoryAnnotator extends OVTK2Annotator implements
-		ActionListener {
+public class ColorCategoryAnnotator extends OVTK2Annotator implements ActionListener {
 
 	// ####FIELDS####
 
@@ -162,8 +161,7 @@ public class ColorCategoryAnnotator extends OVTK2Annotator implements
 			add(goButton);
 		}
 
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 
 	}
 
@@ -182,12 +180,9 @@ public class ColorCategoryAnnotator extends OVTK2Annotator implements
 	private void addAttributeNamesToList() {
 		for (AttributeName attn : graph.getMetaData().getAttributeNames()) {
 			// should also accept list types now.
-			if (Comparable.class.isAssignableFrom(attn.getDataType())
-					|| Collection.class.isAssignableFrom(attn.getDataType())) {
-				Set<ONDEXConcept> concepts = graph
-						.getConceptsOfAttributeName(attn);
-				if (concepts != null && concepts.size() > 0
-						&& !AppearanceSynchronizer.attr.contains(attn.getId()))
+			if (Comparable.class.isAssignableFrom(attn.getDataType()) || Collection.class.isAssignableFrom(attn.getDataType())) {
+				Set<ONDEXConcept> concepts = graph.getConceptsOfAttributeName(attn);
+				if (concepts != null && concepts.size() > 0 && !AppearanceSynchronizer.attr.contains(attn.getId()))
 					anlm.addAttributeName(attn);
 			}
 		}
@@ -200,8 +195,7 @@ public class ColorCategoryAnnotator extends OVTK2Annotator implements
 	public void actionPerformed(ActionEvent e) {
 		int index = list.getSelectedIndex();
 		if (index > -1) {
-			String attNameName = ((JLabel) list.getModel().getElementAt(index))
-					.getName();
+			String attNameName = ((JLabel) list.getModel().getElementAt(index)).getName();
 			an = graph.getMetaData().getAttributeName(attNameName);
 			registerGDSValues();
 			computeColorTable();
@@ -391,8 +385,7 @@ public class ColorCategoryAnnotator extends OVTK2Annotator implements
 
 		// set selection mode to manual
 		ONDEXNodeFillPaint colorManager = viewer.getNodeColors();
-		colorManager
-				.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
+		colorManager.setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.MANUAL);
 
 		// check for duplicated Attribute, e.g. Pheno and Pheno:2
 		AttributeName an2 = null;
@@ -425,10 +418,8 @@ public class ColorCategoryAnnotator extends OVTK2Annotator implements
 							colors.add(c);
 						}
 					}
-					Color[] colorArray = colors
-							.toArray(new Color[colors.size()]);
-					colorManager.updateColor(concept, new MultiColorNodePaint(
-							colorArray));
+					Color[] colorArray = colors.toArray(new Color[colors.size()]);
+					colorManager.updateColor(concept, new MultiColorNodePaint(colorArray));
 				}
 			} else if (setBlanksToWhite.isSelected()) {
 				Color c = Color.WHITE;

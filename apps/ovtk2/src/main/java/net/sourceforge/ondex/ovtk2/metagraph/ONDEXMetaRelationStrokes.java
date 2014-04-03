@@ -13,8 +13,7 @@ import org.apache.commons.collections15.Transformer;
  * @author taubertj
  * 
  */
-public class ONDEXMetaRelationStrokes implements
-		Transformer<ONDEXMetaRelation, Stroke> {
+public class ONDEXMetaRelationStrokes implements Transformer<ONDEXMetaRelation, Stroke> {
 
 	// default case
 	private Stroke defaultStroke = new BasicStroke(1.0f);

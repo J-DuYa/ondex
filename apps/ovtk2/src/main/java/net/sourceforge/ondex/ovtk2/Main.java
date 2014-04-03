@@ -24,21 +24,20 @@ public class Main {
 	 * 
 	 * @param args
 	 *            the program arguments
-	 * @throws URISyntaxException 
-	 * @throws IOException 
+	 * @throws URISyntaxException
+	 * @throws IOException
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws IOException, URISyntaxException {
-		/* uncomment and use these lines to switch beteen loading plugins from .jar files or classpath */
-    	//System.setProperty("plugin.scan.lib", Boolean.TRUE.toString());
-    	//PluginRegistry.init(true, "", Config.libDir);
+		/*
+		 * uncomment and use these lines to switch beteen loading plugins from
+		 * .jar files or classpath
+		 */
+		// System.setProperty("plugin.scan.lib", Boolean.TRUE.toString());
+		// PluginRegistry.init(true, "", Config.libDir);
 		long heapMaxSize = Runtime.getRuntime().maxMemory();
 		if (heapMaxSize < 1037959168) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"You are trying to run OVTK with less than 1GB of heap space.\n" +
-							"This might result in problems with large data.");
+			JOptionPane.showMessageDialog(null, "You are trying to run OVTK with less than 1GB of heap space.\n" + "This might result in problems with large data.");
 		}
 
 		OVTK2Desktop instance = OVTK2Desktop.getInstance();

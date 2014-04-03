@@ -83,8 +83,7 @@ public class BronKerboschCliqueFinder<V, E> {
 		return biggest_cliques;
 	}
 
-	private void findCliques(List<V> potential_clique, List<V> candidates,
-			List<V> already_found) {
+	private void findCliques(List<V> potential_clique, List<V> candidates, List<V> already_found) {
 		List<V> candidates_array = new ArrayList<V>(candidates);
 		if (!end(candidates, already_found)) {
 			// for each candidate_node in candidates do
@@ -119,8 +118,7 @@ public class BronKerboschCliqueFinder<V, E> {
 				} // of if
 				else {
 					// recursive call
-					findCliques(potential_clique, new_candidates,
-							new_already_found);
+					findCliques(potential_clique, new_candidates, new_already_found);
 				} // of else
 
 				// move candidate_node from potential_clique to already_found;

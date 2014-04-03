@@ -61,8 +61,7 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
  * @author taubertj
  * @version 14.07.2008
  */
-public class DialogProteinSearch extends OVTK2Dialog implements
-		ListSelectionListener, MouseListener {
+public class DialogProteinSearch extends OVTK2Dialog implements ListSelectionListener, MouseListener {
 
 	private class FilterJob {
 		Set<ONDEXConcept> concepts;
@@ -73,34 +72,22 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 		 */
 		public void callFilter() throws Exception {
 
-			StateEdit edit = new StateEdit(new VisibilityUndo(
-					viewer.getONDEXJUNGGraph()), "Search Result Filter");
+			StateEdit edit = new StateEdit(new VisibilityUndo(viewer.getONDEXJUNGGraph()), "Search Result Filter");
 			OVTK2Desktop desktop = OVTK2Desktop.getInstance();
 			desktop.setRunningProcess("Search Result Filter");
 
 			ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
-			PickedState<ONDEXConcept> state = viewer.getVisualizationViewer()
-					.getPickedVertexState();
+			PickedState<ONDEXConcept> state = viewer.getVisualizationViewer().getPickedVertexState();
 			state.clear();
 
 			// contains results
-			concepts = BitSetFunctions.create(jung, ONDEXConcept.class,
-					new BitSet());
-			relations = BitSetFunctions.create(jung, ONDEXRelation.class,
-					new BitSet());
+			concepts = BitSetFunctions.create(jung, ONDEXConcept.class, new BitSet());
+			relations = BitSetFunctions.create(jung, ONDEXRelation.class, new BitSet());
 
 			// get depth
 			Integer depth = (Integer) spinner.getValue();
 			if (depth > 5) {
-				int option = JOptionPane
-						.showInternalConfirmDialog(
-								DialogProteinSearch.this,
-								Config.language
-										.getProperty("Dialog.SearchResult.DepthWarning"),
-								Config.language
-										.getProperty("Dialog.SearchResult.DepthWarningTitle"),
-								JOptionPane.OK_CANCEL_OPTION,
-								JOptionPane.WARNING_MESSAGE);
+				int option = JOptionPane.showInternalConfirmDialog(DialogProteinSearch.this, Config.language.getProperty("Dialog.SearchResult.DepthWarning"), Config.language.getProperty("Dialog.SearchResult.DepthWarningTitle"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (option == JOptionPane.CANCEL_OPTION)
 					return;
 			}
@@ -110,8 +97,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 			List<ONDEXConcept> targets = new ArrayList<ONDEXConcept>();
 			for (int row : table.getSelectedRows()) {
 				int index = table.convertRowIndexToModel(row);
-				Integer selection = ((IdLabel) model.getValueAt(index, 0))
-						.getId();
+				Integer selection = ((IdLabel) model.getValueAt(index, 0)).getId();
 				ONDEXConcept c = jung.getConcept(selection);
 				if (c == null)
 					deleted = true;
@@ -121,25 +107,11 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 
 			// notify user of deleted concepts
 			if (deleted)
-				JOptionPane
-						.showInternalMessageDialog(
-								DialogProteinSearch.this,
-								Config.language
-										.getProperty("Dialog.SearchResult.DeletedWarning"),
-								Config.language
-										.getProperty("Dialog.SearchResult.DeletedWarningTitle"),
-								JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(DialogProteinSearch.this, Config.language.getProperty("Dialog.SearchResult.DeletedWarning"), Config.language.getProperty("Dialog.SearchResult.DeletedWarningTitle"), JOptionPane.ERROR_MESSAGE);
 
 			// notify user of empty search
 			if (targets.size() == 0) {
-				JOptionPane
-						.showInternalMessageDialog(
-								DialogProteinSearch.this,
-								Config.language
-										.getProperty("Dialog.SearchResult.SelectWarning"),
-								Config.language
-										.getProperty("Dialog.SearchResult.SelectWarningTitle"),
-								JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(DialogProteinSearch.this, Config.language.getProperty("Dialog.SearchResult.SelectWarning"), Config.language.getProperty("Dialog.SearchResult.SelectWarningTitle"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -151,18 +123,13 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 				recurse(jung, root, depth);
 			}
 
-			LOG.info("Found " + concepts.size() + " concepts and "
-					+ relations.size() + " relations");
+			LOG.info("Found " + concepts.size() + " concepts and " + relations.size() + " relations");
 			if (concepts.size() > 0) {
 
 				// set all concepts to invisible unless they are in the
 				// neighbourhood
 				for (ONDEXConcept node : jung.getVertices()) {
-					jung.setVisibility(
-							node,
-							concepts.contains(node)
-									|| (jung.isVisible(node) && !hideAllOthers
-											.isSelected()));
+					jung.setVisibility(node, concepts.contains(node) || (jung.isVisible(node) && !hideAllOthers.isSelected()));
 				}
 
 				if (restrictRelations.isSelected()) {
@@ -195,8 +162,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 
 			if (depth > 0) {
 				// add all relations to found list
-				Set<ONDEXRelation> neighbourRels = aog
-						.getRelationsOfConcept(root);
+				Set<ONDEXRelation> neighbourRels = aog.getRelationsOfConcept(root);
 				relations.addAll(neighbourRels);
 
 				// next recursion step
@@ -237,10 +203,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 		private static final long serialVersionUID = -6992756349799812531L;
 
 		// table header
-		private String[] columnNames = new String[] {
-				Config.language.getProperty("Dialog.SearchResult.TableLabel"),
-				Config.language.getProperty("Dialog.SearchResult.TableMatch"),
-				Config.language.getProperty("Dialog.SearchResult.TableInfo") };
+		private String[] columnNames = new String[] { Config.language.getProperty("Dialog.SearchResult.TableLabel"), Config.language.getProperty("Dialog.SearchResult.TableMatch"), Config.language.getProperty("Dialog.SearchResult.TableInfo") };
 
 		// contains results
 		private Vector<Vector<Object>> results = null;
@@ -286,8 +249,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 		}
 	}
 
-	private static final Logger LOG = Logger
-			.getLogger(DialogProteinSearch.class);
+	private static final Logger LOG = Logger.getLogger(DialogProteinSearch.class);
 
 	// generated
 	private static final long serialVersionUID = 2208353118937547502L;
@@ -335,25 +297,20 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 		JPanel south = new JPanel(new GridLayout(3, 1));
 
 		JPanel restrictPanel = new JPanel();
-		BoxLayout restrictLayout = new BoxLayout(restrictPanel,
-				BoxLayout.LINE_AXIS);
+		BoxLayout restrictLayout = new BoxLayout(restrictPanel, BoxLayout.LINE_AXIS);
 		restrictPanel.setLayout(restrictLayout);
 		south.add(restrictPanel);
 
 		JLabel restrictLabel = new JLabel("Hide relations");
 		restrictPanel.add(restrictLabel);
 		restrictRelations = new JCheckBox("", false);
-		restrictRelations
-				.setToolTipText("Only show the relations for the neighbourhood filter"
-						+ " that were traversed while building the neighbourhood");
+		restrictRelations.setToolTipText("Only show the relations for the neighbourhood filter" + " that were traversed while building the neighbourhood");
 		restrictPanel.add(restrictRelations);
 
 		JLabel hideAllOthersLabel = new JLabel("Hide all others");
 		restrictPanel.add(hideAllOthersLabel);
 		hideAllOthers = new JCheckBox("", true);
-		hideAllOthers
-				.setToolTipText("Hide everything in the graph that is not matched by running that filter. "
-						+ "If option is not selected, then it adds whatever is hit by the search to the existing graph");
+		hideAllOthers.setToolTipText("Hide everything in the graph that is not matched by running that filter. " + "If option is not selected, then it adds whatever is hit by the search to the existing graph");
 		restrictPanel.add(hideAllOthers);
 
 		JPanel spinnerPanel = new JPanel();
@@ -378,8 +335,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 		spinnerPanel.add(go);
 
 		// close button
-		JButton close = new JButton(
-				Config.language.getProperty("Dialog.SearchResult.Close"));
+		JButton close = new JButton(Config.language.getProperty("Dialog.SearchResult.Close"));
 		close.setActionCommand("close");
 		close.addActionListener(this);
 		south.add(close);
@@ -430,9 +386,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 		final DialogProteinSearch instance = this;
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.SearchResult.Result"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.SearchResult.Result"));
 		properties.setBorder(propertiesBorder);
 		properties.add(new JLabel("Searching..."));
 
@@ -447,8 +401,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 				} catch (Exception e) {
 					e.printStackTrace();
 					properties.removeAll();
-					properties
-							.add(new JLabel("UniProt Error while searching."));
+					properties.add(new JLabel("UniProt Error while searching."));
 					search.setCancelled(true);
 					this.setCancelled(true);
 					return;
@@ -475,8 +428,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 
 		// start processing and monitoring
 		p.start();
-		OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(),
-				"Searching graph", search);
+		OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Searching graph", search);
 
 		return properties;
 	}
@@ -509,12 +461,10 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 
 	private void propagateSelection(ListSelectionModel lsm) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
-		OVTK2GraphMouse mouse = (OVTK2GraphMouse) viewer
-				.getVisualizationViewer().getGraphMouse();
+		OVTK2GraphMouse mouse = (OVTK2GraphMouse) viewer.getVisualizationViewer().getGraphMouse();
 		OVTK2PickingMousePlugin picking = mouse.getOVTK2PickingMousePlugin();
 
-		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer()
-				.getPickedVertexState();
+		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer().getPickedVertexState();
 		state.clear();
 
 		if (!lsm.isSelectionEmpty()) {
@@ -524,8 +474,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 			for (int i = minIndex; i <= maxIndex; i++) {
 				if (lsm.isSelectedIndex(i)) {
 					int index = table.convertRowIndexToModel(i);
-					Integer selection = ((IdLabel) model.getValueAt(index, 0))
-							.getId();
+					Integer selection = ((IdLabel) model.getValueAt(index, 0)).getId();
 					ONDEXConcept node = graph.getConcept(selection);
 					state.pick(node, true);
 
@@ -533,8 +482,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 					if (picking != null) {
 						for (ActionListener l : picking.getPickingListeners()) {
 							if (l != null)
-								l.actionPerformed(new ActionEvent(node, 0,
-										"putative node pick"));
+								l.actionPerformed(new ActionEvent(node, 0, "putative node pick"));
 						}
 					}
 				}
@@ -542,9 +490,7 @@ public class DialogProteinSearch extends OVTK2Dialog implements
 
 			if (state.getPicked().size() > 1)
 				// fire for zooming into search results
-				OVTK2Desktop.getInstance().actionPerformed(
-						new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-								"zoomin"));
+				OVTK2Desktop.getInstance().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "zoomin"));
 		}
 	}
 

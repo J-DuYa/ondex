@@ -101,13 +101,11 @@ public class FileMenuAction implements ActionListener {
 
 		String cmd = ae.getActionCommand();
 		final OVTK2Desktop desktop = OVTK2Desktop.getInstance();
-		final OVTK2ResourceAssesor resources = OVTK2Desktop
-				.getDesktopResources();
+		final OVTK2ResourceAssesor resources = OVTK2Desktop.getDesktopResources();
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
 			ErrorDialog.show(e);
 		} catch (MalformedURLException e) {
@@ -140,8 +138,7 @@ public class FileMenuAction implements ActionListener {
 		else if (cmd.equals("open")) {
 
 			// ask user what file to open
-			File file = DesktopUtils.showOpenDialog(new String[] { "oxl", "gz",
-					"xml" });
+			File file = DesktopUtils.showOpenDialog(new String[] { "oxl", "gz", "xml" });
 
 			if (file != null) {
 				DesktopUtils.openFile(file);
@@ -161,34 +158,29 @@ public class FileMenuAction implements ActionListener {
 			try {
 				// get webservice URL and lists graphs
 				List<WSGraphWrapper> graphs = null;
-				final URL url = new URL(
-						Config.config.getProperty("Program.URL"));
+				final URL url = new URL(Config.config.getProperty("Program.URL"));
 				graphs = new ArrayList<WSGraphWrapper>();
 				for (WSGraph ws : WebserviceImport.getGraphs(url)) {
 					graphs.add(new WSGraphWrapper(ws));
 				}
 
 				if (graphs.size() > 0) {
-					final JDialog dialog = new JDialog(desktop.getMainFrame(),
-							"Graph Name", true);
+					final JDialog dialog = new JDialog(desktop.getMainFrame(), "Graph Name", true);
 					dialog.setLayout(new BorderLayout());
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 					JPanel selection = new JPanel(new GridLayout(3, 1));
-					selection.setBorder(BorderFactory.createEmptyBorder(5, 5,
-							5, 5));
+					selection.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 					dialog.add(selection, BorderLayout.CENTER);
 
-					JLabel label = new JLabel(
-							"Please select name of graph to load:");
+					JLabel label = new JLabel("Please select name of graph to load:");
 					selection.add(label);
 
 					final JComboBox box = new JComboBox(graphs.toArray());
 					box.setSelectedItem(graphs.get(0));
 					selection.add(box);
 
-					JCheckBox check = new JCheckBox(
-							"Work on web-server directly");
+					JCheckBox check = new JCheckBox("Work on web-server directly");
 					selection.add(check);
 
 					JButton load = new JButton("Load");
@@ -208,8 +200,7 @@ public class FileMenuAction implements ActionListener {
 					// got a graph to load
 					if (wrapper != null) {
 						final WSGraph graph = wrapper.getWSGraph();
-						System.out.println("Loading graph " + graph.getName()
-								+ " " + graph.getId());
+						System.out.println("Loading graph " + graph.getName() + " " + graph.getId());
 
 						// load a copy of graph
 						if (!check.isSelected()) {
@@ -221,10 +212,7 @@ public class FileMenuAction implements ActionListener {
 									// for coping with plug-in Attribute data
 									// types
 									try {
-										Thread.currentThread()
-												.setContextClassLoader(
-														OVTK2PluginLoader
-																.getInstance().ucl);
+										Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 									} catch (FileNotFoundException e) {
 										ErrorDialog.show(e);
 									} catch (MalformedURLException e) {
@@ -235,8 +223,7 @@ public class FileMenuAction implements ActionListener {
 									String name = graph.getName().getValue();
 
 									// get a new empty graph
-									ONDEXGraph aog = DesktopUtils
-											.initGraph(name);
+									ONDEXGraph aog = DesktopUtils.initGraph(name);
 
 									try {
 										// start webservice import
@@ -251,13 +238,10 @@ public class FileMenuAction implements ActionListener {
 							};
 							// start processing and monitoring
 							p.start();
-							OVTKProgressMonitor.start(OVTK2Desktop
-									.getInstance().getMainFrame(),
-									"Loading graph", p);
+							OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Loading graph", p);
 
 							// close possible welcome dialog
-							WelcomeDialog.getInstance(desktop)
-									.setVisible(false);
+							WelcomeDialog.getInstance(desktop).setVisible(false);
 						} else {
 							// wrap into a process
 							IndeterminateProcessAdapter p = new IndeterminateProcessAdapter() {
@@ -266,10 +250,7 @@ public class FileMenuAction implements ActionListener {
 									// for coping with plug-in Attribute data
 									// types
 									try {
-										Thread.currentThread()
-												.setContextClassLoader(
-														OVTK2PluginLoader
-																.getInstance().ucl);
+										Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 									} catch (FileNotFoundException e) {
 										ErrorDialog.show(e);
 									} catch (MalformedURLException e) {
@@ -277,15 +258,12 @@ public class FileMenuAction implements ActionListener {
 									}
 
 									// new SOAPGraph
-									SOAPONDEXGraph og = new SOAPONDEXGraph(url,
-											graph);
+									SOAPONDEXGraph og = new SOAPONDEXGraph(url, graph);
 									og.addActionListener(new ActionListener() {
 
 										@Override
-										public void actionPerformed(
-												ActionEvent e) {
-											ErrorDialog.show((Exception) e
-													.getSource());
+										public void actionPerformed(ActionEvent e) {
+											ErrorDialog.show((Exception) e.getSource());
 										}
 									});
 
@@ -295,20 +273,14 @@ public class FileMenuAction implements ActionListener {
 							};
 							// start processing and monitoring
 							p.start();
-							OVTKProgressMonitor.start(OVTK2Desktop
-									.getInstance().getMainFrame(),
-									"Connecting to graph", p);
+							OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Connecting to graph", p);
 
 							// close possible welcome dialog
-							WelcomeDialog.getInstance(desktop)
-									.setVisible(false);
+							WelcomeDialog.getInstance(desktop).setVisible(false);
 						}
 					}
 				} else {
-					JOptionPane.showInternalMessageDialog(
-							desktop.getDesktopPane(),
-							"No graphs found on server.", "No graphs",
-							JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), "No graphs found on server.", "No graphs", JOptionPane.INFORMATION_MESSAGE);
 				}
 			} catch (Exception e) {
 				ErrorDialog.show(e);
@@ -320,12 +292,8 @@ public class FileMenuAction implements ActionListener {
 			if (resources.getSelectedViewer() != null) {
 				try {
 					// get webservice URL
-					final URL url = new URL(
-							Config.config.getProperty("Program.URL"));
-					final String name = JOptionPane.showInternalInputDialog(
-							desktop.getDesktopPane(),
-							"Please give name of graph:\n", "Graph Name",
-							JOptionPane.PLAIN_MESSAGE);
+					final URL url = new URL(Config.config.getProperty("Program.URL"));
+					final String name = JOptionPane.showInternalInputDialog(desktop.getDesktopPane(), "Please give name of graph:\n", "Graph Name", JOptionPane.PLAIN_MESSAGE);
 					if (name != null && name.length() > 0) {
 
 						// wrap into a process
@@ -334,10 +302,7 @@ public class FileMenuAction implements ActionListener {
 
 								// for coping with plug-in Attribute data types
 								try {
-									Thread.currentThread()
-											.setContextClassLoader(
-													OVTK2PluginLoader
-															.getInstance().ucl);
+									Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 								} catch (FileNotFoundException e) {
 									ErrorDialog.show(e);
 								} catch (MalformedURLException e) {
@@ -345,8 +310,7 @@ public class FileMenuAction implements ActionListener {
 								}
 
 								// get current viewer
-								OVTK2Viewer viewer = (OVTK2Viewer) resources
-										.getSelectedViewer();
+								OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
 
 								// graph to export
 								ONDEXGraph aog = viewer.getONDEXJUNGGraph();
@@ -360,18 +324,13 @@ public class FileMenuAction implements ActionListener {
 						};
 						// start processing and monitoring
 						p.start();
-						OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-								.getMainFrame(), "Uploading graph", p);
+						OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Uploading graph", p);
 					}
 				} catch (Exception e) {
 					ErrorDialog.show(e);
 				}
 			} else {
-				JOptionPane
-						.showInternalMessageDialog(
-								OVTK2Desktop.getInstance().getDesktopPane(),
-								"No graph loaded or available. Cannot continue with operation.",
-								"Graph not found", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(OVTK2Desktop.getInstance().getDesktopPane(), "No graph loaded or available. Cannot continue with operation.", "Graph not found", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -419,9 +378,7 @@ public class FileMenuAction implements ActionListener {
 		// uses import wizard to parse delimited files
 		else if (cmd.equals("importwizard")) {
 			if (resources.getSelectedViewer() != null) {
-				final ImportWizard iw = new ImportWizard(
-						ConfigTool.loadFromFile(Config.ovtkDir + File.separator
-								+ "iw_config.xml"));
+				final ImportWizard iw = new ImportWizard(ConfigTool.loadFromFile(Config.ovtkDir + File.separator + "iw_config.xml"));
 
 				// add to JDesktopPane
 				desktop.getDesktopPane().add(iw);
@@ -441,8 +398,7 @@ public class FileMenuAction implements ActionListener {
 							if (r.size() > 0) {
 
 								// get current viewer
-								OVTK2Viewer viewer = (OVTK2Viewer) resources
-										.getSelectedViewer();
+								OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
 								viewer.getONDEXJUNGGraph().updateLastState();
 
 								// graph to export
@@ -456,8 +412,7 @@ public class FileMenuAction implements ActionListener {
 				};
 				// for coping with plug-in Attribute data types
 				try {
-					thread.setContextClassLoader(OVTK2PluginLoader
-							.getInstance().ucl);
+					thread.setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 				} catch (FileNotFoundException e) {
 					ErrorDialog.show(e);
 				} catch (MalformedURLException e) {
@@ -465,11 +420,7 @@ public class FileMenuAction implements ActionListener {
 				}
 				thread.start();
 			} else {
-				JOptionPane
-						.showInternalMessageDialog(
-								OVTK2Desktop.getInstance().getDesktopPane(),
-								"No graph loaded or available. Cannot continue with operation.",
-								"Graph not found", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(OVTK2Desktop.getInstance().getDesktopPane(), "No graph loaded or available. Cannot continue with operation.", "Graph not found", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -477,52 +428,42 @@ public class FileMenuAction implements ActionListener {
 		else if (cmd.equals("save")) {
 			if (resources.getSelectedViewer() != null) {
 				// ask user which file to save to
-				final File file = DesktopUtils.showSaveDialog(new String[] {
-						"oxl", "xml", "gz" });
+				final File file = DesktopUtils.showSaveDialog(new String[] { "oxl", "xml", "gz" });
 				if (file != null) {
 
 					// get current viewer
-					OVTK2Viewer viewer = (OVTK2Viewer) resources
-							.getSelectedViewer();
+					OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
 					viewer.getONDEXJUNGGraph().updateLastState();
 
 					// trigger export
 					DesktopUtils.saveFile(file, viewer);
 				}
 			} else {
-				JOptionPane
-						.showInternalMessageDialog(
-								OVTK2Desktop.getInstance().getDesktopPane(),
-								"No graph loaded or available. Cannot continue with operation.",
-								"Graph not found", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(OVTK2Desktop.getInstance().getDesktopPane(), "No graph loaded or available. Cannot continue with operation.", "Graph not found", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
 		// save graph as an image
 		else if (cmd.equals("image")) {
 			if (resources.getSelectedViewer() != null) {
-				File dir = (Config.lastSavedFile == null) ? new File(
-						System.getProperty("user.dir")) : new File(
-						Config.lastSavedFile);
+				File dir = (Config.lastSavedFile == null) ? new File(System.getProperty("user.dir")) : new File(Config.lastSavedFile);
 				DialogExport chooser = new DialogExport(dir);
 				// chooser.addFormat("graphml");
 
-				int i = chooser.showSaveDialog((OVTK2Viewer) resources
-						.getSelectedViewer());
+				int i = chooser.showSaveDialog((OVTK2Viewer) resources.getSelectedViewer());
 				if (i == JFileChooser.APPROVE_OPTION) {
 					File file = chooser.getFile();
 					Config.lastSavedFile = file.getAbsolutePath();
 					OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
 					new SVGExport(viewer, file, chooser.getSelectedFormat());
-					//ImageWriterUtil<ONDEXConcept, ONDEXRelation> iw = new ImageWriterUtil<ONDEXConcept, ONDEXRelation>(resources.getSelectedViewer());
-					//iw.writeImage(file, chooser.getSelectedFormat(), chooser.getScaleFactor());
+					// ImageWriterUtil<ONDEXConcept, ONDEXRelation> iw = new
+					// ImageWriterUtil<ONDEXConcept,
+					// ONDEXRelation>(resources.getSelectedViewer());
+					// iw.writeImage(file, chooser.getSelectedFormat(),
+					// chooser.getScaleFactor());
 				}
 			} else {
-				JOptionPane
-						.showInternalMessageDialog(
-								OVTK2Desktop.getInstance().getDesktopPane(),
-								"No graph loaded or available. Cannot continue with operation.",
-								"Graph not found", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(OVTK2Desktop.getInstance().getDesktopPane(), "No graph loaded or available. Cannot continue with operation.", "Graph not found", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -539,7 +480,7 @@ public class FileMenuAction implements ActionListener {
 				for (String name : names) {
 					try {
 						OVTK2IO io = OVTK2PluginLoader.getInstance().loadIO(name);
-						if(io == null){
+						if (io == null) {
 							continue;
 						}
 						if (io.isImport()) {
@@ -558,19 +499,14 @@ public class FileMenuAction implements ActionListener {
 
 			// handle error
 			if (extensions.size() == 0) {
-				JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(),
-						"No importer plugins have been loaded.",
-						"No importer found", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), "No importer plugins have been loaded.", "No importer found", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
 			// show file open dialog
-			final File file = DesktopUtils.showOpenDialog(extensions
-					.toArray(new String[0]));
+			final File file = DesktopUtils.showOpenDialog(extensions.toArray(new String[0]));
 			if (file != null) {
-				final String ext = file.getName()
-						.substring(file.getName().lastIndexOf(".") + 1)
-						.toLowerCase();
+				final String ext = file.getName().substring(file.getName().lastIndexOf(".") + 1).toLowerCase();
 
 				// name of new graph
 				String name = file.getName();
@@ -585,8 +521,7 @@ public class FileMenuAction implements ActionListener {
 
 							// for coping with plug-in Attribute data types
 							try {
-								Thread.currentThread().setContextClassLoader(
-										OVTK2PluginLoader.getInstance().ucl);
+								Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 							} catch (FileNotFoundException e) {
 								ErrorDialog.show(e);
 							} catch (MalformedURLException e) {
@@ -596,9 +531,7 @@ public class FileMenuAction implements ActionListener {
 							// location of ondex meta data
 							String ondexDir = System.getProperty("ondex.dir");
 
-							File metadata = new File(ondexDir + File.separator
-									+ "xml" + File.separator
-									+ "ondex_metadata.xml");
+							File metadata = new File(ondexDir + File.separator + "xml" + File.separator + "ondex_metadata.xml");
 
 							// load meta data
 							try {
@@ -623,32 +556,18 @@ public class FileMenuAction implements ActionListener {
 							DesktopUtils.displayGraphOnDesktop(aog);
 
 							// check if appearance attributes present
-							AttributeName an = aog.getMetaData()
-									.getAttributeName("shape");
+							AttributeName an = aog.getMetaData().getAttributeName("shape");
 							if (aog.getConceptsOfAttributeName(an).size() > 0) {
-								int option = JOptionPane
-										.showInternalConfirmDialog(
-												desktop.getDesktopPane(),
-												"Detected appearance attributes. Do you like to load appearance now?",
-												"Load appearance...",
-												JOptionPane.YES_NO_OPTION,
-												JOptionPane.INFORMATION_MESSAGE);
+								int option = JOptionPane.showInternalConfirmDialog(desktop.getDesktopPane(), "Detected appearance attributes. Do you like to load appearance now?", "Load appearance...", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 								if (option == JOptionPane.YES_OPTION) {
-									FileMenuAction
-											.getInstance()
-											.actionPerformed(
-													new ActionEvent(
-															this,
-															ActionEvent.ACTION_PERFORMED,
-															"loadappearance"));
+									FileMenuAction.getInstance().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "loadappearance"));
 								}
 							}
 						}
 					};
 					// start processing and monitoring
 					p.start();
-					OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-							.getMainFrame(), "Importing " + file, p);
+					OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Importing " + file, p);
 
 					// close possible welcome dialog
 					WelcomeDialog.getInstance(desktop).setVisible(false);
@@ -661,8 +580,7 @@ public class FileMenuAction implements ActionListener {
 
 							// for coping with plug-in Attribute data types
 							try {
-								Thread.currentThread().setContextClassLoader(
-										OVTK2PluginLoader.getInstance().ucl);
+								Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 							} catch (FileNotFoundException e) {
 								ErrorDialog.show(e);
 							} catch (MalformedURLException e) {
@@ -686,8 +604,7 @@ public class FileMenuAction implements ActionListener {
 					};
 					// start processing and monitoring
 					p.start();
-					OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-							.getMainFrame(), "Importing " + file, p);
+					OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Importing " + file, p);
 
 					// close possible welcome dialog
 					WelcomeDialog.getInstance(desktop).setVisible(false);
@@ -695,11 +612,7 @@ public class FileMenuAction implements ActionListener {
 
 				// extension not found
 				else {
-					JOptionPane.showInternalMessageDialog(
-							desktop.getDesktopPane(),
-							"No importer for this file extension available: "
-									+ ext, "No importer matching",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), "No importer for this file extension available: " + ext, "No importer matching", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
@@ -707,15 +620,12 @@ public class FileMenuAction implements ActionListener {
 		// export
 		else if (cmd.equals("export")) {
 			if (resources.getSelectedViewer() != null) {
-				File dir = (Config.lastSavedFile == null) ? new File(
-						System.getProperty("user.dir")) : new File(
-						Config.lastSavedFile);
+				File dir = (Config.lastSavedFile == null) ? new File(System.getProperty("user.dir")) : new File(Config.lastSavedFile);
 				DialogExport chooser = new DialogExport(dir);
 				chooser.removeAllFormats();
 
 				// get current viewer
-				final OVTK2Viewer viewer = (OVTK2Viewer) resources
-						.getSelectedViewer();
+				final OVTK2Viewer viewer = (OVTK2Viewer) resources.getSelectedViewer();
 
 				// get extensions of exporter plugins
 				final Map<String, OVTK2IO> ext2io = new Hashtable<String, OVTK2IO>();
@@ -724,7 +634,7 @@ public class FileMenuAction implements ActionListener {
 					for (String name : names) {
 						try {
 							OVTK2IO io = OVTK2PluginLoader.getInstance().loadIO(name);
-							if(io == null){
+							if (io == null) {
 								continue;
 							}
 							if (!io.isImport()) {
@@ -743,31 +653,16 @@ public class FileMenuAction implements ActionListener {
 
 				// handle error
 				if (ext2io.size() == 0) {
-					JOptionPane.showInternalMessageDialog(
-							desktop.getDesktopPane(),
-							"No exporter plugins have been loaded.",
-							"No exporter found", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showInternalMessageDialog(desktop.getDesktopPane(), "No exporter plugins have been loaded.", "No exporter found", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				int i = chooser.showSaveDialog((OVTK2Viewer) resources
-						.getSelectedViewer());
+				int i = chooser.showSaveDialog((OVTK2Viewer) resources.getSelectedViewer());
 				if (i == JFileChooser.APPROVE_OPTION) {
 					final File file = chooser.getFile();
 
-					if (file.exists()
-							&& Boolean.parseBoolean(Config.config
-									.getProperty("Overwrite.Set"))) {
-						int answer = JOptionPane
-								.showInternalConfirmDialog(
-										OVTK2Desktop.getInstance()
-												.getDesktopPane(),
-										Config.language
-												.getProperty("Dialog.Save.Warning.Text"),
-										Config.language
-												.getProperty("Dialog.Save.Warning.Title"),
-										JOptionPane.YES_NO_OPTION,
-										JOptionPane.WARNING_MESSAGE);
+					if (file.exists() && Boolean.parseBoolean(Config.config.getProperty("Overwrite.Set"))) {
+						int answer = JOptionPane.showInternalConfirmDialog(OVTK2Desktop.getInstance().getDesktopPane(), Config.language.getProperty("Dialog.Save.Warning.Text"), Config.language.getProperty("Dialog.Save.Warning.Title"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 						if (answer == JOptionPane.NO_OPTION)
 							return;
 					}
@@ -780,8 +675,7 @@ public class FileMenuAction implements ActionListener {
 
 							// for coping with plug-in Attribute data types
 							try {
-								Thread.currentThread().setContextClassLoader(
-										OVTK2PluginLoader.getInstance().ucl);
+								Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 							} catch (FileNotFoundException e) {
 								ErrorDialog.show(e);
 							} catch (MalformedURLException e) {
@@ -805,15 +699,10 @@ public class FileMenuAction implements ActionListener {
 					};
 					// start processing and monitoring
 					p.start();
-					OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-							.getMainFrame(), "Exporting file", p);
+					OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Exporting file", p);
 				}
 			} else {
-				JOptionPane
-						.showInternalMessageDialog(
-								OVTK2Desktop.getInstance().getDesktopPane(),
-								"No graph loaded or available. Cannot continue with operation.",
-								"Graph not found", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(OVTK2Desktop.getInstance().getDesktopPane(), "No graph loaded or available. Cannot continue with operation.", "Graph not found", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -822,8 +711,7 @@ public class FileMenuAction implements ActionListener {
 			if (resources.getSelectedViewer() != null) {
 				// setup new print job
 				final PrinterJob printJob = PrinterJob.getPrinterJob();
-				printJob.setPrintable((OVTK2Viewer) resources
-						.getSelectedViewer());
+				printJob.setPrintable((OVTK2Viewer) resources.getSelectedViewer());
 				if (printJob.printDialog()) {
 					IndeterminateProcessAdapter p = new IndeterminateProcessAdapter() {
 						public void task() {
@@ -837,15 +725,10 @@ public class FileMenuAction implements ActionListener {
 					};
 					// start processing and monitoring
 					p.start();
-					OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-							.getMainFrame(), "Printing...", p);
+					OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Printing...", p);
 				}
 			} else {
-				JOptionPane
-						.showInternalMessageDialog(
-								OVTK2Desktop.getInstance().getDesktopPane(),
-								"No graph loaded or available. Cannot continue with operation.",
-								"Graph not found", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(OVTK2Desktop.getInstance().getDesktopPane(), "No graph loaded or available. Cannot continue with operation.", "Graph not found", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -853,15 +736,7 @@ public class FileMenuAction implements ActionListener {
 		else if (cmd.equals("exit")) {
 			// if there is at least one open graph ask to really exit
 			if (resources.getSelectedViewer() != null) {
-				int option = JOptionPane
-						.showInternalConfirmDialog(
-								desktop.getDesktopPane(),
-								Config.language
-										.getProperty("Dialog.Exit.Warning.Text"),
-								Config.language
-										.getProperty("Dialog.Exit.Warning.Title"),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.WARNING_MESSAGE);
+				int option = JOptionPane.showInternalConfirmDialog(desktop.getDesktopPane(), Config.language.getProperty("Dialog.Exit.Warning.Text"), Config.language.getProperty("Dialog.Exit.Warning.Title"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (option == JOptionPane.NO_OPTION) {
 					return;
 				}

@@ -15,8 +15,7 @@ import javax.swing.table.TableCellRenderer;
  * @author taubertj
  * 
  */
-public class ColorTableCellRenderer extends JLabel implements
-		TableCellRenderer {
+public class ColorTableCellRenderer extends JLabel implements TableCellRenderer {
 
 	// generated
 	private static final long serialVersionUID = 3338900683876868601L;
@@ -32,22 +31,18 @@ public class ColorTableCellRenderer extends JLabel implements
 		setOpaque(true); // MUST do this for background to show up.
 	}
 
-	public Component getTableCellRendererComponent(JTable table,
-			Object color, boolean isSelected, boolean hasFocus, int row,
-			int column) {
+	public Component getTableCellRendererComponent(JTable table, Object color, boolean isSelected, boolean hasFocus, int row, int column) {
 		Color newColor = (Color) color;
 		setBackground(newColor);
 		if (isBordered) {
 			if (isSelected) {
 				if (selectedBorder == null) {
-					selectedBorder = BorderFactory.createMatteBorder(2, 5,
-							2, 5, table.getSelectionBackground());
+					selectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5, table.getSelectionBackground());
 				}
 				setBorder(selectedBorder);
 			} else {
 				if (unselectedBorder == null) {
-					unselectedBorder = BorderFactory.createMatteBorder(2,
-							5, 2, 5, table.getBackground());
+					unselectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5, table.getBackground());
 				}
 				setBorder(unselectedBorder);
 			}

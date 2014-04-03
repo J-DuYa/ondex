@@ -52,8 +52,7 @@ public class DialogExport extends JFileChooser {
 		formats = new HashSet<String>();
 		for (String format : ImageIO.getWriterFormatNames()) {
 			// ignore WBMP it only causes problems
-			if (!format.equalsIgnoreCase("wbmp")
-					&& !format.equalsIgnoreCase("gif"))
+			if (!format.equalsIgnoreCase("wbmp") && !format.equalsIgnoreCase("gif"))
 				formats.add(format.toLowerCase());
 		}
 
@@ -73,8 +72,7 @@ public class DialogExport extends JFileChooser {
 		spinner = new JSpinner(magnifyModel);
 
 		spinnerP = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		spinnerP.add(new JLabel(Config.language
-				.getProperty("Dialog.Export.ScaleFactor")));
+		spinnerP.add(new JLabel(Config.language.getProperty("Dialog.Export.ScaleFactor")));
 		spinnerP.add(spinner);
 
 		initOptions();
@@ -82,8 +80,7 @@ public class DialogExport extends JFileChooser {
 		// prevent spinner being selected for no image formats
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				String type = (String) ((JList) e.getSource())
-						.getSelectedValue();
+				String type = (String) ((JList) e.getSource()).getSelectedValue();
 				spinner.setEnabled(false);
 				for (String scalabletype : ImageIO.getWriterFormatNames()) {
 					if (type.equals(scalabletype)) {
@@ -103,8 +100,7 @@ public class DialogExport extends JFileChooser {
 		for (FileFilter ff : this.getChoosableFileFilters()) {
 			this.removeChoosableFileFilter(ff);
 		}
-		this.addChoosableFileFilter(new CustomFileFilter(formats
-				.toArray(new String[formats.size()])));
+		this.addChoosableFileFilter(new CustomFileFilter(formats.toArray(new String[formats.size()])));
 		this.setAcceptAllFileFilterUsed(false);
 
 		// add list of types
@@ -135,8 +131,7 @@ public class DialogExport extends JFileChooser {
 	public File getFile() {
 		File file = this.getSelectedFile();
 		if (!file.getName().endsWith("." + list.getSelectedValue())) {
-			file = new File(file.getAbsolutePath() + "."
-					+ list.getSelectedValue());
+			file = new File(file.getAbsolutePath() + "." + list.getSelectedValue());
 		}
 		return file;
 	}

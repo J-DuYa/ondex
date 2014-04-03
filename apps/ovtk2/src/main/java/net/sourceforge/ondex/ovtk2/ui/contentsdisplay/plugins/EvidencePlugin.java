@@ -13,8 +13,7 @@ import net.sourceforge.ondex.ovtk2.ui.contentsdisplay.AttributePlugin;
  * @author taubertj
  * 
  */
-public class EvidencePlugin extends AbstractContentDisplayPlugin implements
-		AttributePlugin {
+public class EvidencePlugin extends AbstractContentDisplayPlugin implements AttributePlugin {
 
 	private static final int count = 10;
 
@@ -58,8 +57,7 @@ public class EvidencePlugin extends AbstractContentDisplayPlugin implements
 
 				// add additional possible evidence
 				for (int i = 1; i < count; i++) {
-					confAN = aog.getMetaData()
-							.getAttributeName("evidence_" + i);
+					confAN = aog.getMetaData().getAttributeName("evidence_" + i);
 					if (confAN != null) {
 						g = e.getAttribute(confAN);
 						if (g != null)

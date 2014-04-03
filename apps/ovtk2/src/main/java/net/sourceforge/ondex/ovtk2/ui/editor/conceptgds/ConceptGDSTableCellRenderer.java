@@ -11,60 +11,58 @@ import net.sourceforge.ondex.core.ONDEXConcept;
 
 /**
  * Uses a blue (pink selected) font colour for doIndex concept Attribute.
- *
+ * 
  * @author taubertj
  */
 public class ConceptGDSTableCellRenderer extends DefaultTableCellRenderer {
 
-    /**
-     * generated
-     */
-    private static final long serialVersionUID = 8828015808135323072L;
+	/**
+	 * generated
+	 */
+	private static final long serialVersionUID = 8828015808135323072L;
 
-    /**
-     * colour for indexed Attribute
-     */
-    Color unselected = new Color(0, 0, 139);
+	/**
+	 * colour for indexed Attribute
+	 */
+	Color unselected = new Color(0, 0, 139);
 
-    /**
-     * selection colour for indexed Attribute
-     */
-    Color selected = new Color(255, 182, 193);
+	/**
+	 * selection colour for indexed Attribute
+	 */
+	Color selected = new Color(255, 182, 193);
 
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-                                                   boolean isSelected, boolean hasFocus, int row, int column) {
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
-        // clear previous settings
-        super.setForeground(null);
+		// clear previous settings
+		super.setForeground(null);
 
-        // catch decision of colour
-        Color color = null;
+		// catch decision of colour
+		Color color = null;
 
-        // check for concept Attribute values
-        if (value instanceof Attribute) {
-            Attribute attribute = (Attribute) value;
-            value = attribute.getValue();
-            if (attribute.isDoIndex()) {
-                // different colour depending on selection
-                color = isSelected ? selected : unselected;
-            }
-        }
+		// check for concept Attribute values
+		if (value instanceof Attribute) {
+			Attribute attribute = (Attribute) value;
+			value = attribute.getValue();
+			if (attribute.isDoIndex()) {
+				// different colour depending on selection
+				color = isSelected ? selected : unselected;
+			}
+		}
 
-        // display id of a concept
-        else if (value instanceof ONDEXConcept) {
-            ONDEXConcept c = (ONDEXConcept) value;
-            value = c.getId();
-        }
+		// display id of a concept
+		else if (value instanceof ONDEXConcept) {
+			ONDEXConcept c = (ONDEXConcept) value;
+			value = c.getId();
+		}
 
-        // default component
-        Component comp = super.getTableCellRendererComponent(table, value,
-                isSelected, hasFocus, row, column);
+		// default component
+		Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        // override default selection foreground
-        if (color != null)
-            super.setForeground(color);
+		// override default selection foreground
+		if (color != null)
+			super.setForeground(color);
 
-        return comp;
-    }
+		return comp;
+	}
 }

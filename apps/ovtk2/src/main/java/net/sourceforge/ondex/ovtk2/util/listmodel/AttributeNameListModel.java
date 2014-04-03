@@ -15,8 +15,7 @@ import net.sourceforge.ondex.core.AttributeName;
  * 
  * @author hindlem, taubertj
  */
-public class AttributeNameListModel extends AbstractListModel implements
-		MutableListModel {
+public class AttributeNameListModel extends AbstractListModel implements MutableListModel {
 
 	/**
 	 * default

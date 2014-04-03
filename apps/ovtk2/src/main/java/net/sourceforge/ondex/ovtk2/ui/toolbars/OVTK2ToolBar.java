@@ -35,8 +35,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
  * @author taubertj
  * @version 14.05.2008
  */
-public class OVTK2ToolBar extends JToolBar implements ActionListener,
-		ItemListener {
+public class OVTK2ToolBar extends JToolBar implements ActionListener, ItemListener {
 	public static final String ANNOTATION_MODE = "annotation_mode";
 	public static final String TRANSFORMING_MODE = "transforming_mode";
 	public static final String PICKING_MODE = "picking_mode";
@@ -114,20 +113,16 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 		desktop.addActionListener(searchAction);
 
 		// general program function
-		if (Boolean
-				.parseBoolean(Config.config.getProperty("Webservice.Enable"))) {
-			this.add(makeToolBarButton("load",
-					Config.language.getProperty("ToolBar.LoadToolTip")));
+		if (Boolean.parseBoolean(Config.config.getProperty("Webservice.Enable"))) {
+			this.add(makeToolBarButton("load", Config.language.getProperty("ToolBar.LoadToolTip")));
 		}
 
 		// this.add(makeToolBarButton("new", Config.properties
 		// .getProperty("ToolBar.NewToolTip")));
 
-		this.add(makeToolBarButton("open",
-				Config.language.getProperty("ToolBar.OpenToolTip")));
+		this.add(makeToolBarButton("open", Config.language.getProperty("ToolBar.OpenToolTip")));
 
-		this.add(makeToolBarButton("save",
-				Config.language.getProperty("ToolBar.SaveToolTip")));
+		this.add(makeToolBarButton("save", Config.language.getProperty("ToolBar.SaveToolTip")));
 
 		// this.add(makeToolBarButton("about", Config.properties
 		// .getProperty("ToolBar.AboutToolTip")));
@@ -135,54 +130,39 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 		this.addSeparator();
 
 		// graph edit functions
-		this.add(makeToolBarButton("add",
-				Config.language.getProperty("ToolBar.AddToolTip")));
+		this.add(makeToolBarButton("add", Config.language.getProperty("ToolBar.AddToolTip")));
 
-		this.add(makeToolBarCheckBox("contentsdisplay",
-				Config.language.getProperty("ToolBar.ContentsDisplayToolTip")));
+		this.add(makeToolBarCheckBox("contentsdisplay", Config.language.getProperty("ToolBar.ContentsDisplayToolTip")));
 
-		this.add(makeToolBarButton("edit",
-				Config.language.getProperty("ToolBar.EditToolTip")));
+		this.add(makeToolBarButton("edit", Config.language.getProperty("ToolBar.EditToolTip")));
 
-		this.add(makeToolBarButton("delete",
-				Config.language.getProperty("ToolBar.DeleteToolTip")));
+		this.add(makeToolBarButton("delete", Config.language.getProperty("ToolBar.DeleteToolTip")));
 
-		this.add(makeToolBarButton("copy",
-				Config.language.getProperty("ToolBar.CopyToolTip")));
+		this.add(makeToolBarButton("copy", Config.language.getProperty("ToolBar.CopyToolTip")));
 
 		this.addSeparator();
 
 		// visualisation functions
-		this.add(makeToolBarButton(REFRESH,
-				Config.language.getProperty("ToolBar.RefreshToolTip")));
+		this.add(makeToolBarButton(REFRESH, Config.language.getProperty("ToolBar.RefreshToolTip")));
 
-		this.add(makeToolBarButton(ZOOMIN,
-				Config.language.getProperty("ToolBar.ZoomInToolTip")));
+		this.add(makeToolBarButton(ZOOMIN, Config.language.getProperty("ToolBar.ZoomInToolTip")));
 
-		this.add(makeToolBarButton(ZOOMOUT,
-				Config.language.getProperty("ToolBar.ZoomOutToolTip")));
+		this.add(makeToolBarButton(ZOOMOUT, Config.language.getProperty("ToolBar.ZoomOutToolTip")));
 
-		this.add(makeToolBarButton(CENTER,
-				Config.language.getProperty("ToolBar.CenterToolTip")));
+		this.add(makeToolBarButton(CENTER, Config.language.getProperty("ToolBar.CenterToolTip")));
 
 		this.addSeparator();
 
 		// mouse modes
-		transformingToolBarButton = makeToggleToolBarButton("arrow_pointer",
-				TRANSFORMING_MODE,
-				Config.language.getProperty("ToolBar.TransformingToolTip"));
+		transformingToolBarButton = makeToggleToolBarButton("arrow_pointer", TRANSFORMING_MODE, Config.language.getProperty("ToolBar.TransformingToolTip"));
 		transformingToolBarButton.setSelected(false);
 		this.add(transformingToolBarButton);
 
-		pickingToolBarButton = makeToggleToolBarButton("hand_pointer",
-				PICKING_MODE,
-				Config.language.getProperty("ToolBar.PickingToolTip"));
+		pickingToolBarButton = makeToggleToolBarButton("hand_pointer", PICKING_MODE, Config.language.getProperty("ToolBar.PickingToolTip"));
 		pickingToolBarButton.setSelected(true);
 		this.add(pickingToolBarButton);
 
-		annotationToolBarButton = makeToggleToolBarButton("anno_pointer",
-				ANNOTATION_MODE,
-				Config.language.getProperty("ToolBar.AnnotationToolTip"));
+		annotationToolBarButton = makeToggleToolBarButton("anno_pointer", ANNOTATION_MODE, Config.language.getProperty("ToolBar.AnnotationToolTip"));
 		annotationToolBarButton.setSelected(false);
 		this.add(annotationToolBarButton);
 
@@ -215,25 +195,19 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 		String s = File.separator;
 
 		// Look for the image.
-		String path = Config.ovtkDir + s + "themes" + s
-				+ Config.config.getProperty("Program.Theme") + s + "icons" + s
-				+ "toolbar" + s;
+		String path = Config.ovtkDir + s + "themes" + s + Config.config.getProperty("Program.Theme") + s + "icons" + s + "toolbar" + s;
 		File imgLocation = new File(path + actionCommand + ".png");
 		if (!imgLocation.exists()) {
-			ErrorDialog.show(new IOException("File not found "
-					+ imgLocation.getAbsolutePath()));
+			ErrorDialog.show(new IOException("File not found " + imgLocation.getAbsolutePath()));
 		}
 
 		File imgLocationOver = new File(path + actionCommand + "_over.png");
 		if (!imgLocationOver.exists()) {
-			ErrorDialog.show(new IOException("File not found "
-					+ imgLocationOver.getAbsolutePath()));
+			ErrorDialog.show(new IOException("File not found " + imgLocationOver.getAbsolutePath()));
 		}
-		File imgLocationPressed = new File(path + actionCommand
-				+ "_pressed.png");
+		File imgLocationPressed = new File(path + actionCommand + "_pressed.png");
 		if (!imgLocationPressed.exists()) {
-			ErrorDialog.show(new IOException("File not found "
-					+ imgLocationPressed.getAbsolutePath()));
+			ErrorDialog.show(new IOException("File not found " + imgLocationPressed.getAbsolutePath()));
 		}
 
 		URL imageURL = null;
@@ -264,8 +238,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 				icon = scale(icon.getImage(), 0.66);
 			button.setIcon(icon);
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocation.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocation.getAbsolutePath());
 		}
 
 		if (imageURLOver != null) { // image found
@@ -274,8 +247,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 				icon = scale(icon.getImage(), 0.66);
 			button.setRolloverIcon(icon);
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocationOver.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocationOver.getAbsolutePath());
 		}
 
 		if (imageURLPressed != null) { // image found
@@ -284,8 +256,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 				icon = scale(icon.getImage(), 0.66);
 			button.setPressedIcon(icon);
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocationPressed.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocationPressed.getAbsolutePath());
 		}
 
 		return button;
@@ -325,24 +296,18 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 
 		String s = File.separator;
 		// Look for the image.
-		String path = Config.ovtkDir + s + "themes" + s
-				+ Config.config.getProperty("Program.Theme") + s + "icons" + s
-				+ "toolbar" + s;
+		String path = Config.ovtkDir + s + "themes" + s + Config.config.getProperty("Program.Theme") + s + "icons" + s + "toolbar" + s;
 		File imgLocation = new File(path + actionCommand + ".png");
 		if (!imgLocation.exists()) {
-			ErrorDialog.show(new IOException("File not found "
-					+ imgLocation.getAbsolutePath()));
+			ErrorDialog.show(new IOException("File not found " + imgLocation.getAbsolutePath()));
 		}
 		File imgLocationOver = new File(path + actionCommand + "_over.png");
 		if (!imgLocationOver.exists()) {
-			ErrorDialog.show(new IOException("File not found "
-					+ imgLocationOver.getAbsolutePath()));
+			ErrorDialog.show(new IOException("File not found " + imgLocationOver.getAbsolutePath()));
 		}
-		File imgLocationPressed = new File(path + actionCommand
-				+ "_pressed.png");
+		File imgLocationPressed = new File(path + actionCommand + "_pressed.png");
 		if (!imgLocationPressed.exists()) {
-			ErrorDialog.show(new IOException("File not found "
-					+ imgLocationPressed.getAbsolutePath()));
+			ErrorDialog.show(new IOException("File not found " + imgLocationPressed.getAbsolutePath()));
 		}
 		URL imageURL = null;
 		URL imageURLOver = null;
@@ -372,8 +337,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 				JCheckBoxMenuItem checkBox = new JCheckBoxMenuItem();
 				// this is a hack for solving OVTK-253, makes method not generic
 				checkBox.setSelected(!ViewMenuAction.isContentsDisplayShown());
-				desktop.actionPerformed(new ActionEvent(checkBox,
-						ActionEvent.ACTION_PERFORMED, e.getActionCommand()));
+				desktop.actionPerformed(new ActionEvent(checkBox, ActionEvent.ACTION_PERFORMED, e.getActionCommand()));
 			}
 		});
 
@@ -383,8 +347,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 				icon = scale(icon.getImage(), 0.66);
 			button.setIcon(icon);
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocation.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocation.getAbsolutePath());
 		}
 
 		if (imageURLOver != null) { // image found
@@ -393,8 +356,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 				icon = scale(icon.getImage(), 0.66);
 			button.setRolloverIcon(icon);
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocationOver.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocationOver.getAbsolutePath());
 		}
 
 		if (imageURLPressed != null) { // image found
@@ -403,8 +365,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 				icon = scale(icon.getImage(), 0.66);
 			button.setPressedIcon(icon);
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocationPressed.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocationPressed.getAbsolutePath());
 		}
 
 		return button;
@@ -421,16 +382,12 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 	 *            text of tool tip
 	 * @return JButton
 	 */
-	private JToggleButton makeToggleToolBarButton(String imageName,
-			String actionCommand, String toolTipText) {
+	private JToggleButton makeToggleToolBarButton(String imageName, String actionCommand, String toolTipText) {
 		String s = File.separator;
 		// Look for the image.
-		File imgLocation = new File(Config.ovtkDir + s + "themes" + s
-				+ Config.config.getProperty("Program.Theme") + s + "icons" + s
-				+ "toolbar" + s + imageName + ".png");
+		File imgLocation = new File(Config.ovtkDir + s + "themes" + s + Config.config.getProperty("Program.Theme") + s + "icons" + s + "toolbar" + s + imageName + ".png");
 		if (!imgLocation.exists()) {
-			ErrorDialog.show(new IOException("File not found "
-					+ imgLocation.getAbsolutePath()));
+			ErrorDialog.show(new IOException("File not found " + imgLocation.getAbsolutePath()));
 		}
 		URL imageURL = null;
 
@@ -450,8 +407,7 @@ public class OVTK2ToolBar extends JToolBar implements ActionListener,
 		if (imageURL != null) { // image found
 			button.setIcon(new ImageIcon(imageURL));
 		} else { // no image found
-			System.err.println("Resource not found: "
-					+ imgLocation.getAbsolutePath());
+			System.err.println("Resource not found: " + imgLocation.getAbsolutePath());
 		}
 
 		return button;

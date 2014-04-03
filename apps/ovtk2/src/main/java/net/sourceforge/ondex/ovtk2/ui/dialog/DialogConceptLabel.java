@@ -99,9 +99,7 @@ public class DialogConceptLabel extends OVTK2Dialog {
 
 		// panel for label positions, from demo copied
 		JPanel positionPanel = new JPanel(new FlowLayout());
-		positionPanel.setBorder(BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.ConceptLabel.LabelPosition")));
+		positionPanel.setBorder(BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.ConceptLabel.LabelPosition")));
 		labelPositions = new JComboBox();
 		labelPositions.addItem(Renderer.VertexLabel.Position.N);
 		labelPositions.addItem(Renderer.VertexLabel.Position.NE);
@@ -116,10 +114,8 @@ public class DialogConceptLabel extends OVTK2Dialog {
 		labelPositions.addItem(Renderer.VertexLabel.Position.AUTO);
 		labelPositions.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				Renderer.VertexLabel.Position position = (Renderer.VertexLabel.Position) e
-						.getItem();
-				viewer.getVisualizationViewer().getRenderer()
-						.getVertexLabelRenderer().setPosition(position);
+				Renderer.VertexLabel.Position position = (Renderer.VertexLabel.Position) e.getItem();
+				viewer.getVisualizationViewer().getRenderer().getVertexLabelRenderer().setPosition(position);
 				viewer.getVisualizationViewer().repaint();
 			}
 		});
@@ -133,8 +129,7 @@ public class DialogConceptLabel extends OVTK2Dialog {
 		BoxLayout layout = new BoxLayout(south, BoxLayout.PAGE_AXIS);
 		south.setLayout(layout);
 		south.add(positionPanel);
-		south.add(makeButtonsPanel("Dialog.ConceptLabel.Apply",
-				"Dialog.ConceptLabel.Cancel"));
+		south.add(makeButtonsPanel("Dialog.ConceptLabel.Apply", "Dialog.ConceptLabel.Cancel"));
 		this.add(south, BorderLayout.SOUTH);
 		this.pack();
 
@@ -147,8 +142,7 @@ public class DialogConceptLabel extends OVTK2Dialog {
 	 */
 	private void getSettings() {
 
-		Map<String, String> annotations = this.viewer.getONDEXJUNGGraph()
-				.getAnnotations();
+		Map<String, String> annotations = this.viewer.getONDEXJUNGGraph().getAnnotations();
 		if (annotations != null && annotations.containsKey(KEY)) {
 
 			// get settings from graph
@@ -157,19 +151,15 @@ public class DialogConceptLabel extends OVTK2Dialog {
 				return;
 
 			// configure XML input
-			System.setProperty("javax.xml.stream.XMLInputFactory",
-					"com.ctc.wstx.stax.WstxInputFactory");
-			XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2
-					.newInstance();
+			System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+			XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2.newInstance();
 			xmlInput.configureForSpeed();
 
 			// parse from a String
-			final ByteArrayInputStream inStream = new ByteArrayInputStream(
-					xml.getBytes());
+			final ByteArrayInputStream inStream = new ByteArrayInputStream(xml.getBytes());
 			try {
 				// configure Parser
-				XMLStreamReader2 xmlReadStream = (XMLStreamReader2) xmlInput
-						.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
+				XMLStreamReader2 xmlReadStream = (XMLStreamReader2) xmlInput.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
 
 				// de-serialise annotations from XML
 				ConceptLabelXMLReader.read(xmlReadStream, this);
@@ -188,19 +178,15 @@ public class DialogConceptLabel extends OVTK2Dialog {
 
 			// set data source editor
 			TableColumn dataSourceColumn = table.getColumnModel().getColumn(0);
-			dataSourceColumn.setCellEditor(new DefaultCellEditor(
-					filterDataSources));
+			dataSourceColumn.setCellEditor(new DefaultCellEditor(filterDataSources));
 
 			// set concept class editor
-			TableColumn conceptClassColumn = table.getColumnModel()
-					.getColumn(1);
-			conceptClassColumn.setCellEditor(new DefaultCellEditor(
-					filterConceptClasses));
+			TableColumn conceptClassColumn = table.getColumnModel().getColumn(1);
+			conceptClassColumn.setCellEditor(new DefaultCellEditor(filterConceptClasses));
 
 			// set accession editor
 			TableColumn accessionColumn = table.getColumnModel().getColumn(2);
-			accessionColumn.setCellEditor(new DefaultCellEditor(
-					accessionDataSources));
+			accessionColumn.setCellEditor(new DefaultCellEditor(accessionDataSources));
 
 			// set separator editor
 			TableColumn separatorColumn = table.getColumnModel().getColumn(3);
@@ -373,45 +359,25 @@ public class DialogConceptLabel extends OVTK2Dialog {
 		preferredName.setSelected(true);
 
 		// table headers
-		String[] columnNames = new String[] {
-				Config.language.getProperty("Dialog.ConceptLabel.DataSource"),
-				Config.language.getProperty("Dialog.ConceptLabel.ConceptClass"),
-				Config.language.getProperty("Dialog.ConceptLabel.Accession"),
-				Config.language.getProperty("Dialog.ConceptLabel.Separator"),
-				Config.language.getProperty("Dialog.ConceptLabel.Prefix"),
-				Config.language
-						.getProperty("Dialog.ConceptLabel.RestrictLength"),
-				Config.language
-						.getProperty("Dialog.ConceptLabel.PreferredName"),
-				Config.language
-						.getProperty("Dialog.ConceptLabel.IncludeParserID") };
+		String[] columnNames = new String[] { Config.language.getProperty("Dialog.ConceptLabel.DataSource"), Config.language.getProperty("Dialog.ConceptLabel.ConceptClass"), Config.language.getProperty("Dialog.ConceptLabel.Accession"), Config.language.getProperty("Dialog.ConceptLabel.Separator"), Config.language.getProperty("Dialog.ConceptLabel.Prefix"), Config.language.getProperty("Dialog.ConceptLabel.RestrictLength"), Config.language.getProperty("Dialog.ConceptLabel.PreferredName"), Config.language.getProperty("Dialog.ConceptLabel.IncludeParserID") };
 
 		// table data in first row
-		Object[][] data = new Object[][] { {
-				filterConceptClasses.getSelectedItem(),
-				filterDataSources.getSelectedItem(),
-				accessionDataSources.getSelectedItem(),
-				separator.getSelectedItem(), "", Integer.valueOf(0),
-				Boolean.valueOf(preferredName.isSelected()),
-				Boolean.valueOf(includeParserID.isSelected()) } };
+		Object[][] data = new Object[][] { { filterConceptClasses.getSelectedItem(), filterDataSources.getSelectedItem(), accessionDataSources.getSelectedItem(), separator.getSelectedItem(), "", Integer.valueOf(0), Boolean.valueOf(preferredName.isSelected()), Boolean.valueOf(includeParserID.isSelected()) } };
 
 		// put everything in a table
 		table = new JTable(new MyTableModel(data, columnNames));
 
 		// set data source editor
 		TableColumn dataSourceColumn = table.getColumnModel().getColumn(0);
-		dataSourceColumn
-				.setCellEditor(new DefaultCellEditor(filterDataSources));
+		dataSourceColumn.setCellEditor(new DefaultCellEditor(filterDataSources));
 
 		// set concept class editor
 		TableColumn conceptClassColumn = table.getColumnModel().getColumn(1);
-		conceptClassColumn.setCellEditor(new DefaultCellEditor(
-				filterConceptClasses));
+		conceptClassColumn.setCellEditor(new DefaultCellEditor(filterConceptClasses));
 
 		// set accession editor
 		TableColumn accessionColumn = table.getColumnModel().getColumn(2);
-		accessionColumn.setCellEditor(new DefaultCellEditor(
-				accessionDataSources));
+		accessionColumn.setCellEditor(new DefaultCellEditor(accessionDataSources));
 
 		// set separator editor
 		TableColumn separatorColumn = table.getColumnModel().getColumn(3);
@@ -420,8 +386,7 @@ public class DialogConceptLabel extends OVTK2Dialog {
 		// layout and put a border around the table
 		JPanel content = new JPanel(new BorderLayout());
 		TitledBorder contentBorder;
-		contentBorder = BorderFactory.createTitledBorder(Config.language
-				.getProperty("Dialog.ConceptLabel.Label"));
+		contentBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.ConceptLabel.Label"));
 		content.setBorder(contentBorder);
 		content.add(BorderLayout.CENTER, new JScrollPane(table));
 
@@ -457,27 +422,20 @@ public class DialogConceptLabel extends OVTK2Dialog {
 
 				// check if something different than NONE was selected
 				DataSource accessionDataSource = null;
-				if (!table.getValueAt(row, 2)
-						.equals(Config.language
-								.getProperty("Dialog.ConceptLabel.None"))) {
+				if (!table.getValueAt(row, 2).equals(Config.language.getProperty("Dialog.ConceptLabel.None"))) {
 					// get DataSource for id of drop-down box
-					accessionDataSource = viewer.getONDEXJUNGGraph()
-							.getMetaData()
-							.getDataSource((String) table.getValueAt(row, 2));
+					accessionDataSource = viewer.getONDEXJUNGGraph().getMetaData().getDataSource((String) table.getValueAt(row, 2));
 				}
 
 				// get more data from table
 				boolean includeParserID = (Boolean) table.getValueAt(row, 7);
-				boolean includePreferredName = (Boolean) table.getValueAt(row,
-						6);
+				boolean includePreferredName = (Boolean) table.getValueAt(row, 6);
 				int length = (Integer) table.getValueAt(row, 5);
 				String prefix = (String) table.getValueAt(row, 4);
 				String separator = (String) table.getValueAt(row, 3);
 
 				// contruct new rule
-				LabelCompositionRule rule = new LabelCompositionRule(
-						accessionDataSource, includeParserID,
-						includePreferredName, length, prefix, separator);
+				LabelCompositionRule rule = new LabelCompositionRule(accessionDataSource, includeParserID, includePreferredName, length, prefix, separator);
 
 				// get index by values and add rule
 				String dataSource = (String) table.getValueAt(row, 0);
@@ -495,18 +453,15 @@ public class DialogConceptLabel extends OVTK2Dialog {
 			}
 
 			// configure XML output
-			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2
-					.newInstance();
+			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
 			xmlOutput.configureForSpeed();
-			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES,
-					false);
+			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES, false);
 
 			// output goes into a String
 			final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 			try {
 				// configure writer
-				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput
-						.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
+				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
 
 				// serialise settings to XML
 				ConceptLabelXMLWriter.write(xmlWriteStream, this);
@@ -515,8 +470,7 @@ public class DialogConceptLabel extends OVTK2Dialog {
 				xmlWriteStream.close();
 
 				// set annotation data to graph
-				viewer.getONDEXJUNGGraph().getAnnotations()
-						.put(KEY, outStream.toString());
+				viewer.getONDEXJUNGGraph().getAnnotations().put(KEY, outStream.toString());
 
 			} catch (XMLStreamException e1) {
 				ErrorDialog.show(e1);

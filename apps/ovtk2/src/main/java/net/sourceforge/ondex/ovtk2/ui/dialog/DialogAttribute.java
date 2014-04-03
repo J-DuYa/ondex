@@ -125,9 +125,7 @@ public class DialogAttribute extends OVTK2Dialog {
 	private void initUI() {
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.Attribute.Apply",
-						"Dialog.Attribute.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel("Dialog.Attribute.Apply", "Dialog.Attribute.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -142,11 +140,9 @@ public class DialogAttribute extends OVTK2Dialog {
 		JPanel properties = new JPanel(new BorderLayout());
 		String title = null;
 		if (ac != null)
-			title = Config.language
-					.getProperty("Dialog.Attribute.ConceptAttribute");
+			title = Config.language.getProperty("Dialog.Attribute.ConceptAttribute");
 		if (ar != null)
-			title = Config.language
-					.getProperty("Dialog.Attribute.RelationAttribute");
+			title = Config.language.getProperty("Dialog.Attribute.RelationAttribute");
 		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(title);
 		properties.setBorder(propertiesBorder);
 
@@ -161,17 +157,14 @@ public class DialogAttribute extends OVTK2Dialog {
 			// if no attribute make new attribute panel
 			if (attributes.size() == 0) {
 				newPanel = new AttributePanel(this, aog, null);
-				tabbedPane.addTab(Config.language
-						.getProperty("Dialog.Attribute.NewAttributeHeader"),
-						newPanel);
+				tabbedPane.addTab(Config.language.getProperty("Dialog.Attribute.NewAttributeHeader"), newPanel);
 				tabbedPane.setSelectedComponent(newPanel);
 			}
 			// add one tab per Attribute
 			Attribute[] array = attributes.toArray(new Attribute[0]);
 			Arrays.sort(array);
 			for (Attribute attribute : array) {
-				tabbedPane.addTab(attribute.getOfType().getId(),
-						new AttributePanel(this, aog, attribute));
+				tabbedPane.addTab(attribute.getOfType().getId(), new AttributePanel(this, aog, attribute));
 			}
 		}
 
@@ -181,17 +174,14 @@ public class DialogAttribute extends OVTK2Dialog {
 			// if no attribute make new attribute panel
 			if (attributes.size() == 0) {
 				newPanel = new AttributePanel(this, aog, null);
-				tabbedPane.addTab(Config.language
-						.getProperty("Dialog.Attribute.NewAttributeHeader"),
-						newPanel);
+				tabbedPane.addTab(Config.language.getProperty("Dialog.Attribute.NewAttributeHeader"), newPanel);
 				tabbedPane.setSelectedComponent(newPanel);
 			}
 			// add one tab per Attribute
 			Attribute[] array = attributes.toArray(new Attribute[0]);
 			Arrays.sort(array);
 			for (Attribute attribute : array) {
-				tabbedPane.addTab(attribute.getOfType().getId(),
-						new AttributePanel(this, aog, attribute));
+				tabbedPane.addTab(attribute.getOfType().getId(), new AttributePanel(this, aog, attribute));
 			}
 		}
 
@@ -202,8 +192,7 @@ public class DialogAttribute extends OVTK2Dialog {
 
 		// add new Attribute button
 		JPanel addPanel = new JPanel(new BorderLayout());
-		JButton addButton = new JButton(
-				Config.language.getProperty("Dialog.Attribute.AddAttribute"));
+		JButton addButton = new JButton(Config.language.getProperty("Dialog.Attribute.AddAttribute"));
 		addButton.setActionCommand(ADD);
 		addButton.addActionListener(this);
 		addPanel.add(addButton, BorderLayout.CENTER);
@@ -246,8 +235,7 @@ public class DialogAttribute extends OVTK2Dialog {
 		unit.addActionListener(this);
 		if (select != null)
 			unit.setSelectedItem(select.getId());
-		unit.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		unit.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		unitBoxes.add(unit);
 		return unit;
 	}
@@ -262,8 +250,7 @@ public class DialogAttribute extends OVTK2Dialog {
 	public JComboBox makeSpecialisationOf(AttributeName select) {
 		Vector<String> ans = new Vector<String>();
 		ans.add("");
-		AttributeName[] sorted = aog.getMetaData().getAttributeNames()
-				.toArray(new AttributeName[0]);
+		AttributeName[] sorted = aog.getMetaData().getAttributeNames().toArray(new AttributeName[0]);
 		Arrays.sort(sorted, new CaseInsensitiveMetaDataComparator());
 		for (AttributeName an : sorted) {
 			ans.add(an.getId());
@@ -271,8 +258,7 @@ public class DialogAttribute extends OVTK2Dialog {
 		JComboBox an = new JComboBox(ans);
 		if (select != null)
 			an.setSelectedItem(select.getId());
-		an.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		an.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		anBoxes.add(an);
 		return an;
 	}
@@ -302,19 +288,15 @@ public class DialogAttribute extends OVTK2Dialog {
 		GDSEditor editor = null;
 
 		// select editor name from Config
-		String editorName = Config.config.getProperty("Dialog.Attribute."
-				+ an.getDataTypeAsString());
+		String editorName = Config.config.getProperty("Dialog.Attribute." + an.getDataTypeAsString());
 		if (editorName == null)
 			editorName = "DefaultEditor";
 
 		// find editor for class
 		try {
-			editor = OVTK2PluginLoader.getInstance().loadAttributeEditor(
-					editorName, null);
+			editor = OVTK2PluginLoader.getInstance().loadAttributeEditor(editorName, null);
 			if (!(editor instanceof GDSEditor)) {
-				throw new RuntimeException(editor.getClass().getName()
-						+ " does not implement required " + GDSEditor.class
-						+ " interface");
+				throw new RuntimeException(editor.getClass().getName() + " does not implement required " + GDSEditor.class + " interface");
 			}
 		} catch (InstantiationException e) {
 			e.printStackTrace();
@@ -332,13 +314,7 @@ public class DialogAttribute extends OVTK2Dialog {
 			if (editor != null && editor.getDefaultValue() != null) {
 				o = editor.getDefaultValue();
 			} else { // ask for XStream xml code
-				String xml = (String) JOptionPane.showInternalInputDialog(this,
-						Config.language
-								.getProperty("Dialog.Attribute.XStreamText"),
-						Config.language
-								.getProperty("Dialog.Attribute.XStreamTitle"),
-						JOptionPane.PLAIN_MESSAGE, this.getFrameIcon(), null,
-						null);
+				String xml = (String) JOptionPane.showInternalInputDialog(this, Config.language.getProperty("Dialog.Attribute.XStreamText"), Config.language.getProperty("Dialog.Attribute.XStreamTitle"), JOptionPane.PLAIN_MESSAGE, this.getFrameIcon(), null, null);
 				if ((xml != null) && (xml.length() > 0)) {
 					try {
 						o = Marshaller.getMarshaller().fromXML(xml);
@@ -368,13 +344,7 @@ public class DialogAttribute extends OVTK2Dialog {
 			if (editor != null && editor.getDefaultValue() != null) {
 				o = editor.getDefaultValue();
 			} else { // ask for XStream xml code
-				String xml = (String) JOptionPane.showInternalInputDialog(this,
-						Config.language
-								.getProperty("Dialog.Attribute.XStreamText"),
-						Config.language
-								.getProperty("Dialog.Attribute.XStreamTitle"),
-						JOptionPane.PLAIN_MESSAGE, this.getFrameIcon(), null,
-						null);
+				String xml = (String) JOptionPane.showInternalInputDialog(this, Config.language.getProperty("Dialog.Attribute.XStreamText"), Config.language.getProperty("Dialog.Attribute.XStreamTitle"), JOptionPane.PLAIN_MESSAGE, this.getFrameIcon(), null, null);
 				if ((xml != null) && (xml.length() > 0)) {
 					o = Marshaller.getMarshaller().fromXML(xml);
 				}
@@ -402,8 +372,7 @@ public class DialogAttribute extends OVTK2Dialog {
 			// contains current view on attributes
 			HashSet<AttributeName> modified = new HashSet<AttributeName>();
 			for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-				AttributePanel panel = (AttributePanel) tabbedPane
-						.getComponentAt(i);
+				AttributePanel panel = (AttributePanel) tabbedPane.getComponentAt(i);
 				panel.flushChanges();
 				// sync AttributeName in ONDEX meta data
 				String id = panel.getID();
@@ -411,8 +380,7 @@ public class DialogAttribute extends OVTK2Dialog {
 				an.setDescription(panel.getDescription());
 				an.setFullname(panel.getFullname());
 				if (panel.getSpecialisationOf().length() > 0) {
-					an.setSpecialisationOf(aog.getMetaData().getAttributeName(
-							panel.getSpecialisationOf()));
+					an.setSpecialisationOf(aog.getMetaData().getAttributeName(panel.getSpecialisationOf()));
 				}
 				if (panel.getUnit().length() > 0) {
 					an.setUnit(aog.getMetaData().getUnit(panel.getUnit()));
@@ -467,9 +435,7 @@ public class DialogAttribute extends OVTK2Dialog {
 		else if (cmd.equals(ADD)) {
 			if (newPanel == null) {
 				newPanel = new AttributePanel(this, aog, null);
-				tabbedPane.addTab(Config.language
-						.getProperty("Dialog.Attribute.NewAttributeHeader"),
-						newPanel);
+				tabbedPane.addTab(Config.language.getProperty("Dialog.Attribute.NewAttributeHeader"), newPanel);
 				tabbedPane.setSelectedComponent(newPanel);
 			}
 		}
@@ -478,9 +444,7 @@ public class DialogAttribute extends OVTK2Dialog {
 		else if (cmd.equals(UNIT)) {
 			JComboBox cb = (JComboBox) arg0.getSource();
 			String selection = (String) cb.getSelectedItem();
-			if (selection != null
-					&& selection.equals(Config.language
-							.getProperty("Dialog.Attribute.CreateUnit"))) {
+			if (selection != null && selection.equals(Config.language.getProperty("Dialog.Attribute.CreateUnit"))) {
 				DialogUnit dialog = new DialogUnit(aog, this, cb);
 				displayCentered(dialog);
 			}

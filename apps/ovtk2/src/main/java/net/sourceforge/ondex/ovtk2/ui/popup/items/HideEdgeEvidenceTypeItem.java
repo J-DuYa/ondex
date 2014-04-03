@@ -23,8 +23,7 @@ public class HideEdgeEvidenceTypeItem extends EntityMenuItem<ONDEXRelation> {
 		for (ONDEXRelation edge : entities) {
 			ONDEXRelation r = edge;
 			for (EvidenceType et : r.getEvidence()) {
-				for (ONDEXRelation or : viewer.getONDEXJUNGGraph()
-						.getRelationsOfEvidenceType(et)) {
+				for (ONDEXRelation or : viewer.getONDEXJUNGGraph().getRelationsOfEvidenceType(et)) {
 					viewer.getONDEXJUNGGraph().setVisibility(or, false);
 				}
 			}

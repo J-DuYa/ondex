@@ -22,20 +22,18 @@ public class ShowEdgeSameTagItem extends EntityMenuItem<ONDEXRelation> {
 		}
 		return false;
 	}
-	
+
 	@Override
 	protected void doAction() {
 		for (ONDEXRelation edge : entities) {
 			ONDEXRelation r = edge;
 			for (ONDEXConcept concept : r.getTags()) {
 				// first set concepts visible
-				for (ONDEXConcept ctxt : viewer.getONDEXJUNGGraph()
-						.getConceptsOfTag(concept)) {
+				for (ONDEXConcept ctxt : viewer.getONDEXJUNGGraph().getConceptsOfTag(concept)) {
 					viewer.getONDEXJUNGGraph().setVisibility(ctxt, true);
 				}
 				// second set relations visible
-				for (ONDEXRelation re : viewer.getONDEXJUNGGraph()
-						.getRelationsOfTag(concept)) {
+				for (ONDEXRelation re : viewer.getONDEXJUNGGraph().getRelationsOfTag(concept)) {
 					viewer.getONDEXJUNGGraph().setVisibility(re, true);
 				}
 			}

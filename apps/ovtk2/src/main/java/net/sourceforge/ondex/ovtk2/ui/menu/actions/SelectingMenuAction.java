@@ -31,8 +31,7 @@ public class SelectingMenuAction implements ActionListener {
 		// select all visible nodes
 		if (cmd.equals("allnodes")) {
 			if (viewer != null) {
-				PickedState<ONDEXConcept> pickState = viewer
-						.getVisualizationViewer().getPickedVertexState();
+				PickedState<ONDEXConcept> pickState = viewer.getVisualizationViewer().getPickedVertexState();
 				for (ONDEXConcept n : viewer.getONDEXJUNGGraph().getVertices())
 					pickState.pick(n, true);
 			}
@@ -41,8 +40,7 @@ public class SelectingMenuAction implements ActionListener {
 		// select all visible edges
 		else if (cmd.equals("alledges")) {
 			if (viewer != null) {
-				PickedState<ONDEXRelation> pickState = viewer
-						.getVisualizationViewer().getPickedEdgeState();
+				PickedState<ONDEXRelation> pickState = viewer.getVisualizationViewer().getPickedEdgeState();
 				for (ONDEXRelation e : viewer.getONDEXJUNGGraph().getEdges())
 					pickState.pick(e, true);
 			}
@@ -51,8 +49,7 @@ public class SelectingMenuAction implements ActionListener {
 		// inverse node selection
 		else if (cmd.equals("inversenodes")) {
 			if (viewer != null) {
-				PickedState<ONDEXConcept> pickState = viewer
-						.getVisualizationViewer().getPickedVertexState();
+				PickedState<ONDEXConcept> pickState = viewer.getVisualizationViewer().getPickedVertexState();
 				for (ONDEXConcept n : viewer.getONDEXJUNGGraph().getVertices())
 					pickState.pick(n, !pickState.isPicked(n));
 			}
@@ -61,8 +58,7 @@ public class SelectingMenuAction implements ActionListener {
 		// inverse edge selection
 		else if (cmd.equals("inverseedges")) {
 			if (viewer != null) {
-				PickedState<ONDEXRelation> pickState = viewer
-						.getVisualizationViewer().getPickedEdgeState();
+				PickedState<ONDEXRelation> pickState = viewer.getVisualizationViewer().getPickedEdgeState();
 				for (ONDEXRelation e : viewer.getONDEXJUNGGraph().getEdges())
 					pickState.pick(e, !pickState.isPicked(e));
 			}
@@ -79,14 +75,12 @@ public class SelectingMenuAction implements ActionListener {
 				graph.setVisibility(c, true);
 
 				// pick tag concept only
-				PickedState<ONDEXConcept> pickState = viewer
-						.getVisualizationViewer().getPickedVertexState();
+				PickedState<ONDEXConcept> pickState = viewer.getVisualizationViewer().getPickedVertexState();
 				pickState.clear();
 				pickState.pick(c, true);
 
 				// perform zoom in to picked concept
-				desktop.actionPerformed(new ActionEvent(this,
-						ActionEvent.ACTION_PERFORMED, OVTK2ToolBar.ZOOMIN));
+				desktop.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, OVTK2ToolBar.ZOOMIN));
 			}
 		}
 	}

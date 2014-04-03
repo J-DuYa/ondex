@@ -59,8 +59,7 @@ import net.sourceforge.ondex.tools.threading.monitoring.SimpleMonitor;
  * @author taubertj
  * 
  */
-public class OVTK2Desktop implements ActionListener, InternalFrameListener,
-		VetoableChangeListener, DropTargetListener {
+public class OVTK2Desktop implements ActionListener, InternalFrameListener, VetoableChangeListener, DropTargetListener {
 
 	/**
 	 * 
@@ -158,8 +157,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 				monitor.next("initializing welcome screen...");
 
 				// check if welcome should be shown
-				if (Boolean.parseBoolean(Config.config
-						.getProperty("Welcome.Show")))
+				if (Boolean.parseBoolean(Config.config.getProperty("Welcome.Show")))
 					WelcomeDialog.getInstance(desktop);
 
 				monitor.next("cleaning up...");
@@ -268,9 +266,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		}
 
 		if (initializer == null) {
-			ErrorDialog.show(false, new Exception(
-					"Initialization unsuccessful!", caught), Thread
-					.currentThread());
+			ErrorDialog.show(false, new Exception("Initialization unsuccessful!", caught), Thread.currentThread());
 		} else if (initializer.getCaught() != null) {
 			ErrorDialog.show(false, initializer.getCaught(), initializer);
 			throw new RuntimeException(initializer.getCaught());
@@ -285,17 +281,17 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		//System.err.println(arg0.getActionCommand());
-		//System.err.println(arg0.getSource());
-		//System.err.println(arg0.paramString());
-		//System.err.println(arg0.getID());
-		
+		// System.err.println(arg0.getActionCommand());
+		// System.err.println(arg0.getSource());
+		// System.err.println(arg0.paramString());
+		// System.err.println(arg0.getID());
+
 		// propagate event to all interested listeners
 		Object[] listeners = events.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == ActionListener.class) {
 				((ActionListener) listeners[i + 1]).actionPerformed(arg0);
-				System.err.println(listeners[i + 1].getClass().toString());
+				// System.err.println(listeners[i + 1].getClass().toString());
 			}
 		}
 
@@ -324,14 +320,12 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		boolean iconified = position.equals(Position.centeredIconified);
 
 		// displays in centre location
-		if (position.equals(Position.centered)
-				|| position.equals(Position.centeredIconified)) {
+		if (position.equals(Position.centered) || position.equals(Position.centeredIconified)) {
 
 			// do the location calculation
 			Rectangle visible = desktop.getVisibleRect();
 			Dimension size = internal.getSize();
-			internal.setLocation((visible.width / 2) - (size.width / 2),
-					(visible.height / 2) - (size.height / 2));
+			internal.setLocation((visible.width / 2) - (size.width / 2), (visible.height / 2) - (size.height / 2));
 
 			if (size.height > visible.height)
 				internal.setLocation(internal.getX(), 0);
@@ -377,8 +371,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 			// do the location calculation
 			Rectangle visible = desktop.getVisibleRect();
 			Dimension size = internal.getSize();
-			internal.setLocation(visible.width - size.width, visible.height
-					- size.height);
+			internal.setLocation(visible.width - size.width, visible.height - size.height);
 		}
 
 		// add to desktop and show
@@ -472,16 +465,8 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		try {
 
 			// ask users on non windows OS
-			if (Config.lookAndFeel == null
-					&& !Config.getOsName().equals("windows")) {
-				int result = JOptionPane
-						.showConfirmDialog(
-								frame,
-								"A non Microsoft Windows OS has been detected.\n"
-										+ "Would you like to use the JAVA cross-platform Look&Feel\n"
-										+ "to improve compatability of the user interface?",
-								"Switch Look&Feel", JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
+			if (Config.lookAndFeel == null && !Config.getOsName().equals("windows")) {
+				int result = JOptionPane.showConfirmDialog(frame, "A non Microsoft Windows OS has been detected.\n" + "Would you like to use the JAVA cross-platform Look&Feel\n" + "to improve compatability of the user interface?", "Switch Look&Feel", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 				// get user choice
 				if (result == JOptionPane.YES_OPTION)
@@ -490,17 +475,14 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 					Config.lookAndFeel = "system";
 
 				// save user choice
-				Config.visual.setProperty("Default.LookAndFeel",
-						Config.lookAndFeel);
+				Config.visual.setProperty("Default.LookAndFeel", Config.lookAndFeel);
 				Config.saveVisual();
 			}
 
 			if (Config.lookAndFeel != null && Config.lookAndFeel.equals("java")) {
-				UIManager.setLookAndFeel(UIManager
-						.getCrossPlatformLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			} else {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
 
 		} catch (InstantiationException ie) {
@@ -523,9 +505,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 	 */
 	private void initUI() {
 
-		frame = new JFrame(Config.config.getProperty("Program.Name")
-				+ " - Version " + Config.config.getProperty("Program.Version")
-				+ " (build " + DesktopUtils.extractBuildNumber() + ")");
+		frame = new JFrame(Config.config.getProperty("Program.Name") + " - Version " + Config.config.getProperty("Program.Version") + " (build " + DesktopUtils.extractBuildNumber() + ")");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// get screen size
@@ -535,8 +515,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		frame.setSize(dim);
 
 		String s = File.separator;
-		String imgSrc = "config" + s + "themes" + s + "default" + s + "icons"
-				+ s + "ondex16" + ".png";
+		String imgSrc = "config" + s + "themes" + s + "default" + s + "icons" + s + "ondex16" + ".png";
 		Image icon = null;
 		try {
 			icon = Toolkit.getDefaultToolkit().getImage(imgSrc);
@@ -548,8 +527,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		}
 
 		// maximize jframe needs java 1.4 or later
-		GraphicsEnvironment env = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		frame.setMaximizedBounds(env.getMaximumWindowBounds());
 		frame.setExtendedState(frame.getExtendedState() | Frame.MAXIMIZED_BOTH);
 	}
@@ -564,8 +542,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		Object[] listeners = events.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == InternalFrameListener.class) {
-				((InternalFrameListener) listeners[i + 1])
-						.internalFrameActivated(arg0);
+				((InternalFrameListener) listeners[i + 1]).internalFrameActivated(arg0);
 			}
 		}
 
@@ -628,8 +605,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		Object[] listeners = events.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == InternalFrameListener.class) {
-				((InternalFrameListener) listeners[i + 1])
-						.internalFrameClosing(arg0);
+				((InternalFrameListener) listeners[i + 1]).internalFrameClosing(arg0);
 			}
 		}
 	}
@@ -690,18 +666,9 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 	 * Resets the menus to normal mode after the process has ended.
 	 */
 	public void notifyTerminationOfProcess() {
-		if (Boolean
-				.parseBoolean(Config.config.getProperty("Notifications.Set"))
-				&& System.currentTimeMillis() - processStartTime > 500) {
+		if (Boolean.parseBoolean(Config.config.getProperty("Notifications.Set")) && System.currentTimeMillis() - processStartTime > 500) {
 
-			JOptionPane.showMessageDialog(
-					desktop,
-					process
-							+ " "
-							+ Config.language
-									.getProperty("Progress.DialogEnd.Message"),
-					Config.language.getProperty("Progress.DialogEnd.Title"),
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(desktop, process + " " + Config.language.getProperty("Progress.DialogEnd.Message"), Config.language.getProperty("Progress.DialogEnd.Title"), JOptionPane.INFORMATION_MESSAGE);
 		}
 		updateMenuBarMode("none");
 	}
@@ -716,8 +683,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		// when there is something going on
 		for (int i = 0; i < mb.getMenuCount(); i++) {
 			JMenu menu = mb.getMenu(i);
-			if (menu.getText()
-					.equals(Config.language.getProperty("Menu.Tools"))) {
+			if (menu.getText().equals(Config.language.getProperty("Menu.Tools"))) {
 				if (!mode.equals("none"))
 					menu.setEnabled(false);
 				else
@@ -727,8 +693,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 	}
 
 	@Override
-	public void vetoableChange(final PropertyChangeEvent event)
-			throws PropertyVetoException {
+	public void vetoableChange(final PropertyChangeEvent event) throws PropertyVetoException {
 
 		String name = event.getPropertyName();
 		Object value = event.getNewValue();
@@ -746,13 +711,9 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 					return;
 
 				// ask user if it is ok to close
-				int option = JOptionPane.showInternalConfirmDialog(desktop,
-						Config.language.getProperty("Dialog.Save.View.Text"),
-						Config.language.getProperty("Dialog.Save.View.Title"),
-						JOptionPane.YES_NO_CANCEL_OPTION);
+				int option = JOptionPane.showInternalConfirmDialog(desktop, Config.language.getProperty("Dialog.Save.View.Text"), Config.language.getProperty("Dialog.Save.View.Title"), JOptionPane.YES_NO_CANCEL_OPTION);
 				if (option == JOptionPane.YES_OPTION) {
-					final File file = DesktopUtils.showSaveDialog(new String[] {
-							"xml", "gz" });
+					final File file = DesktopUtils.showSaveDialog(new String[] { "xml", "gz" });
 					if (file != null) {
 
 						// wrap into a process
@@ -761,8 +722,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 
 								try {
 									// start OXL export
-									new OXLExport(viewer.getONDEXJUNGGraph(),
-											file);
+									new OXLExport(viewer.getONDEXJUNGGraph(), file);
 								} catch (Exception e) {
 									ErrorDialog.show(e);
 								}
@@ -777,8 +737,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 
 				// if the user doesn't agree, veto the close
 				else if (option == JOptionPane.CANCEL_OPTION)
-					throw new PropertyVetoException("User canceled close",
-							event);
+					throw new PropertyVetoException("User canceled close", event);
 				else
 					resetMouseMode(viewer);
 			}
@@ -823,17 +782,14 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 		boolean ok = false;
 
 		// Get data flavors being dragged
-		java.awt.datatransfer.DataFlavor[] flavors = evt
-				.getCurrentDataFlavors();
+		java.awt.datatransfer.DataFlavor[] flavors = evt.getCurrentDataFlavors();
 
 		// See if any of the flavors are a file list
 		int i = 0;
 		while (!ok && i < flavors.length) {
 			// Is the flavor a file list?
 			final DataFlavor curFlavor = flavors[i];
-			if (curFlavor
-					.equals(java.awt.datatransfer.DataFlavor.javaFileListFlavor)
-					|| curFlavor.isRepresentationClassReader()) {
+			if (curFlavor.equals(java.awt.datatransfer.DataFlavor.javaFileListFlavor) || curFlavor.isRepresentationClassReader()) {
 				ok = true;
 			}
 			i++;
@@ -873,8 +829,7 @@ public class OVTK2Desktop implements ActionListener, InternalFrameListener,
 
 				// Get a useful list
 				@SuppressWarnings("unchecked")
-				java.util.List<File> fileList = (java.util.List<File>) tr
-						.getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
+				java.util.List<File> fileList = (java.util.List<File>) tr.getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
 
 				// only load files after initialisation
 				if (OVTK2Desktop.hasFinishedInit()) {

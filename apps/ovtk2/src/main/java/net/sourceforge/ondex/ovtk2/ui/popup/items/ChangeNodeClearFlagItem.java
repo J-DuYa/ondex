@@ -30,14 +30,9 @@ public class ChangeNodeClearFlagItem extends EntityMenuItem<ONDEXConcept> {
 	public void init(OVTK2PropertiesAggregator v, Set<ONDEXConcept> e) {
 		super.init(v, e);
 		ONDEXJUNGGraph graph = this.viewer.getONDEXJUNGGraph();
-		anFlag = graph.getMetaData().getAttributeName(
-				AppearanceSynchronizer.FLAGGED);
+		anFlag = graph.getMetaData().getAttributeName(AppearanceSynchronizer.FLAGGED);
 		if (anFlag == null)
-			anFlag = graph
-					.getMetaData()
-					.getFactory()
-					.createAttributeName(AppearanceSynchronizer.FLAGGED,
-							"flagged concept", Boolean.class);
+			anFlag = graph.getMetaData().getFactory().createAttributeName(AppearanceSynchronizer.FLAGGED, "flagged concept", Boolean.class);
 	}
 
 	@Override
@@ -45,8 +40,7 @@ public class ChangeNodeClearFlagItem extends EntityMenuItem<ONDEXConcept> {
 		boolean found = false;
 		for (ONDEXConcept c : entities) {
 			// at least one concept flagged
-			if (c.getAttribute(anFlag) != null
-					&& c.getAttribute(anFlag).getValue().equals(Boolean.TRUE)) {
+			if (c.getAttribute(anFlag) != null && c.getAttribute(anFlag).getValue().equals(Boolean.TRUE)) {
 				found = true;
 				break;
 			}

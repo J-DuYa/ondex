@@ -24,8 +24,7 @@ import net.sourceforge.ondex.ovtk2.ui.dialog.tablemodel.ColorTableEditor;
  * @author weilej
  * 
  */
-public class LegendFrame extends RegisteredJInternalFrame implements
-		TableModelListener {
+public class LegendFrame extends RegisteredJInternalFrame implements TableModelListener {
 
 	/**
 	 * serial id.
@@ -43,12 +42,10 @@ public class LegendFrame extends RegisteredJInternalFrame implements
 	 * constructor.
 	 */
 	public LegendFrame(ColorCategoryAnnotator annotator) {
-		super("Legend " + annotator.getName(), "Annotator", "Legend "
-				+ annotator.getName() + " - "
-				+ annotator.getViewer().getTitle(), true, true, false, true);
+		super("Legend " + annotator.getName(), "Annotator", "Legend " + annotator.getName() + " - " + annotator.getViewer().getTitle(), true, true, false, true);
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+
 		this.annotator = annotator;
 		this.attributeName = annotator.getAttributeName();
 		this.items = annotator.getItemSet();
@@ -133,16 +130,14 @@ public class LegendFrame extends RegisteredJInternalFrame implements
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			if (rowIndex > -1 && rowIndex < getRowCount() && columnIndex > -1
-					&& columnIndex < 2)
+			if (rowIndex > -1 && rowIndex < getRowCount() && columnIndex > -1 && columnIndex < 2)
 				return array[rowIndex][columnIndex];
 			else
 				return null;
 		}
 
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			if (rowIndex > -1 && rowIndex < getRowCount() && columnIndex > -1
-					&& columnIndex < 2)
+			if (rowIndex > -1 && rowIndex < getRowCount() && columnIndex > -1 && columnIndex < 2)
 				array[rowIndex][columnIndex] = aValue;
 			fireTableCellUpdated(rowIndex, columnIndex);
 		}
@@ -155,8 +150,7 @@ public class LegendFrame extends RegisteredJInternalFrame implements
 		int col = e.getColumn();
 		if (e.getType() == TableModelEvent.UPDATE && col == 1) {// color updated
 			Object id = table.getModel().getValueAt(row, 0);
-			Color color = (Color) ((ColorTableModel) table.getModel())
-					.getValueAt(row, col);
+			Color color = (Color) ((ColorTableModel) table.getModel()).getValueAt(row, col);
 			colors.put(id, color);
 			annotator.applyColors();
 		}

@@ -73,8 +73,7 @@ public class CustomPopupItemBean {
 	 * @return Path to <code>Config.ovtkDir / popupMenu /</code>.
 	 */
 	public static File getPopupPath() {
-		File popupDir = new File(Config.ovtkDir + File.separatorChar
-				+ "popupMenu" + File.separatorChar);
+		File popupDir = new File(Config.ovtkDir + File.separatorChar + "popupMenu" + File.separatorChar);
 		if (!popupDir.exists())
 			return popupDir.mkdir() ? popupDir : null;
 		if (popupDir.isDirectory())
@@ -89,16 +88,12 @@ public class CustomPopupItemBean {
 	 * @throws FileNotFoundException
 	 * @throws java.util.NoSuchElementException
 	 */
-	public static CustomPopupItemBean loadXML(String fileName)
-			throws FileNotFoundException, java.util.NoSuchElementException {
-		return loadXML(new File(getPopupPath().getAbsolutePath()
-				+ File.separatorChar + fileName));
+	public static CustomPopupItemBean loadXML(String fileName) throws FileNotFoundException, java.util.NoSuchElementException {
+		return loadXML(new File(getPopupPath().getAbsolutePath() + File.separatorChar + fileName));
 	}
 
-	public static CustomPopupItemBean loadXML(File xmlFile)
-			throws FileNotFoundException, java.util.NoSuchElementException {
-		XMLDecoder d = new XMLDecoder(new BufferedInputStream(
-				new FileInputStream(xmlFile)));
+	public static CustomPopupItemBean loadXML(File xmlFile) throws FileNotFoundException, java.util.NoSuchElementException {
+		XMLDecoder d = new XMLDecoder(new BufferedInputStream(new FileInputStream(xmlFile)));
 		CustomPopupItemBean item = (CustomPopupItemBean) d.readObject();
 		d.close();
 		// changing the file name and/or directory renames this object
@@ -107,10 +102,8 @@ public class CustomPopupItemBean {
 		return item;
 	}
 
-	public static CustomPopupItemBean loadXML(URL xmlFile)
-			throws java.util.NoSuchElementException, IOException {
-		XMLDecoder d = new XMLDecoder(new BufferedInputStream(
-				xmlFile.openStream()));
+	public static CustomPopupItemBean loadXML(URL xmlFile) throws java.util.NoSuchElementException, IOException {
+		XMLDecoder d = new XMLDecoder(new BufferedInputStream(xmlFile.openStream()));
 		CustomPopupItemBean item = (CustomPopupItemBean) d.readObject();
 		d.close();
 		// changing the file name and/or directory renames this object
@@ -128,9 +121,7 @@ public class CustomPopupItemBean {
 	}
 
 	private static String getQualifiedName(File xmlFile) {
-		String name = xmlFile.getPath().substring(
-				xmlFile.getPath().indexOf(getPopupPath().toString())
-						+ getPopupPath().toString().length() + 1);
+		String name = xmlFile.getPath().substring(xmlFile.getPath().indexOf(getPopupPath().toString()) + getPopupPath().toString().length() + 1);
 		return name.substring(0, name.length() - 4);
 	}
 
@@ -142,8 +133,7 @@ public class CustomPopupItemBean {
 	 */
 	private static String getQualifiedName(URL xmlFile) {
 		String popupPath = Config.ovtkDir + "/popupMenu";
-		String name = xmlFile.toString().substring(
-				xmlFile.toString().indexOf(popupPath) + popupPath.length() + 1);
+		String name = xmlFile.toString().substring(xmlFile.toString().indexOf(popupPath) + popupPath.length() + 1);
 		name = name.substring(0, name.length() - 4);
 		return name;
 	}
@@ -171,8 +161,7 @@ public class CustomPopupItemBean {
 		}
 
 		// save as xml
-		XMLEncoder e = new XMLEncoder(new BufferedOutputStream(
-				new FileOutputStream(getFilename(name))));
+		XMLEncoder e = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(getFilename(name))));
 		e.writeObject(this);
 		e.close();
 	}

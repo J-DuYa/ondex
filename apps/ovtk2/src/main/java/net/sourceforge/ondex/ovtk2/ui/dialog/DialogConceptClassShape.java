@@ -55,11 +55,8 @@ public class DialogConceptClassShape extends OVTK2Dialog {
 		super("Dialog.CcShape.Title", "Properties16.gif");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
-		this.getContentPane().add(makeProperties(selection),
-				BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.CcShape.Apply",
-						"Dialog.CcShape.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeProperties(selection), BorderLayout.CENTER);
+		this.getContentPane().add(makeButtonsPanel("Dialog.CcShape.Apply", "Dialog.CcShape.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -84,9 +81,7 @@ public class DialogConceptClassShape extends OVTK2Dialog {
 		JPanel properties = new JPanel();
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.CcShape.ConceptClasses"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.CcShape.ConceptClasses"));
 		properties.setBorder(propertiesBorder);
 
 		// get shapes from visual.xml
@@ -101,9 +96,7 @@ public class DialogConceptClassShape extends OVTK2Dialog {
 		}
 
 		// setup table
-		model = new ShapeTableModel(shapes, Config.language
-				.getProperty("Dialog.CcShape.TableName"), Config.language
-				.getProperty("Dialog.CcShape.TableShape"));
+		model = new ShapeTableModel(shapes, Config.language.getProperty("Dialog.CcShape.TableName"), Config.language.getProperty("Dialog.CcShape.TableShape"));
 		table = new JTable(model);
 		Shape shape = shapes.values().iterator().next();
 		Rectangle2D bounds = shape.getBounds2D();
@@ -114,8 +107,7 @@ public class DialogConceptClassShape extends OVTK2Dialog {
 		setSelection(selection);
 
 		TableColumn shapecol = table.getColumnModel().getColumn(1);
-		int width = Config.language.getProperty("Dialog.CcShape.TableShape")
-				.length() * 9;
+		int width = Config.language.getProperty("Dialog.CcShape.TableShape").length() * 9;
 		shapecol.setMaxWidth(width);
 		shapecol.setMinWidth(width);
 		JComboBox comboBox = new JComboBox();
@@ -203,15 +195,13 @@ public class DialogConceptClassShape extends OVTK2Dialog {
 				// concept class name not existing
 				if (!existing.containsKey(name)) {
 					// new mapping here
-					Config.visual.put(SHAPE_VIS + name, ONDEXNodeShapes.getId(
-							shapes.get(name)).toString());
+					Config.visual.put(SHAPE_VIS + name, ONDEXNodeShapes.getId(shapes.get(name)).toString());
 					existing.put(name, shapes.get(name));
 				}
 				// shape different
 				else if (!existing.get(name).equals(shapes.get(name))) {
 					// change shape here
-					Config.visual.put(SHAPE_VIS + name, ONDEXNodeShapes.getId(
-							shapes.get(name)).toString());
+					Config.visual.put(SHAPE_VIS + name, ONDEXNodeShapes.getId(shapes.get(name)).toString());
 				}
 			}
 		}

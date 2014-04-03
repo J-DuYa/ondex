@@ -18,8 +18,7 @@ import edu.uci.ics.jung.visualization.util.VertexShapeFactory;
  * @author taubertj
  * 
  */
-public class ONDEXMetaConceptShapes implements
-		Transformer<ONDEXMetaConcept, Shape> {
+public class ONDEXMetaConceptShapes implements Transformer<ONDEXMetaConcept, Shape> {
 
 	// current ONDEXJUNGGraph
 	private ONDEXJUNGGraph graph = null;
@@ -40,21 +39,20 @@ public class ONDEXMetaConceptShapes implements
 
 		this.graph = graph;
 		this.shapes = new Hashtable<ConceptClass, Shape>();
-		this.shapeFactory = new VertexShapeFactory<ONDEXMetaConcept>(
-				new Transformer<ONDEXMetaConcept, Integer>() {
+		this.shapeFactory = new VertexShapeFactory<ONDEXMetaConcept>(new Transformer<ONDEXMetaConcept, Integer>() {
 
-					@Override
-					public Integer transform(ONDEXMetaConcept input) {
-						return 20;
-					}
+			@Override
+			public Integer transform(ONDEXMetaConcept input) {
+				return 20;
+			}
 
-				}, new Transformer<ONDEXMetaConcept, Float>() {
+		}, new Transformer<ONDEXMetaConcept, Float>() {
 
-					@Override
-					public Float transform(ONDEXMetaConcept input) {
-						return 1.0f;
-					}
-				});
+			@Override
+			public Float transform(ONDEXMetaConcept input) {
+				return 1.0f;
+			}
+		});
 
 		// initialise shapes
 		updateAll();
@@ -67,21 +65,20 @@ public class ONDEXMetaConceptShapes implements
 	 *            new node size
 	 */
 	public void setSize(final int nodeSize) {
-		this.shapeFactory = new VertexShapeFactory<ONDEXMetaConcept>(
-				new Transformer<ONDEXMetaConcept, Integer>() {
+		this.shapeFactory = new VertexShapeFactory<ONDEXMetaConcept>(new Transformer<ONDEXMetaConcept, Integer>() {
 
-					@Override
-					public Integer transform(ONDEXMetaConcept input) {
-						return nodeSize;
-					}
+			@Override
+			public Integer transform(ONDEXMetaConcept input) {
+				return nodeSize;
+			}
 
-				}, new Transformer<ONDEXMetaConcept, Float>() {
+		}, new Transformer<ONDEXMetaConcept, Float>() {
 
-					@Override
-					public Float transform(ONDEXMetaConcept input) {
-						return 1.0f;
-					}
-				});
+			@Override
+			public Float transform(ONDEXMetaConcept input) {
+				return 1.0f;
+			}
+		});
 		updateAll();
 	}
 

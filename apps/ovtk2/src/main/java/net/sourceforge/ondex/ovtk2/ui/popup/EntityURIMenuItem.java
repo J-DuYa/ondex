@@ -52,40 +52,25 @@ public class EntityURIMenuItem extends JMenuItem {
 	protected Set<String> layoutAndCenter;
 	protected final Map<String, String> cvToUrl;
 
-	public static EntityURIMenuItem getMenuItem(OVTK2Viewer viewer,
-			ONDEXConcept vertex, ONDEXRelation edge, String name,
-			List<String> commands, List<String> commandsEdge,
-			Set<String> layoutAndCenter, Map<String, String> cvToUrl) {
+	public static EntityURIMenuItem getMenuItem(OVTK2Viewer viewer, ONDEXConcept vertex, ONDEXRelation edge, String name, List<String> commands, List<String> commandsEdge, Set<String> layoutAndCenter, Map<String, String> cvToUrl) {
 		currentName = name;
 		if (tmp == null) {
 			try {
-				tmp = Thread
-						.currentThread()
-						.getContextClassLoader()
-						.loadClass("net.sourceforge.ondex.scripting.OutputPrinter");
-				clsInterp = Thread
-						.currentThread()
-						.getContextClassLoader()
-						.loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
-				clsOutput = Thread
-						.currentThread()
-						.getContextClassLoader()
-						.loadClass("net.sourceforge.ondex.scripting.ui.CommandLine");
+				tmp = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.scripting.OutputPrinter");
+				clsInterp = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.scripting.sparql.SPARQLInterpreter");
+				clsOutput = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.scripting.ui.CommandLine");
 			} catch (ClassNotFoundException e) {
 				return null;
 			}
 		}
-		return new EntityURIMenuItem(viewer, vertex, edge, name, commands,
-				commandsEdge, layoutAndCenter, cvToUrl);
+		return new EntityURIMenuItem(viewer, vertex, edge, name, commands, commandsEdge, layoutAndCenter, cvToUrl);
 	}
 
 	public static String getCurrentName() {
 		return currentName;
 	}
 
-	protected EntityURIMenuItem(final OVTK2Viewer viewer, ONDEXConcept vertex,
-			ONDEXRelation edge, String name, List<String> commandsNode,
-			List<String> commandsEdge, Set<String> layoutAndCenter, Map<String, String> cvToUrl) {
+	protected EntityURIMenuItem(final OVTK2Viewer viewer, ONDEXConcept vertex, ONDEXRelation edge, String name, List<String> commandsNode, List<String> commandsEdge, Set<String> layoutAndCenter, Map<String, String> cvToUrl) {
 		this.viewer = viewer;
 		this.n = vertex;
 		this.e = edge;
@@ -127,8 +112,7 @@ public class EntityURIMenuItem extends JMenuItem {
 			return;
 		}
 		AttributeName att = MdHelper.createAttName(graph, "URI", String.class);
-		AttributeName attType = MdHelper.createAttName(graph, "TYPE_URI",
-				String.class);
+		AttributeName attType = MdHelper.createAttName(graph, "TYPE_URI", String.class);
 
 		Set<ONDEXConcept> cs = new HashSet<ONDEXConcept>(viewer.getPickedNodes());
 		if (n != null) {
@@ -143,29 +127,26 @@ public class EntityURIMenuItem extends JMenuItem {
 			Attribute attribute = concept.getAttribute(att);
 			String uri = null;
 			if (attribute != null) {
-				uri = attribute.getValue().toString();	
-			}
-			else{
-				for(ConceptAccession ca : concept.getConceptAccessions()){
+				uri = attribute.getValue().toString();
+			} else {
+				for (ConceptAccession ca : concept.getConceptAccessions()) {
 					String cv = ca.getElementOf().getId();
 					String base = cvToUrl.get(cv);
-					if(base != null){
+					if (base != null) {
 						uri = base + ca.getAccession();
 						concept.createAttribute(att, uri, false);
 						break;
 					}
 				}
 			}
-			if(uri == null){
+			if (uri == null) {
 				continue;
 			}
 
 			try {
-				Object instanceInterp = clsInterp.getMethod(
-						"getCurrentInstance", new Class<?>[0]).invoke(null, new Object[0]);
-				Object instanceOutput = clsOutput.getMethod(
-						"getCurrentInstance", new Class<?>[0]).invoke(null,	new Object[0]);
-				Method m = clsInterp.getMethod("silentProcess", new Class[] {String.class, tmp });
+				Object instanceInterp = clsInterp.getMethod("getCurrentInstance", new Class<?>[0]).invoke(null, new Object[0]);
+				Object instanceOutput = clsOutput.getMethod("getCurrentInstance", new Class<?>[0]).invoke(null, new Object[0]);
+				Method m = clsInterp.getMethod("silentProcess", new Class[] { String.class, tmp });
 
 				for (String command : commandsNode) {
 					String com = new String(command);
@@ -173,11 +154,9 @@ public class EntityURIMenuItem extends JMenuItem {
 					m.invoke(instanceInterp, new Object[] { com, instanceOutput });
 				}
 
-				Method z = clsInterp.getMethod("getAffectedConcepts",
-						new Class[] {});
+				Method z = clsInterp.getMethod("getAffectedConcepts", new Class[] {});
 				BitSet set = (BitSet) z.invoke(instanceInterp, new Object[0]);
-				Set<ONDEXConcept> selectedConcepts = BitSetFunctions.create(
-						graph, ONDEXConcept.class, set);
+				Set<ONDEXConcept> selectedConcepts = BitSetFunctions.create(graph, ONDEXConcept.class, set);
 				graph.setVisibility(selectedConcepts, true);
 				Set<ONDEXRelation> relations = new HashSet<ONDEXRelation>();
 				for (ONDEXConcept c : selectedConcepts) {
@@ -188,8 +167,7 @@ public class EntityURIMenuItem extends JMenuItem {
 				if (layoutAndCenter.contains(this.name)) {
 					doLayout(viewer, concept.getId(), set);
 					viewer.center();
-					viewer.getVisualizationViewer().getModel()
-							.fireStateChanged();
+					viewer.getVisualizationViewer().getModel().fireStateChanged();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -197,8 +175,7 @@ public class EntityURIMenuItem extends JMenuItem {
 		}
 
 		for (ONDEXRelation relation : rs) {
-			Attribute attributeFrom = relation.getFromConcept().getAttribute(
-					att);
+			Attribute attributeFrom = relation.getFromConcept().getAttribute(att);
 			if (attributeFrom == null) {
 				continue;
 			}
@@ -217,14 +194,9 @@ public class EntityURIMenuItem extends JMenuItem {
 			String type = typeURI.getValue().toString();
 
 			try {
-				Object instanceInterp = clsInterp.getMethod(
-						"getCurrentInstance", new Class<?>[0]).invoke(null,
-						new Object[0]);
-				Object instanceOutput = clsOutput.getMethod(
-						"getCurrentInstance", new Class<?>[0]).invoke(null,
-						new Object[0]);
-				Method m = clsInterp.getMethod("process", new Class[] {
-						String.class, tmp });
+				Object instanceInterp = clsInterp.getMethod("getCurrentInstance", new Class<?>[0]).invoke(null, new Object[0]);
+				Object instanceOutput = clsOutput.getMethod("getCurrentInstance", new Class<?>[0]).invoke(null, new Object[0]);
+				Method m = clsInterp.getMethod("process", new Class[] { String.class, tmp });
 
 				for (String command : commandsEdge) {
 					String com = new String(command);

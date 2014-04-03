@@ -89,8 +89,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 
 	private JComboBox operationBox = new JComboBox();
 
-	private JCheckBox showRelations = new JCheckBox(
-			"Show relations between concepts of selected tags.");
+	private JCheckBox showRelations = new JCheckBox("Show relations between concepts of selected tags.");
 
 	/**
 	 * Filter has been used
@@ -108,8 +107,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 		setLayout(new SpringLayout());
 
 		// table header
-		String[] columnNames = { Config.language.getProperty(TAG_NAME),
-				"Operation:" };
+		String[] columnNames = { Config.language.getProperty(TAG_NAME), "Operation:" };
 
 		// new set of combo boxes
 		operationBox.addItem(Config.language.getProperty(TAG_FIRST_LINE));
@@ -129,8 +127,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 		typeBox.addActionListener(this);
 
 		// table data
-		Object[][] data = { { tagBox.getSelectedItem(),
-				operationBox.getSelectedItem() } };
+		Object[][] data = { { tagBox.getSelectedItem(), operationBox.getSelectedItem() } };
 
 		// create table and set editors
 		table = new JTable(new DefaultTableModel(data, columnNames));
@@ -142,21 +139,14 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 		table.getColumnModel().getColumn(1).setCellRenderer(renderer);
 
 		// combo box cell editor
-		table.getColumnModel().getColumn(0)
-				.setCellEditor(new DefaultCellEditor(tagBox));
-		table.getColumnModel().getColumn(1)
-				.setCellEditor(new DefaultCellEditor(operationBox));
+		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(tagBox));
+		table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(operationBox));
 
 		table.getModel().addTableModelListener(new TableModelListener() {
 			public void tableChanged(TableModelEvent arg0) {
-				if (table.getModel().getValueAt(
-						table.getModel().getRowCount() - 1, 0) != Config.language
-						.getProperty(TAG_FIRST_LINE)) {
-					DefaultTableModel model = (DefaultTableModel) table
-							.getModel();
-					model.addRow(new Object[] {
-							Config.language.getProperty(TAG_FIRST_LINE),
-							operationBox.getItemAt(0) });
+				if (table.getModel().getValueAt(table.getModel().getRowCount() - 1, 0) != Config.language.getProperty(TAG_FIRST_LINE)) {
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.addRow(new Object[] { Config.language.getProperty(TAG_FIRST_LINE), operationBox.getItemAt(0) });
 				}
 			}
 		});
@@ -187,8 +177,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 		sub.add(combine, BorderLayout.EAST);
 		this.add(sub);
 
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 	}
 
 	private static void forceSize(JButton button) {
@@ -209,22 +198,18 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 		if (cmd.contains(TAG_CC_TYPE)) {
 			JComboBox typeBox = (JComboBox) e.getSource();
 			if (typeBox.getSelectedItem() != null) {
-				table.getCellEditor(table.getModel().getRowCount() - 1, 0)
-						.stopCellEditing();
+				table.getCellEditor(table.getModel().getRowCount() - 1, 0).stopCellEditing();
 				String type = typeBox.getSelectedItem().toString();
 				updateContext(type, tagBox);
 			}
 		} else if (cmd.equals(ADD)) {
 			// add a new default row to the table
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
-			model.addRow(new Object[] {
-					Config.language.getProperty(TAG_FIRST_LINE),
-					operationBox.getItemAt(0) });
+			model.addRow(new Object[] { Config.language.getProperty(TAG_FIRST_LINE), operationBox.getItemAt(0) });
 
 		} else if (cmd.equals(APPLY)) {
 
-			StateEdit edit = new StateEdit(new VisibilityUndo(
-					viewer.getONDEXJUNGGraph()), this.getName());
+			StateEdit edit = new StateEdit(new VisibilityUndo(viewer.getONDEXJUNGGraph()), this.getName());
 			OVTK2Desktop desktop = OVTK2Desktop.getInstance();
 			desktop.setRunningProcess(this.getName());
 
@@ -234,19 +219,16 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 			for (int row = 0; row < table.getModel().getRowCount(); row++) {
 
 				// check if tag was selected
-				if (!table.getModel().getValueAt(row, 0)
-						.equals(Config.language.getProperty(TAG_FIRST_LINE))) {
+				if (!table.getModel().getValueAt(row, 0).equals(Config.language.getProperty(TAG_FIRST_LINE))) {
 					// get value from table
-					IntegerStringWrapper tag = (IntegerStringWrapper) table
-							.getModel().getValueAt(row, 0);
+					IntegerStringWrapper tag = (IntegerStringWrapper) table.getModel().getValueAt(row, 0);
 
 					ONDEXConcept concept = graph.getConcept(tag.getValue());
 
 					Filter filter = new Filter();
 
 					try {
-						ONDEXPluginArguments fa = new ONDEXPluginArguments(
-								filter.getArgumentDefinitions());
+						ONDEXPluginArguments fa = new ONDEXPluginArguments(filter.getArgumentDefinitions());
 						fa.addOption(ArgumentNames.TAG_ARG, concept.getId());
 
 						filter.addONDEXListener(new ONDEXLogger());
@@ -259,14 +241,11 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 
 					// store visible relations
 					if (row == 0) {
-						concepts = BitSetFunctions.copy(filter
-								.getVisibleConcepts());
-						relations = BitSetFunctions.copy(filter
-								.getVisibleRelations());
+						concepts = BitSetFunctions.copy(filter.getVisibleConcepts());
+						relations = BitSetFunctions.copy(filter.getVisibleRelations());
 					} else {
 						// operator from previous row more logical
-						String operation = (String) table.getModel()
-								.getValueAt(row - 1, 1);
+						String operation = (String) table.getModel().getValueAt(row - 1, 1);
 
 						// and operator
 						if (operation.equals(AND)) {
@@ -293,8 +272,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 						setGraphVisible(true);
 
 						// propagate change to viewer
-						viewer.getVisualizationViewer().getModel()
-								.fireStateChanged();
+						viewer.getVisualizationViewer().getModel().fireStateChanged();
 					}
 				}
 			}
@@ -310,8 +288,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 				if (showRelations.isSelected()) {
 					Collection<ONDEXConcept> visible = graph.getVertices();
 					for (ONDEXRelation r : graph.getRelations()) {
-						if (visible.contains(r.getToConcept())
-								&& visible.contains(r.getFromConcept())) {
+						if (visible.contains(r.getToConcept()) && visible.contains(r.getFromConcept())) {
 							graph.setVisibility(r, true);
 						}
 					}
@@ -353,8 +330,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 				contextCCTypeList.add(c.getOfType().getId());
 				typeBox.addItem(c.getOfType().getId());
 			}
-			IntegerStringWrapper wrapper = new IntegerStringWrapper(c.getId(),
-					ConceptListUtils.getDefaultNameForConcept(c));
+			IntegerStringWrapper wrapper = new IntegerStringWrapper(c.getId(), ConceptListUtils.getDefaultNameForConcept(c));
 			contextBox.addItem(wrapper);
 			list.add(wrapper);
 		}
@@ -370,15 +346,13 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 	 * @param contextBox
 	 *            JComboBox to wrap
 	 */
-	private void addAutoCompleteSupport(List<Object> list,
-			final JComboBox contextBox) {
+	private void addAutoCompleteSupport(List<Object> list, final JComboBox contextBox) {
 		final Object[] elements = list.toArray();
 
 		// request the event-dispatching thread to run certain code
 		Runnable doWorkRunnable = new Runnable() {
 			public void run() {
-				SortedList<Object> sorted = new SortedList<Object>(
-						GlazedLists.eventListOf(elements));
+				SortedList<Object> sorted = new SortedList<Object>(GlazedLists.eventListOf(elements));
 				// auto completion support for selection list
 				support = AutoCompleteSupport.install(contextBox, sorted);
 				support.setStrict(true);
@@ -413,8 +387,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 		contextBox.addItem(Config.language.getProperty(TAG_FIRST_LINE));
 		for (ONDEXConcept c : graph.getAllTags()) {
 			if (cc.equals(Config.language.getProperty(TAG_TYPE_FIRST_LINE))) {
-				IntegerStringWrapper wrapper = new IntegerStringWrapper(
-						c.getId(), ConceptListUtils.getDefaultNameForConcept(c));
+				IntegerStringWrapper wrapper = new IntegerStringWrapper(c.getId(), ConceptListUtils.getDefaultNameForConcept(c));
 				contextBox.addItem(wrapper);
 				list.add(wrapper);
 				continue;
@@ -423,8 +396,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 			if (cc != null && !c.getOfType().getId().equals(cc)) {
 				continue;
 			}
-			IntegerStringWrapper wrapper = new IntegerStringWrapper(c.getId(),
-					ConceptListUtils.getDefaultNameForConcept(c));
+			IntegerStringWrapper wrapper = new IntegerStringWrapper(c.getId(), ConceptListUtils.getDefaultNameForConcept(c));
 			contextBox.addItem(wrapper);
 			list.add(wrapper);
 		}
@@ -457,8 +429,7 @@ public class TagFilter extends OVTK2Filter implements ActionListener {
 	 * @param viewC
 	 * @param viewR
 	 */
-	private void setGraphVisible(Set<ONDEXConcept> viewC,
-			Set<ONDEXRelation> viewR) {
+	private void setGraphVisible(Set<ONDEXConcept> viewC, Set<ONDEXRelation> viewR) {
 
 		// show concepts of filter
 		for (ONDEXConcept ac : viewC) {

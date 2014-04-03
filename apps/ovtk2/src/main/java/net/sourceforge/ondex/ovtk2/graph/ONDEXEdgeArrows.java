@@ -14,8 +14,7 @@ import edu.uci.ics.jung.graph.util.Context;
  * @author taubertj
  * 
  */
-public class ONDEXEdgeArrows implements
-		Predicate<Context<Graph<ONDEXConcept, ONDEXRelation>, ONDEXRelation>> {
+public class ONDEXEdgeArrows implements Predicate<Context<Graph<ONDEXConcept, ONDEXRelation>, ONDEXRelation>> {
 
 	// whether or not to display arrows on edges
 	private boolean showArrow = true;
@@ -45,8 +44,7 @@ public class ONDEXEdgeArrows implements
 	 *            Context<Graph<ONDEXNode, ONDEXEdge>, ONDEXEdge>
 	 * @return boolean
 	 */
-	public boolean evaluate(
-			Context<Graph<ONDEXConcept, ONDEXRelation>, ONDEXRelation> object) {
+	public boolean evaluate(Context<Graph<ONDEXConcept, ONDEXRelation>, ONDEXRelation> object) {
 		return showArrow;
 	}
 

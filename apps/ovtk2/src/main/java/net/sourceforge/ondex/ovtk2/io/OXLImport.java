@@ -235,23 +235,17 @@ public class OXLImport implements Monitorable {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	public void start() throws FileNotFoundException, IOException,
-			XMLStreamException, ClassNotFoundException, JAXBException,
-			InconsistencyException, InstantiationException,
-			IllegalAccessException {
+	public void start() throws FileNotFoundException, IOException, XMLStreamException, ClassNotFoundException, JAXBException, InconsistencyException, InstantiationException, IllegalAccessException {
 		now();
-		System.setProperty("javax.xml.stream.XMLInputFactory",
-				"com.ctc.wstx.stax.WstxInputFactory");
-		XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2
-				.newInstance();
+		System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+		XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2.newInstance();
 		xmlInput.configureForSpeed();
 
 		InputStream inStream = getInStream(filename);
 
 		if (inStream != null) {
 			// configure Parser
-			XMLStreamReader2 xmlr = (XMLStreamReader2) xmlInput
-					.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
+			XMLStreamReader2 xmlr = (XMLStreamReader2) xmlInput.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
 
 			// check version number in file, that should be quick as version is
 			// on the very top of the file
@@ -264,16 +258,7 @@ public class OXLImport implements Monitorable {
 						if (name.equals(XMLTagNames.VERSION)) {
 							String version = xmlr.getElementText();
 							if (!version.equals(Export.version)) {
-								int option = JOptionPane
-										.showConfirmDialog(
-												OVTK2Desktop.getInstance()
-														.getMainFrame(),
-												"The OXL file you attempt to load is from a different version of Ondex."
-														+ "\nThis can result in the file not being loaded correctly."
-														+ "\nDo you want to try and continue anyway?",
-												"Problems while loading",
-												JOptionPane.YES_NO_OPTION,
-												JOptionPane.WARNING_MESSAGE);
+								int option = JOptionPane.showConfirmDialog(OVTK2Desktop.getInstance().getMainFrame(), "The OXL file you attempt to load is from a different version of Ondex." + "\nThis can result in the file not being loaded correctly." + "\nDo you want to try and continue anyway?", "Problems while loading", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 								if (option == JOptionPane.NO_OPTION) {
 									setCancelled(true);
 									return;
@@ -283,14 +268,12 @@ public class OXLImport implements Monitorable {
 
 						// this is number of concepts tag
 						else if (name.equals(XMLTagNames.NUMBERCONCEPTS)) {
-							numberOfConcepts = Integer.parseInt(xmlr
-									.getElementText());
+							numberOfConcepts = Integer.parseInt(xmlr.getElementText());
 						}
 
 						// this is number of relations tag
 						else if (name.equals(XMLTagNames.NUMBERRELATIONS)) {
-							numberOfRelations = Integer.parseInt(xmlr
-									.getElementText());
+							numberOfRelations = Integer.parseInt(xmlr.getElementText());
 						}
 
 						// saved graph name, for future use
@@ -303,22 +286,17 @@ public class OXLImport implements Monitorable {
 							while (xmlr.hasNext()) {
 								int event = xmlr.next();
 								if (event == XMLStreamConstants.START_ELEMENT) {
-									String localname = xmlr.getName()
-											.getLocalPart();
-									if (localname
-											.equals(XMLTagNames.GRAPHANNOTATION)) {
+									String localname = xmlr.getName().getLocalPart();
+									if (localname.equals(XMLTagNames.GRAPHANNOTATION)) {
 										// index annotations
-										annotations.put(
-												xmlr.getAttributeValue(0),
-												xmlr.getElementText());
+										annotations.put(xmlr.getAttributeValue(0), xmlr.getElementText());
 									}
 								}
 							}
 						}
 
 						// only parse the header of the file
-						else if (name.equals(XMLTagNames.ONDEXMETADATA)
-								|| name.equals(XMLTagNames.ONDEXDATASEQ)) {
+						else if (name.equals(XMLTagNames.ONDEXMETADATA) || name.equals(XMLTagNames.ONDEXDATASEQ)) {
 							break;
 						}
 					}
@@ -326,15 +304,13 @@ public class OXLImport implements Monitorable {
 				xmlr.close();
 
 				// open a new InputStream as the previous one is used up
-				xmlr = (XMLStreamReader2) xmlInput.createXMLStreamReader(
-						getInStream(filename), CharsetNames.CS_UTF8);
+				xmlr = (XMLStreamReader2) xmlInput.createXMLStreamReader(getInStream(filename), CharsetNames.CS_UTF8);
 			}
 
 			// calculate new max progress
 			if (numberOfConcepts + numberOfRelations > 0) {
 				maxProgress = numberOfConcepts + numberOfRelations;
-				System.out.println(filename + " contains " + numberOfConcepts
-						+ " concepts and " + numberOfRelations + " relations.");
+				System.out.println(filename + " contains " + numberOfConcepts + " concepts and " + numberOfRelations + " relations.");
 			}
 
 			try {
@@ -349,17 +325,12 @@ public class OXLImport implements Monitorable {
 			Map<Integer, Integer> table = new HashMap<Integer, Integer>();
 			Map<Integer, Set<Integer>> context = new HashMap<Integer, Set<Integer>>();
 			parser.registerParser("cv", new ConceptMetaDataParser(aog, "cv"));
-			parser.registerParser("unit",
-					new GeneralMetaDataParser(aog, "unit"));
-			parser.registerParser("attrname", new GeneralMetaDataParser(aog,
-					"attrname"));
-			parser.registerParser("evidences", new GeneralMetaDataParser(aog,
-					"evidences"));
+			parser.registerParser("unit", new GeneralMetaDataParser(aog, "unit"));
+			parser.registerParser("attrname", new GeneralMetaDataParser(aog, "attrname"));
+			parser.registerParser("evidences", new GeneralMetaDataParser(aog, "evidences"));
 			parser.registerParser("cc", new ConceptMetaDataParser(aog, "cc"));
-			parser.registerParser("relation_type", new RelationMetaDataParser(
-					aog, "relation_type"));
-			parser.registerParser("relationtypeset",
-					new RelationMetaDataParser(aog, "relationtypeset"));
+			parser.registerParser("relation_type", new RelationMetaDataParser(aog, "relation_type"));
+			parser.registerParser("relationtypeset", new RelationMetaDataParser(aog, "relationtypeset"));
 
 			conceptParser = new ConceptParser(aog, table, context);
 			parser.registerParser("concept", conceptParser);
@@ -382,16 +353,9 @@ public class OXLImport implements Monitorable {
 				}
 
 				JTextPane message = new JTextPane();
-				message.setText("The OXL file you attempt to load contains inconsistencies."
-						+ "\nNot all of these inconsistencies might have been fixed."
-						+ "\nThis could lead to problems when using certain functions later on."
-						+ "\nDo you want to try and continue anyway?"
-						+ "\n\nError messages:\n" + sb.toString());
+				message.setText("The OXL file you attempt to load contains inconsistencies." + "\nNot all of these inconsistencies might have been fixed." + "\nThis could lead to problems when using certain functions later on." + "\nDo you want to try and continue anyway?" + "\n\nError messages:\n" + sb.toString());
 
-				int option = JOptionPane.showConfirmDialog(OVTK2Desktop
-						.getInstance().getMainFrame(), message,
-						"Problems while loading", JOptionPane.YES_NO_OPTION,
-						JOptionPane.WARNING_MESSAGE);
+				int option = JOptionPane.showConfirmDialog(OVTK2Desktop.getInstance().getMainFrame(), message, "Problems while loading", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (option == JOptionPane.NO_OPTION) {
 					setCancelled(true);
 					return;
@@ -442,12 +406,10 @@ public class OXLImport implements Monitorable {
 		if (conceptParser == null || relationParser == null)
 			return Monitorable.STATE_IDLE;
 
-		if (conceptParser.getProgress() == 0
-				&& relationParser.getProgress() == 0)
+		if (conceptParser.getProgress() == 0 && relationParser.getProgress() == 0)
 			return "Parsing meta data.";
 
-		else if (conceptParser.getProgress() > 0
-				&& relationParser.getProgress() == 0) {
+		else if (conceptParser.getProgress() > 0 && relationParser.getProgress() == 0) {
 			String message = "Parsed " + conceptParser.getProgress();
 			if (numberOfConcepts > 0) {
 				message = message + " of " + numberOfConcepts;

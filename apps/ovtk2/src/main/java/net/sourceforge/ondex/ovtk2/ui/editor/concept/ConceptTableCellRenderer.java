@@ -24,8 +24,7 @@ public class ConceptTableCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = -2937743136929931219L;
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 
 		// display id of a concept
 		if (value instanceof ONDEXConcept) {
@@ -58,7 +57,6 @@ public class ConceptTableCellRenderer extends DefaultTableCellRenderer {
 			value = list.toString();
 		}
 
-		return super.getTableCellRendererComponent(table, value, isSelected,
-				hasFocus, row, column);
+		return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 	}
 }

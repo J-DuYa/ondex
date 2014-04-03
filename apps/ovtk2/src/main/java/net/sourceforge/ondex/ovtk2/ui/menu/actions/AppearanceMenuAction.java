@@ -69,15 +69,11 @@ public class AppearanceMenuAction implements ActionListener {
 			if (viewer != null) {
 				JCheckBoxMenuItem item = (JCheckBoxMenuItem) ae.getSource();
 				if (item.isSelected())
-					AppearanceSynchronizer.loadNodeColor(
-							viewer.getONDEXJUNGGraph(), viewer.getNodeColors(),
-							viewer.getNodeDrawPaint());
+					AppearanceSynchronizer.loadNodeColor(viewer.getONDEXJUNGGraph(), viewer.getNodeColors(), viewer.getNodeDrawPaint());
 				else {
-					viewer.getNodeColors().setFillPaintSelection(
-							NodeFillPaintSelection.CONCEPTCLASS);
+					viewer.getNodeColors().setFillPaintSelection(NodeFillPaintSelection.CONCEPTCLASS);
 					viewer.getNodeColors().updateAll();
-					viewer.getNodeDrawPaint().setDrawPaintSelection(
-							NodeDrawPaintSelection.NONE);
+					viewer.getNodeDrawPaint().setDrawPaintSelection(NodeDrawPaintSelection.NONE);
 					viewer.getNodeDrawPaint().updateAll();
 				}
 				// notify model of change
@@ -90,25 +86,21 @@ public class AppearanceMenuAction implements ActionListener {
 			if (viewer != null) {
 				JCheckBoxMenuItem item = (JCheckBoxMenuItem) ae.getSource();
 				if (item.isSelected())
-					AppearanceSynchronizer.loadNodeShape(
-							viewer.getONDEXJUNGGraph(), viewer.getNodeShapes());
+					AppearanceSynchronizer.loadNodeShape(viewer.getONDEXJUNGGraph(), viewer.getNodeShapes());
 				else {
-					viewer.getNodeShapes().setNodeShapeSelection(
-							NodeShapeSelection.NONE);
-					viewer.getNodeShapes().setNodeSizes(
-							new Transformer<ONDEXConcept, Integer>() {
-								@Override
-								public Integer transform(ONDEXConcept input) {
-									return Config.defaultNodeSize;
-								}
-							});
-					viewer.getNodeShapes().setNodeAspectRatios(
-							new Transformer<ONDEXConcept, Float>() {
-								@Override
-								public Float transform(ONDEXConcept input) {
-									return 1.0f;
-								}
-							});
+					viewer.getNodeShapes().setNodeShapeSelection(NodeShapeSelection.NONE);
+					viewer.getNodeShapes().setNodeSizes(new Transformer<ONDEXConcept, Integer>() {
+						@Override
+						public Integer transform(ONDEXConcept input) {
+							return Config.defaultNodeSize;
+						}
+					});
+					viewer.getNodeShapes().setNodeAspectRatios(new Transformer<ONDEXConcept, Float>() {
+						@Override
+						public Float transform(ONDEXConcept input) {
+							return 1.0f;
+						}
+					});
 					viewer.getNodeShapes().updateAll();
 				}
 				// notify model of change
@@ -121,11 +113,9 @@ public class AppearanceMenuAction implements ActionListener {
 			if (viewer != null) {
 				JCheckBoxMenuItem item = (JCheckBoxMenuItem) ae.getSource();
 				if (item.isSelected())
-					AppearanceSynchronizer.loadEdgeColor(
-							viewer.getONDEXJUNGGraph(), viewer.getEdgeColors());
+					AppearanceSynchronizer.loadEdgeColor(viewer.getONDEXJUNGGraph(), viewer.getEdgeColors());
 				else {
-					viewer.getEdgeColors().setEdgeColorSelection(
-							EdgeColorSelection.RELATIONTYPE);
+					viewer.getEdgeColors().setEdgeColorSelection(EdgeColorSelection.RELATIONTYPE);
 					viewer.getEdgeColors().updateAll();
 				}
 				// notify model of change
@@ -138,9 +128,7 @@ public class AppearanceMenuAction implements ActionListener {
 			if (viewer != null) {
 				JCheckBoxMenuItem item = (JCheckBoxMenuItem) ae.getSource();
 				if (item.isSelected())
-					AppearanceSynchronizer
-							.loadEdgeSize(viewer.getONDEXJUNGGraph(),
-									viewer.getEdgeStrokes());
+					AppearanceSynchronizer.loadEdgeSize(viewer.getONDEXJUNGGraph(), viewer.getEdgeStrokes());
 				else
 					viewer.getEdgeStrokes().setEdgeSizes(null);
 				// notify model of change
@@ -152,10 +140,8 @@ public class AppearanceMenuAction implements ActionListener {
 		else if (cmd.equals(SHOWMOUSEOVER)) {
 			if (viewer != null) {
 				JCheckBoxMenuItem item = (JCheckBoxMenuItem) ae.getSource();
-				OVTK2GraphMouse mouse = (OVTK2GraphMouse) viewer
-						.getVisualizationViewer().getGraphMouse();
-				OVTK2PickingMousePlugin picking = mouse
-						.getOVTK2PickingMousePlugin();
+				OVTK2GraphMouse mouse = (OVTK2GraphMouse) viewer.getVisualizationViewer().getGraphMouse();
+				OVTK2PickingMousePlugin picking = mouse.getOVTK2PickingMousePlugin();
 				if (picking != null)
 					picking.setShowMouseOver(item.isSelected());
 			}
@@ -171,8 +157,7 @@ public class AppearanceMenuAction implements ActionListener {
 		// toggle edge arrows
 		else if (cmd.equals("edgearrow")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				viewer.getEdgeArrows().setShowArrow(selected);
 				// notify model of change
 				viewer.getVisualizationViewer().getModel().fireStateChanged();
@@ -182,8 +167,7 @@ public class AppearanceMenuAction implements ActionListener {
 		// toggle node label visibility
 		else if (cmd.equals("nodelabels")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				viewer.setShowNodeLabels(selected);
 			}
 		}
@@ -191,8 +175,7 @@ public class AppearanceMenuAction implements ActionListener {
 		// toggle edge label visibility
 		else if (cmd.equals("edgelabels")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				viewer.setShowEdgeLabels(selected);
 			}
 		}
@@ -200,8 +183,7 @@ public class AppearanceMenuAction implements ActionListener {
 		// toggle both label visibility
 		else if (cmd.equals("bothlabels")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				viewer.setShowNodeLabels(selected);
 				viewer.setShowEdgeLabels(selected);
 			}
@@ -217,8 +199,7 @@ public class AppearanceMenuAction implements ActionListener {
 		// toggle anti-aliased painting
 		else if (cmd.equals("antialiased")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				viewer.setAntiAliased(selected);
 			}
 		}
@@ -233,29 +214,18 @@ public class AppearanceMenuAction implements ActionListener {
 		// change colour selection strategy
 		else if (cmd.startsWith("Menu.Appearance.Default.")) {
 			if (viewer != null) {
-				boolean selected = ((JRadioButtonMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JRadioButtonMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					if (cmd.equals(COLOR_CONCEPT_BY_SOURCE))
-						viewer.getNodeColors()
-								.setFillPaintSelection(
-										ONDEXNodeFillPaint.NodeFillPaintSelection.DATASOURCE);
+						viewer.getNodeColors().setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.DATASOURCE);
 					else if (cmd.equals(COLOR_CONCEPT_BY_CLASS))
-						viewer.getNodeColors()
-								.setFillPaintSelection(
-										ONDEXNodeFillPaint.NodeFillPaintSelection.CONCEPTCLASS);
+						viewer.getNodeColors().setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.CONCEPTCLASS);
 					else if (cmd.equals(COLOR_CONCEPT_BY_EVIDENCE))
-						viewer.getNodeColors()
-								.setFillPaintSelection(
-										ONDEXNodeFillPaint.NodeFillPaintSelection.EVIDENCETYPE);
+						viewer.getNodeColors().setFillPaintSelection(ONDEXNodeFillPaint.NodeFillPaintSelection.EVIDENCETYPE);
 					else if (cmd.equals(COLOR_RELATION_BY_TYPE))
-						viewer.getEdgeColors()
-								.setEdgeColorSelection(
-										ONDEXEdgeColors.EdgeColorSelection.RELATIONTYPE);
+						viewer.getEdgeColors().setEdgeColorSelection(ONDEXEdgeColors.EdgeColorSelection.RELATIONTYPE);
 					else if (cmd.equals(COLOR_RELATION_BY_EVIDECE))
-						viewer.getEdgeColors()
-								.setEdgeColorSelection(
-										ONDEXEdgeColors.EdgeColorSelection.EVIDENCETYPE);
+						viewer.getEdgeColors().setEdgeColorSelection(ONDEXEdgeColors.EdgeColorSelection.EVIDENCETYPE);
 					else if (cmd.equals(SHAPE_QUAD))
 						viewer.getEdgeShapes().setEdgeShape(EdgeShape.QUAD);
 					else if (cmd.equals(SHAPE_CUBIC))

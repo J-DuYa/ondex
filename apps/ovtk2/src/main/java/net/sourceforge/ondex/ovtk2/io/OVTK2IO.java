@@ -18,11 +18,12 @@ public interface OVTK2IO {
 	 * @param graph
 	 */
 	public void setGraph(ONDEXGraph graph);
-	
+
 	/**
 	 * Starts the process of import or export.
 	 * 
-	 * @param file file to export to or import from.
+	 * @param file
+	 *            file to export to or import from.
 	 * @throws Exception
 	 */
 	public void start(File file) throws Exception;
@@ -33,12 +34,12 @@ public interface OVTK2IO {
 	 * @return
 	 */
 	public boolean isImport();
-	
+
 	/**
 	 * Filename extension to filter files with.
 	 * 
 	 * @return
 	 */
 	public String getExt();
-	
+
 }

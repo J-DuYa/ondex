@@ -48,8 +48,7 @@ public class OXLExport extends Export {
 	}
 
 	public void start() throws JAXBException {
-		XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2
-				.newInstance();
+		XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
 		xmlOutput.configureForSpeed();
 		xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES, false);
 
@@ -83,8 +82,7 @@ public class OXLExport extends Export {
 
 			if (outStream != null) {
 
-				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput
-						.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
+				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
 				buildDocument(xmlWriteStream, graph);
 
 				xmlWriteStream.flush();

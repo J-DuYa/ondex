@@ -30,9 +30,7 @@ public class FontChooserDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private static final String[] styleList = new String[] { "Plain", "Bold", "Italic" };
-	private static final String[] sizeList = new String[] { "3", "4", "5", "6", "7", "8", "9", "10",
-			"11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22",
-			"24", "27", "30", "34", "39", "45", "51", "60" };
+	private static final String[] sizeList = new String[] { "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "22", "24", "27", "30", "34", "39", "45", "51", "60" };
 	private NwList StyleList;
 	private NwList FontList;
 	private NwList SizeList;
@@ -79,8 +77,7 @@ public class FontChooserDialog extends JDialog {
 	}
 
 	private void addLists() {
-		FontList = new NwList(GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getAvailableFontFamilyNames());
+		FontList = new NwList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
 		StyleList = new NwList(styleList);
 		SizeList = new NwList(sizeList);
 		FontList.setBounds(10, 10, 260, 295);

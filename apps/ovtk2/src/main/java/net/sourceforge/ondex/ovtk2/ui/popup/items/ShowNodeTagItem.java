@@ -29,13 +29,11 @@ public class ShowNodeTagItem extends EntityMenuItem<ONDEXConcept> {
 		for (ONDEXConcept vertex : entities) {
 			ONDEXConcept c = vertex;
 			// first set concepts visible
-			for (ONDEXConcept ctxt : viewer.getONDEXJUNGGraph()
-					.getConceptsOfTag(c)) {
+			for (ONDEXConcept ctxt : viewer.getONDEXJUNGGraph().getConceptsOfTag(c)) {
 				viewer.getONDEXJUNGGraph().setVisibility(ctxt, true);
 			}
 			// second set relations visible
-			for (ONDEXRelation r : viewer.getONDEXJUNGGraph()
-					.getRelationsOfTag(c)) {
+			for (ONDEXRelation r : viewer.getONDEXJUNGGraph().getRelationsOfTag(c)) {
 				viewer.getONDEXJUNGGraph().setVisibility(r, true);
 			}
 		}

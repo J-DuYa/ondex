@@ -49,7 +49,8 @@ import edu.uci.ics.jung.visualization.control.PickingGraphMousePlugin;
  * @version 27.05.2008
  */
 public class OVTK2PickingMousePlugin extends PickingGraphMousePlugin<ONDEXConcept, ONDEXRelation> {
-	//TODO the timer thread used here is the cause of random graph visualisation corruption and should be removed
+	// TODO the timer thread used here is the cause of random graph
+	// visualisation corruption and should be removed
 	/**
 	 * Waits a second and compares if still at some node.
 	 * 
@@ -58,7 +59,7 @@ public class OVTK2PickingMousePlugin extends PickingGraphMousePlugin<ONDEXConcep
 	 */
 	class CountDown {
 		public CountDown(final ONDEXConcept n) {
-			
+
 			timer.schedule(new TimerTask() {
 				public void run() {
 					// just being paranoid
@@ -316,7 +317,6 @@ public class OVTK2PickingMousePlugin extends PickingGraphMousePlugin<ONDEXConcep
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		
 
 		// hide possible popups
 		cleanPopups();

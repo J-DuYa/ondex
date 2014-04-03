@@ -55,8 +55,7 @@ import org.apache.commons.collections15.Transformer;
  * 
  * @author hindlem
  */
-public class ScaleConceptAnnotator extends OVTK2Annotator implements
-		ListSelectionListener, ActionListener {
+public class ScaleConceptAnnotator extends OVTK2Annotator implements ListSelectionListener, ActionListener {
 
 	/**
 	 * generated
@@ -150,8 +149,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 		maxField = new JFormattedTextField(40);
 		maxField.setColumns(5);
 		sizeConstraints.add(maxField);
-		SpringUtilities.makeCompactGrid(sizeConstraints,
-				sizeConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
+		SpringUtilities.makeCompactGrid(sizeConstraints, sizeConstraints.getComponentCount() / 2, 2, 5, 5, 5, 5);
 
 		add(sizeConstraints);
 
@@ -165,8 +163,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 
 		// restrict to visible concepts
 		onlyvisible = new JCheckBox("Resize only visible concepts");
-		onlyvisible
-				.setToolTipText("Calculate values using only visible concepts");
+		onlyvisible.setToolTipText("Calculate values using only visible concepts");
 		add(onlyvisible);
 
 		// the magic button
@@ -186,13 +183,10 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 		for (AttributeName attName : graph.getMetaData().getAttributeNames()) {
 			// check its numerically comparable
 			if (Number.class.isAssignableFrom(attName.getDataType())) {
-				Set<ONDEXConcept> concepts = graph
-						.getConceptsOfAttributeName(attName);
+				Set<ONDEXConcept> concepts = graph.getConceptsOfAttributeName(attName);
 				if (concepts != null) {
 					// check concepts exists on this attribute name
-					if (concepts.size() > 0
-							&& !AppearanceSynchronizer.attr.contains(attName
-									.getId())) {
+					if (concepts.size() > 0 && !AppearanceSynchronizer.attr.contains(attName.getId())) {
 						anlm.addAttributeName(attName);
 					}
 				}
@@ -201,8 +195,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 
 		// populate list
 		if (anlm.getSize() == 0) {
-			add(new JLabel(
-					"There are no attributes with numerical values in the graph."));
+			add(new JLabel("There are no attributes with numerical values in the graph."));
 		} else {
 			list.validate();
 			list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -215,15 +208,13 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 			listSig.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			listSig.addListSelectionListener(this);
 
-			add(new JLabel(
-					"Select an AttributeName representing statistical significance cutoff"));
+			add(new JLabel("Select an AttributeName representing statistical significance cutoff"));
 			add(new JScrollPane(listSig));
 			goButton.addActionListener(this);
 			add(goButton);
 		}
 
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 	}
 
 	/**
@@ -238,18 +229,15 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 	 * @param onlyvisible
 	 *            use only visible concepts
 	 */
-	private void updateGraph(int targMin, int targMax, boolean inverse,
-			boolean onlyvisible) {
+	private void updateGraph(int targMin, int targMax, boolean inverse, boolean onlyvisible) {
 
 		// reset icon transformer, might have been set by annotator
-		viewer.getVisualizationViewer().getRenderContext()
-				.setVertexIconTransformer(null);
+		viewer.getVisualizationViewer().getRenderContext().setVertexIconTransformer(null);
 
 		int index = listSig.getSelectedIndex();
 		AttributeName attForSig = null;
 		if (index > 0) {
-			attForSig = ((AttributeNameListModel) listSig.getModel())
-					.getAttributeNameAt(index);
+			attForSig = ((AttributeNameListModel) listSig.getModel()).getAttributeNameAt(index);
 		}
 
 		if (targets.size() == 1) {
@@ -258,15 +246,13 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 			Map<ONDEXConcept, Double> values = new HashMap<ONDEXConcept, Double>();
 
 			// get attribute name values
-			for (ONDEXConcept concept : graph
-					.getConceptsOfAttributeName(targets.get(0))) {
+			for (ONDEXConcept concept : graph.getConceptsOfAttributeName(targets.get(0))) {
 
 				// check visibility of concepts
 				if (!onlyvisible || graph.isVisible(concept)) {
 
 					// associate concept to value
-					Double value = ((Number) concept.getAttribute(
-							targets.get(0)).getValue()).doubleValue();
+					Double value = ((Number) concept.getAttribute(targets.get(0)).getValue()).doubleValue();
 					values.put(concept, value);
 
 					if (absolute.isSelected())
@@ -276,8 +262,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 			}
 
 			// resize nodes
-			Annotation.annotateOnSizeScale(viewer, toAnnotate, targMin,
-					targMax, inverse);
+			Annotation.annotateOnSizeScale(viewer, toAnnotate, targMin, targMax, inverse);
 
 			// transform colour of nodes
 			ONDEXNodeFillPaint nodeColors = viewer.getNodeColors();
@@ -301,8 +286,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 				try {
 					histogram.setClosed(true);
 					// should not be called in applet
-					OVTK2Desktop.getInstance().getDesktopPane()
-							.remove(histogram);
+					OVTK2Desktop.getInstance().getDesktopPane().remove(histogram);
 				} catch (PropertyVetoException pve) {
 					pve.printStackTrace();
 				}
@@ -322,11 +306,8 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 				frame.setVisible(true);
 			} else {
 				// show value distribution
-				histogram = new RegisteredJInternalFrame("Histogram",
-						"Annotator", this.getName() + " - " + viewer.getTitle()
-								+ " (Histogram)", false, true, false, true);
-				histogram
-						.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+				histogram = new RegisteredJInternalFrame("Histogram", "Annotator", this.getName() + " - " + viewer.getTitle() + " (Histogram)", false, true, false, true);
+				histogram.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 				histogram.add(graphic);
 				OVTK2Desktop.getInstance().getDesktopPane().add(histogram);
 				histogram.pack();
@@ -344,23 +325,19 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 			for (int cat = 0; cat < targets.size(); cat++) {
 				// get attribute name values
 				Map<ONDEXConcept, Double> temp = new HashMap<ONDEXConcept, Double>();
-				for (ONDEXConcept concept : graph
-						.getConceptsOfAttributeName(targets.get(cat))) {
+				for (ONDEXConcept concept : graph.getConceptsOfAttributeName(targets.get(cat))) {
 
 					// check visibility of concepts
 					if (!onlyvisible || graph.isVisible(concept)) {
-						Double value = ((Number) concept.getAttribute(
-								targets.get(cat)).getValue()).doubleValue();
+						Double value = ((Number) concept.getAttribute(targets.get(cat)).getValue()).doubleValue();
 						temp.put(concept, value);
 
 						if (attForSig != null) {
 							Double sigValue = significanceMap.get(concept);
 							if (sigValue == null) {
-								Attribute sigAttribute = concept
-										.getAttribute(attForSig);
+								Attribute sigAttribute = concept.getAttribute(attForSig);
 								if (sigAttribute != null) {
-									sigValue = ((Number) sigAttribute
-											.getValue()).doubleValue();
+									sigValue = ((Number) sigAttribute.getValue()).doubleValue();
 									significanceMap.put(concept, sigValue);
 								}
 							}
@@ -373,13 +350,10 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 			}
 
 			// get icon transformer for pie charts
-			Transformer<ONDEXConcept, Icon> vertexIconTransformer = new PieNodeIconTransformer(
-					values, significanceMap, targMin, targMax,
-					absolute.isSelected());
+			Transformer<ONDEXConcept, Icon> vertexIconTransformer = new PieNodeIconTransformer(values, significanceMap, targMin, targMax, absolute.isSelected());
 
 			// TODO: use updateViewer
-			viewer.getVisualizationViewer().getRenderContext()
-					.setVertexIconTransformer(vertexIconTransformer);
+			viewer.getVisualizationViewer().getRenderContext().setVertexIconTransformer(vertexIconTransformer);
 			viewer.getVisualizationViewer().getModel().fireStateChanged();
 			viewer.getVisualizationViewer().repaint();
 		}
@@ -399,11 +373,9 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 		if (indices.length > 0) {
 			goButton.setEnabled(true);
 
-			List<AttributeName> attNames = new ArrayList<AttributeName>(
-					indices.length);
+			List<AttributeName> attNames = new ArrayList<AttributeName>(indices.length);
 			for (int i : indices) {
-				attNames.add(((AttributeNameListModel) list.getModel())
-						.getAttributeNameAt(i));
+				attNames.add(((AttributeNameListModel) list.getModel()).getAttributeNameAt(i));
 			}
 
 			targets = attNames;
@@ -436,8 +408,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 				maxField.setValue(max);
 			}
 
-			updateGraph(min, max, inverse.isSelected(),
-					onlyvisible.isSelected());
+			updateGraph(min, max, inverse.isSelected(), onlyvisible.isSelected());
 
 			used = true;
 		}
@@ -526,8 +497,7 @@ public class ScaleConceptAnnotator extends OVTK2Annotator implements
 			super.paintComponent(g);
 
 			// anti-alias painting
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 			// draw white background
 			g.setColor(Color.BLACK);

@@ -28,8 +28,7 @@ public class ConceptLabelXMLReader {
 	 *            DialogConceptLabel to get modified
 	 * @throws XMLStreamException
 	 */
-	public static void read(XMLStreamReader2 xmlr, DialogConceptLabel dialog)
-			throws XMLStreamException {
+	public static void read(XMLStreamReader2 xmlr, DialogConceptLabel dialog) throws XMLStreamException {
 
 		// contains new table data
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
@@ -79,8 +78,7 @@ public class ConceptLabelXMLReader {
 				}
 
 				// include preferred name
-				else if (element
-						.equals(ConceptLabelXMLWriter.INCLUDEPREFERREDNAME)) {
+				else if (element.equals(ConceptLabelXMLWriter.INCLUDEPREFERREDNAME)) {
 					row.add(6, xmlr.getElementAsBoolean());
 				}
 
@@ -92,9 +90,7 @@ public class ConceptLabelXMLReader {
 				// label position
 				else if (element.equals(ConceptLabelXMLWriter.LABELPOSITION)) {
 					String name = xmlr.getElementText();
-					dialog.labelPositions
-							.setSelectedItem(Renderer.VertexLabel.Position
-									.valueOf(name));
+					dialog.labelPositions.setSelectedItem(Renderer.VertexLabel.Position.valueOf(name));
 				}
 			}
 

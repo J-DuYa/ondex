@@ -46,11 +46,9 @@ public class ImageWriterUtil<V, E> {
 	@SuppressWarnings("unchecked")
 	public ImageWriterUtil(Object view) {
 		if (view instanceof OVTK2Viewer) {
-			visviewer = (VisualizationViewer<V, E>) ((OVTK2Viewer) view)
-					.getVisualizationViewer();
+			visviewer = (VisualizationViewer<V, E>) ((OVTK2Viewer) view).getVisualizationViewer();
 		} else if (view instanceof ONDEXMetaGraphPanel) {
-			visviewer = (VisualizationViewer<V, E>) ((ONDEXMetaGraphPanel) view)
-					.getVisualizationViewer();
+			visviewer = (VisualizationViewer<V, E>) ((ONDEXMetaGraphPanel) view).getVisualizationViewer();
 		} else if (view instanceof VisualizationViewer) {
 			visviewer = (VisualizationViewer<V, E>) view;
 		}
@@ -75,10 +73,8 @@ public class ImageWriterUtil<V, E> {
 				max = new Point2D.Double(0, 0);
 				max.setLocation(point);
 			}
-			min.setLocation(Math.min(min.getX(), point.getX()),
-					Math.min(min.getY(), point.getY()));
-			max.setLocation(Math.max(max.getX(), point.getX()),
-					Math.max(max.getY(), point.getY()));
+			min.setLocation(Math.min(min.getX(), point.getX()), Math.min(min.getY(), point.getY()));
+			max.setLocation(Math.max(max.getX(), point.getX()), Math.max(max.getY(), point.getY()));
 		}
 		// sanity checks, in case of empty graph
 		if (min == null)
@@ -103,10 +99,8 @@ public class ImageWriterUtil<V, E> {
 	public void center() {
 
 		// reset scaling for predictive behaviour
-		visviewer.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.LAYOUT).setToIdentity();
-		visviewer.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW).setToIdentity();
+		visviewer.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).setToIdentity();
+		visviewer.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).setToIdentity();
 
 		// place layout center in center of the view
 		Point2D[] calc = calcBounds();
@@ -118,22 +112,14 @@ public class ImageWriterUtil<V, E> {
 		}
 
 		Point2D screen_center = visviewer.getCenter();
-		Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(),
-				max.getY() - min.getY());
-		Point2D layout_center = new Point2D.Double(screen_center.getX()
-				- (layout_bounds.getX() / 2) - min.getX(), screen_center.getY()
-				- (layout_bounds.getY() / 2) - min.getY());
-		visviewer.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW)
-				.translate(layout_center.getX(), layout_center.getY());
+		Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(), max.getY() - min.getY());
+		Point2D layout_center = new Point2D.Double(screen_center.getX() - (layout_bounds.getX() / 2) - min.getX(), screen_center.getY() - (layout_bounds.getY() / 2) - min.getY());
+		visviewer.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).translate(layout_center.getX(), layout_center.getY());
 
 		// scale graph
 		if (visviewer.getGraphMouse() instanceof OVTK2GraphMouse) {
-			Point2D scale_bounds = new Point2D.Double(visviewer.getWidth()
-					/ layout_bounds.getX(), visviewer.getHeight()
-					/ layout_bounds.getY());
-			float scale = (float) Math.min(scale_bounds.getX(),
-					scale_bounds.getY());
+			Point2D scale_bounds = new Point2D.Double(visviewer.getWidth() / layout_bounds.getX(), visviewer.getHeight() / layout_bounds.getY());
+			float scale = (float) Math.min(scale_bounds.getX(), scale_bounds.getY());
 			scale = 0.95f * scale;
 			OVTK2GraphMouse mouse = (OVTK2GraphMouse) visviewer.getGraphMouse();
 			mouse.getScaler().scale(visviewer, scale, visviewer.getCenter());
@@ -179,14 +165,12 @@ public class ImageWriterUtil<V, E> {
 		Color c = visviewer.getBackground();
 
 		// deselect nodes
-		Iterator<V> pickedVIt = visviewer.getPickedVertexState().getPicked()
-				.iterator();
+		Iterator<V> pickedVIt = visviewer.getPickedVertexState().getPicked().iterator();
 		while (pickedVIt.hasNext()) {
 			visviewer.getPickedVertexState().pick(pickedVIt.next(), false);
 		}
 		// deselect edges
-		Iterator<E> pickedEIt = visviewer.getPickedEdgeState().getPicked()
-				.iterator();
+		Iterator<E> pickedEIt = visviewer.getPickedEdgeState().getPicked().iterator();
 		while (pickedEIt.hasNext()) {
 			E picked = pickedEIt.next();
 			visviewer.getPickedEdgeState().pick(picked, false);
@@ -211,13 +195,10 @@ public class ImageWriterUtil<V, E> {
 				visviewer.setDoubleBuffered(false);
 
 				// generate EPS graphics
-				EpsGraphics g = new EpsGraphics("ONDEX_EPS_Graph_Export", fos,
-						0, 0, visviewer.getWidth(), visviewer.getHeight(),
-						ColorMode.COLOR_CMYK);
+				EpsGraphics g = new EpsGraphics("ONDEX_EPS_Graph_Export", fos, 0, 0, visviewer.getWidth(), visviewer.getHeight(), ColorMode.COLOR_CMYK);
 				g.setAccurateTextMode(true);
 
-				hints.put(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_OFF);
+				hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 
 				visviewer.setRenderingHints(hints); // not ness
 				/*
@@ -265,14 +246,10 @@ public class ImageWriterUtil<V, E> {
 
 				// setup writer and save to file
 				GraphMLWriter<V, E> writer = new GraphMLWriter<V, E>(graph);
-				writer.setVertexFillTransformer(visviewer.getRenderContext()
-						.getVertexFillPaintTransformer());
-				writer.setEdgeColourTransformer(visviewer.getRenderContext()
-						.getEdgeDrawPaintTransformer());
-				writer.setVertexLabelTransformer(visviewer.getRenderContext()
-						.getVertexLabelTransformer());
-				writer.setEdgeLabelTransformer(visviewer.getRenderContext()
-						.getEdgeLabelTransformer());
+				writer.setVertexFillTransformer(visviewer.getRenderContext().getVertexFillPaintTransformer());
+				writer.setEdgeColourTransformer(visviewer.getRenderContext().getEdgeDrawPaintTransformer());
+				writer.setVertexLabelTransformer(visviewer.getRenderContext().getVertexLabelTransformer());
+				writer.setEdgeLabelTransformer(visviewer.getRenderContext().getEdgeLabelTransformer());
 
 				writer.save(new BufferedWriter(new FileWriter(file)));
 
@@ -282,28 +259,23 @@ public class ImageWriterUtil<V, E> {
 
 		} else {
 			try {
-				BufferedOutputStream fos = new BufferedOutputStream(
-						new FileOutputStream(file));
+				BufferedOutputStream fos = new BufferedOutputStream(new FileOutputStream(file));
 
 				// resize viewer
 				scaleViewer(scaleResolution);
 
 				// pick first image writer
 				ImageWriter iw = null;
-				Iterator<ImageWriter> it = ImageIO
-						.getImageWritersByFormatName(format);
+				Iterator<ImageWriter> it = ImageIO.getImageWritersByFormatName(format);
 				int i = 0;
 				while (it.hasNext()) {
 					iw = it.next();
 					ImageWriterSpi spi = iw.getOriginatingProvider();
-					System.out.println("Using: " + spi.getPluginClassName()
-							+ " ; " + spi.getVendorName() + " ; "
-							+ spi.getVersion());
+					System.out.println("Using: " + spi.getPluginClassName() + " ; " + spi.getVendorName() + " ; " + spi.getVersion());
 					i++;
 				}
 				if (i > 1)
-					System.err
-							.println("Multiple exporter plugins found. Order not specified.");
+					System.err.println("Multiple exporter plugins found. Order not specified.");
 				iw.reset();
 				iw.setOutput(ImageIO.createImageOutputStream(fos));
 
@@ -312,15 +284,12 @@ public class ImageWriterUtil<V, E> {
 
 				// special requirements
 				if (format.equalsIgnoreCase("bmp"))
-					bi = new BufferedImage(visviewer.getWidth(),
-							visviewer.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+					bi = new BufferedImage(visviewer.getWidth(), visviewer.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 				else if (format.equalsIgnoreCase("png"))
-					bi = new BufferedImage(visviewer.getWidth(),
-							visviewer.getHeight(), BufferedImage.TYPE_INT_ARGB);
+					bi = new BufferedImage(visviewer.getWidth(), visviewer.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				else
 					// standard case
-					bi = new BufferedImage(visviewer.getWidth(),
-							visviewer.getHeight(), BufferedImage.TYPE_INT_RGB);
+					bi = new BufferedImage(visviewer.getWidth(), visviewer.getHeight(), BufferedImage.TYPE_INT_RGB);
 
 				// actually paint graph
 				Graphics2D graphics = bi.createGraphics();

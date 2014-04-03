@@ -16,8 +16,7 @@ import net.sourceforge.ondex.core.MetaData;
  * @author taubertj
  * 
  */
-public class MetaDataTableCellRenderer extends JLabel implements
-		TableCellRenderer {
+public class MetaDataTableCellRenderer extends JLabel implements TableCellRenderer {
 
 	// generated
 	private static final long serialVersionUID = -4285722928582370953L;
@@ -33,23 +32,20 @@ public class MetaDataTableCellRenderer extends JLabel implements
 		setOpaque(true); // MUST do this for background to show up.
 	}
 
-	public Component getTableCellRendererComponent(JTable table, Object object,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object object, boolean isSelected, boolean hasFocus, int row, int column) {
 		MetaData m = (MetaData) object;
 		this.setText(m.toString() + " (" + m.getId() + ")");
 		if (isBordered) {
 			if (isSelected) {
 				if (selectedBorder == null) {
-					selectedBorder = BorderFactory.createMatteBorder(2, 5, 2,
-							5, table.getSelectionBackground());
+					selectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5, table.getSelectionBackground());
 				}
 				setBorder(selectedBorder);
 				setBackground(table.getSelectionBackground());
 				setForeground(table.getSelectionForeground());
 			} else {
 				if (unselectedBorder == null) {
-					unselectedBorder = BorderFactory.createMatteBorder(2, 5, 2,
-							5, table.getBackground());
+					unselectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5, table.getBackground());
 				}
 				setBorder(unselectedBorder);
 				setBackground(table.getBackground());

@@ -68,7 +68,7 @@ public class Config {
 
 	// ovtkDir set as working director/config if not specified
 	public static String ovtkDir = null;
-	
+
 	// same as in Ondex config
 	public static boolean isApplet = false;
 
@@ -293,12 +293,9 @@ public class Config {
 	 * properties.
 	 */
 	public static void initProxySetting() {
-		System.getProperties().put("proxySet",
-				Config.config.getProperty("Proxy.Set"));
-		System.getProperties().put("proxyHost",
-				Config.config.getProperty("Proxy.Host"));
-		System.getProperties().put("proxyPort",
-				Config.config.getProperty("Proxy.Port"));
+		System.getProperties().put("proxySet", Config.config.getProperty("Proxy.Set"));
+		System.getProperties().put("proxyHost", Config.config.getProperty("Proxy.Host"));
+		System.getProperties().put("proxyPort", Config.config.getProperty("Proxy.Port"));
 	}
 
 	/**
@@ -311,8 +308,7 @@ public class Config {
 		// turn off validation
 		System.setProperty("http://xml.org/sax/features/validation", "false");
 
-		System.setProperty("org.xml.sax.driver",
-				"org.apache.xerces.parsers.SAXParser");
+		System.setProperty("org.xml.sax.driver", "org.apache.xerces.parsers.SAXParser");
 
 		// checking again
 		if (ovtkDir == null)
@@ -320,8 +316,7 @@ public class Config {
 
 		// only override ondexDir if not yet set
 		if (net.sourceforge.ondex.config.Config.ondexDir == null) {
-			net.sourceforge.ondex.config.Config.ondexDir = System
-					.getProperty("ondex.dir");
+			net.sourceforge.ondex.config.Config.ondexDir = System.getProperty("ondex.dir");
 			if (net.sourceforge.ondex.config.Config.ondexDir == null) {
 				net.sourceforge.ondex.config.Config.ondexDir = ovtkDir;
 			}
@@ -335,8 +330,7 @@ public class Config {
 				// plugin dir ships with distribution, otherwise something is
 				// wrong, exit and do not try to create something on the user
 				// computer as that might compromise security
-				System.err
-						.println("Could not find plugins directory. Please create one.");
+				System.err.println("Could not find plugins directory. Please create one.");
 				e.printStackTrace();
 				System.exit(1);
 			} catch (MalformedURLException e) {
@@ -377,12 +371,9 @@ public class Config {
 				config.loadFromXML(new FileInputStream(file));
 			}
 			lookAndFeel = visual.getProperty("Default.LookAndFeel");
-			defaultShape = Integer
-					.parseInt(visual.getProperty("Default.Shape"));
-			defaultNodeSize = Integer.parseInt(visual
-					.getProperty("Default.NodeSize"));
-			defaultEdgeSize = Integer.parseInt(visual
-					.getProperty("Default.EdgeSize"));
+			defaultShape = Integer.parseInt(visual.getProperty("Default.Shape"));
+			defaultNodeSize = Integer.parseInt(visual.getProperty("Default.NodeSize"));
+			defaultEdgeSize = Integer.parseInt(visual.getProperty("Default.EdgeSize"));
 			defaultColor = convertToColor(visual.getProperty("Default.Color"));
 			nodePickedColor = convertToColor(visual.getProperty("Picked.Node"));
 			edgePickedColor = convertToColor(visual.getProperty("Picked.Edge"));
@@ -401,18 +392,15 @@ public class Config {
 			}
 
 		} catch (InvalidPropertiesFormatException ipfe) {
-			System.err.println("Error in " + ovtkDir + File.separator
-					+ "config.xml " + ipfe.getMessage());
+			System.err.println("Error in " + ovtkDir + File.separator + "config.xml " + ipfe.getMessage());
 			ipfe.printStackTrace();
 			System.exit(1);
 		} catch (FileNotFoundException fnfe) {
-			System.err.println("Error in " + ovtkDir + File.separator
-					+ "config.xml " + fnfe.getMessage());
+			System.err.println("Error in " + ovtkDir + File.separator + "config.xml " + fnfe.getMessage());
 			fnfe.printStackTrace();
 			System.exit(1);
 		} catch (IOException ioe) {
-			System.err.println("Error in " + ovtkDir + File.separator
-					+ "config.xml " + ioe.getMessage());
+			System.err.println("Error in " + ovtkDir + File.separator + "config.xml " + ioe.getMessage());
 			ioe.printStackTrace();
 			System.exit(1);
 		}
@@ -426,9 +414,7 @@ public class Config {
 		File file = new File(ovtkDir + File.separator + "visual.xml");
 		System.out.println("Trying to save: " + file.getAbsolutePath());
 		try {
-			visual.storeToXML(new FileOutputStream(file), "Modified by "
-					+ config.getProperty("Program.Name") + " - Version "
-					+ config.getProperty("Program.Version"));
+			visual.storeToXML(new FileOutputStream(file), "Modified by " + config.getProperty("Program.Name") + " - Version " + config.getProperty("Program.Version"));
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
 		}
@@ -447,9 +433,7 @@ public class Config {
 		File file = new File(ovtkDir + File.separator + "config.xml");
 		System.out.println("Trying to save: " + file.getAbsolutePath());
 		try {
-			config.storeToXML(new FileOutputStream(file), "Modified by "
-					+ Config.config.getProperty("Program.Name") + " - Version "
-					+ Config.config.getProperty("Program.Version"));
+			config.storeToXML(new FileOutputStream(file), "Modified by " + Config.config.getProperty("Program.Name") + " - Version " + Config.config.getProperty("Program.Version"));
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
 		}

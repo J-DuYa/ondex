@@ -29,8 +29,7 @@ public class WindowRegister {
 		return register;
 	}
 
-	private List<RegisteredFrame> internalFrames = Collections
-			.synchronizedList(new ArrayList<RegisteredFrame>());
+	private List<RegisteredFrame> internalFrames = Collections.synchronizedList(new ArrayList<RegisteredFrame>());
 
 	/**
 	 * @return returns all internal frames registered

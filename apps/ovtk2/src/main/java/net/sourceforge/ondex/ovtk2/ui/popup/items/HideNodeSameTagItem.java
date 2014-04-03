@@ -28,13 +28,11 @@ public class HideNodeSameTagItem extends EntityMenuItem<ONDEXConcept> {
 			ONDEXConcept c = vertex;
 			for (ONDEXConcept concept : c.getTags()) {
 				// first set relations invisible
-				for (ONDEXRelation r : viewer.getONDEXJUNGGraph()
-						.getRelationsOfTag(concept)) {
+				for (ONDEXRelation r : viewer.getONDEXJUNGGraph().getRelationsOfTag(concept)) {
 					viewer.getONDEXJUNGGraph().setVisibility(r, false);
 				}
 				// second set concepts invisible
-				for (ONDEXConcept c2 : viewer.getONDEXJUNGGraph()
-						.getConceptsOfTag(concept)) {
+				for (ONDEXConcept c2 : viewer.getONDEXJUNGGraph().getConceptsOfTag(concept)) {
 					viewer.getONDEXJUNGGraph().setVisibility(c2, false);
 				}
 			}

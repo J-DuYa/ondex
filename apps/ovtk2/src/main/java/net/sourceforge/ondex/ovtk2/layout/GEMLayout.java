@@ -44,8 +44,7 @@ import edu.uci.ics.jung.graph.util.Pair;
  * @author Hacked by Eytan Adar for Guess
  * @author Hacked by taubertj for OVTK2
  */
-public class GEMLayout extends OVTK2Layouter implements ChangeListener,
-Monitorable {
+public class GEMLayout extends OVTK2Layouter implements ChangeListener, Monitorable {
 
 	/**
 	 * Class containing properties per node.
@@ -408,8 +407,7 @@ Monitorable {
 	 * 
 	 * @return Point2D[]
 	 */
-	private Point2D[] calcBounds(Graph<ONDEXConcept, ONDEXRelation> graph,
-			Map<ONDEXConcept, Point2D> coords) {
+	private Point2D[] calcBounds(Graph<ONDEXConcept, ONDEXRelation> graph, Map<ONDEXConcept, Point2D> coords) {
 		Point2D[] result = new Point2D[2];
 		Point2D min = null;
 		Point2D max = null;
@@ -424,10 +422,8 @@ Monitorable {
 				max = new Point2D.Double(0, 0);
 				max.setLocation(point);
 			}
-			min.setLocation(Math.min(min.getX(), point.getX()),
-					Math.min(min.getY(), point.getY()));
-			max.setLocation(Math.max(max.getX(), point.getX()),
-					Math.max(max.getY(), point.getY()));
+			min.setLocation(Math.min(min.getX(), point.getX()), Math.min(min.getY(), point.getY()));
+			max.setLocation(Math.max(max.getX(), point.getX()), Math.max(max.getY(), point.getY()));
 		}
 		result[0] = min;
 		result[1] = max;
@@ -437,8 +433,7 @@ Monitorable {
 	/**
 	 * Clusters given graph into subgraphs.
 	 */
-	public Set<Graph<ONDEXConcept, ONDEXRelation>> clusterGraph(
-			Graph<ONDEXConcept, ONDEXRelation> original) {
+	public Set<Graph<ONDEXConcept, ONDEXRelation>> clusterGraph(Graph<ONDEXConcept, ONDEXRelation> original) {
 		state = "layout phase cluster graph";
 
 		try {
@@ -486,11 +481,9 @@ Monitorable {
 						sorted.add(next);
 
 						// add edges to cluster
-						Collection<ONDEXRelation> nextEdges = original
-								.getIncidentEdges(next);
+						Collection<ONDEXRelation> nextEdges = original.getIncidentEdges(next);
 						for (ONDEXRelation edge : nextEdges) {
-							cluster.addEdge(edge, original.getSource(edge),
-									original.getDest(edge));
+							cluster.addEdge(edge, original.getSource(edge), original.getDest(edge));
 						}
 
 						// proceed to next level
@@ -606,8 +599,7 @@ Monitorable {
 
 		// global edge length
 		sliderElen = new JSlider();
-		sliderElen.setBorder(BorderFactory
-				.createTitledBorder("Preferred edge length"));
+		sliderElen.setBorder(BorderFactory.createTitledBorder("Preferred edge length"));
 		sliderElen.setMinimum(50);
 		sliderElen.setMaximum(200);
 		sliderElen.setValue(ELEN);
@@ -624,8 +616,7 @@ Monitorable {
 		insert.setBorder(BorderFactory.createTitledBorder("Insert phase"));
 
 		sliderIMaxIter = new JSlider();
-		sliderIMaxIter.setBorder(BorderFactory
-				.createTitledBorder("max iterations"));
+		sliderIMaxIter.setBorder(BorderFactory.createTitledBorder("max iterations"));
 		sliderIMaxIter.setMinimum(0);
 		sliderIMaxIter.setMaximum(20);
 		sliderIMaxIter.setValue(i_maxiter);
@@ -667,8 +658,7 @@ Monitorable {
 		arrange.setBorder(BorderFactory.createTitledBorder("Arrange phase"));
 
 		sliderAMaxIter = new JSlider();
-		sliderAMaxIter.setBorder(BorderFactory
-				.createTitledBorder("max iterations"));
+		sliderAMaxIter.setBorder(BorderFactory.createTitledBorder("max iterations"));
 		sliderAMaxIter.setMinimum(0);
 		sliderAMaxIter.setMaximum(20);
 		sliderAMaxIter.setValue(a_maxiter);
@@ -710,8 +700,7 @@ Monitorable {
 		optimize.setBorder(BorderFactory.createTitledBorder("Optimize phase"));
 
 		sliderOMaxIter = new JSlider();
-		sliderOMaxIter.setBorder(BorderFactory
-				.createTitledBorder("max iterations"));
+		sliderOMaxIter.setBorder(BorderFactory.createTitledBorder("max iterations"));
 		sliderOMaxIter.setMinimum(0);
 		sliderOMaxIter.setMaximum(20);
 		sliderOMaxIter.setValue(o_maxiter);
@@ -757,16 +746,13 @@ Monitorable {
 		cluster.setLayout(clusterLayout);
 		cluster.setBorder(BorderFactory.createTitledBorder("Clustered options"));
 
-		textMulti.setBorder(BorderFactory
-				.createTitledBorder("largest cluster multiply"));
+		textMulti.setBorder(BorderFactory.createTitledBorder("largest cluster multiply"));
 		cluster.add(textMulti);
 
-		textHorizontal.setBorder(BorderFactory
-				.createTitledBorder("horizontal spacing"));
+		textHorizontal.setBorder(BorderFactory.createTitledBorder("horizontal spacing"));
 		cluster.add(textHorizontal);
 
-		textVertical.setBorder(BorderFactory
-				.createTitledBorder("vertical spacing"));
+		textVertical.setBorder(BorderFactory.createTitledBorder("vertical spacing"));
 
 		cluster.add(textVertical);
 		panel.add(cluster);
@@ -1132,15 +1118,13 @@ Monitorable {
 		int j = 0;
 		for (Graph<?, ?> subgraph : sortedSubgraphs) {
 			j++;
-			state = "processing subgraph " + j + " of "
-					+ sortedSubgraphs.length;
+			state = "processing subgraph " + j + " of " + sortedSubgraphs.length;
 
 			// set subgraph as normal and run GEM layout on it
 			runNormal((Graph<ONDEXConcept, ONDEXRelation>) subgraph);
 
 			// set location of nodes in subgraph
-			localLayouts.put((Graph<ONDEXConcept, ONDEXRelation>) subgraph,
-					new HashMap<ONDEXConcept, Point2D>());
+			localLayouts.put((Graph<ONDEXConcept, ONDEXRelation>) subgraph, new HashMap<ONDEXConcept, Point2D>());
 			for (int i = 0; i < nodeCount; i++) {
 				GemP p = gemProp[i];
 				ONDEXConcept n = invmap[i];

@@ -51,11 +51,8 @@ public class DialogConceptClassColor extends OVTK2Dialog {
 		super("Dialog.CcColor.Title", "Properties16.gif");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
-		this.getContentPane().add(makeProperties(selection),
-				BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.CcColor.Apply",
-						"Dialog.CcColor.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeProperties(selection), BorderLayout.CENTER);
+		this.getContentPane().add(makeButtonsPanel("Dialog.CcColor.Apply", "Dialog.CcColor.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -80,9 +77,7 @@ public class DialogConceptClassColor extends OVTK2Dialog {
 		JPanel properties = new JPanel();
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.CcColor.ConceptClasses"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.CcColor.ConceptClasses"));
 		properties.setBorder(propertiesBorder);
 
 		// get mapping to colour from visual.xml
@@ -97,9 +92,7 @@ public class DialogConceptClassColor extends OVTK2Dialog {
 		}
 
 		// setup table
-		model = new ColorTableModel(colors, Config.language
-				.getProperty("Dialog.CcColor.TableName"), Config.language
-				.getProperty("Dialog.CcColor.TableColor"));
+		model = new ColorTableModel(colors, Config.language.getProperty("Dialog.CcColor.TableName"), Config.language.getProperty("Dialog.CcColor.TableColor"));
 		table = new JTable(model);
 		table.setDefaultEditor(Color.class, new ColorTableEditor());
 		table.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
@@ -108,8 +101,7 @@ public class DialogConceptClassColor extends OVTK2Dialog {
 		setSelection(selection);
 
 		TableColumn color = table.getColumnModel().getColumn(1);
-		int width = Config.language.getProperty("Dialog.CcColor.TableColor")
-				.length() * 7;
+		int width = Config.language.getProperty("Dialog.CcColor.TableColor").length() * 7;
 		color.setMaxWidth(width);
 		color.setMinWidth(width);
 
@@ -191,15 +183,13 @@ public class DialogConceptClassColor extends OVTK2Dialog {
 				// concept class name not existing
 				if (!existing.containsKey(name)) {
 					// new mapping here
-					Config.visual.put(COLOR_VIS + name, Config
-							.convertToString(colors.get(name)));
+					Config.visual.put(COLOR_VIS + name, Config.convertToString(colors.get(name)));
 					existing.put(name, colors.get(name));
 				}
 				// colour different
 				else if (!existing.get(name).equals(colors.get(name))) {
 					// change colour here
-					Config.visual.put(COLOR_VIS + name, Config
-							.convertToString(colors.get(name)));
+					Config.visual.put(COLOR_VIS + name, Config.convertToString(colors.get(name)));
 				}
 			}
 		}

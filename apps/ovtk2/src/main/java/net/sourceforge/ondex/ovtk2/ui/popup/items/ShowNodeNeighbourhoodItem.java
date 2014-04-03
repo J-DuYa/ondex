@@ -38,12 +38,10 @@ public class ShowNodeNeighbourhoodItem extends EntityMenuItem<ONDEXConcept> {
 			Set<ONDEXConcept> neighbours = new HashSet<ONDEXConcept>();
 
 			// get all relations of concept
-			for (ONDEXRelation r : viewer.getONDEXJUNGGraph()
-					.getRelationsOfConcept(c)) {
+			for (ONDEXRelation r : viewer.getONDEXJUNGGraph().getRelationsOfConcept(c)) {
 
 				// get the other concept
-				ONDEXConcept other = r.getFromConcept().equals(c) ? r
-						.getToConcept() : r.getFromConcept();
+				ONDEXConcept other = r.getFromConcept().equals(c) ? r.getToConcept() : r.getFromConcept();
 
 				// if concept invisible add to re-layout
 				if (!jung.isVisible(other))
@@ -57,8 +55,7 @@ public class ShowNodeNeighbourhoodItem extends EntityMenuItem<ONDEXConcept> {
 			}
 
 			// arrange newly visible neighbours
-			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), c,
-					neighbours);
+			LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), c, neighbours);
 		}
 	}
 

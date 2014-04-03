@@ -90,10 +90,8 @@ public class OVTK2CustomFunctions {
 	 * @param viewer
 	 * @throws FunctionException
 	 */
-	public static void accessionbasedMapping(OVTK2PropertiesAggregator viewer)
-			throws FunctionException {
-		applyPlugin("net.sourceforge.ondex.mapping.accessionbased.Mapping",
-				viewer.getONDEXJUNGGraph());
+	public static void accessionbasedMapping(OVTK2PropertiesAggregator viewer) throws FunctionException {
+		applyPlugin("net.sourceforge.ondex.mapping.accessionbased.Mapping", viewer.getONDEXJUNGGraph());
 	}
 
 	/**
@@ -109,19 +107,16 @@ public class OVTK2CustomFunctions {
 	 * @throws FunctionException
 	 */
 	@SuppressWarnings("unchecked")
-	private static void applyFilter(String name, ONDEXGraph graphInput,
-			String... args) throws FunctionException {
+	private static void applyFilter(String name, ONDEXGraph graphInput, String... args) throws FunctionException {
 		try {
 			Class<ONDEXFilter> cf = (Class<ONDEXFilter>) Class.forName(name);
-			ONDEXFilter filter = cf.getDeclaredConstructor(new Class<?>[] {})
-					.newInstance();
+			ONDEXFilter filter = cf.getDeclaredConstructor(new Class<?>[] {}).newInstance();
 			// ActionListener[] als = graphInput.getActionListeners().toArray(
 			// new ActionListener[0]);
 			// for (ActionListener al : als)
 			// graphInput.removeActionListener(al);
 			if (args.length > 0 || filter.requiresIndexedGraph()) {
-				ONDEXPluginArguments fa = new ONDEXPluginArguments(
-						filter.getArgumentDefinitions());
+				ONDEXPluginArguments fa = new ONDEXPluginArguments(filter.getArgumentDefinitions());
 				ArgumentDefinition<?>[] ad = filter.getArgumentDefinitions();
 				for (int i = 0; i < ad.length; i++) {
 					fa.addOption(ad[i].getName(), ad[i].parseString(args[i]));
@@ -153,27 +148,22 @@ public class OVTK2CustomFunctions {
 
 			for (ONDEXConcept concept : filter.getVisibleConcepts()) {
 				if (contexts == null || contexts.size() == 0) {
-					contexts = BitSetFunctions.or(concept.getTags(),
-							graphInput.getConceptsOfTag(concept));
+					contexts = BitSetFunctions.or(concept.getTags(), graphInput.getConceptsOfTag(concept));
 				} else {
-					contexts.addAll(BitSetFunctions.or(concept.getTags(),
-							graphInput.getConceptsOfTag(concept)));
+					contexts.addAll(BitSetFunctions.or(concept.getTags(), graphInput.getConceptsOfTag(concept)));
 				}
 			}
 
 			Set<ONDEXConcept> conceptsVisible = filter.getVisibleConcepts();
 
 			for (ONDEXConcept concept : graphInput.getConcepts()) {
-				if (!conceptsVisible.contains(concept)
-						&& (contexts == null || !contexts.contains(concept))) {
+				if (!conceptsVisible.contains(concept) && (contexts == null || !contexts.contains(concept))) {
 					graphInput.deleteConcept(concept.getId());
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FunctionException(
-					"This optional feature is not availible, as the required libaray was not found.",
-					-4);
+			throw new FunctionException("This optional feature is not availible, as the required libaray was not found.", -4);
 		} finally {
 			System.runFinalization();
 		}
@@ -195,21 +185,15 @@ public class OVTK2CustomFunctions {
 	 * @throws FunctionException
 	 */
 	@SuppressWarnings("unchecked")
-	public static void applyPlugin(String name, ONDEXGraph graphInput,
-			String... args) throws FunctionException {
+	public static void applyPlugin(String name, ONDEXGraph graphInput, String... args) throws FunctionException {
 
-		SimpleMonitor monitor = new SimpleMonitor(
-				"initializing PluginRegistry", 1);
+		SimpleMonitor monitor = new SimpleMonitor("initializing PluginRegistry", 1);
 		OVTKProgressMonitor.start("applyPlugin", monitor);
 		try {
 			PluginUtils.initPluginRegistry();
 		} catch (Exception e) {
 			e.printStackTrace();
-			ErrorDialog
-					.show(false,
-							new PluginUtils.MissingPluginException(
-									"PluginRegistry could not be initialized. applyPlugin() failed.",
-									e), Thread.currentThread());
+			ErrorDialog.show(false, new PluginUtils.MissingPluginException("PluginRegistry could not be initialized. applyPlugin() failed.", e), Thread.currentThread());
 			return;
 		} finally {
 			monitor.complete();
@@ -217,25 +201,19 @@ public class OVTK2CustomFunctions {
 
 		ArgumentDefinition<?>[] argumentDefinitions = null;
 		try {
-			Class<ONDEXPlugin> cf = (Class<ONDEXPlugin>) Class.forName(name,
-					true, PluginRegistry.getInstance().getClassLoader());
-			ONDEXPlugin plugin = cf.getDeclaredConstructor(new Class<?>[] {})
-					.newInstance();
+			Class<ONDEXPlugin> cf = (Class<ONDEXPlugin>) Class.forName(name, true, PluginRegistry.getInstance().getClassLoader());
+			ONDEXPlugin plugin = cf.getDeclaredConstructor(new Class<?>[] {}).newInstance();
 			argumentDefinitions = plugin.getArgumentDefinitions();
-			System.out.println("Executing plugin: "
-					+ plugin.getClass().getCanonicalName());
+			System.out.println("Executing plugin: " + plugin.getClass().getCanonicalName());
 
 			if (args.length > 0 || plugin.requiresIndexedGraph()) {
-				ONDEXPluginArguments fa = new ONDEXPluginArguments(
-						plugin.getArgumentDefinitions());
+				ONDEXPluginArguments fa = new ONDEXPluginArguments(plugin.getArgumentDefinitions());
 				for (int i = 0; i < argumentDefinitions.length; i++) {
 					if (args[i] != null) { // optional parameters may be null
 						if (argumentDefinitions[i].isAllowedMultipleInstances()) {
-							fa.addOptions(argumentDefinitions[i].getName(),
-									args[i].split("\n"));
+							fa.addOptions(argumentDefinitions[i].getName(), args[i].split("\n"));
 						} else {
-							fa.addOption(argumentDefinitions[i].getName(),
-									argumentDefinitions[i].parseString(args[i]));
+							fa.addOption(argumentDefinitions[i].getName(), argumentDefinitions[i].parseString(args[i]));
 						}
 					}
 				}
@@ -261,9 +239,7 @@ public class OVTK2CustomFunctions {
 					argumentList.append(ad.getName() + "\n");
 			else
 				argumentList.append("unknown");
-			throw new FunctionException("applyPlugin for plugin " + name
-					+ " failed: " + e + "\nAccepted arguments are:\n"
-					+ argumentList.toString(), -4);
+			throw new FunctionException("applyPlugin for plugin " + name + " failed: " + e + "\nAccepted arguments are:\n" + argumentList.toString(), -4);
 		} finally {
 			System.runFinalization();
 		}
@@ -274,8 +250,7 @@ public class OVTK2CustomFunctions {
 		return engine.getIndex(graph, graph.getName());
 	}
 
-	private static boolean hasEvidenceType(ONDEXConcept candidate,
-			EvidenceType ev) {
+	private static boolean hasEvidenceType(ONDEXConcept candidate, EvidenceType ev) {
 		boolean result = false;
 		for (EvidenceType et : candidate.getEvidence()) {
 			if (et.equals(ev)) {

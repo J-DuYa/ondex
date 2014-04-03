@@ -13,8 +13,7 @@ import org.apache.commons.collections15.Transformer;
 
 import edu.uci.ics.jung.visualization.picking.PickedInfo;
 
-public class ONDEXMetaConceptColors implements
-		Transformer<ONDEXMetaConcept, Paint> {
+public class ONDEXMetaConceptColors implements Transformer<ONDEXMetaConcept, Paint> {
 
 	// ####FIELDS####
 
@@ -35,11 +34,9 @@ public class ONDEXMetaConceptColors implements
 	 * @param graph
 	 *            ONDEXJUNGGraph
 	 */
-	public ONDEXMetaConceptColors(ONDEXJUNGGraph graph,
-			PickedInfo<ONDEXMetaConcept> pi) {
+	public ONDEXMetaConceptColors(ONDEXJUNGGraph graph, PickedInfo<ONDEXMetaConcept> pi) {
 		if (pi == null)
-			throw new IllegalArgumentException(
-					"PickedInfo instance must be non-null");
+			throw new IllegalArgumentException("PickedInfo instance must be non-null");
 		this.pi = pi;
 
 		this.graph = graph;

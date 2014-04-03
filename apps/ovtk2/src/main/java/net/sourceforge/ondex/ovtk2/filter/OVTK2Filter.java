@@ -38,7 +38,7 @@ public abstract class OVTK2Filter extends JPanel {
 	 * @return name of filter
 	 */
 	public abstract String getName();
-	
+
 	/**
 	 * Determines whether or not this filter has been used
 	 * 

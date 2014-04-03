@@ -48,8 +48,7 @@ public class ConfigTool extends DefaultHandler {
 	 *            relative or absolute path to the XML file
 	 * @return hash containing the configuration data from the XML file
 	 */
-	public static Hashtable<String, Hashtable<String, String>> loadFromFile(
-			String filename) {
+	public static Hashtable<String, Hashtable<String, String>> loadFromFile(String filename) {
 
 		// create new class reference if not exist
 		if (configTool == null) {
@@ -108,8 +107,7 @@ public class ConfigTool extends DefaultHandler {
 
 		// create new XMLReader using xerces
 		try {
-			xmlReader = XMLReaderFactory
-					.createXMLReader("org.apache.xerces.parsers.SAXParser");
+			xmlReader = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
 		} catch (SAXException se) {
 			System.out.println(se);
 		}
@@ -198,8 +196,7 @@ public class ConfigTool extends DefaultHandler {
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement
 	 */
 	@Override
-	public void startElement(String uri, String name, String qName,
-			Attributes atts) {
+	public void startElement(String uri, String name, String qName, Attributes atts) {
 
 		// check if a fully quallified namespace (xmlns) is given
 		if ("".equals(uri)) {

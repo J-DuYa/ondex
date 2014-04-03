@@ -27,13 +27,11 @@ public class ShowNodeSameTagItem extends EntityMenuItem<ONDEXConcept> {
 		for (ONDEXConcept c : entities) {
 			for (ONDEXConcept concept : c.getTags()) {
 				// first set concepts visible
-				for (ONDEXConcept ctxt : viewer.getONDEXJUNGGraph()
-						.getConceptsOfTag(concept)) {
+				for (ONDEXConcept ctxt : viewer.getONDEXJUNGGraph().getConceptsOfTag(concept)) {
 					viewer.getONDEXJUNGGraph().setVisibility(ctxt, true);
 				}
 				// second set relations visible
-				for (ONDEXRelation r : viewer.getONDEXJUNGGraph()
-						.getRelationsOfTag(concept)) {
+				for (ONDEXRelation r : viewer.getONDEXJUNGGraph().getRelationsOfTag(concept)) {
 					viewer.getONDEXJUNGGraph().setVisibility(r, true);
 				}
 			}

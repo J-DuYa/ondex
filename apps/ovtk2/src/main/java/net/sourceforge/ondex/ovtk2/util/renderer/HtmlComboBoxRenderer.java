@@ -30,8 +30,7 @@ public class HtmlComboBoxRenderer extends JLabel implements ListCellRenderer {
 		setVerticalAlignment(CENTER);
 	}
 
-	public Component getListCellRendererComponent(JList list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
 		if (isSelected) {
 			setBackground(list.getSelectionBackground());

@@ -11,18 +11,18 @@ import javax.swing.JPopupMenu;
 import net.sourceforge.ondex.core.ConceptName;
 
 /**
- * Displays a popup menu with check box for preferred name. 
+ * Displays a popup menu with check box for preferred name.
  * 
  * @author taubertj
- *
+ * 
  */
 public class ConceptNamePopup extends JPopupMenu implements ActionListener {
-	
+
 	/**
 	 * generated
 	 */
 	private static final long serialVersionUID = 8120691497155750889L;
-	
+
 	/**
 	 * concept name to modify
 	 */
@@ -32,24 +32,25 @@ public class ConceptNamePopup extends JPopupMenu implements ActionListener {
 	 * check box for preferred
 	 */
 	JCheckBox box;
-	
+
 	/**
 	 * Modify given concept name
 	 * 
-	 * @param name ConceptName to modify
+	 * @param name
+	 *            ConceptName to modify
 	 */
 	public ConceptNamePopup(ConceptName name) {
 		this.name = name;
-		
+
 		// editor panel
 		BoxLayout layout = new BoxLayout(this, BoxLayout.LINE_AXIS);
 		this.setLayout(layout);
-		
+
 		// check box for preferred
 		box = new JCheckBox("Is a preferred concept name?");
 		box.setSelected(name.isPreferred());
 		this.add(box);
-		
+
 		// button to close popup
 		JButton close = new JButton("close");
 		close.addActionListener(this);

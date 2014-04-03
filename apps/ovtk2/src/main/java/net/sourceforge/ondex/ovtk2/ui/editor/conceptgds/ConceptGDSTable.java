@@ -53,8 +53,7 @@ public class ConceptGDSTable extends JTable {
 
 		// check for number Attribute attributes
 		for (int i = 0; i < dm.getColumnCount(); i++) {
-			AttributeName an = graph.getMetaData().getAttributeName(
-					dm.getColumnName(i));
+			AttributeName an = graph.getMetaData().getAttributeName(dm.getColumnName(i));
 			if (an != null) {
 				Class<?> cl = an.getDataType();
 				if (Number.class.isAssignableFrom(cl)) {

@@ -55,8 +55,7 @@ public class MetaRelationMenu extends JPopupMenu {
 
 	// ####METHODS####
 
-	public class MetaRelationInfo extends JPanel implements
-			EdgeMenuListener<ONDEXMetaConcept, ONDEXMetaRelation> {
+	public class MetaRelationInfo extends JPanel implements EdgeMenuListener<ONDEXMetaConcept, ONDEXMetaRelation> {
 
 		/**
 		 * 
@@ -67,9 +66,7 @@ public class MetaRelationMenu extends JPopupMenu {
 			BoxLayout contentLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 			this.setLayout(contentLayout);
 
-			TitledBorder infoBorder = BorderFactory
-					.createTitledBorder(Config.language
-							.getProperty("Viewer.MetaRelationMenu.Info"));
+			TitledBorder infoBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Viewer.MetaRelationMenu.Info"));
 			this.setBorder(infoBorder);
 		}
 
@@ -79,8 +76,7 @@ public class MetaRelationMenu extends JPopupMenu {
 		 *      edu.uci.ics.jung.visualization.VisualizationViewer)
 		 */
 		@Override
-		public void setEdgeAndView(ONDEXMetaRelation edge,
-				VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
+		public void setEdgeAndView(ONDEXMetaRelation edge, VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
 
 			// empty panel
 			this.removeAll();
@@ -93,8 +89,7 @@ public class MetaRelationMenu extends JPopupMenu {
 			typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.LINE_AXIS));
 
 			// label for relation type
-			typePanel.add(new JLabel(Config.language
-					.getProperty("Viewer.MetaRelationMenu.OfType")));
+			typePanel.add(new JLabel(Config.language.getProperty("Viewer.MetaRelationMenu.OfType")));
 
 			// box layout refinements
 			typePanel.add(Box.createHorizontalGlue());
@@ -110,12 +105,10 @@ public class MetaRelationMenu extends JPopupMenu {
 
 			// construct number info panel
 			JPanel numberPanel = new JPanel(new BorderLayout());
-			numberPanel.setLayout(new BoxLayout(numberPanel,
-					BoxLayout.LINE_AXIS));
+			numberPanel.setLayout(new BoxLayout(numberPanel, BoxLayout.LINE_AXIS));
 
 			// construct title label
-			numberPanel.add(new JLabel(Config.language
-					.getProperty("Viewer.MetaRelationMenu.NumberOfRelations")));
+			numberPanel.add(new JLabel(Config.language.getProperty("Viewer.MetaRelationMenu.NumberOfRelations")));
 
 			// box layout refinements
 			numberPanel.add(Box.createHorizontalGlue());
@@ -129,9 +122,7 @@ public class MetaRelationMenu extends JPopupMenu {
 		}
 	}
 
-	public class MetaRelationVisibilityItem extends JCheckBoxMenuItem implements
-			EdgeMenuListener<ONDEXMetaConcept, ONDEXMetaRelation>,
-			ActionListener {
+	public class MetaRelationVisibilityItem extends JCheckBoxMenuItem implements EdgeMenuListener<ONDEXMetaConcept, ONDEXMetaRelation>, ActionListener {
 
 		/**
 		 * 
@@ -141,15 +132,13 @@ public class MetaRelationMenu extends JPopupMenu {
 		private ONDEXMetaRelation edge = null;
 
 		public MetaRelationVisibilityItem() {
-			super(Config.language
-					.getProperty("Viewer.MetaRelationMenu.Visible"));
+			super(Config.language.getProperty("Viewer.MetaRelationMenu.Visible"));
 			addActionListener(metagraph);
 			addActionListener(this);
 		}
 
 		@Override
-		public void setEdgeAndView(ONDEXMetaRelation edge,
-				VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
+		public void setEdgeAndView(ONDEXMetaRelation edge, VisualizationViewer<ONDEXMetaConcept, ONDEXMetaRelation> visComp) {
 			this.edge = edge;
 			setSelected(edge.isVisible());
 			setActionCommand(edge.isVisible() ? "hide" : "show");
@@ -161,8 +150,7 @@ public class MetaRelationMenu extends JPopupMenu {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			viewer.getMetaGraphPanel().getVisualizationViewer().getModel()
-					.fireStateChanged();
+			viewer.getMetaGraphPanel().getVisualizationViewer().getModel().fireStateChanged();
 
 		}
 

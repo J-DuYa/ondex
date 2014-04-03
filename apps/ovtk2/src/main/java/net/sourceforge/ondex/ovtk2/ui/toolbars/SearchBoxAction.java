@@ -39,14 +39,12 @@ import org.apache.commons.collections15.map.LazyMap;
 public class SearchBoxAction implements ActionListener, InternalFrameListener {
 
 	// map of table graph editors to viewer windows
-	private static Map<OVTK2Viewer, Set<OVTK2Dialog>> dialogs = LazyMap
-			.decorate(new HashMap<OVTK2Viewer, Set<OVTK2Dialog>>(),
-					new Factory<Set<OVTK2Dialog>>() {
-						@Override
-						public Set<OVTK2Dialog> create() {
-							return new HashSet<OVTK2Dialog>();
-						}
-					});
+	private static Map<OVTK2Viewer, Set<OVTK2Dialog>> dialogs = LazyMap.decorate(new HashMap<OVTK2Viewer, Set<OVTK2Dialog>>(), new Factory<Set<OVTK2Dialog>>() {
+		@Override
+		public Set<OVTK2Dialog> create() {
+			return new HashSet<OVTK2Dialog>();
+		}
+	});
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -59,67 +57,44 @@ public class SearchBoxAction implements ActionListener, InternalFrameListener {
 		// search functionality
 		if (cmd.equals("search")) {
 			if (viewer != null) {
-				MenuGraphSearchBox searchBox = (MenuGraphSearchBox) ae
-						.getSource();
+				MenuGraphSearchBox searchBox = (MenuGraphSearchBox) ae.getSource();
 				String searchMode = searchBox.getSearchMode();
 
 				// get concept class restriction, null is valid
 				ConceptClass conceptClass = null;
 				if (searchBox.getConceptClasses().getSelectedItem() instanceof MetaDataWrapper) {
-					conceptClass = (ConceptClass) ((MetaDataWrapper) searchBox
-							.getConceptClasses().getSelectedItem())
-							.getMetaData();
+					conceptClass = (ConceptClass) ((MetaDataWrapper) searchBox.getConceptClasses().getSelectedItem()).getMetaData();
 				}
 
 				// get data source restriction, null is valid
 				DataSource dataSource = null;
 				if (searchBox.getDataSources().getSelectedItem() instanceof MetaDataWrapper) {
-					dataSource = (DataSource) ((MetaDataWrapper) searchBox
-							.getDataSources().getSelectedItem()).getMetaData();
+					dataSource = (DataSource) ((MetaDataWrapper) searchBox.getDataSources().getSelectedItem()).getMetaData();
 				}
 
 				// get context restriction, null is valid
 				ONDEXConcept context = null;
 				if (searchBox.getTags().getSelectedItem() instanceof IntegerStringWrapper) {
-					context = viewer.getONDEXJUNGGraph().getConcept(
-							((IntegerStringWrapper) searchBox.getTags()
-									.getSelectedItem()).getValue());
+					context = viewer.getONDEXJUNGGraph().getConcept(((IntegerStringWrapper) searchBox.getTags().getSelectedItem()).getValue());
 				}
 
-				if (searchMode == null || searchMode.equals(Config.language
-						.getProperty("ToolBar.Search.Mode.Default"))) {
+				if (searchMode == null || searchMode.equals(Config.language.getProperty("ToolBar.Search.Mode.Default"))) {
 					// fire up default search
-					DialogSearchResult results = new DialogSearchResult(viewer,
-							searchBox.getSearchText(), searchBox.isRegex(),
-							searchBox.isCaseSensitive(), conceptClass,
-							dataSource, context);
+					DialogSearchResult results = new DialogSearchResult(viewer, searchBox.getSearchText(), searchBox.isRegex(), searchBox.isCaseSensitive(), conceptClass, dataSource, context);
 					desktop.display(results, Position.leftTop);
 					if (!dialogs.containsKey(viewer))
 						viewer.addInternalFrameListener(this);
 					dialogs.get(viewer).add(results);
-				} else if (searchMode.equals(Config.language
-						.getProperty("ToolBar.Search.Mode.SMILES"))
-						|| searchMode.equals(Config.language
-								.getProperty("ToolBar.Search.Mode.InChI"))
-						|| searchMode.equals(Config.language
-								.getProperty("ToolBar.Search.Mode.InChIKey"))
-						|| searchMode.equals(Config.language
-								.getProperty("ToolBar.Search.Mode.ChEMBL"))) {
+				} else if (searchMode.equals(Config.language.getProperty("ToolBar.Search.Mode.SMILES")) || searchMode.equals(Config.language.getProperty("ToolBar.Search.Mode.InChI")) || searchMode.equals(Config.language.getProperty("ToolBar.Search.Mode.InChIKey")) || searchMode.equals(Config.language.getProperty("ToolBar.Search.Mode.ChEMBL"))) {
 					// special case for chemical search
-					DialogChemicalSearch results = new DialogChemicalSearch(
-							viewer, searchBox.getSearchText(), conceptClass,
-							dataSource, context, searchMode,
-							searchBox.getTanimotoSimilarity(),
-							searchBox.isUseChEMBL());
+					DialogChemicalSearch results = new DialogChemicalSearch(viewer, searchBox.getSearchText(), conceptClass, dataSource, context, searchMode, searchBox.getTanimotoSimilarity(), searchBox.isUseChEMBL());
 					desktop.display(results, Position.leftTop);
 					if (!dialogs.containsKey(viewer))
 						viewer.addInternalFrameListener(this);
 					dialogs.get(viewer).add(results);
-				} else if (searchMode.equals(Config.language
-						.getProperty("ToolBar.Search.Mode.UniProt"))) {
+				} else if (searchMode.equals(Config.language.getProperty("ToolBar.Search.Mode.UniProt"))) {
 					// special case for protein search
-					DialogProteinSearch results = new DialogProteinSearch(
-							viewer, searchBox.getSearchText());
+					DialogProteinSearch results = new DialogProteinSearch(viewer, searchBox.getSearchText());
 					desktop.display(results, Position.leftTop);
 					if (!dialogs.containsKey(viewer))
 						viewer.addInternalFrameListener(this);

@@ -23,9 +23,7 @@ import edu.uci.ics.jung.visualization.decorators.EdgeShape.Loop;
  * @author taubertj
  * @author Matthew Pocock
  */
-public class ONDEXEdgeShapes extends
-		AbstractEdgeShapeTransformer<ONDEXConcept, ONDEXRelation> implements
-		IndexedRendering<ONDEXConcept, ONDEXRelation> {
+public class ONDEXEdgeShapes extends AbstractEdgeShapeTransformer<ONDEXConcept, ONDEXRelation> implements IndexedRendering<ONDEXConcept, ONDEXRelation> {
 
 	public static final String KEYLINE = "line";
 
@@ -139,8 +137,7 @@ public class ONDEXEdgeShapes extends
 	 */
 	private static CubicCurve2D cubic = new CubicCurve2D.Float();
 
-	public void setEdgeIndexFunction(
-			EdgeIndexFunction<ONDEXConcept, ONDEXRelation> parallelEdgeIndexFunction) {
+	public void setEdgeIndexFunction(EdgeIndexFunction<ONDEXConcept, ONDEXRelation> parallelEdgeIndexFunction) {
 		this.parallelEdgeIndexFunction = parallelEdgeIndexFunction;
 		loop.setEdgeIndexFunction(parallelEdgeIndexFunction);
 	}
@@ -156,8 +153,7 @@ public class ONDEXEdgeShapes extends
 	 * Get the shape for this edge, returning either the shared instance or, in
 	 * the case of self-loop edges, the Loop shared instance.
 	 */
-	public Shape transform(
-			Context<Graph<ONDEXConcept, ONDEXRelation>, ONDEXRelation> context) {
+	public Shape transform(Context<Graph<ONDEXConcept, ONDEXRelation>, ONDEXRelation> context) {
 		Graph<ONDEXConcept, ONDEXRelation> graph = context.graph;
 		ONDEXRelation e = context.element;
 		Pair<ONDEXConcept> endpoints = graph.getEndpoints(e);
@@ -173,16 +169,14 @@ public class ONDEXEdgeShapes extends
 			index = parallelEdgeIndexFunction.getIndex(graph, e);
 		}
 
-		float controlY = control_offset_increment + control_offset_increment
-				* index;
+		float controlY = control_offset_increment + control_offset_increment * index;
 
 		switch (shape) {
 		case QUAD:
 			quad.setCurve(0.0f, 0.0f, 0.5f, controlY, 1.0f, 0.0f);
 			return quad;
 		case CUBIC:
-			cubic.setCurve(0.0f, 0.0f, 0.33f, 2 * controlY, .66f, -controlY,
-					1.0f, 0.0f);
+			cubic.setCurve(0.0f, 0.0f, 0.33f, 2 * controlY, .66f, -controlY, 1.0f, 0.0f);
 			return cubic;
 		case BENT:
 			bent.reset();

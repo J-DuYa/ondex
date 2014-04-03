@@ -67,6 +67,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.picking.PickedState;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.renderers.VertexLabelAsShapeRenderer;
+
 /**
  * To be sorted, do not use.
  * 
@@ -80,9 +81,7 @@ public class ReportFunctions {
 		throw new NullPointerException();
 	}
 
-	
-	private static final void getGDSValues(Collection<ONDEXConcept> cs,
-			AttributeName att, Set set) {
+	private static final void getGDSValues(Collection<ONDEXConcept> cs, AttributeName att, Set set) {
 		for (ONDEXConcept c : cs) {
 			Attribute attribute = c.getAttribute(att);
 			if (attribute != null) {
@@ -91,8 +90,7 @@ public class ReportFunctions {
 		}
 	}
 
-	private static Set<ONDEXRelation> withinGroupRelations(ONDEXGraph graph,
-			Collection<ONDEXConcept> cs) {
+	private static Set<ONDEXRelation> withinGroupRelations(ONDEXGraph graph, Collection<ONDEXConcept> cs) {
 		Set<ONDEXRelation> rs = new HashSet<ONDEXRelation>();
 		for (ONDEXConcept c : cs) {
 			Collection<ONDEXRelation> rsOfc = graph.getRelationsOfConcept(c);
@@ -143,14 +141,11 @@ public class ReportFunctions {
 		}
 	}
 
-	public static final void showGOClusters(OVTK2PropertiesAggregator viewer,
-			String ontoCls, String name, String entityCls, String clsuterAtt) {
+	public static final void showGOClusters(OVTK2PropertiesAggregator viewer, String ontoCls, String name, String entityCls, String clsuterAtt) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
-		AttributeName att = MdHelper.createAttName(graph, clsuterAtt,
-				Integer.class);
+		AttributeName att = MdHelper.createAttName(graph, clsuterAtt, Integer.class);
 		Map<Object, Set<ONDEXConcept>> clusterIndex = new HashMap<Object, Set<ONDEXConcept>>();
-		SetMapBuilder<Object, ONDEXConcept> sb = new SetMapBuilder<Object, ONDEXConcept>(
-				clusterIndex);
+		SetMapBuilder<Object, ONDEXConcept> sb = new SetMapBuilder<Object, ONDEXConcept>(clusterIndex);
 		for (ONDEXConcept c : graph.getConcepts()) {
 			Attribute attribute = c.getAttribute(att);
 			if (attribute != null) {
@@ -214,8 +209,7 @@ public class ReportFunctions {
 		viewer.getVisualizationViewer().repaint();
 	}
 
-	public static final void filterByGO(OVTK2PropertiesAggregator viewer,
-			String ontoCls, String name, String entityCls) {
+	public static final void filterByGO(OVTK2PropertiesAggregator viewer, String ontoCls, String name, String entityCls) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
 		ConceptClass cc = createCC(graph, entityCls);
 		ONDEXConcept seed = null;
@@ -260,8 +254,7 @@ public class ReportFunctions {
 
 		for (ONDEXConcept t : terminal) {
 			for (ONDEXRelation tr : graph.getRelationsOfConcept(t)) {
-				if (terminal.contains(tr.getToConcept())
-						&& terminal.contains(tr.getFromConcept())) {
+				if (terminal.contains(tr.getToConcept()) && terminal.contains(tr.getFromConcept())) {
 					terminalrelations.add(tr);
 				}
 			}
@@ -277,8 +270,7 @@ public class ReportFunctions {
 
 	}
 
-	public static final void colorByGO(OVTK2PropertiesAggregator viewer,
-			String ontoCls, String name, String entityCls, int r, int g, int b) {
+	public static final void colorByGO(OVTK2PropertiesAggregator viewer, String ontoCls, String name, String entityCls, int r, int g, int b) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		ConceptClass cc = createCC(graph, entityCls);
 		Color color = new Color(r, g, b);
@@ -332,8 +324,7 @@ public class ReportFunctions {
 
 		for (ONDEXConcept t : terminal) {
 			for (ONDEXRelation tr : graph.getRelationsOfConcept(t)) {
-				if (terminal.contains(tr.getToConcept())
-						&& terminal.contains(tr.getFromConcept())) {
+				if (terminal.contains(tr.getToConcept()) && terminal.contains(tr.getFromConcept())) {
 					setColor(viewer, tr, color);
 				}
 			}
@@ -403,35 +394,28 @@ public class ReportFunctions {
 		}
 	}
 
-	public static String intersectionReport(ONDEXGraph graph, String type,
-			String... cvs) {
+	public static String intersectionReport(ONDEXGraph graph, String type, String... cvs) {
 		return _intersectionReport(graph, null, type, cvs);
 	}
 
-	public static String intersectionReportForAttName(ONDEXGraph graph,
-			String type, String attName, String... cvs) {
+	public static String intersectionReportForAttName(ONDEXGraph graph, String type, String attName, String... cvs) {
 		return _intersectionReport(graph, attName, type, cvs);
 	}
-	
+
 	public static void labelPosition(OVTK2PropertiesAggregator viewer, String pos) {
 		VisualizationViewer vv = viewer.getVisualizationViewer();
 		edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position p = null;
-		if(pos.equals("C")){
+		if (pos.equals("C")) {
 			p = Renderer.VertexLabel.Position.CNTR;
-		}
-		else if(pos.equals("E")){
+		} else if (pos.equals("E")) {
 			p = Renderer.VertexLabel.Position.E;
-		}
-		else if(pos.equals("W")){
+		} else if (pos.equals("W")) {
 			p = Renderer.VertexLabel.Position.W;
-		}
-		else if(pos.equals("N")){
+		} else if (pos.equals("N")) {
 			p = Renderer.VertexLabel.Position.N;
-		}
-		else if(pos.equals("S")){
+		} else if (pos.equals("S")) {
 			p = Renderer.VertexLabel.Position.S;
-		}
-		else if(pos.equals("A")){
+		} else if (pos.equals("A")) {
 			p = Renderer.VertexLabel.Position.AUTO;
 		}
 		viewer.getVisualizationViewer().getRenderer().getVertexLabelRenderer().setPosition(p);
@@ -444,8 +428,7 @@ public class ReportFunctions {
 	 * currently visible
 	 */
 	public static void showAllRelations(OVTK2PropertiesAggregator viewer) {
-		net.sourceforge.ondex.ovtk2.reusable_functions.VisualisationExtension
-				.showConnectingRelations(viewer);
+		net.sourceforge.ondex.ovtk2.reusable_functions.VisualisationExtension.showConnectingRelations(viewer);
 	}
 
 	/**
@@ -458,20 +441,17 @@ public class ReportFunctions {
 	 * @param copnceptClass
 	 *            - seed concept class of the annotated concepts
 	 */
-	public static void treePruner(OVTK2PropertiesAggregator viewer,
-			String copnceptClass, String... excludeRelationTypes) {
+	public static void treePruner(OVTK2PropertiesAggregator viewer, String copnceptClass, String... excludeRelationTypes) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
 		Set<RelationType> toExcludeTmp = new HashSet<RelationType>();
 		for (String rt : excludeRelationTypes) {
 			toExcludeTmp.add(createRT(graph, rt));
 		}
-		RelationType[] toExclude = toExcludeTmp
-				.toArray(new RelationType[toExcludeTmp.size()]);
+		RelationType[] toExclude = toExcludeTmp.toArray(new RelationType[toExcludeTmp.size()]);
 		Set<ONDEXConcept> toKeep = new HashSet<ONDEXConcept>();
 		Set<ONDEXConcept> sources = new HashSet<ONDEXConcept>();
-		for (ONDEXConcept c : graph.getConceptsOfConceptClass(createCC(graph,
-				copnceptClass))) {
+		for (ONDEXConcept c : graph.getConceptsOfConceptClass(createCC(graph, copnceptClass))) {
 			toKeep.add(c);
 			sources.addAll(relationsToTargets(getOutgoingRelations(graph, c)));
 		}
@@ -481,8 +461,7 @@ public class ReportFunctions {
 			for (ONDEXConcept z : sources) {
 				if (!toKeep.contains(z)) {
 					toKeep.add(z);
-					newSources.addAll(relationsToTargets(getOutgoingRelations(
-							graph, z, toExclude)));
+					newSources.addAll(relationsToTargets(getOutgoingRelations(graph, z, toExclude)));
 					// newSources.addAll(relationsToSources(getIncomingRelations(graph,
 					// z, toExclude)));
 				}
@@ -511,40 +490,30 @@ public class ReportFunctions {
 
 	public static void shapeAsLabel(OVTK2PropertiesAggregator viewer) {
 		VisualizationViewer vv = viewer.getVisualizationViewer();
-		viewer.getVisualizationViewer().getRenderer().getVertexLabelRenderer()
-				.setPosition(Renderer.VertexLabel.Position.CNTR);
+		viewer.getVisualizationViewer().getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.CNTR);
 		;
-		vv.getRenderContext().setVertexShapeTransformer(
-				new VertexLabelAsShapeRenderer<String, Number>(vv
-						.getRenderContext()));
+		vv.getRenderContext().setVertexShapeTransformer(new VertexLabelAsShapeRenderer<String, Number>(vv.getRenderContext()));
 		viewer.getVisualizationViewer().repaint();
 	}
 
-	public static void resizeFont(OVTK2PropertiesAggregator viewer,
-			final float maxSize, final float minSize, String gdsArg,
-			final double gdsMax) {
+	public static void resizeFont(OVTK2PropertiesAggregator viewer, final float maxSize, final float minSize, String gdsArg, final double gdsMax) {
 		VisualizationViewer vv = viewer.getVisualizationViewer();
 		final ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		final AttributeName an = graph.getMetaData().getAttributeName(gdsArg);
 
 		final Font newFont = new Font("Calibri", Font.BOLD, (int) maxSize);
-		viewer.getVisualizationViewer()
-				.getRenderContext()
-				.setVertexFontTransformer(
-						new Transformer<ONDEXConcept, Font>() {
-							@Override
-							public Font transform(ONDEXConcept n) {
-								ONDEXConcept c = graph.getConcept(n.getId());
-								Attribute attribute = c.getAttribute(an);
-								if (attribute != null) {
-									Float size = (float) (((Double) attribute
-											.getValue() / (Double) gdsMax)
-											* (maxSize - minSize) + minSize);
-									return newFont.deriveFont(size);
-								}
-								return newFont;
-							}
-						});
+		viewer.getVisualizationViewer().getRenderContext().setVertexFontTransformer(new Transformer<ONDEXConcept, Font>() {
+			@Override
+			public Font transform(ONDEXConcept n) {
+				ONDEXConcept c = graph.getConcept(n.getId());
+				Attribute attribute = c.getAttribute(an);
+				if (attribute != null) {
+					Float size = (float) (((Double) attribute.getValue() / (Double) gdsMax) * (maxSize - minSize) + minSize);
+					return newFont.deriveFont(size);
+				}
+				return newFont;
+			}
+		});
 		viewer.getVisualizationViewer().repaint();
 	}
 
@@ -552,23 +521,18 @@ public class ReportFunctions {
 		VisualizationViewer vv = viewer.getVisualizationViewer();
 		final ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		final Font newFont = new Font("Calibri", Font.BOLD, size);
-		viewer.getVisualizationViewer()
-				.getRenderContext()
-				.setVertexFontTransformer(
-						new Transformer<ONDEXConcept, Font>() {
-							@Override
-							public Font transform(ONDEXConcept n) {
-								return newFont;
-							}
-						});
+		viewer.getVisualizationViewer().getRenderContext().setVertexFontTransformer(new Transformer<ONDEXConcept, Font>() {
+			@Override
+			public Font transform(ONDEXConcept n) {
+				return newFont;
+			}
+		});
 		viewer.getVisualizationViewer().repaint();
 	}
 
-	public static void showByContext(OVTK2PropertiesAggregator viewer,
-			String conceptClass) {
+	public static void showByContext(OVTK2PropertiesAggregator viewer, String conceptClass) {
 		ONDEXJUNGGraph graph = viewer.getONDEXJUNGGraph();
-		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer()
-				.getPickedVertexState();
+		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer().getPickedVertexState();
 		Set<ONDEXConcept> set = state.getPicked();
 		Set<ONDEXConcept> toShow = new HashSet<ONDEXConcept>();
 		DistinctColourMaker dc = new DistinctColourMaker(21);
@@ -581,8 +545,7 @@ public class ReportFunctions {
 			Color color = dc.getNextColor();
 			contexts.add(context);
 			Annotation.setColor(viewer, context, color);
-			Collection<ONDEXConcept> subset = BitSetFunctions.andNot(
-					graph.getConceptsOfTag(context), exclude);
+			Collection<ONDEXConcept> subset = BitSetFunctions.andNot(graph.getConceptsOfTag(context), exclude);
 			for (ONDEXConcept c : subset) {
 				Annotation.setColor(viewer, c, color);
 				colors.put(c, color);
@@ -599,13 +562,11 @@ public class ReportFunctions {
 			ONDEXConcept to = r.getToConcept();
 			if (toShow.contains(from) && toShow.contains(to)) {
 				graph.setVisibility(r, true);
-				Collection<ONDEXConcept> contextsOfC = BitSetFunctions.and(
-						to.getTags(), from.getTags());
+				Collection<ONDEXConcept> contextsOfC = BitSetFunctions.and(to.getTags(), from.getTags());
 				contextsOfC.retainAll(contexts);
 				if (contextsOfC.size() > 0) {
 					System.err.println(colors.get(r.getFromConcept()));
-					Annotation.setColor(viewer, r,
-							colors.get(r.getFromConcept()));
+					Annotation.setColor(viewer, r, colors.get(r.getFromConcept()));
 				}
 			}
 		}
@@ -622,12 +583,10 @@ public class ReportFunctions {
 	 * @param arg_name
 	 *            - name of an argument for storing the count
 	 */
-	public static void annotationByContextCounter(OVTK2PropertiesAggregator viewer,
-			String membersClass, String arg_name) {
+	public static void annotationByContextCounter(OVTK2PropertiesAggregator viewer, String membersClass, String arg_name) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		AttributeName an = createAttName(graph, arg_name, Double.class);
-		Set<ONDEXConcept> ccRestriction = graph
-				.getConceptsOfConceptClass(createCC(graph, membersClass));
+		Set<ONDEXConcept> ccRestriction = graph.getConceptsOfConceptClass(createCC(graph, membersClass));
 		for (ONDEXConcept context : graph.getConcepts()) {
 			Set<ONDEXConcept> members = graph.getConceptsOfTag(context);
 			int count = BitSetFunctions.and(ccRestriction, members).size();
@@ -652,28 +611,23 @@ public class ReportFunctions {
 	 *            - these relation types will NOT be traversed when calculating
 	 *            the counts
 	 */
-	public static void annotationCounter(OVTK2PropertiesAggregator viewer,
-			String copnceptClass, String arg_name,
-			String... excludeRelationTypes) {
+	public static void annotationCounter(OVTK2PropertiesAggregator viewer, String copnceptClass, String arg_name, String... excludeRelationTypes) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		AttributeName an = createAttName(graph, arg_name, Double.class);
 		Set<RelationType> toExcludeTmp = new HashSet<RelationType>();
 		for (String rt : excludeRelationTypes) {
 			toExcludeTmp.add(createRT(graph, rt));
 		}
-		RelationType[] toExclude = toExcludeTmp
-				.toArray(new RelationType[toExcludeTmp.size()]);
+		RelationType[] toExclude = toExcludeTmp.toArray(new RelationType[toExcludeTmp.size()]);
 		ConceptClass cc = createCC(graph, copnceptClass);
 		Set<ONDEXConcept> cs = graph.getConceptsOfConceptClass(cc);
 		Map<Integer, Double> counts = new HashMap<Integer, Double>();
 		int i = 1;
 		int total = cs.size();
 		for (ONDEXConcept c : cs) {
-			System.err.println("Processing concept " + i + " of " + total
-					+ " PID: " + c.getPID());
+			System.err.println("Processing concept " + i + " of " + total + " PID: " + c.getPID());
 			Set<ONDEXConcept> processed = new HashSet<ONDEXConcept>();
-			Set<ONDEXConcept> sources = relationsToTargets(getOutgoingRelations(
-					graph, c, toExclude));
+			Set<ONDEXConcept> sources = relationsToTargets(getOutgoingRelations(graph, c, toExclude));
 			Set<ONDEXConcept> newSources = new HashSet<ONDEXConcept>();
 			while (sources.size() > 0) {
 				for (ONDEXConcept z : sources) {
@@ -685,8 +639,7 @@ public class ReportFunctions {
 						} else {
 							counts.put(z.getId(), 1d);
 						}
-						Set<ONDEXConcept> candidates = relationsToTargets(getOutgoingRelations(
-								graph, z, toExclude));
+						Set<ONDEXConcept> candidates = relationsToTargets(getOutgoingRelations(graph, z, toExclude));
 						newSources.addAll(candidates);
 					}
 				}
@@ -698,16 +651,13 @@ public class ReportFunctions {
 		}
 		for (Entry<Integer, Double> ent : counts.entrySet()) {
 			if (!graph.getConcept(ent.getKey()).getOfType().equals(cc))
-				graph.getConcept(ent.getKey()).createAttribute(an,
-						ent.getValue(), false);
+				graph.getConcept(ent.getKey()).createAttribute(an, ent.getValue(), false);
 		}
 	}
 
 	public static void createContext(OVTK2PropertiesAggregator viewer, String name) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
-		ONDEXConcept context = graph.getFactory().createConcept(name,
-				createDataSource(graph, "unknown"), createCC(graph, "Thing"),
-				createEvidence(graph, "manual"));
+		ONDEXConcept context = graph.getFactory().createConcept(name, createDataSource(graph, "unknown"), createCC(graph, "Thing"), createEvidence(graph, "manual"));
 		context.createConceptName(name, true);
 		for (ONDEXConcept c : graph.getConcepts()) {
 			c.addTag(context);
@@ -716,13 +666,11 @@ public class ReportFunctions {
 
 	public static void colourByContexts(OVTK2PropertiesAggregator viewer) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
-		Color color = JColorChooser.showDialog(OVTK2Desktop.getInstance()
-				.getMainFrame(), "Choose Background Color", Color.blue);
+		Color color = JColorChooser.showDialog(OVTK2Desktop.getInstance().getMainFrame(), "Choose Background Color", Color.blue);
 		if (color == null)
 			return;
 		System.err.println(color);
-		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer()
-				.getPickedVertexState();
+		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer().getPickedVertexState();
 		Set<ONDEXConcept> set = state.getPicked();
 		for (ONDEXConcept n : set) {
 			ONDEXConcept context = graph.getConcept(n.getId());
@@ -733,13 +681,11 @@ public class ReportFunctions {
 		}
 	}
 
-	public static void filterByClassHasRt(OVTK2PropertiesAggregator viewer,
-			String cls, String rt) {
+	public static void filterByClassHasRt(OVTK2PropertiesAggregator viewer, String cls, String rt) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
 		Set<ONDEXConcept> del = new HashSet<ONDEXConcept>();
-		for (ONDEXConcept c : graph.getConceptsOfConceptClass(createCC(graph,
-				cls))) {
+		for (ONDEXConcept c : graph.getConceptsOfConceptClass(createCC(graph, cls))) {
 			boolean keep = false;
 			for (ONDEXRelation r : graph.getRelationsOfConcept(c)) {
 				if (r.getOfType().getId().equals(rt)) {
@@ -757,14 +703,11 @@ public class ReportFunctions {
 		}
 	}
 
-	public static void countMembers(OVTK2PropertiesAggregator viewer,
-			String clsOfConctext, String clsOfMemeber) {
+	public static void countMembers(OVTK2PropertiesAggregator viewer, String clsOfConctext, String clsOfMemeber) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
-		AttributeName an = createAttName(graph, clsOfMemeber + "_members",
-				Double.class);
+		AttributeName an = createAttName(graph, clsOfMemeber + "_members", Double.class);
 		ConceptClass cls = createCC(graph, clsOfMemeber);
-		for (ONDEXConcept c : graph.getConceptsOfConceptClass(createCC(graph,
-				clsOfConctext))) {
+		for (ONDEXConcept c : graph.getConceptsOfConceptClass(createCC(graph, clsOfConctext))) {
 			Double count = 0d;
 			for (ONDEXConcept oc : graph.getConceptsOfTag(c)) {
 				if (oc.getOfType().equals(cls)) {
@@ -786,17 +729,14 @@ public class ReportFunctions {
 		}
 	}
 
-	public static void colorByGo(OVTK2PropertiesAggregator viewer,
-			String terminalClass) {
+	public static void colorByGo(OVTK2PropertiesAggregator viewer, String terminalClass) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		ConceptClass cc = createCC(graph, terminalClass);
-		Color color = JColorChooser.showDialog(OVTK2Desktop.getInstance()
-				.getMainFrame(), "Choose Background Color", Color.blue);
+		Color color = JColorChooser.showDialog(OVTK2Desktop.getInstance().getMainFrame(), "Choose Background Color", Color.blue);
 		if (color == null)
 			return;
 		System.err.println(color);
-		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer()
-				.getPickedVertexState();
+		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer().getPickedVertexState();
 		Set<ONDEXConcept> set = state.getPicked();
 		if (set.size() == 0)
 			return;
@@ -838,8 +778,7 @@ public class ReportFunctions {
 
 		for (ONDEXConcept t : terminal) {
 			for (ONDEXRelation tr : graph.getRelationsOfConcept(t)) {
-				if (terminal.contains(tr.getToConcept())
-						&& terminal.contains(tr.getFromConcept())) {
+				if (terminal.contains(tr.getToConcept()) && terminal.contains(tr.getFromConcept())) {
 					setColor(viewer, tr, color);
 				}
 			}
@@ -866,19 +805,16 @@ public class ReportFunctions {
 		}
 	}
 
-	public static void writeFasta(ONDEXGraph graph, String fileName,
-			String seqType, String accType) {
+	public static void writeFasta(ONDEXGraph graph, String fileName, String seqType, String accType) {
 		AttributeName st = graph.getMetaData().getAttributeName(seqType);
 		DataSource dataSource = graph.getMetaData().getDataSource(accType);
 		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					fileName));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 			for (ONDEXConcept c : graph.getConceptsOfAttributeName(st)) {
 				String accession = null;
 				for (ConceptAccession ca : c.getConceptAccessions()) {
-					if (ca.getElementOf().equals(dataSource)
-							&& !ca.isAmbiguous()) {
+					if (ca.getElementOf().equals(dataSource) && !ca.isAmbiguous()) {
 						accession = ca.getAccession();
 						break;
 					}
@@ -897,13 +833,10 @@ public class ReportFunctions {
 					continue;
 				}
 				if (c.getAttribute(st) == null) {
-					System.err.println("Skipped: " + accession
-							+ " -- no sequence attribute");
+					System.err.println("Skipped: " + accession + " -- no sequence attribute");
 					continue;
-				} else if (c.getAttribute(st).getValue().toString().trim()
-						.equals("")) {
-					System.err.println("Skipped: " + accession
-							+ " -- empty sequence");
+				} else if (c.getAttribute(st).getValue().toString().trim().equals("")) {
+					System.err.println("Skipped: " + accession + " -- empty sequence");
 					continue;
 				}
 				bw.write(">" + accession.trim() + "\n");
@@ -920,24 +853,21 @@ public class ReportFunctions {
 
 	}
 
-	public static void writeAccessionList(ONDEXGraph graph, String fileName,
-			String... accTypes) {
+	public static void writeAccessionList(ONDEXGraph graph, String fileName, String... accTypes) {
 		List<DataSource> cvs = new ArrayList<DataSource>();
 		for (String accType : accTypes) {
 			cvs.add(graph.getMetaData().getDataSource(accType));
 		}
 
 		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					fileName));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 			for (ONDEXConcept c : graph.getConcepts()) {
 				String accession = null;
 				boolean first = true;
 				for (DataSource dataSource : cvs) {
 					for (ConceptAccession ca : c.getConceptAccessions()) {
-						if (ca.getElementOf().equals(dataSource)
-								&& !ca.isAmbiguous()) {
+						if (ca.getElementOf().equals(dataSource) && !ca.isAmbiguous()) {
 							accession = ca.getAccession();
 							break;
 						}
@@ -986,12 +916,10 @@ public class ReportFunctions {
 			String uaccession = null;
 			String gaccession = null;
 			for (ConceptAccession ca : c.getConceptAccessions()) {
-				if (uaccession == null && ca.getElementOf().equals(udataSource)
-						&& !ca.isAmbiguous()) {
+				if (uaccession == null && ca.getElementOf().equals(udataSource) && !ca.isAmbiguous()) {
 					uaccession = ca.getAccession();
 				}
-				if (gaccession == null && ca.getElementOf().equals(gdataSource)
-						&& !ca.isAmbiguous()) {
+				if (gaccession == null && ca.getElementOf().equals(gdataSource) && !ca.isAmbiguous()) {
 					gaccession = ca.getAccession();
 				}
 			}
@@ -1030,10 +958,8 @@ public class ReportFunctions {
 			file = directory.getAbsolutePath() + "/" + file;
 			System.err.println("Now processing: " + file);
 			try {
-				DataInputStream in = new DataInputStream(new FileInputStream(
-						file));
-				BufferedReader br = new BufferedReader(
-						new InputStreamReader(in));
+				DataInputStream in = new DataInputStream(new FileInputStream(file));
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				String strLine = null;
 				Pattern gip = Pattern.compile("gi\\|([0-9]+)\\|");
 				while ((strLine = br.readLine()) != null) {
@@ -1042,18 +968,15 @@ public class ReportFunctions {
 					m.find();
 					String gi = m.group(1);
 					ONDEXConcept hit = gIndex.get(gi);
-					ONDEXConcept source = uIndex.get(input[0].trim()
-							.toUpperCase());
+					ONDEXConcept source = uIndex.get(input[0].trim().toUpperCase());
 					if (hit != null && source != null) {
 						ONDEXRelation r = graph.getRelation(source, hit, rt);
 						if (r == null) {
 							r = graph.getRelation(hit, source, rt);
 						}
 						if (r == null) {
-							r = graph.getFactory().createRelation(source, hit,
-									rt, ev);
-							r.createAttribute(eval, Double.valueOf(input[10]),
-									false);
+							r = graph.getFactory().createRelation(source, hit, rt, ev);
+							r.createAttribute(eval, Double.valueOf(input[10]), false);
 							count++;
 						}
 					} else {
@@ -1072,14 +995,12 @@ public class ReportFunctions {
 			System.err.println(str);
 	}
 
-	public static String _intersectionReport(ONDEXGraph graph, String attName,
-			String type, String... cvs) {
+	public static String _intersectionReport(ONDEXGraph graph, String attName, String type, String... cvs) {
 		if (cvs.length < 2)
 			return "There is no intersection possible with this input - so there are no results.";
 		Map<ArrayKey, ValueHolder> counters = new HashMap<ArrayKey, ValueHolder>();
 		for (int i = 0; i < cvs.length; i++) {
-			CombinationGenerator cg = new CombinationGenerator(cvs.length,
-					i + 1);
+			CombinationGenerator cg = new CombinationGenerator(cvs.length, i + 1);
 			while (cg.hasMore()) {
 				String[] values = new String[i + 1];
 				int[] map = cg.getNext();
@@ -1093,8 +1014,7 @@ public class ReportFunctions {
 		if (attName != null) {
 			an = graph.getMetaData().getAttributeName(attName);
 			if (an == null)
-				return attName
-						+ " does not exist in this graph, so there are no results.";
+				return attName + " does not exist in this graph, so there are no results.";
 		}
 
 		ArrayKey reusableKey = new ArrayKey();
@@ -1348,9 +1268,7 @@ public class ReportFunctions {
 			List<String> ofInterest = new ArrayList<String>();
 			while (!match && view.hasNext()) {
 				ONDEXRelation r = view.next();
-				String[] cCvs = arrAnd(r.getFromConcept().getElementOf()
-						.getId().split(":"), r.getToConcept().getElementOf()
-						.getId().split(":"), validArgs);
+				String[] cCvs = arrAnd(r.getFromConcept().getElementOf().getId().split(":"), r.getToConcept().getElementOf().getId().split(":"), validArgs);
 				if (cCvs.length > 0) {
 					match = true;
 					next = cCvs;
@@ -1439,8 +1357,7 @@ public class ReportFunctions {
 		}
 	}
 
-	public static void exportNodeAttributes(ONDEXGraph aog, String file,
-			List<String> attributes) {
+	public static void exportNodeAttributes(ONDEXGraph aog, String file, List<String> attributes) {
 		DataSource tair = aog.getMetaData().getDataSource("TAIR");
 		DataSource uniprot = aog.getMetaData().getDataSource("UNIPROTKB");
 		List<AttributeName> atts = new ArrayList<AttributeName>();
@@ -1450,8 +1367,7 @@ public class ReportFunctions {
 				atts.add(at);
 		}
 		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					file));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 			bw.write("Accession\tName");
 			bw.flush();
@@ -1504,8 +1420,7 @@ public class ReportFunctions {
 		}
 	}
 
-	public static void exportEdgeAttributes(ONDEXGraph aog,
-			String... attributes) {
+	public static void exportEdgeAttributes(ONDEXGraph aog, String... attributes) {
 		List<AttributeName> atts = new ArrayList<AttributeName>();
 		for (String a : attributes) {
 			AttributeName at = aog.getMetaData().getAttributeName(a);
@@ -1513,8 +1428,7 @@ public class ReportFunctions {
 				atts.add(at);
 		}
 		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					"edge_att.tab"));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream("edge_att.tab"));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 			for (String a : attributes) {
 				bw.write("\t" + a);

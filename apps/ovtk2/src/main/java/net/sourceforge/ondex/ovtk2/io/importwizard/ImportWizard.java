@@ -118,8 +118,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 		}
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			if (isSelected) {
 				// change highlighting of selection
 				setBackground(list.getSelectionBackground());
@@ -203,13 +202,10 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 				ids[j] = tmpid[j - 1];
 			}
 
-			Hashtable<String, String> options = globalConfiguration
-					.get("advanced");
+			Hashtable<String, String> options = globalConfiguration.get("advanced");
 
-			boolean comboBoxEditable = Boolean.parseBoolean((String) options
-					.get("comboBoxEditable"));
-			boolean copyHeaders = Boolean.parseBoolean((String) options
-					.get("copyHeaderNames"));
+			boolean comboBoxEditable = Boolean.parseBoolean((String) options.get("comboBoxEditable"));
+			boolean copyHeaders = Boolean.parseBoolean((String) options.get("copyHeaderNames"));
 
 			// get all tooltips for the desc cells
 			String[] tooltips = new String[cells.size() + 1];
@@ -226,8 +222,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 				for (int a = 0; a < columnNames.size(); a++) {
 					String colName = (String) columnNames.get(a);
 
-					if (!(colName.length() == 0)
-							&& !(colName.startsWith("col") && colName.length() <= 5)) {
+					if (!(colName.length() == 0) && !(colName.startsWith("col") && colName.length() <= 5)) {
 						comboBox.addItem(colName);
 					}
 				}
@@ -249,8 +244,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 			} // this doesn't allow for the use of tooltips
 			else {
 				comboBox.setRenderer(new MyComboBoxRenderer(tooltips));
-				defaultTableCellRenderer
-						.setToolTipText("Click to select item from list");
+				defaultTableCellRenderer.setToolTipText("Click to select item from list");
 			}
 		}
 
@@ -420,9 +414,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 		@Override
 		public void setValueAt(Object value, int row, int col) {
 			if (DEBUG) {
-				System.out.println("Setting value at " + row + "," + col
-						+ " to " + value + " (an instance of "
-						+ value.getClass() + ")");
+				System.out.println("Setting value at " + row + "," + col + " to " + value + " (an instance of " + value.getClass() + ")");
 			}
 
 			// put value into datastructure
@@ -492,8 +484,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 	 *            Configuration Hash
 	 */
 	public ImportWizard(Hashtable<String, Hashtable<String, String>> config) {
-		this(new File((config.get("default")).get("filename"))
-				.getAbsolutePath(), config, null);
+		this(new File((config.get("default")).get("filename")).getAbsolutePath(), config, null);
 	}
 
 	/**
@@ -506,8 +497,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 	 * @param config
 	 *            Configuration Hash
 	 */
-	public ImportWizard(String filename,
-			Hashtable<String, Hashtable<String, String>> config, JFrame parent) {
+	public ImportWizard(String filename, Hashtable<String, Hashtable<String, String>> config, JFrame parent) {
 		super("ImportWizard", true, true, true, true);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -536,8 +526,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 		stringFilename = filename;
 
 		// set default separator
-		intWhichSeparatorToUse = Integer.parseInt((String) options
-				.get("separator"));
+		intWhichSeparatorToUse = Integer.parseInt((String) options.get("separator"));
 
 		// set default number of rows to skip from the beginnig of the original
 		// document
@@ -564,7 +553,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 		contentPane.setSize(800, 600);
 		contentPane.setLayout(new GridLayout(1, 1));
 		contentPane.add(stepFirst());
-		
+
 		if (parent == null)
 			this.setSize(800, 600);
 	}
@@ -706,8 +695,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 		if (intWhichJPanelIsActive == 4) {
 
 			// get all necessary options for the conditions
-			Hashtable<String, String> options = globalConfiguration
-					.get("conditions");
+			Hashtable<String, String> options = globalConfiguration.get("conditions");
 
 			// create a hashtable of all required values
 			Hashtable<String, Boolean> required = new Hashtable<String, Boolean>();
@@ -761,11 +749,8 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 				}
 
 				// check here for duplication, exception for value
-				if (!strkey.equals("none") && !strkey.equals("value")
-						&& nbs > 1) {
-					JOptionPane.showMessageDialog(this,
-							"Doubled choose of a unique description " + strkey,
-							"Error", JOptionPane.ERROR_MESSAGE);
+				if (!strkey.equals("none") && !strkey.equals("value") && nbs > 1) {
+					JOptionPane.showMessageDialog(this, "Doubled choose of a unique description " + strkey, "Error", JOptionPane.ERROR_MESSAGE);
 					error = true;
 				}
 			}
@@ -781,9 +766,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 
 			// if something required is missing
 			if (!error && !complied) {
-				JOptionPane.showMessageDialog(this, message
-						+ " have to be used at least", "Error",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, message + " have to be used at least", "Error", JOptionPane.ERROR_MESSAGE);
 				error = true;
 			}
 
@@ -914,8 +897,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 			if (h == null)
 				h = defaultHeaderRenderer;
 			if (h != null) { // Not explicitly impossible
-				Component c = h.getTableCellRendererComponent(table,
-						column.getHeaderValue(), false, false, -1, i);
+				Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, -1, i);
 				// get header width
 				width = (int) (c.getPreferredSize().width * 1.1);
 			}
@@ -923,10 +905,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 			// go through all rows
 			for (int row = rowCount - 1; row >= 0; --row) {
 				TableCellRenderer r = table.getCellRenderer(row, i);
-				Component c = r
-						.getTableCellRendererComponent(table,
-								data.getValueAt(row, columnIndex), false,
-								false, row, i);
+				Component c = r.getTableCellRendererComponent(table, data.getValueAt(row, columnIndex), false, false, row, i);
 				// max of header width and actual component width
 				width = Math.max(width, c.getPreferredSize().width);
 			}
@@ -996,8 +975,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 		if (stringFilename.length() > 0) {
 			try {
 				// open file
-				BufferedReader in = new BufferedReader(new FileReader(
-						stringFilename));
+				BufferedReader in = new BufferedReader(new FileReader(stringFilename));
 				while (in.ready()) {
 					// go through the file
 					linecontent = in.readLine();
@@ -1010,8 +988,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 							// add column to vector
 							if (!preViewEnabled)
 								temp.add(new Boolean(true));
-							temp.addAll(new ArrayList<Object>(Arrays
-									.asList(splitedline)));
+							temp.addAll(new ArrayList<Object>(Arrays.asList(splitedline)));
 							// get the maximum of columns
 							if (splitedline.length + 1 > imax)
 								imax = splitedline.length + 1;
@@ -1027,10 +1004,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 			} catch (Exception e) {
 				// error handling
 				System.out.println(e);
-				JOptionPane.showMessageDialog(this,
-						"An error occurred while trying to read the file "
-								+ stringFilename, "Error",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "An error occurred while trying to read the file " + stringFilename, "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		if (preViewEnabled)
@@ -1090,12 +1064,10 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 	 * opens mapping file and parses its content into hashmap
 	 * 
 	 */
-	private Map<String, String> parseMappingFile(Vector<Vector<Object>> data,
-			Map<String, List<Integer>> index) {
+	private Map<String, String> parseMappingFile(Vector<Vector<Object>> data, Map<String, List<Integer>> index) {
 
 		// get all necessary options
-		Hashtable<String, String> mappings = globalConfiguration
-				.get("mappings");
+		Hashtable<String, String> mappings = globalConfiguration.get("mappings");
 
 		// init matchTableTemp and path string
 		Hashtable<String, String> matchTableTemp = new Hashtable<String, String>();
@@ -1169,9 +1141,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 				matchTable.put(matchTableTemp.get(bCode), bCode);
 			}
 		}
-		System.out.println("entries in match file: " + matchTableTemp.size()
-				+ " vs. entries in microarray file: " + data.size()
-				+ " = total mapping entries: " + matchTable.size());
+		System.out.println("entries in match file: " + matchTableTemp.size() + " vs. entries in microarray file: " + data.size() + " = total mapping entries: " + matchTable.size());
 
 		return matchTable;
 	}
@@ -1241,8 +1211,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 	 */
 	private void showFileChooser() {
 
-		final JFileChooser fc = new JFileChooser(new File(
-				System.getProperty("user.dir")));
+		final JFileChooser fc = new JFileChooser(new File(System.getProperty("user.dir")));
 		int returnVal = fc.showOpenDialog(this);
 
 		// set global filename
@@ -1745,8 +1714,7 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 		JLabel label = new JLabel("Choose mapping");
 		label.setForeground(Color.BLUE);
 		// get all necessary options
-		Hashtable<String, String> mappings = globalConfiguration
-				.get("mappings");
+		Hashtable<String, String> mappings = globalConfiguration.get("mappings");
 		String mappingNames[] = new String[mappings.size()];
 		String tooltips[] = new String[mappings.size()];
 		int countElements = 0;
@@ -1833,19 +1801,16 @@ public class ImportWizard extends JInternalFrame implements ActionListener {
 			for (int i = 0; i < firstRow.size(); i++) {
 				try {
 					Double.parseDouble(firstRow.get(i).toString());
-					DefaultCellEditor cellEditor = (DefaultCellEditor) jTableThirdStep
-							.getCellEditor(0, i);
+					DefaultCellEditor cellEditor = (DefaultCellEditor) jTableThirdStep.getCellEditor(0, i);
 					JComboBox box = (JComboBox) cellEditor.getComponent();
 					// assumes the last selection to be for value
-					jTableThirdStep.setValueAt(
-							box.getItemAt(box.getItemCount() - 1), 0, i);
+					jTableThirdStep.setValueAt(box.getItemAt(box.getItemCount() - 1), 0, i);
 				} catch (NumberFormatException nfe) {
 					continue;
 				}
 			}
 			// for OVTK-334 set first tow columns as cname and cacc
-			DefaultCellEditor cellEditor = (DefaultCellEditor) jTableThirdStep
-					.getCellEditor(0, 0);
+			DefaultCellEditor cellEditor = (DefaultCellEditor) jTableThirdStep.getCellEditor(0, 0);
 			JComboBox box = (JComboBox) cellEditor.getComponent();
 			jTableThirdStep.setValueAt(box.getItemAt(2), 0, 0);
 			jTableThirdStep.setValueAt(box.getItemAt(1), 0, 1);

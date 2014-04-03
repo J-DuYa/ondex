@@ -40,7 +40,7 @@ public class CustomIcon extends ImageIcon {
 	public int getRegionMin() {
 		return menu.getWidth() - getIconWidth();
 	}
-	
+
 	public int getRegionMax() {
 		return menu.getWidth();
 	}

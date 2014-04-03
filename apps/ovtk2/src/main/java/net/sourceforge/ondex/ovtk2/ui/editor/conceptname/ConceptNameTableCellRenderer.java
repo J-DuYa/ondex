@@ -23,15 +23,14 @@ public class ConceptNameTableCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 8828015808135323071L;
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+
 		// clear previous settings
 		super.setForeground(null);
-		
+
 		// catch decision of colour
 		Color color = null;
-		
+
 		// check for concept name values
 		if (value instanceof ConceptName) {
 			ConceptName cn = (ConceptName) value;
@@ -40,22 +39,21 @@ public class ConceptNameTableCellRenderer extends DefaultTableCellRenderer {
 				// different colour depending on selection
 				color = isSelected ? Color.YELLOW : Color.RED;
 			}
-		} 
-		
+		}
+
 		// display id of a concept
 		else if (value instanceof ONDEXConcept) {
 			ONDEXConcept c = (ONDEXConcept) value;
 			value = c.getId();
 		}
-		
+
 		// default component
-		Component comp = super.getTableCellRendererComponent(table, value, isSelected,
-				hasFocus, row, column);
-		
+		Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
 		// override default selection foreground
 		if (color != null)
 			super.setForeground(color);
-		
+
 		return comp;
 	}
 }

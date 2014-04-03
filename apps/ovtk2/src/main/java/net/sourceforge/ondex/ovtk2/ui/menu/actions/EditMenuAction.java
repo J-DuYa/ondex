@@ -39,8 +39,7 @@ public class EditMenuAction implements ActionListener {
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
 			ErrorDialog.show(e);
 		} catch (MalformedURLException e) {
@@ -102,19 +101,13 @@ public class EditMenuAction implements ActionListener {
 		// change node font
 		else if (cmd.equals("Nfont")) {
 			if (viewer != null)
-				viewer.setVertexFont(FontChooserDialog.showDialog(
-						desktop.getMainFrame(),
-						Config.language.getProperty("Menu.Edit.NodeFont"),
-						viewer.getVertexFont()));
+				viewer.setVertexFont(FontChooserDialog.showDialog(desktop.getMainFrame(), Config.language.getProperty("Menu.Edit.NodeFont"), viewer.getVertexFont()));
 		}
 
 		// change edge font
 		else if (cmd.equals("Efont")) {
 			if (viewer != null)
-				viewer.setEdgeFont(FontChooserDialog.showDialog(
-						desktop.getMainFrame(),
-						Config.language.getProperty("Menu.Edit.EdgeFont"),
-						viewer.getEdgeFont()));
+				viewer.setEdgeFont(FontChooserDialog.showDialog(desktop.getMainFrame(), Config.language.getProperty("Menu.Edit.EdgeFont"), viewer.getEdgeFont()));
 		}
 
 		// how to compose concept label
@@ -128,15 +121,7 @@ public class EditMenuAction implements ActionListener {
 		// sync graph
 		else if (cmd.equals("sync")) {
 			if (viewer != null) {
-				int option = JOptionPane
-						.showInternalConfirmDialog(
-								desktop.getDesktopPane(),
-								Config.language
-										.getProperty("Dialog.Sync.Warning.Text"),
-								Config.language
-										.getProperty("Dialog.Sync.Warning.Title"),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.WARNING_MESSAGE);
+				int option = JOptionPane.showInternalConfirmDialog(desktop.getDesktopPane(), Config.language.getProperty("Dialog.Sync.Warning.Text"), Config.language.getProperty("Dialog.Sync.Warning.Title"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (option == JOptionPane.NO_OPTION) {
 					return;
 				}
@@ -172,14 +157,9 @@ public class EditMenuAction implements ActionListener {
 
 					// start thread and monitoring
 					t.start();
-					OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-							.getMainFrame(), "Graph Synchronisation", gs);
+					OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Graph Synchronisation", gs);
 				} else {
-					JOptionPane
-							.showConfirmDialog(
-									desktop.getDesktopPane(),
-									"Only one Graph Synchronisation can run at anyone time.",
-									"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showConfirmDialog(desktop.getDesktopPane(), "Only one Graph Synchronisation can run at anyone time.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}

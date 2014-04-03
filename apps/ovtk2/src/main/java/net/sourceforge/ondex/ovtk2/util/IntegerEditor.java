@@ -84,8 +84,7 @@ public class IntegerEditor extends DefaultCellEditor {
 		// React when the user presses Enter while the editor is
 		// active. (Tab is handled as specified by
 		// JFormattedTextField's focusLostBehavior property.)
-		ftf.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
-				"check");
+		ftf.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "check");
 		ftf.getActionMap().put("check", new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				if (!ftf.isEditValid()) { // The text is invalid.
@@ -103,11 +102,8 @@ public class IntegerEditor extends DefaultCellEditor {
 	}
 
 	// Override to invoke setValue on the formatted text field.
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int column) {
-		JFormattedTextField ftf = (JFormattedTextField) super
-				.getTableCellEditorComponent(table, value, isSelected, row,
-						column);
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		JFormattedTextField ftf = (JFormattedTextField) super.getTableCellEditorComponent(table, value, isSelected, row, column);
 		ftf.setValue(value);
 		return ftf;
 	}
@@ -163,13 +159,7 @@ public class IntegerEditor extends DefaultCellEditor {
 		Toolkit.getDefaultToolkit().beep();
 		ftf.selectAll();
 		Object[] options = { "Edit", "Revert" };
-		int answer = JOptionPane.showOptionDialog(
-				SwingUtilities.getWindowAncestor(ftf),
-				"The value must be an integer between " + minimum + " and "
-						+ maximum + ".\n" + "You can either continue editing "
-						+ "or revert to the last valid value.",
-				"Invalid Text Entered", JOptionPane.YES_NO_OPTION,
-				JOptionPane.ERROR_MESSAGE, null, options, options[1]);
+		int answer = JOptionPane.showOptionDialog(SwingUtilities.getWindowAncestor(ftf), "The value must be an integer between " + minimum + " and " + maximum + ".\n" + "You can either continue editing " + "or revert to the last valid value.", "Invalid Text Entered", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[1]);
 
 		if (answer == 1) { // Revert!
 			ftf.setValue(ftf.getValue());

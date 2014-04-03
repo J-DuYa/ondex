@@ -66,8 +66,7 @@ public class DesktopUtils {
 	 * @param annotations
 	 *            XML String
 	 */
-	public static void displayGraphOnDesktop(ONDEXGraph aog,
-			Map<String, String> annotations) {
+	public static void displayGraphOnDesktop(ONDEXGraph aog, Map<String, String> annotations) {
 		OVTK2Desktop desktop = OVTK2Desktop.getInstance();
 		OVTK2ResourceAssesor resources = OVTK2Desktop.getDesktopResources();
 
@@ -80,14 +79,8 @@ public class DesktopUtils {
 		// check for appearance attributes on graph
 		AttributeName anVisible;
 		int option = JOptionPane.NO_OPTION;
-		if ((anVisible = aog.getMetaData().getAttributeName(
-				AppearanceSynchronizer.VISIBLE)) != null
-				&& aog.getConceptsOfAttributeName(anVisible).size() > 0) {
-			option = JOptionPane.showConfirmDialog(OVTK2Desktop
-					.getDesktopResources().getParentPane(), Config.language
-					.getProperty("Dialog.Appearance.Found"), Config.language
-					.getProperty("Dialog.Appearance.FoundTitle"),
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if ((anVisible = aog.getMetaData().getAttributeName(AppearanceSynchronizer.VISIBLE)) != null && aog.getConceptsOfAttributeName(anVisible).size() > 0) {
+			option = JOptionPane.showConfirmDialog(OVTK2Desktop.getDesktopResources().getParentPane(), Config.language.getProperty("Dialog.Appearance.Found"), Config.language.getProperty("Dialog.Appearance.FoundTitle"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		}
 
 		// load appearance attributes
@@ -138,8 +131,7 @@ public class DesktopUtils {
 		// hack to show meta graph
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem();
 		item.setSelected(true);
-		desktop.actionPerformed(new ActionEvent(item,
-				ActionEvent.ACTION_PERFORMED, "metagraph"));
+		desktop.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, "metagraph"));
 	}
 
 	/**
@@ -149,8 +141,7 @@ public class DesktopUtils {
 	 */
 	public static String extractBuildNumber() {
 		try {
-			File dir = new File(Config.ovtkDir + File.separator + ".."
-					+ File.separator + "lib");
+			File dir = new File(Config.ovtkDir + File.separator + ".." + File.separator + "lib");
 			if (dir.exists() && dir.canRead()) {
 				for (File child : dir.listFiles()) {
 					if (child.getName().startsWith("ovtk2-")) {
@@ -158,8 +149,7 @@ public class DesktopUtils {
 						// create a buffer to improve copy performance later.
 						byte[] buffer = new byte[2048];
 
-						ZipInputStream stream = new ZipInputStream(
-								new FileInputStream(child));
+						ZipInputStream stream = new ZipInputStream(new FileInputStream(child));
 						try {
 							// now iterate through each item in the stream. The
 							// get next entry call will return a ZipEntry for
@@ -175,10 +165,7 @@ public class DesktopUtils {
 									}
 
 									// open a reader on that entry
-									BufferedReader br = new BufferedReader(
-											new InputStreamReader(
-													new ByteArrayInputStream(
-															output.toByteArray())));
+									BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(output.toByteArray())));
 									String line;
 									String hudson = null;
 									String implver = null;
@@ -186,8 +173,7 @@ public class DesktopUtils {
 										if (line.startsWith("Hudson-Build-Number:")) {
 											String[] split = line.split(":");
 											hudson = split[1];
-										} else if (line
-												.startsWith("Implementation-Version:")) {
+										} else if (line.startsWith("Implementation-Version:")) {
 											String[] split = line.split(":");
 											implver = split[1];
 										}
@@ -246,14 +232,11 @@ public class DesktopUtils {
 	 *            XML String
 	 * @return OVTK2Viewer
 	 */
-	public static OVTK2Viewer initViewer(ONDEXGraph aog,
-			Map<String, String> annotations) {
+	public static OVTK2Viewer initViewer(ONDEXGraph aog, Map<String, String> annotations) {
 
 		OVTK2Desktop desktop = OVTK2Desktop.getInstance();
 
-		ONDEXEventHandler.getEventHandlerForSID(aog.getSID())
-				.addONDEXONDEXListener(
-						OVTK2Desktop.getDesktopResources().getLogger());
+		ONDEXEventHandler.getEventHandlerForSID(aog.getSID()).addONDEXONDEXListener(OVTK2Desktop.getDesktopResources().getLogger());
 
 		OVTK2Viewer viewer = new OVTK2Viewer(aog, annotations);
 		viewer.addInternalFrameListener(desktop);
@@ -284,9 +267,7 @@ public class DesktopUtils {
 			// import knows about its progress
 			final OXLImport imp = new OXLImport(aog, file);
 			Monitorable p = imp;
-			OVTKProgressMonitor.start(
-					OVTK2Desktop.getInstance().getMainFrame(),
-					Config.language.getProperty("Progress.ReadingFile"), p);
+			OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), Config.language.getProperty("Progress.ReadingFile"), p);
 
 			// wrap into a process
 			Thread t = new Thread() {
@@ -301,15 +282,12 @@ public class DesktopUtils {
 						IndeterminateProcessAdapter p = new IndeterminateProcessAdapter() {
 							public void task() {
 								// display the graph
-								DesktopUtils.displayGraphOnDesktop(aog,
-										imp.getAnnotations());
+								DesktopUtils.displayGraphOnDesktop(aog, imp.getAnnotations());
 							}
 						};
 
 						// display graph
-						OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-								.getMainFrame(), Config.language
-								.getProperty("Progress.AddingToDesktop"), p);
+						OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), Config.language.getProperty("Progress.AddingToDesktop"), p);
 						p.start();
 					} catch (Exception e) {
 						ErrorDialog.show(e);
@@ -319,11 +297,7 @@ public class DesktopUtils {
 			// start processing and monitoring
 			t.start();
 		} else {
-			JOptionPane.showMessageDialog(OVTK2Desktop.getInstance()
-					.getMainFrame(), Config.language
-					.getProperty("Dialog.File.NotFound"), Config.language
-					.getProperty("Dialog.File.NotFoundTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(OVTK2Desktop.getInstance().getMainFrame(), Config.language.getProperty("Dialog.File.NotFound"), Config.language.getProperty("Dialog.File.NotFoundTitle"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -339,26 +313,16 @@ public class DesktopUtils {
 	public static void saveFile(File file, OVTK2Viewer viewer) {
 		if (file != null) {
 
-			if (file.exists()
-					&& Boolean.parseBoolean(Config.config
-							.getProperty("Overwrite.Set"))) {
-				int answer = JOptionPane.showInternalConfirmDialog(OVTK2Desktop
-						.getInstance().getDesktopPane(), Config.language
-						.getProperty("Dialog.Save.Warning.Text"),
-						Config.language
-								.getProperty("Dialog.Save.Warning.Title"),
-						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			if (file.exists() && Boolean.parseBoolean(Config.config.getProperty("Overwrite.Set"))) {
+				int answer = JOptionPane.showInternalConfirmDialog(OVTK2Desktop.getInstance().getDesktopPane(), Config.language.getProperty("Dialog.Save.Warning.Text"), Config.language.getProperty("Dialog.Save.Warning.Title"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 				if (answer == JOptionPane.NO_OPTION)
 					return;
 			}
 
 			// export knows about its progress
-			final OXLExport exp = new OXLExport(viewer.getONDEXJUNGGraph(),
-					file);
+			final OXLExport exp = new OXLExport(viewer.getONDEXJUNGGraph(), file);
 			Monitorable p = exp;
-			OVTKProgressMonitor.start(
-					OVTK2Desktop.getInstance().getMainFrame(),
-					Config.language.getProperty("Progress.SavingFile"), p);
+			OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), Config.language.getProperty("Progress.SavingFile"), p);
 
 			// wrap into a process
 			Thread t = new Thread() {
@@ -390,9 +354,7 @@ public class DesktopUtils {
 	 * @return File
 	 */
 	public static File showOpenDialog(String[] extensions) {
-		File dir = (Config.lastOpenedFile == null) ? new File(
-				System.getProperty("user.dir")) : new File(
-				Config.lastOpenedFile);
+		File dir = (Config.lastOpenedFile == null) ? new File(System.getProperty("user.dir")) : new File(Config.lastOpenedFile);
 		JFileChooser fc = new JFileChooser(dir);
 		fc.addChoosableFileFilter(new CustomFileFilter(extensions));
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -422,9 +384,7 @@ public class DesktopUtils {
 	 * @return File
 	 */
 	public static File showSaveDialog(String[] extensions) {
-		File dir = (Config.lastSavedFile == null) ? new File(
-				System.getProperty("user.dir"))
-				: new File(Config.lastSavedFile);
+		File dir = (Config.lastSavedFile == null) ? new File(System.getProperty("user.dir")) : new File(Config.lastSavedFile);
 		JFileChooser fc = new JFileChooser(dir);
 		fc.addChoosableFileFilter(new CustomFileFilter(extensions));
 
@@ -469,17 +429,14 @@ public class DesktopUtils {
 			this.setBorder(BorderFactory.createLoweredBevelBorder());
 			BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 			this.setLayout(layout);
-			visible = new JCheckBox(
-					Config.language.getProperty("Dialog.Save.Visible"));
+			visible = new JCheckBox(Config.language.getProperty("Dialog.Save.Visible"));
 			visible.setSelected(true);
 			visible.setEnabled(false);
 			this.add(visible);
-			invisible = new JCheckBox(
-					Config.language.getProperty("Dialog.Save.InVisible"));
+			invisible = new JCheckBox(Config.language.getProperty("Dialog.Save.InVisible"));
 			invisible.setSelected(true);
 			this.add(invisible);
-			appearance = new JCheckBox(
-					Config.language.getProperty("Dialog.Save.Appearance"));
+			appearance = new JCheckBox(Config.language.getProperty("Dialog.Save.Appearance"));
 			this.add(appearance);
 		}
 
@@ -500,8 +457,7 @@ public class DesktopUtils {
 			}
 			if (appearance.isSelected()) {
 				// this should not be in a thread
-				desktop.actionPerformed(new ActionEvent(this, 0,
-						"saveappearance"));
+				desktop.actionPerformed(new ActionEvent(this, 0, "saveappearance"));
 			}
 		}
 	}
@@ -512,8 +468,7 @@ public class DesktopUtils {
 	 * @author taubertj
 	 * 
 	 */
-	public static class CaseInsensitiveMetaDataComparator implements
-			Comparator<MetaData> {
+	public static class CaseInsensitiveMetaDataComparator implements Comparator<MetaData> {
 
 		@Override
 		public int compare(MetaData o1, MetaData o2) {

@@ -341,8 +341,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
 			ErrorDialog.show(e);
 		} catch (MalformedURLException e) {
@@ -352,8 +351,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 		// toggle meta graph view
 		if (cmd.equals("metagraph")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					showMetaGraph(viewer);
 				} else {
@@ -365,8 +363,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 		// toggle legend view
 		else if (cmd.equals("legend")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					showLegend(viewer);
 				} else {
@@ -381,25 +378,15 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 
 				// check for size of graph before displaying editor
 				ONDEXJUNGGraph g = viewer.getONDEXJUNGGraph();
-				if (g.getConcepts().size() > 1000
-						|| g.getRelations().size() > 1000) {
-					int result = JOptionPane
-							.showInternalConfirmDialog(
-									desktop.getDesktopPane(),
-									"The current graph contains more than 1000 nodes or edges.\n"
-											+ "It is not recommend to use the Tabular Graph Editor for such a large graph.\n"
-											+ "Do you still want to proceed?",
-									"Large graph warning",
-									JOptionPane.YES_NO_OPTION,
-									JOptionPane.WARNING_MESSAGE);
+				if (g.getConcepts().size() > 1000 || g.getRelations().size() > 1000) {
+					int result = JOptionPane.showInternalConfirmDialog(desktop.getDesktopPane(), "The current graph contains more than 1000 nodes or edges.\n" + "It is not recommend to use the Tabular Graph Editor for such a large graph.\n" + "Do you still want to proceed?", "Large graph warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					if (result == JOptionPane.NO_OPTION)
 						return;
 				}
 
 				// only one editor per viewer
 				if (!editors.containsKey(viewer)) {
-					GraphTableEditor editor = new GraphTableEditor(
-							viewer.getONDEXJUNGGraph());
+					GraphTableEditor editor = new GraphTableEditor(viewer.getONDEXJUNGGraph());
 
 					// handle closing of all editor windows
 					editor.addInternalFrameListener(this);
@@ -421,8 +408,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 		// toggle contents display view
 		else if (cmd.equals("contentsdisplay")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					showContentsDisplay(viewer);
 				} else {
@@ -434,8 +420,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 		// show node visibility dialog
 		else if (cmd.equals("nodevisible")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					showDialogNodes(viewer);
 				} else {
@@ -447,8 +432,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 		// show edge visibility dialog
 		else if (cmd.equals("edgevisible")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					showDialogEdges(viewer);
 				} else {
@@ -460,8 +444,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 		// toggle satellite view
 		else if (cmd.equals("satellite")) {
 			if (viewer != null) {
-				boolean selected = ((JCheckBoxMenuItem) ae.getSource())
-						.isSelected();
+				boolean selected = ((JCheckBoxMenuItem) ae.getSource()).isSelected();
 				if (selected) {
 					showSatellite(viewer);
 				} else {
@@ -474,8 +457,7 @@ public class ViewMenuAction implements ActionListener, InternalFrameListener {
 	@Override
 	public void internalFrameActivated(InternalFrameEvent e) {
 		if (e.getInternalFrame() instanceof OVTK2Viewer) {
-			OVTK2Viewer viewer = (OVTK2Viewer) e
-					.getInternalFrame();
+			OVTK2Viewer viewer = (OVTK2Viewer) e.getInternalFrame();
 			if (dialogNodes != null && !dialogNodes.getViewer().equals(viewer)) {
 				dialogNodes.setViewer(viewer);
 			}

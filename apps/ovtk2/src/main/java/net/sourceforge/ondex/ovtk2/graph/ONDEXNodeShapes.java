@@ -37,37 +37,33 @@ public class ONDEXNodeShapes implements Transformer<ONDEXConcept, Shape> {
 
 	static {
 		// vertex shape factory with default sizes/aspect
-		VertexShapeFactory<ONDEXConcept> staticShapeFactory = new VertexShapeFactory<ONDEXConcept>(
-				new Transformer<ONDEXConcept, Integer>() {
-					@Override
-					public Integer transform(ONDEXConcept input) {
-						if (input != null)
-							return Config.getSizeForConceptClass(input
-									.getOfType());
-						return Config.defaultNodeSize;
-					}
-				}, new Transformer<ONDEXConcept, Float>() {
-					@Override
-					public Float transform(ONDEXConcept input) {
-						return 1.0f;
-					}
-				});
+		VertexShapeFactory<ONDEXConcept> staticShapeFactory = new VertexShapeFactory<ONDEXConcept>(new Transformer<ONDEXConcept, Integer>() {
+			@Override
+			public Integer transform(ONDEXConcept input) {
+				if (input != null)
+					return Config.getSizeForConceptClass(input.getOfType());
+				return Config.defaultNodeSize;
+			}
+		}, new Transformer<ONDEXConcept, Float>() {
+			@Override
+			public Float transform(ONDEXConcept input) {
+				return 1.0f;
+			}
+		});
 		// default cases
 		final Shape defaultShape = staticShapeFactory.getEllipse(null);
-		id2shape = LazyMap.decorate(new HashMap<Integer, Shape>(),
-				new Factory<Shape>() {
-					@Override
-					public Shape create() {
-						return defaultShape;
-					}
-				});
-		shape2id = LazyMap.decorate(new HashMap<Shape, Integer>(),
-				new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return 0;
-					}
-				});
+		id2shape = LazyMap.decorate(new HashMap<Integer, Shape>(), new Factory<Shape>() {
+			@Override
+			public Shape create() {
+				return defaultShape;
+			}
+		});
+		shape2id = LazyMap.decorate(new HashMap<Shape, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return 0;
+			}
+		});
 		id2shape.put(0, defaultShape);
 		shape2id.put(defaultShape, 0);
 		Shape shape = staticShapeFactory.getRectangle(null);

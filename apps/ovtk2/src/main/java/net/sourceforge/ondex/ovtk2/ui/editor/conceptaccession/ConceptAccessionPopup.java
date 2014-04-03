@@ -85,13 +85,10 @@ public class ConceptAccessionPopup extends JPopupMenu implements ActionListener 
 		DataSource dataSource = (DataSource) selection.getSelectedItem();
 		if (!editor.acc.getElementOf().equals(dataSource)) {
 			// delete old one
-			ConceptAccession old = editor.concept.getConceptAccession(
-					editor.acc.getAccession(), editor.acc.getElementOf());
-			editor.concept.deleteConceptAccession(
-					editor.acc.getAccession(), editor.acc.getElementOf());
+			ConceptAccession old = editor.concept.getConceptAccession(editor.acc.getAccession(), editor.acc.getElementOf());
+			editor.concept.deleteConceptAccession(editor.acc.getAccession(), editor.acc.getElementOf());
 			// create one with new DataSource
-			editor.acc = editor.concept.createConceptAccession(old
-					.getAccession(), dataSource, old.isAmbiguous());
+			editor.acc = editor.concept.createConceptAccession(old.getAccession(), dataSource, old.isAmbiguous());
 		}
 	}
 }

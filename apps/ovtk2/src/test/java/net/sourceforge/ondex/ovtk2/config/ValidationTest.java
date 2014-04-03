@@ -62,11 +62,9 @@ public class ValidationTest extends TestCase {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			builder.setEntityResolver(new EntityResolver() {
 				@Override
-				public InputSource resolveEntity(String publicId,
-						String systemId) throws SAXException, IOException {
+				public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 					if (systemId.contains("properties.dtd")) {
-						return new InputSource(new FileReader(
-								"config/properties.dtd"));
+						return new InputSource(new FileReader("config/properties.dtd"));
 					} else {
 						return null;
 					}
@@ -104,11 +102,9 @@ public class ValidationTest extends TestCase {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			builder.setEntityResolver(new EntityResolver() {
 				@Override
-				public InputSource resolveEntity(String publicId,
-						String systemId) throws SAXException, IOException {
+				public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 					if (systemId.contains("properties.dtd")) {
-						return new InputSource(new FileReader(
-								"config/properties.dtd"));
+						return new InputSource(new FileReader("config/properties.dtd"));
 					} else {
 						return null;
 					}
@@ -146,11 +142,9 @@ public class ValidationTest extends TestCase {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			builder.setEntityResolver(new EntityResolver() {
 				@Override
-				public InputSource resolveEntity(String publicId,
-						String systemId) throws SAXException, IOException {
+				public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 					if (systemId.contains("properties.dtd")) {
-						return new InputSource(new FileReader(
-								"config/properties.dtd"));
+						return new InputSource(new FileReader("config/properties.dtd"));
 					} else {
 						return null;
 					}

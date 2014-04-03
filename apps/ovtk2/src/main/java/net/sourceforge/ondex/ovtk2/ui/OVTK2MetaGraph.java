@@ -56,8 +56,7 @@ import com.ctc.wstx.io.CharsetNames;
  * @author taubertj
  * 
  */
-public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
-		ActionListener, RegisteredFrame, ChangeListener {
+public class OVTK2MetaGraph extends RegisteredJInternalFrame implements ActionListener, RegisteredFrame, ChangeListener {
 
 	private static final String SAVE = "save";
 
@@ -69,8 +68,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 
 	public static final String KEY = "metagraphappearance";
 
-	private class LabelTransformer<T, Z extends java.awt.Font> implements
-			Transformer<T, java.awt.Font> {
+	private class LabelTransformer<T, Z extends java.awt.Font> implements Transformer<T, java.awt.Font> {
 
 		private java.awt.Font font;
 
@@ -120,9 +118,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	 */
 	public OVTK2MetaGraph(OVTK2Viewer viewer) {
 		// set title and icon
-		super(Config.language.getProperty("MetaGraph.Title"), "MetaGraph",
-				Config.language.getProperty("MetaGraph.Title"), true, true,
-				true, true);
+		super(Config.language.getProperty("MetaGraph.Title"), "MetaGraph", Config.language.getProperty("MetaGraph.Title"), true, true, true, true);
 
 		// dispose viewer on close
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -154,8 +150,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		show.add(showAll);
 
 		// show selection
-		JMenuItem showSel = makeMenuItem("MetaGraph.Edit.ShowSelection",
-				"showsel");
+		JMenuItem showSel = makeMenuItem("MetaGraph.Edit.ShowSelection", "showsel");
 		show.add(showSel);
 
 		// hide sub-menu
@@ -167,8 +162,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		hide.add(hideAll);
 
 		// hide selection
-		JMenuItem hideSel = makeMenuItem("MetaGraph.Edit.HideSelection",
-				"hidesel");
+		JMenuItem hideSel = makeMenuItem("MetaGraph.Edit.HideSelection", "hidesel");
 		hide.add(hideSel);
 
 		// appearance menu
@@ -180,14 +174,12 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		appearance.add(labels);
 
 		// show node labels
-		nodeLabels = makeCheckBoxMenuItem("MetaGraph.Appearance.NodeLabels",
-				NODELABELS);
+		nodeLabels = makeCheckBoxMenuItem("MetaGraph.Appearance.NodeLabels", NODELABELS);
 		nodeLabels.setSelected(true);
 		labels.add(nodeLabels);
 
 		// show edge labels
-		edgeLabels = makeCheckBoxMenuItem("MetaGraph.Appearance.EdgeLabels",
-				EDGELABELS);
+		edgeLabels = makeCheckBoxMenuItem("MetaGraph.Appearance.EdgeLabels", EDGELABELS);
 		edgeLabels.setSelected(true);
 		labels.add(edgeLabels);
 
@@ -198,11 +190,9 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		// panel for node size
 		JPanel nodePanel = new JPanel(new BorderLayout());
 		config.add(nodePanel);
-		JLabel nodeSizeLabel = new JLabel(
-				Config.language.getProperty("MetaGraph.Appearance.NodeSize"));
+		JLabel nodeSizeLabel = new JLabel(Config.language.getProperty("MetaGraph.Appearance.NodeSize"));
 		nodePanel.add(nodeSizeLabel, BorderLayout.WEST);
-		nodeSize = new JSpinner(new SpinnerNumberModel(defaultNodeSize, 1,
-				1000, 1));
+		nodeSize = new JSpinner(new SpinnerNumberModel(defaultNodeSize, 1, 1000, 1));
 		nodeSize.addChangeListener(this);
 		forceExactSize(nodeSize, spinnerWidth, spinnerHight);
 		nodePanel.add(nodeSize, BorderLayout.EAST);
@@ -210,11 +200,9 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		// panel for edge thickness
 		JPanel edgePanel = new JPanel(new BorderLayout());
 		config.add(edgePanel);
-		JLabel edgeSizeLabel = new JLabel(
-				Config.language.getProperty("MetaGraph.Appearance.EdgeSize"));
+		JLabel edgeSizeLabel = new JLabel(Config.language.getProperty("MetaGraph.Appearance.EdgeSize"));
 		edgePanel.add(edgeSizeLabel, BorderLayout.WEST);
-		edgeSize = new JSpinner(new SpinnerNumberModel(defaultEdgeSize, 0, 100,
-				1));
+		edgeSize = new JSpinner(new SpinnerNumberModel(defaultEdgeSize, 0, 100, 1));
 		edgeSize.addChangeListener(this);
 		forceExactSize(edgeSize, spinnerWidth, spinnerHight);
 		edgePanel.add(edgeSize, BorderLayout.EAST);
@@ -222,23 +210,19 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		// panel for font size
 		JPanel fontPanel = new JPanel(new BorderLayout());
 		config.add(fontPanel);
-		JLabel fontSizeLabel = new JLabel(
-				Config.language.getProperty("MetaGraph.Appearance.FontSize"));
+		JLabel fontSizeLabel = new JLabel(Config.language.getProperty("MetaGraph.Appearance.FontSize"));
 		fontPanel.add(fontSizeLabel, BorderLayout.WEST);
-		fontSize = new JSpinner(new SpinnerNumberModel(defaultFontSize, 4, 250,
-				1));
+		fontSize = new JSpinner(new SpinnerNumberModel(defaultFontSize, 4, 250, 1));
 		fontSize.addChangeListener(this);
 		forceExactSize(fontSize, spinnerWidth, spinnerHight);
 		fontPanel.add(fontSize, BorderLayout.EAST);
 
 		// scale button
-		JMenuItem scaleToFit = makeMenuItem("MetaGraph.Appearance.ScaleToFit",
-				"scaletofit");
+		JMenuItem scaleToFit = makeMenuItem("MetaGraph.Appearance.ScaleToFit", "scaletofit");
 		appearance.add(scaleToFit);
 
 		// re-layout button
-		JMenuItem relayout = makeMenuItem("MetaGraph.Appearance.ReLayout",
-				"relayout");
+		JMenuItem relayout = makeMenuItem("MetaGraph.Appearance.ReLayout", "relayout");
 		appearance.add(relayout);
 
 		// load button
@@ -263,24 +247,15 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	 */
 	public void showNodeLabels(boolean show) {
 		if (show) {
-			viewer.getMetaGraphPanel()
-					.getVisualizationViewer()
-					.getRenderContext()
-					.setVertexLabelTransformer(
-							new ONDEXMetaConceptLabels(viewer
-									.getONDEXJUNGGraph()));
+			viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().setVertexLabelTransformer(new ONDEXMetaConceptLabels(viewer.getONDEXJUNGGraph()));
 		} else {
-			viewer.getMetaGraphPanel()
-					.getVisualizationViewer()
-					.getRenderContext()
-					.setVertexLabelTransformer(
-							new Transformer<ONDEXMetaConcept, String>() {
+			viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().setVertexLabelTransformer(new Transformer<ONDEXMetaConcept, String>() {
 
-								@Override
-								public String transform(ONDEXMetaConcept input) {
-									return null;
-								}
-							});
+				@Override
+				public String transform(ONDEXMetaConcept input) {
+					return null;
+				}
+			});
 		}
 		updateMenuBar();
 		viewer.getMetaGraphPanel().repaint();
@@ -292,8 +267,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	 * @return node labels shown
 	 */
 	public boolean isShowNodeLabels() {
-		return viewer.getMetaGraphPanel().getVisualizationViewer()
-				.getRenderContext().getVertexLabelTransformer() instanceof ONDEXMetaConceptLabels;
+		return viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().getVertexLabelTransformer() instanceof ONDEXMetaConceptLabels;
 	}
 
 	/**
@@ -304,24 +278,15 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	 */
 	public void showEdgeLabels(boolean show) {
 		if (show) {
-			viewer.getMetaGraphPanel()
-					.getVisualizationViewer()
-					.getRenderContext()
-					.setEdgeLabelTransformer(
-							new ONDEXMetaRelationLabels(viewer
-									.getONDEXJUNGGraph()));
+			viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().setEdgeLabelTransformer(new ONDEXMetaRelationLabels(viewer.getONDEXJUNGGraph()));
 		} else {
-			viewer.getMetaGraphPanel()
-					.getVisualizationViewer()
-					.getRenderContext()
-					.setEdgeLabelTransformer(
-							new Transformer<ONDEXMetaRelation, String>() {
+			viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().setEdgeLabelTransformer(new Transformer<ONDEXMetaRelation, String>() {
 
-								@Override
-								public String transform(ONDEXMetaRelation input) {
-									return null;
-								}
-							});
+				@Override
+				public String transform(ONDEXMetaRelation input) {
+					return null;
+				}
+			});
 		}
 		updateMenuBar();
 		viewer.getMetaGraphPanel().repaint();
@@ -333,8 +298,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	 * @return edge labels shown
 	 */
 	public boolean isShowEdgeLabels() {
-		return viewer.getMetaGraphPanel().getVisualizationViewer()
-				.getRenderContext().getEdgeLabelTransformer() instanceof ONDEXMetaRelationLabels;
+		return viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().getEdgeLabelTransformer() instanceof ONDEXMetaRelationLabels;
 	}
 
 	/**
@@ -407,9 +371,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 
 		// export meta-graph as graphic
 		if (cmd.equals("export")) {
-			File dir = (Config.lastSavedFile == null) ? new File(
-					System.getProperty("user.dir")) : new File(
-					Config.lastSavedFile);
+			File dir = (Config.lastSavedFile == null) ? new File(System.getProperty("user.dir")) : new File(Config.lastSavedFile);
 			DialogExport chooser = new DialogExport(dir);
 			chooser.addFormat("graphml");
 
@@ -418,11 +380,9 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 				File file = chooser.getFile();
 				Config.lastSavedFile = file.getAbsolutePath();
 
-				ImageWriterUtil<ONDEXMetaConcept, ONDEXMetaRelation> iw = new ImageWriterUtil<ONDEXMetaConcept, ONDEXMetaRelation>(
-						this.viewer.getMetaGraphPanel());
+				ImageWriterUtil<ONDEXMetaConcept, ONDEXMetaRelation> iw = new ImageWriterUtil<ONDEXMetaConcept, ONDEXMetaRelation>(this.viewer.getMetaGraphPanel());
 
-				iw.writeImage(file, chooser.getSelectedFormat(),
-						chooser.getScaleFactor());
+				iw.writeImage(file, chooser.getSelectedFormat(), chooser.getScaleFactor());
 			}
 		}
 
@@ -451,21 +411,15 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 			viewer.getMetaGraph().updateLegend = false;
 			// first show all concepts
 			for (ONDEXMetaConcept mc : viewer.getMetaGraph().getVertices()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mc, ActionEvent.ACTION_PERFORMED,
-								"show"));
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mc, ActionEvent.ACTION_PERFORMED, "show"));
 			}
 			// second show all relations
 			for (ONDEXMetaRelation mr : viewer.getMetaGraph().getEdges()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mr, ActionEvent.ACTION_PERFORMED,
-								"show"));
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mr, ActionEvent.ACTION_PERFORMED, "show"));
 			}
 			// refresh possible meta data legend
 			if (ViewMenuAction.isLegendShown())
-				ViewMenuAction.getLegend().actionPerformed(
-						new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-								OVTK2Legend.REFRESH));
+				ViewMenuAction.getLegend().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, OVTK2Legend.REFRESH));
 			viewer.getMetaGraph().updateLegend = true;
 		}
 
@@ -474,21 +428,15 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 			viewer.getMetaGraph().updateLegend = false;
 			// first hide all relations
 			for (ONDEXMetaRelation mr : viewer.getMetaGraph().getEdges()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mr, ActionEvent.ACTION_PERFORMED,
-								"hide"));
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mr, ActionEvent.ACTION_PERFORMED, "hide"));
 			}
 			// second hide all concepts
 			for (ONDEXMetaConcept mc : viewer.getMetaGraph().getVertices()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mc, ActionEvent.ACTION_PERFORMED,
-								"hide"));
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mc, ActionEvent.ACTION_PERFORMED, "hide"));
 			}
 			// refresh possible meta data legend
 			if (ViewMenuAction.isLegendShown())
-				ViewMenuAction.getLegend().actionPerformed(
-						new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-								OVTK2Legend.REFRESH));
+				ViewMenuAction.getLegend().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, OVTK2Legend.REFRESH));
 			viewer.getMetaGraph().updateLegend = true;
 		}
 
@@ -496,25 +444,16 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		else if (cmd.equals("showsel")) {
 			viewer.getMetaGraph().updateLegend = false;
 			// first show all concepts
-			for (ONDEXMetaConcept mc : viewer.getMetaGraphPanel()
-					.getVisualizationViewer().getPickedVertexState()
-					.getPicked()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mc, ActionEvent.ACTION_PERFORMED,
-								"show"));
+			for (ONDEXMetaConcept mc : viewer.getMetaGraphPanel().getVisualizationViewer().getPickedVertexState().getPicked()) {
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mc, ActionEvent.ACTION_PERFORMED, "show"));
 			}
 			// second show all relations
-			for (ONDEXMetaRelation mr : viewer.getMetaGraphPanel()
-					.getVisualizationViewer().getPickedEdgeState().getPicked()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mr, ActionEvent.ACTION_PERFORMED,
-								"show"));
+			for (ONDEXMetaRelation mr : viewer.getMetaGraphPanel().getVisualizationViewer().getPickedEdgeState().getPicked()) {
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mr, ActionEvent.ACTION_PERFORMED, "show"));
 			}
 			// refresh possible meta data legend
 			if (ViewMenuAction.isLegendShown())
-				ViewMenuAction.getLegend().actionPerformed(
-						new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-								OVTK2Legend.REFRESH));
+				ViewMenuAction.getLegend().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, OVTK2Legend.REFRESH));
 			viewer.getMetaGraph().updateLegend = true;
 		}
 
@@ -522,25 +461,16 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		else if (cmd.equals("hidesel")) {
 			viewer.getMetaGraph().updateLegend = false;
 			// first hide all relations
-			for (ONDEXMetaRelation mr : viewer.getMetaGraphPanel()
-					.getVisualizationViewer().getPickedEdgeState().getPicked()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mr, ActionEvent.ACTION_PERFORMED,
-								"hide"));
+			for (ONDEXMetaRelation mr : viewer.getMetaGraphPanel().getVisualizationViewer().getPickedEdgeState().getPicked()) {
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mr, ActionEvent.ACTION_PERFORMED, "hide"));
 			}
 			// second hide all concepts
-			for (ONDEXMetaConcept mc : viewer.getMetaGraphPanel()
-					.getVisualizationViewer().getPickedVertexState()
-					.getPicked()) {
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(mc, ActionEvent.ACTION_PERFORMED,
-								"hide"));
+			for (ONDEXMetaConcept mc : viewer.getMetaGraphPanel().getVisualizationViewer().getPickedVertexState().getPicked()) {
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(mc, ActionEvent.ACTION_PERFORMED, "hide"));
 			}
 			// refresh possible meta data legend
 			if (ViewMenuAction.isLegendShown())
-				ViewMenuAction.getLegend().actionPerformed(
-						new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-								OVTK2Legend.REFRESH));
+				ViewMenuAction.getLegend().actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, OVTK2Legend.REFRESH));
 			viewer.getMetaGraph().updateLegend = true;
 		}
 
@@ -553,19 +483,15 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 				return;
 
 			// configure XML input
-			System.setProperty("javax.xml.stream.XMLInputFactory",
-					"com.ctc.wstx.stax.WstxInputFactory");
-			XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2
-					.newInstance();
+			System.setProperty("javax.xml.stream.XMLInputFactory", "com.ctc.wstx.stax.WstxInputFactory");
+			XMLInputFactory2 xmlInput = (XMLInputFactory2) XMLInputFactory2.newInstance();
 			xmlInput.configureForSpeed();
 
 			// parse from a String
-			final ByteArrayInputStream inStream = new ByteArrayInputStream(
-					xml.getBytes());
+			final ByteArrayInputStream inStream = new ByteArrayInputStream(xml.getBytes());
 			try {
 				// configure Parser
-				XMLStreamReader2 xmlReadStream = (XMLStreamReader2) xmlInput
-						.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
+				XMLStreamReader2 xmlReadStream = (XMLStreamReader2) xmlInput.createXMLStreamReader(inStream, CharsetNames.CS_UTF8);
 
 				// de-serialise appearance from XML
 				MetaGraphXMLReader.read(xmlReadStream, this);
@@ -581,18 +507,15 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 		else if (cmd.equals(SAVE)) {
 
 			// configure XML output
-			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2
-					.newInstance();
+			XMLOutputFactory2 xmlOutput = (XMLOutputFactory2) XMLOutputFactory2.newInstance();
 			xmlOutput.configureForSpeed();
-			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES,
-					false);
+			xmlOutput.setProperty(XMLOutputFactory2.IS_REPAIRING_NAMESPACES, false);
 
 			// output goes into a String
 			final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 			try {
 				// configure writer
-				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput
-						.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
+				XMLStreamWriter2 xmlWriteStream = (XMLStreamWriter2) xmlOutput.createXMLStreamWriter(outStream, CharsetNames.CS_UTF8);
 
 				// serialise appearance to XML
 				MetaGraphXMLWriter.write(xmlWriteStream, this);
@@ -601,8 +524,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 				xmlWriteStream.close();
 
 				// set appearance data to graph
-				viewer.getONDEXJUNGGraph().getAnnotations()
-						.put(KEY, outStream.toString());
+				viewer.getONDEXJUNGGraph().getAnnotations().put(KEY, outStream.toString());
 
 			} catch (XMLStreamException e) {
 				ErrorDialog.show(e);
@@ -643,8 +565,7 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	 * 
 	 */
 	private void initIcon() {
-		File imgLocation = new File(
-				"config/toolbarButtonGraphics/development/Application16.gif");
+		File imgLocation = new File("config/toolbarButtonGraphics/development/Application16.gif");
 		URL imageURL = null;
 
 		try {
@@ -665,10 +586,8 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	 *            internal command
 	 * @return JCheckBoxMenuItem
 	 */
-	private JCheckBoxMenuItem makeCheckBoxMenuItem(String key,
-			String actionCommand) {
-		JCheckBoxMenuItem item = new JCheckBoxMenuItem(
-				Config.language.getProperty(key));
+	private JCheckBoxMenuItem makeCheckBoxMenuItem(String key, String actionCommand) {
+		JCheckBoxMenuItem item = new JCheckBoxMenuItem(Config.language.getProperty(key));
 		item.setActionCommand(actionCommand);
 		item.addActionListener(this);
 		return item;
@@ -726,35 +645,19 @@ public class OVTK2MetaGraph extends RegisteredJInternalFrame implements
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == nodeSize) {
 			// scale node shapes to size
-			ONDEXMetaConceptShapes nodeShapes = (ONDEXMetaConceptShapes) viewer
-					.getMetaGraphPanel().getVisualizationViewer()
-					.getRenderContext().getVertexShapeTransformer();
+			ONDEXMetaConceptShapes nodeShapes = (ONDEXMetaConceptShapes) viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().getVertexShapeTransformer();
 			nodeShapes.setSize((Integer) nodeSize.getValue());
 		} else if (e.getSource() == edgeSize) {
 			// update thickness of edge strokes
-			ONDEXMetaRelationStrokes edgeStrokes = (ONDEXMetaRelationStrokes) viewer
-					.getMetaGraphPanel().getVisualizationViewer()
-					.getRenderContext().getEdgeStrokeTransformer();
+			ONDEXMetaRelationStrokes edgeStrokes = (ONDEXMetaRelationStrokes) viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().getEdgeStrokeTransformer();
 			edgeStrokes.setThickness((Integer) edgeSize.getValue());
-		} else if (e.getSource() == fontSize
-				&& viewer.getMetaGraph().getVertexCount() > 0) {
+		} else if (e.getSource() == fontSize && viewer.getMetaGraph().getVertexCount() > 0) {
 			// set new font size
-			Font f = viewer
-					.getMetaGraphPanel()
-					.getVisualizationViewer()
-					.getRenderContext()
-					.getVertexFontTransformer()
-					.transform(
-							viewer.getMetaGraph().getVertices().iterator()
-									.next());
-			LabelTransformer<ONDEXMetaRelation, Font> ef = new LabelTransformer<ONDEXMetaRelation, Font>(
-					f, (Integer) fontSize.getValue());
-			viewer.getMetaGraphPanel().getVisualizationViewer()
-					.getRenderContext().setEdgeFontTransformer(ef);
-			LabelTransformer<ONDEXMetaConcept, Font> cf = new LabelTransformer<ONDEXMetaConcept, Font>(
-					f, (Integer) fontSize.getValue());
-			viewer.getMetaGraphPanel().getVisualizationViewer()
-					.getRenderContext().setVertexFontTransformer(cf);
+			Font f = viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().getVertexFontTransformer().transform(viewer.getMetaGraph().getVertices().iterator().next());
+			LabelTransformer<ONDEXMetaRelation, Font> ef = new LabelTransformer<ONDEXMetaRelation, Font>(f, (Integer) fontSize.getValue());
+			viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().setEdgeFontTransformer(ef);
+			LabelTransformer<ONDEXMetaConcept, Font> cf = new LabelTransformer<ONDEXMetaConcept, Font>(f, (Integer) fontSize.getValue());
+			viewer.getMetaGraphPanel().getVisualizationViewer().getRenderContext().setVertexFontTransformer(cf);
 		}
 
 		viewer.getMetaGraphPanel().repaint();

@@ -57,8 +57,7 @@ public class ONDEXEdgeStrokes implements Transformer<ONDEXRelation, Stroke> {
 		} else {
 			// without a size transformer
 			if (!strokes.containsKey(edge.getOfType())) {
-				Stroke stroke = new BasicStroke(
-						Config.getSizeForRelationType(edge.getOfType()));
+				Stroke stroke = new BasicStroke(Config.getSizeForRelationType(edge.getOfType()));
 				strokes.put(edge.getOfType(), stroke);
 			}
 			return strokes.get(edge.getOfType());

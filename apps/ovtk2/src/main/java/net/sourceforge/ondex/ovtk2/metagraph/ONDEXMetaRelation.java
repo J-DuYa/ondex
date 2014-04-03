@@ -35,8 +35,7 @@ public class ONDEXMetaRelation extends ONDEXMetaEntity {
 	 *            Pair<ConceptClass>, optional, if null return all relations of
 	 *            type
 	 */
-	public ONDEXMetaRelation(ONDEXJUNGGraph graph, RelationType rt,
-			Pair<ConceptClass> pair) {
+	public ONDEXMetaRelation(ONDEXJUNGGraph graph, RelationType rt, Pair<ConceptClass> pair) {
 		super(graph, rt);
 		this.pair = pair;
 	}
@@ -71,8 +70,7 @@ public class ONDEXMetaRelation extends ONDEXMetaEntity {
 			return graph.getRelationsOfRelationType((RelationType) id);
 
 		// get all relations of relation type
-		Set<ONDEXRelation> all = BitSetFunctions.copy(graph
-				.getRelationsOfRelationType((RelationType) id));
+		Set<ONDEXRelation> all = BitSetFunctions.copy(graph.getRelationsOfRelationType((RelationType) id));
 
 		// get relations of first concept class
 		all.retainAll(graph.getRelationsOfConceptClass(pair.getFirst()));
@@ -114,8 +112,7 @@ public class ONDEXMetaRelation extends ONDEXMetaEntity {
 	@Override
 	public boolean equals(Object arg0) {
 		if (arg0 instanceof ONDEXMetaRelation)
-			return super.equals(arg0)
-					&& this.pair.equals(((ONDEXMetaRelation) arg0).pair);
+			return super.equals(arg0) && this.pair.equals(((ONDEXMetaRelation) arg0).pair);
 		else
 			return super.equals(arg0);
 	}

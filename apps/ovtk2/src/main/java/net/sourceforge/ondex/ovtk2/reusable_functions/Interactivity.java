@@ -48,7 +48,7 @@ public class Interactivity {
 	 * @return subgraph object
 	 */
 	public static Subgraph getPickedSubgraph(OVTK2PropertiesAggregator viewer) {
-		ONDEXGraph graph = viewer.getONDEXJUNGGraph();	
+		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		return new Subgraph(viewer.getPickedNodes(), viewer.getPickedEdges(), graph);
 	}
 
@@ -61,23 +61,18 @@ public class Interactivity {
 	 * @param name
 	 *            - name that the new context will have
 	 */
-	public static void createContextFromSelection(OVTK2PropertiesAggregator viewer,
-			String name) {
+	public static void createContextFromSelection(OVTK2PropertiesAggregator viewer, String name) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
-		ONDEXConcept context = graph.getFactory().createConcept(name,
-				createDataSource(graph, "unknown"), createCC(graph, "Thing"),
-				createEvidence(graph, "manual"));
+		ONDEXConcept context = graph.getFactory().createConcept(name, createDataSource(graph, "unknown"), createCC(graph, "Thing"), createEvidence(graph, "manual"));
 		context.createConceptName(name, true);
-		PickedState<ONDEXRelation> stateE = viewer.getVisualizationViewer()
-				.getPickedEdgeState();
+		PickedState<ONDEXRelation> stateE = viewer.getVisualizationViewer().getPickedEdgeState();
 
 		Set<ONDEXRelation> setE = stateE.getPicked();
 		for (ONDEXRelation e : setE) {
 			graph.getRelation(e.getId()).addTag(context);
 		}
 
-		PickedState<ONDEXConcept> stateN = viewer.getVisualizationViewer()
-				.getPickedVertexState();
+		PickedState<ONDEXConcept> stateN = viewer.getVisualizationViewer().getPickedVertexState();
 		Set<ONDEXConcept> setN = stateN.getPicked();
 		for (ONDEXConcept n : setN) {
 			graph.getConcept(n.getId()).addTag(context);

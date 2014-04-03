@@ -51,8 +51,7 @@ import edu.uci.ics.jung.visualization.picking.PickedState;
  * @author taubertj
  * @version 22.02.2012
  */
-public class RelationNeighboursFilter extends OVTK2Filter implements
-		ListSelectionListener, ActionListener, ItemListener {
+public class RelationNeighboursFilter extends OVTK2Filter implements ListSelectionListener, ActionListener, ItemListener {
 
 	// generated
 	private static final long serialVersionUID = -2354250287552299892L;
@@ -94,8 +93,7 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 		setLayout(new SpringLayout());
 
 		// The filter button
-		goButton = new JButton(
-				Config.language.getProperty("Filter.Neighbours.GoButton"));
+		goButton = new JButton(Config.language.getProperty("Filter.Neighbours.GoButton"));
 
 		clm = new ConceptListModel();
 
@@ -107,8 +105,7 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 		list.setSelectedIndex(0);
 
 		// register with pick state
-		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer()
-				.getPickedVertexState();
+		PickedState<ONDEXConcept> state = viewer.getVisualizationViewer().getPickedVertexState();
 		state.addItemListener(this);
 
 		// check if list is populated
@@ -120,16 +117,14 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 		add(new JScrollPane(list));
 
 		// select all button
-		JButton selALL = new JButton(
-				Config.language.getProperty("Filter.Neighbours.SelectAll"));
+		JButton selALL = new JButton(Config.language.getProperty("Filter.Neighbours.SelectAll"));
 		selALL.setActionCommand("select");
 		selALL.addActionListener(this);
 
 		// text field input for depth parameter
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.LINE_AXIS));
-		inputPanel.add(new JLabel(Config.language
-				.getProperty("Filter.Neighbours.Depth")));
+		inputPanel.add(new JLabel(Config.language.getProperty("Filter.Neighbours.Depth")));
 		slider = new JSlider(JSlider.HORIZONTAL, 0, 5, 1);
 		slider.setMajorTickSpacing(1);
 		slider.setPaintTicks(true);
@@ -143,16 +138,14 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 		add(inputPanel);
 
 		// enable interactive filtering
-		interactive = new JCheckBox(
-				Config.language.getProperty("Filter.Neighbours.Interactive"));
+		interactive = new JCheckBox(Config.language.getProperty("Filter.Neighbours.Interactive"));
 		add(interactive);
 
 		goButton.setActionCommand("go");
 		goButton.addActionListener(this);
 		add(goButton);
 
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 	}
 
 	/**
@@ -183,14 +176,12 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 	 */
 	private void callFilter() throws Exception {
 		if (targets != null && targets.size() > 0) {
-			StateEdit edit = new StateEdit(new VisibilityUndo(
-					viewer.getONDEXJUNGGraph()), this.getName());
+			StateEdit edit = new StateEdit(new VisibilityUndo(viewer.getONDEXJUNGGraph()), this.getName());
 			OVTK2Desktop desktop = OVTK2Desktop.getInstance();
 			desktop.setRunningProcess(this.getName());
 
 			// this will also clear the concept list
-			PickedState<ONDEXConcept> state = viewer.getVisualizationViewer()
-					.getPickedVertexState();
+			PickedState<ONDEXConcept> state = viewer.getVisualizationViewer().getPickedVertexState();
 			state.clear();
 
 			// contains results
@@ -215,10 +206,8 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 			Filter filter = new Filter();
 
 			// construct filter arguments
-			ONDEXPluginArguments fa = new ONDEXPluginArguments(
-					filter.getArgumentDefinitions());
-			fa.addOptions(ArgumentNames.SEEDCONCEPT_ARG,
-					ids.toArray(new String[ids.size()]));
+			ONDEXPluginArguments fa = new ONDEXPluginArguments(filter.getArgumentDefinitions());
+			fa.addOptions(ArgumentNames.SEEDCONCEPT_ARG, ids.toArray(new String[ids.size()]));
 			fa.addOption(ArgumentNames.DEPTH_ARG, Integer.valueOf(depth));
 
 			// start filter
@@ -262,14 +251,12 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 	 */
 	@Override
 	public String getName() {
-		return Config.language
-				.getProperty("Name.Menu.Filter.RelationNeighbours");
+		return Config.language.getProperty("Name.Menu.Filter.RelationNeighbours");
 	}
 
 	@Override
 	public boolean hasBeenUsed() {
-		viewer.getVisualizationViewer().getPickedVertexState()
-				.removeItemListener(this);
+		viewer.getVisualizationViewer().getPickedVertexState().removeItemListener(this);
 		return used;
 	}
 
@@ -334,8 +321,7 @@ public class RelationNeighboursFilter extends OVTK2Filter implements
 			goButton.setEnabled(true);
 			targets = new ArrayList<ONDEXConcept>();
 			for (int i : indices) {
-				targets.add(((ConceptListModel) list.getModel())
-						.getConceptAt(i));
+				targets.add(((ConceptListModel) list.getModel()).getConceptAt(i));
 			}
 		}
 	}

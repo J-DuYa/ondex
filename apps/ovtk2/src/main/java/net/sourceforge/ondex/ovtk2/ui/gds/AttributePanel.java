@@ -93,8 +93,7 @@ public class AttributePanel extends JPanel implements ActionListener {
 	 * @param attribute
 	 *            ConceptAttribute or RelationAttribute
 	 */
-	public AttributePanel(DialogAttribute dialog, ONDEXGraph aog,
-			Attribute attribute) {
+	public AttributePanel(DialogAttribute dialog, ONDEXGraph aog, Attribute attribute) {
 
 		this.dialog = dialog;
 		this.aog = aog;
@@ -176,81 +175,55 @@ public class AttributePanel extends JPanel implements ActionListener {
 		anPanel = new JPanel();
 		BoxLayout contentLayout = new BoxLayout(anPanel, BoxLayout.PAGE_AXIS);
 		anPanel.setLayout(contentLayout);
-		TitledBorder anBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.Attribute.AttributeName"));
+		TitledBorder anBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.Attribute.AttributeName"));
 		anPanel.setBorder(anBorder);
 
 		// attribute name id
 		JPanel idPanel = new JPanel(new BorderLayout());
-		idPanel.add(
-				new JLabel(Config.language
-						.getProperty("Dialog.Attribute.AttributeName.ID")),
-				BorderLayout.WEST);
+		idPanel.add(new JLabel(Config.language.getProperty("Dialog.Attribute.AttributeName.ID")), BorderLayout.WEST);
 		id = new JTextField(anID);
 		id.setBackground(dialog.getRequiredColor());
-		id.setPreferredSize(new Dimension(dialog.getFieldWidth(), dialog
-				.getFieldHeight()));
+		id.setPreferredSize(new Dimension(dialog.getFieldWidth(), dialog.getFieldHeight()));
 		id.setEnabled(editable);
 		idPanel.add(id, BorderLayout.EAST);
 		anPanel.add(idPanel);
 
 		// attribute name fullname
 		JPanel fullPanel = new JPanel(new BorderLayout());
-		fullPanel
-				.add(new JLabel(Config.language
-						.getProperty("Dialog.Attribute.AttributeName.FullName")),
-						BorderLayout.WEST);
+		fullPanel.add(new JLabel(Config.language.getProperty("Dialog.Attribute.AttributeName.FullName")), BorderLayout.WEST);
 		full = new JTextField(anFull);
-		full.setPreferredSize(new Dimension(dialog.getFieldWidth(), dialog
-				.getFieldHeight()));
+		full.setPreferredSize(new Dimension(dialog.getFieldWidth(), dialog.getFieldHeight()));
 		fullPanel.add(full, BorderLayout.EAST);
 		anPanel.add(fullPanel);
 
 		// attribute name desc
 		JPanel descPanel = new JPanel(new BorderLayout());
-		descPanel
-				.add(new JLabel(
-						Config.language
-								.getProperty("Dialog.Attribute.AttributeName.Description")),
-						BorderLayout.WEST);
+		descPanel.add(new JLabel(Config.language.getProperty("Dialog.Attribute.AttributeName.Description")), BorderLayout.WEST);
 		desc = new JTextField(anDesc);
-		desc.setPreferredSize(new Dimension(dialog.getFieldWidth(), dialog
-				.getFieldHeight()));
+		desc.setPreferredSize(new Dimension(dialog.getFieldWidth(), dialog.getFieldHeight()));
 		descPanel.add(desc, BorderLayout.EAST);
 		anPanel.add(descPanel);
 
 		// attribute name class
 		JPanel classPanel = new JPanel(new BorderLayout());
-		classPanel.add(
-				new JLabel(Config.language
-						.getProperty("Dialog.Attribute.AttributeName.Class")),
-				BorderLayout.WEST);
+		classPanel.add(new JLabel(Config.language.getProperty("Dialog.Attribute.AttributeName.Class")), BorderLayout.WEST);
 		classField = new JTextField(className);
 		classField.setBackground(dialog.getRequiredColor());
-		classField.setPreferredSize(new Dimension(dialog.getFieldWidth(),
-				dialog.getFieldHeight()));
+		classField.setPreferredSize(new Dimension(dialog.getFieldWidth(), dialog.getFieldHeight()));
 		classField.setEnabled(editable);
 		classPanel.add(classField, BorderLayout.EAST);
 		anPanel.add(classPanel);
 
 		// attribute name unit
 		JPanel unitPanel = new JPanel(new BorderLayout());
-		unitPanel.add(
-				new JLabel(Config.language
-						.getProperty("Dialog.Attribute.AttributeName.Unit")),
-				BorderLayout.WEST);
+		unitPanel.add(new JLabel(Config.language.getProperty("Dialog.Attribute.AttributeName.Unit")), BorderLayout.WEST);
 		unit = dialog.makeUnit(selectedUnit);
 		unitPanel.add(unit, BorderLayout.EAST);
 		anPanel.add(unitPanel);
 
 		// specialisation of
 		JPanel specialisationOfPanel = new JPanel(new BorderLayout());
-		specialisationOfPanel
-				.add(new JLabel(
-						Config.language
-								.getProperty("Dialog.Attribute.AttributeName.SpecialisationOf")),
-						BorderLayout.WEST);
+		specialisationOfPanel.add(new JLabel(Config.language.getProperty("Dialog.Attribute.AttributeName.SpecialisationOf")), BorderLayout.WEST);
 		specialisationOf = dialog.makeSpecialisationOf(selectedAn);
 		specialisationOfPanel.add(specialisationOf, BorderLayout.EAST);
 		anPanel.add(specialisationOfPanel);
@@ -260,9 +233,7 @@ public class AttributePanel extends JPanel implements ActionListener {
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.add(anPanel, BorderLayout.CENTER);
 
-			JButton toggle = new JButton(
-					Config.language
-							.getProperty("Dialog.Attribute.AttributeName.ToggleHide"));
+			JButton toggle = new JButton(Config.language.getProperty("Dialog.Attribute.AttributeName.ToggleHide"));
 			toggle.setActionCommand("toggleHide");
 			toggle.addActionListener(this);
 			panel.add(toggle, BorderLayout.SOUTH);
@@ -271,17 +242,13 @@ public class AttributePanel extends JPanel implements ActionListener {
 			JPanel buttonPanel = new JPanel(new BorderLayout());
 
 			// create AttributeName from entered data
-			JButton create = new JButton(
-					Config.language
-							.getProperty("Dialog.Attribute.AttributeName.Create"));
+			JButton create = new JButton(Config.language.getProperty("Dialog.Attribute.AttributeName.Create"));
 			create.setActionCommand("create");
 			create.addActionListener(this);
 			buttonPanel.add(create, BorderLayout.WEST);
 
 			// select existing AttributeName
-			JButton select = new JButton(
-					Config.language
-							.getProperty("Dialog.Attribute.AttributeName.Select"));
+			JButton select = new JButton(Config.language.getProperty("Dialog.Attribute.AttributeName.Select"));
 			select.setActionCommand("select");
 			select.addActionListener(this);
 			buttonPanel.add(select, BorderLayout.EAST);
@@ -293,19 +260,14 @@ public class AttributePanel extends JPanel implements ActionListener {
 			editorScroll = new JScrollPane(new JTable());
 			this.add(editorScroll, BorderLayout.CENTER);
 		} else {
-			JButton toggle = new JButton(
-					Config.language
-							.getProperty("Dialog.Attribute.AttributeName.ToggleShow"));
+			JButton toggle = new JButton(Config.language.getProperty("Dialog.Attribute.AttributeName.ToggleShow"));
 			toggle.setActionCommand("toggleShow");
 			toggle.addActionListener(this);
 			this.add(toggle, BorderLayout.NORTH);
 
 			// do index checkbox
 			indexPanel = new JPanel(new BorderLayout());
-			indexPanel.add(
-					new JLabel(Config.language
-							.getProperty("Dialog.Attribute.DoIndex")),
-					BorderLayout.WEST);
+			indexPanel.add(new JLabel(Config.language.getProperty("Dialog.Attribute.DoIndex")), BorderLayout.WEST);
 			doIndex = new JCheckBox();
 			doIndex.setSelected(attribute.isDoIndex());
 			doIndex.setActionCommand("index");
@@ -322,8 +284,7 @@ public class AttributePanel extends JPanel implements ActionListener {
 				this.add(editorScroll, BorderLayout.CENTER);
 			} else {
 				// empty place holder
-				String[] columnNames = { Config.language
-						.getProperty("Dialog.Attribute.EditorError") };
+				String[] columnNames = { Config.language.getProperty("Dialog.Attribute.EditorError") };
 				String[][] data = new String[][] { columnNames };
 				editorScroll = new JScrollPane(new JTable(data, columnNames));
 				this.add(editorScroll, BorderLayout.CENTER);
@@ -338,34 +299,13 @@ public class AttributePanel extends JPanel implements ActionListener {
 	 */
 	private boolean validateEntry() {
 		if (id.getText().trim().length() == 0 || id.getText().contains(" ")) {
-			JOptionPane
-					.showInternalMessageDialog(
-							dialog,
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.InvalidID"),
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.InvalidTitle"),
-							JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(dialog, Config.language.getProperty("Dialog.Attribute.AttributeName.InvalidID"), Config.language.getProperty("Dialog.Attribute.AttributeName.InvalidTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else if (aog.getMetaData().checkAttributeName(id.getText())) {
-			JOptionPane
-					.showInternalMessageDialog(
-							dialog,
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.DuplicateID"),
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.DuplicateTitle"),
-							JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(dialog, Config.language.getProperty("Dialog.Attribute.AttributeName.DuplicateID"), Config.language.getProperty("Dialog.Attribute.AttributeName.DuplicateTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else if (classField.getText().trim().length() == 0) {
-			JOptionPane
-					.showInternalMessageDialog(
-							dialog,
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.InvalidClass"),
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.InvalidTitle"),
-							JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(dialog, Config.language.getProperty("Dialog.Attribute.AttributeName.InvalidClass"), Config.language.getProperty("Dialog.Attribute.AttributeName.InvalidTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;
@@ -380,59 +320,35 @@ public class AttributePanel extends JPanel implements ActionListener {
 		// create new AttributeName
 		if (cmd.equals("create") && validateEntry()) {
 			try {
-				AttributeName an = aog
-						.getMetaData()
-						.getFactory()
-						.createAttributeName(id.getText(), full.getText(),
-								desc.getText(),
-								Class.forName(classField.getText()));
+				AttributeName an = aog.getMetaData().getFactory().createAttributeName(id.getText(), full.getText(), desc.getText(), Class.forName(classField.getText()));
 
 				if (!unit.getSelectedItem().equals("")) {
-					Unit anUnit = aog.getMetaData().getUnit(
-							(String) unit.getSelectedItem());
+					Unit anUnit = aog.getMetaData().getUnit((String) unit.getSelectedItem());
 					an.setUnit(anUnit);
 				}
 				if (!specialisationOf.getSelectedItem().equals("")) {
-					AttributeName anAn = aog.getMetaData().getAttributeName(
-							(String) specialisationOf.getSelectedItem());
+					AttributeName anAn = aog.getMetaData().getAttributeName((String) specialisationOf.getSelectedItem());
 					an.setSpecialisationOf(anAn);
 				}
 				dialog.createNewAttribute(an, true);
 			} catch (ClassNotFoundException cnfe) {
-				JOptionPane
-						.showInternalMessageDialog(
-								dialog,
-								Config.language
-										.getProperty("Dialog.Attribute.AttributeName.InvalidClass"),
-								Config.language
-										.getProperty("Dialog.Attribute.AttributeName.InvalidTitle"),
-								JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showInternalMessageDialog(dialog, Config.language.getProperty("Dialog.Attribute.AttributeName.InvalidClass"), Config.language.getProperty("Dialog.Attribute.AttributeName.InvalidTitle"), JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
 		// show AttributeName selection dialog
 		else if (cmd.equals("select")) {
 
-			AttributeName[] ans = aog.getMetaData().getAttributeNames()
-					.toArray(new AttributeName[0]);
+			AttributeName[] ans = aog.getMetaData().getAttributeNames().toArray(new AttributeName[0]);
 			Arrays.sort(ans, new Comparator<AttributeName>() {
 
 				@Override
 				public int compare(AttributeName o1, AttributeName o2) {
-					return o1.toString().toUpperCase()
-							.compareTo(o2.toString().toUpperCase());
+					return o1.toString().toUpperCase().compareTo(o2.toString().toUpperCase());
 				}
 			});
 
-			AttributeName an = (AttributeName) JOptionPane
-					.showInternalInputDialog(
-							dialog,
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.SelectText"),
-							Config.language
-									.getProperty("Dialog.Attribute.AttributeName.SelectTitle"),
-							JOptionPane.PLAIN_MESSAGE, dialog.getFrameIcon(),
-							ans, null);
+			AttributeName an = (AttributeName) JOptionPane.showInternalInputDialog(dialog, Config.language.getProperty("Dialog.Attribute.AttributeName.SelectText"), Config.language.getProperty("Dialog.Attribute.AttributeName.SelectTitle"), JOptionPane.PLAIN_MESSAGE, dialog.getFrameIcon(), ans, null);
 
 			// check if attribute returned.
 			if (an != null) {
@@ -450,9 +366,7 @@ public class AttributePanel extends JPanel implements ActionListener {
 			this.removeAll();
 			JPanel panel = new JPanel(new BorderLayout());
 			panel.add(anPanel, BorderLayout.CENTER);
-			JButton toggle = new JButton(
-					Config.language
-							.getProperty("Dialog.Attribute.AttributeName.ToggleHide"));
+			JButton toggle = new JButton(Config.language.getProperty("Dialog.Attribute.AttributeName.ToggleHide"));
 			toggle.setActionCommand("toggleHide");
 			toggle.addActionListener(this);
 			panel.add(toggle, BorderLayout.SOUTH);
@@ -466,9 +380,7 @@ public class AttributePanel extends JPanel implements ActionListener {
 		// hide advanced information panel
 		else if (cmd.equals("toggleHide")) {
 			this.removeAll();
-			JButton toggle = new JButton(
-					Config.language
-							.getProperty("Dialog.Attribute.AttributeName.ToggleShow"));
+			JButton toggle = new JButton(Config.language.getProperty("Dialog.Attribute.AttributeName.ToggleShow"));
 			toggle.setActionCommand("toggleShow");
 			toggle.addActionListener(this);
 			this.add(toggle, BorderLayout.NORTH);
@@ -500,14 +412,11 @@ public class AttributePanel extends JPanel implements ActionListener {
 		String className = an.getDataTypeAsString();
 
 		// select editor name first by attribute name
-		String editorName = Config.config
-				.getProperty("Dialog.Attribute.Editor."
-						+ attribute.getOfType().getId());
+		String editorName = Config.config.getProperty("Dialog.Attribute.Editor." + attribute.getOfType().getId());
 
 		// select editor name for class from Config
 		if (editorName == null)
-			editorName = Config.config.getProperty("Dialog.Attribute."
-					+ className);
+			editorName = Config.config.getProperty("Dialog.Attribute." + className);
 
 		// no editor found
 		if (editorName == null)
@@ -519,17 +428,14 @@ public class AttributePanel extends JPanel implements ActionListener {
 			// check current class loader
 			Class<?> editorClass = null;
 			try {
-				editorClass = Class
-						.forName("net.sourceforge.ondex.ovtk2.ui.gds."
-								+ editorName);
+				editorClass = Class.forName("net.sourceforge.ondex.ovtk2.ui.gds." + editorName);
 			} catch (ClassNotFoundException cnfe) {
 				// ignore, that is to be expected when running not as applet
 			}
 
 			if (editorClass == null) {
 				// use plugin loader
-				editor = (JComponent) OVTK2PluginLoader.getInstance()
-						.loadAttributeEditor(editorName, attribute);
+				editor = (JComponent) OVTK2PluginLoader.getInstance().loadAttributeEditor(editorName, attribute);
 			} else {
 				// found on class path
 				Class<?>[] args = new Class<?>[] { Attribute.class };
@@ -538,9 +444,7 @@ public class AttributePanel extends JPanel implements ActionListener {
 			}
 
 			if (!(editor instanceof GDSEditor)) {
-				throw new RuntimeException(editor.getClass().getName()
-						+ " does not implement required " + GDSEditor.class
-						+ " interface");
+				throw new RuntimeException(editor.getClass().getName() + " does not implement required " + GDSEditor.class + " interface");
 			}
 			editor.setMinimumSize(new Dimension(100, 100));
 			editor.setPreferredSize(new Dimension(100, 100));

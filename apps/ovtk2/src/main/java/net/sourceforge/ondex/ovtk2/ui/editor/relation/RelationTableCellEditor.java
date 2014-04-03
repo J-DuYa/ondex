@@ -115,8 +115,7 @@ public class RelationTableCellEditor extends DefaultCellEditor {
 
 	// Implement the one method defined by TableCellEditor.
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 
 		// setup current row for update purpose
 		this.row = row;
@@ -147,8 +146,7 @@ public class RelationTableCellEditor extends DefaultCellEditor {
 		}
 
 		// use default text field editor
-		return super.getTableCellEditorComponent(table, value, isSelected, row,
-				column);
+		return super.getTableCellEditorComponent(table, value, isSelected, row, column);
 	}
 
 	@Override
@@ -164,8 +162,7 @@ public class RelationTableCellEditor extends DefaultCellEditor {
 
 			case FROM:
 				// new from concept, update table
-				ONDEXConcept newFrom = (ONDEXConcept) fromComboBox
-						.getSelectedItem();
+				ONDEXConcept newFrom = (ONDEXConcept) fromComboBox.getSelectedItem();
 				// only update if changed
 				if (!relation.getFromConcept().equals(newFrom)) {
 					newRelation = cloner.clone(relation, newFrom, state);
@@ -175,8 +172,7 @@ public class RelationTableCellEditor extends DefaultCellEditor {
 
 			case TO:
 				// new to concept, update table
-				ONDEXConcept newTo = (ONDEXConcept) toComboBox
-						.getSelectedItem();
+				ONDEXConcept newTo = (ONDEXConcept) toComboBox.getSelectedItem();
 				// only update if changed
 				if (!relation.getToConcept().equals(newTo)) {
 					newRelation = cloner.clone(relation, newTo, state);
@@ -186,8 +182,7 @@ public class RelationTableCellEditor extends DefaultCellEditor {
 
 			case OFTYPE:
 				// new relation RelationType, update table
-				RelationType newRT = (RelationType) rtComboBox
-						.getSelectedItem();
+				RelationType newRT = (RelationType) rtComboBox.getSelectedItem();
 				// only update if changed
 				if (!relation.getOfType().equals(newRT)) {
 					newRelation = cloner.clone(relation, newRT);
@@ -197,8 +192,7 @@ public class RelationTableCellEditor extends DefaultCellEditor {
 
 			case EVIDENCE:
 				// change in evidence type, update table
-				EvidenceType newET = (EvidenceType) etComboBox
-						.getSelectedItem();
+				EvidenceType newET = (EvidenceType) etComboBox.getSelectedItem();
 				if (!relation.getEvidence().contains(newET)) {
 					// new ET selected, add it to relation
 					relation.addEvidenceType(newET);
@@ -210,8 +204,7 @@ public class RelationTableCellEditor extends DefaultCellEditor {
 				}
 				return relation.getEvidence();
 			default:
-				System.out
-						.println("unknown state for updating cell editor value");
+				System.out.println("unknown state for updating cell editor value");
 				break;
 			}
 		}

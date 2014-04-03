@@ -36,28 +36,16 @@ public class PluginUtils {
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	public static void initPluginRegistry() throws ClassNotFoundException,
-			NoSuchMethodException, IllegalAccessException,
-			InvocationTargetException {
+	public static void initPluginRegistry() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 		if (!Config.isApplet) {
-			String pluginsDirOndex = new File(new File(
-					net.sourceforge.ondex.config.Config.ondexDir)
-					.getAbsoluteFile().getParent()
-					+ File.separator + "plugins").getAbsoluteFile()
-					.getAbsolutePath();
-			String pluginsDirOvtk = new File(new File(Config.ovtkDir)
-					.getAbsoluteFile().getParent() + File.separator + "plugins")
-					.getAbsoluteFile().getAbsolutePath();
-			Class<?> cls = Thread.currentThread().getContextClassLoader()
-					.loadClass("net.sourceforge.ondex.init.PluginRegistry");
-			Method m = cls.getMethod("init", new Class[] { boolean.class,
-					String[].class });
-			m.invoke(null, new Object[] { true,
-					new String[] { pluginsDirOndex, pluginsDirOvtk } });
+			String pluginsDirOndex = new File(new File(net.sourceforge.ondex.config.Config.ondexDir).getAbsoluteFile().getParent() + File.separator + "plugins").getAbsoluteFile().getAbsolutePath();
+			String pluginsDirOvtk = new File(new File(Config.ovtkDir).getAbsoluteFile().getParent() + File.separator + "plugins").getAbsoluteFile().getAbsolutePath();
+			Class<?> cls = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.init.PluginRegistry");
+			Method m = cls.getMethod("init", new Class[] { boolean.class, String[].class });
+			m.invoke(null, new Object[] { true, new String[] { pluginsDirOndex, pluginsDirOvtk } });
 		} else {
 			// in-case of applet, no plugins dir should be used
-			Class<?> cls = Thread.currentThread().getContextClassLoader()
-					.loadClass("net.sourceforge.ondex.init.PluginRegistry");
+			Class<?> cls = Thread.currentThread().getContextClassLoader().loadClass("net.sourceforge.ondex.init.PluginRegistry");
 			Method m = cls.getMethod("init", new Class[] { boolean.class });
 			m.invoke(null, new Object[] { true });
 		}

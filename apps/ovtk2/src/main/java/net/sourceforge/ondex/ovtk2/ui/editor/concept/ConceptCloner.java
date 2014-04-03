@@ -43,9 +43,7 @@ public class ConceptCloner {
 	public ONDEXConcept clone(ONDEXConcept oldC, String newPID) {
 
 		// first clone concept with new PID
-		ONDEXConcept newC = graph.createConcept(newPID, oldC.getAnnotation(),
-				oldC.getDescription(), oldC.getElementOf(), oldC.getOfType(),
-				oldC.getEvidence());
+		ONDEXConcept newC = graph.createConcept(newPID, oldC.getAnnotation(), oldC.getDescription(), oldC.getElementOf(), oldC.getOfType(), oldC.getEvidence());
 
 		// copies everything else
 		copyEverythingElse(oldC, newC);
@@ -65,9 +63,7 @@ public class ConceptCloner {
 	public ONDEXConcept clone(ONDEXConcept oldC, DataSource newDataSource) {
 
 		// first clone concept with new DataSource
-		ONDEXConcept newC = graph.createConcept(oldC.getPID(),
-				oldC.getAnnotation(), oldC.getDescription(), newDataSource,
-				oldC.getOfType(), oldC.getEvidence());
+		ONDEXConcept newC = graph.createConcept(oldC.getPID(), oldC.getAnnotation(), oldC.getDescription(), newDataSource, oldC.getOfType(), oldC.getEvidence());
 
 		// copies everything else
 		copyEverythingElse(oldC, newC);
@@ -87,9 +83,7 @@ public class ConceptCloner {
 	public ONDEXConcept clone(ONDEXConcept oldC, ConceptClass newCC) {
 
 		// first clone concept with new ConceptClass
-		ONDEXConcept newC = graph.createConcept(oldC.getPID(),
-				oldC.getAnnotation(), oldC.getDescription(),
-				oldC.getElementOf(), newCC, oldC.getEvidence());
+		ONDEXConcept newC = graph.createConcept(oldC.getPID(), oldC.getAnnotation(), oldC.getDescription(), oldC.getElementOf(), newCC, oldC.getEvidence());
 
 		// copies everything else
 		copyEverythingElse(oldC, newC);
@@ -160,8 +154,7 @@ public class ConceptCloner {
 		// iterate over all old accessions
 		for (ConceptAccession acc : oldC.getConceptAccessions()) {
 			// clone old accession on new concept
-			newC.createConceptAccession(acc.getAccession(), acc.getElementOf(),
-					acc.isAmbiguous());
+			newC.createConceptAccession(acc.getAccession(), acc.getElementOf(), acc.isAmbiguous());
 		}
 	}
 
@@ -195,8 +188,7 @@ public class ConceptCloner {
 		// iterate over all old Attribute
 		for (Attribute attribute : oldC.getAttributes()) {
 			// clone old Attribute on new concept
-			newC.createAttribute(attribute.getOfType(), attribute.getValue(),
-					attribute.isDoIndex());
+			newC.createAttribute(attribute.getOfType(), attribute.getValue(), attribute.isDoIndex());
 		}
 	}
 
@@ -217,12 +209,10 @@ public class ConceptCloner {
 
 			if (oldR.getFromConcept().equals(oldC)) {
 				// old concept is from concept
-				newR = graph.createRelation(newC, oldR.getToConcept(),
-						oldR.getOfType(), oldR.getEvidence());
+				newR = graph.createRelation(newC, oldR.getToConcept(), oldR.getOfType(), oldR.getEvidence());
 			} else if (oldR.getToConcept().equals(oldC)) {
 				// old concept is to concept
-				newR = graph.createRelation(oldR.getFromConcept(), newC,
-						oldR.getOfType(), oldR.getEvidence());
+				newR = graph.createRelation(oldR.getFromConcept(), newC, oldR.getOfType(), oldR.getEvidence());
 			}
 
 			// transfer context old to new

@@ -15,18 +15,15 @@ import javax.swing.JPanel;
 
 import net.sourceforge.ondex.ovtk2.config.Config;
 
-public abstract class OVTK2Dialog extends RegisteredJInternalFrame implements
-		ActionListener {
+public abstract class OVTK2Dialog extends RegisteredJInternalFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
 	// width for all field elements
-	protected int fieldWidth = Integer.parseInt(Config.config
-			.getProperty("Dialog.FieldWidth"));
+	protected int fieldWidth = Integer.parseInt(Config.config.getProperty("Dialog.FieldWidth"));
 
 	// height for all field elements
-	protected int fieldHeight = Integer.parseInt(Config.config
-			.getProperty("Dialog.FieldHeight"));
+	protected int fieldHeight = Integer.parseInt(Config.config.getProperty("Dialog.FieldHeight"));
 
 	// background for required fields
 	protected Color requiredColor = null;
@@ -41,14 +38,10 @@ public abstract class OVTK2Dialog extends RegisteredJInternalFrame implements
 	 *            relative icon filename of internal frame
 	 */
 	public OVTK2Dialog(String configTitle, String icon) {
-		super(Config.language.getProperty(configTitle), "Dialog",
-				Config.language.getProperty(configTitle), true, true, true,
-				true);
+		super(Config.language.getProperty(configTitle), "Dialog", Config.language.getProperty(configTitle), true, true, true, true);
 
-		String[] split = Config.config.getProperty("Dialog.RequiredColor")
-				.split(",");
-		requiredColor = new Color(Integer.parseInt(split[0]),
-				Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+		String[] split = Config.config.getProperty("Dialog.RequiredColor").split(",");
+		requiredColor = new Color(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
 		initIcon(icon);
 	}
 
@@ -84,8 +77,7 @@ public abstract class OVTK2Dialog extends RegisteredJInternalFrame implements
 	 * 
 	 */
 	private void initIcon(String icon) {
-		File imgLocation = new File("config/themes/"
-				+ Config.config.getProperty("Program.Theme") + "/icons/" + icon);
+		File imgLocation = new File("config/themes/" + Config.config.getProperty("Program.Theme") + "/icons/" + icon);
 		URL imageURL = null;
 
 		try {
@@ -108,8 +100,7 @@ public abstract class OVTK2Dialog extends RegisteredJInternalFrame implements
 		// do the location calculation
 		Rectangle visible = this.getDesktopPane().getVisibleRect();
 		Dimension size = internal.getSize();
-		internal.setLocation((visible.width / 2) - (size.width / 2),
-				(visible.height / 2) - (size.height / 2));
+		internal.setLocation((visible.width / 2) - (size.width / 2), (visible.height / 2) - (size.height / 2));
 
 		// add to desktop and show
 		this.getDesktopPane().add(internal);
@@ -131,16 +122,14 @@ public abstract class OVTK2Dialog extends RegisteredJInternalFrame implements
 		JPanel buttons = new JPanel();
 
 		if (configApply != null) {
-			JButton apply = new JButton(
-					Config.language.getProperty(configApply));
+			JButton apply = new JButton(Config.language.getProperty(configApply));
 			apply.setActionCommand("apply");
 			apply.addActionListener(this);
 			buttons.add(apply);
 		}
 
 		if (configCancel != null) {
-			JButton cancel = new JButton(
-					Config.language.getProperty(configCancel));
+			JButton cancel = new JButton(Config.language.getProperty(configCancel));
 			cancel.setActionCommand("cancel");
 			cancel.addActionListener(this);
 			buttons.add(cancel);

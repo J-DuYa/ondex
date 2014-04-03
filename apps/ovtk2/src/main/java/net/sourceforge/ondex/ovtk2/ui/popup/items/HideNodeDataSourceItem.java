@@ -23,8 +23,7 @@ public class HideNodeDataSourceItem extends EntityMenuItem<ONDEXConcept> {
 		for (ONDEXConcept node : entities) {
 			ONDEXConcept c = node;
 			DataSource dataSource = c.getElementOf();
-			for (ONDEXConcept oc : viewer.getONDEXJUNGGraph()
-					.getConceptsOfDataSource(dataSource)) {
+			for (ONDEXConcept oc : viewer.getONDEXJUNGGraph().getConceptsOfDataSource(dataSource)) {
 				viewer.getONDEXJUNGGraph().setVisibility(oc, false);
 			}
 		}

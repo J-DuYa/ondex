@@ -28,10 +28,7 @@ public class MergeConceptsItem extends EntityMenuItem<ONDEXConcept> {
 	@Override
 	protected void doAction() {
 
-		int option = JOptionPane.showConfirmDialog((Component) viewer,
-				Config.language.getProperty("Dialog.Merging.WarningMessage"),
-				Config.language.getProperty("Dialog.Merging.WarningTitle"),
-				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		int option = JOptionPane.showConfirmDialog((Component) viewer, Config.language.getProperty("Dialog.Merging.WarningMessage"), Config.language.getProperty("Dialog.Merging.WarningTitle"), JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
 		if (option == JOptionPane.YES_OPTION) {
 			ClusterCollapser collapser = new ClusterCollapser(true, true, null);
@@ -39,20 +36,16 @@ public class MergeConceptsItem extends EntityMenuItem<ONDEXConcept> {
 			// process collapsing here
 			try {
 
-				System.out.println("Collapsing " + entities.size()
-						+ " concepts.");
+				System.out.println("Collapsing " + entities.size() + " concepts.");
 
 				// collapse every cluster
-				ONDEXConcept c = collapser.collapseConceptCluster(
-						viewer.getONDEXJUNGGraph(), entities);
+				ONDEXConcept c = collapser.collapseConceptCluster(viewer.getONDEXJUNGGraph(), entities);
 
 				// make new concept visible
 				viewer.getONDEXJUNGGraph().setVisibility(c, true);
 
 				// make all relations visible
-				viewer.getONDEXJUNGGraph().setVisibility(
-						viewer.getONDEXJUNGGraph().getRelationsOfConcept(c),
-						true);
+				viewer.getONDEXJUNGGraph().setVisibility(viewer.getONDEXJUNGGraph().getRelationsOfConcept(c), true);
 
 				if (viewer.getMetaGraph() != null)
 					viewer.getMetaGraph().updateMetaData();

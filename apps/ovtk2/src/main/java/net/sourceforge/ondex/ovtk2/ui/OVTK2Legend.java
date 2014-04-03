@@ -76,8 +76,7 @@ import org.apache.commons.collections15.map.LazyMap;
  * @author Matthew Pocock
  * @version 23.05.2008
  */
-public class OVTK2Legend extends RegisteredJInternalFrame implements
-		ActionListener, TableModelListener {
+public class OVTK2Legend extends RegisteredJInternalFrame implements ActionListener, TableModelListener {
 
 	/**
 	 * generated
@@ -175,14 +174,12 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	/**
 	 * number of visible concepts per concept class
 	 */
-	private Map<ConceptClass, Integer> conceptClassesVisible = LazyMap
-			.decorate(new HashMap<ConceptClass, Integer>(),
-					new Factory<Integer>() {
-						@Override
-						public Integer create() {
-							return 0;
-						}
-					});
+	private Map<ConceptClass, Integer> conceptClassesVisible = LazyMap.decorate(new HashMap<ConceptClass, Integer>(), new Factory<Integer>() {
+		@Override
+		public Integer create() {
+			return 0;
+		}
+	});
 
 	/**
 	 * total number of concepts per data source
@@ -192,13 +189,12 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	/**
 	 * number of visible concepts per data source
 	 */
-	private Map<DataSource, Integer> dataSourcesVisible = LazyMap.decorate(
-			new HashMap<DataSource, Integer>(), new Factory<Integer>() {
-				@Override
-				public Integer create() {
-					return 0;
-				}
-			});
+	private Map<DataSource, Integer> dataSourcesVisible = LazyMap.decorate(new HashMap<DataSource, Integer>(), new Factory<Integer>() {
+		@Override
+		public Integer create() {
+			return 0;
+		}
+	});
 
 	/**
 	 * total number of relations per relation type
@@ -208,13 +204,12 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	/**
 	 * number of visible relations per relation type
 	 */
-	private Map<RelationType, Integer> relationTypesVisible = LazyMap.decorate(
-			new HashMap<RelationType, Integer>(), new Factory<Integer>() {
-				@Override
-				public Integer create() {
-					return 0;
-				}
-			});
+	private Map<RelationType, Integer> relationTypesVisible = LazyMap.decorate(new HashMap<RelationType, Integer>(), new Factory<Integer>() {
+		@Override
+		public Integer create() {
+			return 0;
+		}
+	});
 
 	/**
 	 * total number of concepts per evidence type
@@ -229,26 +224,22 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	/**
 	 * number of visible concepts per evidence type
 	 */
-	private Map<EvidenceType, Integer> evidenceTypeVisibleConcepts = LazyMap
-			.decorate(new HashMap<EvidenceType, Integer>(),
-					new Factory<Integer>() {
-						@Override
-						public Integer create() {
-							return 0;
-						}
-					});
+	private Map<EvidenceType, Integer> evidenceTypeVisibleConcepts = LazyMap.decorate(new HashMap<EvidenceType, Integer>(), new Factory<Integer>() {
+		@Override
+		public Integer create() {
+			return 0;
+		}
+	});
 
 	/**
 	 * number of visible relations per evidence type
 	 */
-	private Map<EvidenceType, Integer> evidenceTypeVisibleRelations = LazyMap
-			.decorate(new HashMap<EvidenceType, Integer>(),
-					new Factory<Integer>() {
-						@Override
-						public Integer create() {
-							return 0;
-						}
-					});
+	private Map<EvidenceType, Integer> evidenceTypeVisibleRelations = LazyMap.decorate(new HashMap<EvidenceType, Integer>(), new Factory<Integer>() {
+		@Override
+		public Integer create() {
+			return 0;
+		}
+	});
 
 	/**
 	 * Set first OVTK2Viewer, initialises layout.
@@ -257,9 +248,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	 *            OVTK2Viewer to use
 	 */
 	public OVTK2Legend(OVTK2Viewer viewer) {
-		super(Config.language.getProperty("Legend.Title"), "MetaGraph",
-				Config.language.getProperty("Legend.Title"), true, true, true,
-				true);
+		super(Config.language.getProperty("Legend.Title"), "MetaGraph", Config.language.getProperty("Legend.Title"), true, true, true, true);
 
 		// dispose legend on close
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -291,12 +280,10 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		// case for concept classes
 		this.conceptClassesTotal.clear();
 		this.conceptClassesVisible.clear();
-		for (ConceptClass conceptClass : graph.getMetaData()
-				.getConceptClasses()) {
+		for (ConceptClass conceptClass : graph.getMetaData().getConceptClasses()) {
 
 			// get all concepts of concept class
-			Set<ONDEXConcept> concepts = graph
-					.getConceptsOfConceptClass(conceptClass);
+			Set<ONDEXConcept> concepts = graph.getConceptsOfConceptClass(conceptClass);
 			int conceptSize = concepts.size();
 			if (conceptSize > 0) {
 				totalConcepts += conceptSize;
@@ -305,8 +292,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 					// count only visible now
 					if (graph.isVisible(concept)) {
 						visibleConcepts++;
-						conceptClassesVisible.put(conceptClass,
-								conceptClassesVisible.get(conceptClass) + 1);
+						conceptClassesVisible.put(conceptClass, conceptClassesVisible.get(conceptClass) + 1);
 					}
 				}
 			}
@@ -318,16 +304,14 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		for (DataSource dataSource : graph.getMetaData().getDataSources()) {
 
 			// get all concepts of data source
-			Set<ONDEXConcept> concepts = graph
-					.getConceptsOfDataSource(dataSource);
+			Set<ONDEXConcept> concepts = graph.getConceptsOfDataSource(dataSource);
 			int conceptSize = concepts.size();
 			if (conceptSize > 0) {
 				dataSourcesTotal.put(dataSource, conceptSize);
 				for (ONDEXConcept concept : concepts) {
 					// count only visible now
 					if (graph.isVisible(concept)) {
-						dataSourcesVisible.put(dataSource,
-								dataSourcesVisible.get(dataSource) + 1);
+						dataSourcesVisible.put(dataSource, dataSourcesVisible.get(dataSource) + 1);
 					}
 				}
 			}
@@ -343,8 +327,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		for (RelationType relationType : graph.getMetaData().getRelationTypes()) {
 
 			// get all relations of type
-			Set<ONDEXRelation> relations = graph
-					.getRelationsOfRelationType(relationType);
+			Set<ONDEXRelation> relations = graph.getRelationsOfRelationType(relationType);
 			int relationSize = relations.size();
 			if (relationSize > 0) {
 				totalRelations += relationSize;
@@ -353,8 +336,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 					// count only visible now
 					if (graph.isVisible(relation)) {
 						visibleRelations++;
-						relationTypesVisible.put(relationType,
-								relationTypesVisible.get(relationType) + 1);
+						relationTypesVisible.put(relationType, relationTypesVisible.get(relationType) + 1);
 					}
 				}
 			}
@@ -368,30 +350,24 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		for (EvidenceType evidenceType : graph.getMetaData().getEvidenceTypes()) {
 
 			// get evidence on concepts
-			Set<ONDEXConcept> concepts = graph
-					.getConceptsOfEvidenceType(evidenceType);
+			Set<ONDEXConcept> concepts = graph.getConceptsOfEvidenceType(evidenceType);
 			int conceptSize = concepts.size();
 			if (conceptSize > 0) {
 				evidenceTypeTotalConcepts.put(evidenceType, conceptSize);
 				for (ONDEXConcept concept : concepts) {
 					if (graph.isVisible(concept))
-						evidenceTypeVisibleConcepts
-								.put(evidenceType, evidenceTypeVisibleConcepts
-										.get(evidenceType) + 1);
+						evidenceTypeVisibleConcepts.put(evidenceType, evidenceTypeVisibleConcepts.get(evidenceType) + 1);
 				}
 			}
 
 			// get evidence on relations
-			Set<ONDEXRelation> relations = graph
-					.getRelationsOfEvidenceType(evidenceType);
+			Set<ONDEXRelation> relations = graph.getRelationsOfEvidenceType(evidenceType);
 			int relationSize = relations.size();
 			if (relationSize > 0) {
 				evidenceTypeTotalRelations.put(evidenceType, relationSize);
 				for (ONDEXRelation relation : relations) {
 					if (graph.isVisible(relation))
-						evidenceTypeVisibleRelations
-								.put(evidenceType, evidenceTypeVisibleRelations
-										.get(evidenceType) + 1);
+						evidenceTypeVisibleRelations.put(evidenceType, evidenceTypeVisibleRelations.get(evidenceType) + 1);
 				}
 			}
 		}
@@ -402,29 +378,25 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		JComponent conceptClasses = new JScrollPane();
 		if (totalConcepts > 0)
 			conceptClasses = initConceptClasses();
-		tabbedPane.add(Config.language.getProperty("Legend.ConceptClasses"),
-				conceptClasses);
+		tabbedPane.add(Config.language.getProperty("Legend.ConceptClasses"), conceptClasses);
 
 		// tab for data sources
 		JComponent dataSources = new JScrollPane();
 		if (totalConcepts > 0)
 			dataSources = initDataSources();
-		tabbedPane.add(Config.language.getProperty("Legend.DataSources"),
-				dataSources);
+		tabbedPane.add(Config.language.getProperty("Legend.DataSources"), dataSources);
 
 		// tab for relation types
 		JComponent relationTypes = new JScrollPane();
 		if (totalRelations > 0)
 			relationTypes = initRelationTypes();
-		tabbedPane.add(Config.language.getProperty("Legend.RelationTypes"),
-				relationTypes);
+		tabbedPane.add(Config.language.getProperty("Legend.RelationTypes"), relationTypes);
 
 		// tab for evidence types
 		JComponent evidenceTypes = new JScrollPane();
 		if (totalConcepts > 0)
 			evidenceTypes = initEvidenceTypes();
-		tabbedPane.add(Config.language.getProperty("Legend.EvidenceTypes"),
-				evidenceTypes);
+		tabbedPane.add(Config.language.getProperty("Legend.EvidenceTypes"), evidenceTypes);
 
 		tabbedPane.setSelectedIndex(lastPane);
 		tabbedPane.addChangeListener(new ChangeListener() {
@@ -436,8 +408,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		// refreshes current view on meta data
-		JButton refresh = new JButton(
-				Config.language.getProperty("Legend.Refresh"));
+		JButton refresh = new JButton(Config.language.getProperty("Legend.Refresh"));
 		refresh.addActionListener(this);
 		refresh.setActionCommand(REFRESH);
 		this.getContentPane().add(refresh, BorderLayout.SOUTH);
@@ -453,7 +424,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	public OVTK2Viewer getViewer() {
 		return viewer;
 	}
-	
+
 	private JTable tableConceptClasses;
 
 	/**
@@ -469,8 +440,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			String name = (String) key;
 			if (name.startsWith(CONCEPTCLASS_COLOR_VIS)) {
 				String color = Config.visual.getProperty(name);
-				name = name.substring(CONCEPTCLASS_COLOR_VIS.length(),
-						name.length());
+				name = name.substring(CONCEPTCLASS_COLOR_VIS.length(), name.length());
 				colors.put(name, Config.convertToColor(color));
 			}
 		}
@@ -481,8 +451,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			String name = (String) key;
 			if (name.startsWith(CONCEPTCLASS_SHAPE_VIS)) {
 				int id = Integer.parseInt(Config.visual.getProperty(name));
-				name = name.substring(CONCEPTCLASS_SHAPE_VIS.length(),
-						name.length());
+				name = name.substring(CONCEPTCLASS_SHAPE_VIS.length(), name.length());
 				shapes.put(name, ONDEXNodeShapes.getShape(id));
 			}
 		}
@@ -495,14 +464,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		}
 
 		// construct column names
-		String[] columnNames = new String[] {
-				Config.language.getProperty("Legend.Colour"),
-				Config.language.getProperty("Legend.Shape"),
-				Config.language.getProperty("Legend.Size"),
-				Config.language.getProperty("Legend.Name"),
-				Config.language.getProperty("Legend.Visible"),
-				Config.language.getProperty("Legend.VisibleAll"),
-				Config.language.getProperty("Legend.Visibility") };
+		String[] columnNames = new String[] { Config.language.getProperty("Legend.Colour"), Config.language.getProperty("Legend.Shape"), Config.language.getProperty("Legend.Size"), Config.language.getProperty("Legend.Name"), Config.language.getProperty("Legend.Visible"), Config.language.getProperty("Legend.VisibleAll"), Config.language.getProperty("Legend.Visibility") };
 
 		// specific table model for classes
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
@@ -548,8 +510,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		tableConceptClasses.setDefaultEditor(Color.class, new ColorTableEditor());
 		tableConceptClasses.setDefaultRenderer(Shape.class, new ShapeTableCellRenderer(true));
 		tableConceptClasses.setDefaultEditor(Shape.class, new DefaultCellEditor(comboBox));
-		tableConceptClasses.setDefaultRenderer(ConceptClass.class,
-				new MetaDataTableCellRenderer(true));
+		tableConceptClasses.setDefaultRenderer(ConceptClass.class, new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
 		tableConceptClasses.setDefaultRenderer(Boolean.class, renderer);
@@ -573,9 +534,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			if (textualRepresentation.length() > 0) {
 				textualRepresentation.append('\n');
 			}
-			textualRepresentation.append(cc.getId()).append("\t")
-					.append(visibleNodes).append("\t")
-					.append(conceptClassesTotal.get(cc));
+			textualRepresentation.append(cc.getId()).append("\t").append(visibleNodes).append("\t").append(conceptClassesTotal.get(cc));
 
 			// set colour square
 			Color color = null;
@@ -595,19 +554,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			Integer size = Config.getSizeForConceptClass(cc);
 
 			// add new column
-			Object[] rowData = new Object[] { color, shape, size, cc,
-					visibleNodes, conceptClassesTotal.get(cc), visibleNodes > 0 };
+			Object[] rowData = new Object[] { color, shape, size, cc, visibleNodes, conceptClassesTotal.get(cc), visibleNodes > 0 };
 			model.addRow(rowData);
 		}
 
 		// construct label and clip board representation for total
-		JLabel total = new JLabel(
-				Config.language.getProperty("Legend.TotalConcepts") + " "
-						+ visibleConcepts + " (" + totalConcepts + ")");
-		textualRepresentation.append("\n")
-				.append(Config.language.getProperty("Legend.TotalConcepts"))
-				.append("\t").append(visibleConcepts).append("\t")
-				.append(totalConcepts);
+		JLabel total = new JLabel(Config.language.getProperty("Legend.TotalConcepts") + " " + visibleConcepts + " (" + totalConcepts + ")");
+		textualRepresentation.append("\n").append(Config.language.getProperty("Legend.TotalConcepts")).append("\t").append(visibleConcepts).append("\t").append(totalConcepts);
 
 		// button to copy to clip board
 		JButton copyToClipBoardButton = new JButton("Copy to clipboard");
@@ -659,6 +612,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	}
 
 	private JTable tableDataSources;
+
 	/**
 	 * Construct panel for data sources.
 	 * 
@@ -672,19 +626,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			String name = (String) key;
 			if (name.startsWith(DATASOURCE_COLOR_VIS)) {
 				String color = Config.visual.getProperty(name);
-				name = name.substring(DATASOURCE_COLOR_VIS.length(),
-						name.length());
+				name = name.substring(DATASOURCE_COLOR_VIS.length(), name.length());
 				colors.put(name, Config.convertToColor(color));
 			}
 		}
 
 		// construct column names
-		String[] columnNames = new String[] {
-				Config.language.getProperty("Legend.Colour"),
-				Config.language.getProperty("Legend.Name"),
-				Config.language.getProperty("Legend.Visible"),
-				Config.language.getProperty("Legend.VisibleAll"),
-				Config.language.getProperty("Legend.Visibility") };
+		String[] columnNames = new String[] { Config.language.getProperty("Legend.Colour"), Config.language.getProperty("Legend.Name"), Config.language.getProperty("Legend.Visible"), Config.language.getProperty("Legend.VisibleAll"), Config.language.getProperty("Legend.Visibility") };
 
 		// specific table model for classes
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
@@ -724,8 +672,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		// set all renderer to table
 		tableDataSources.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
 		tableDataSources.setDefaultEditor(Color.class, new ColorTableEditor());
-		tableDataSources.setDefaultRenderer(DataSource.class,
-				new MetaDataTableCellRenderer(true));
+		tableDataSources.setDefaultRenderer(DataSource.class, new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
 		tableDataSources.setDefaultRenderer(Boolean.class, renderer);
@@ -743,9 +690,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			if (textualRepresentation.length() > 0) {
 				textualRepresentation.append('\n');
 			}
-			textualRepresentation.append(ds.getId()).append("\t")
-					.append(visibleNodes).append("\t")
-					.append(dataSourcesTotal.get(ds));
+			textualRepresentation.append(ds.getId()).append("\t").append(visibleNodes).append("\t").append(dataSourcesTotal.get(ds));
 
 			// set colour square
 			Color color = null;
@@ -755,19 +700,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 				color = Config.getDefaultColor();
 
 			// add new column
-			Object[] rowData = new Object[] { color, ds, visibleNodes,
-					dataSourcesTotal.get(ds), visibleNodes > 0 };
+			Object[] rowData = new Object[] { color, ds, visibleNodes, dataSourcesTotal.get(ds), visibleNodes > 0 };
 			model.addRow(rowData);
 		}
 
 		// construct label and clip board representation for total
-		JLabel total = new JLabel(
-				Config.language.getProperty("Legend.TotalConcepts") + " "
-						+ visibleConcepts + " (" + totalConcepts + ")");
-		textualRepresentation.append("\n")
-				.append(Config.language.getProperty("Legend.TotalConcepts"))
-				.append("\t").append(visibleConcepts).append("\t")
-				.append(totalConcepts);
+		JLabel total = new JLabel(Config.language.getProperty("Legend.TotalConcepts") + " " + visibleConcepts + " (" + totalConcepts + ")");
+		textualRepresentation.append("\n").append(Config.language.getProperty("Legend.TotalConcepts")).append("\t").append(visibleConcepts).append("\t").append(totalConcepts);
 
 		// button to copy to clip board
 		JButton copyToClipBoardButton = new JButton("Copy to clipboard");
@@ -811,7 +750,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 
 		return panel;
 	}
-	
+
 	private JTable tableRelationType;
 
 	/**
@@ -827,20 +766,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			String name = (String) key;
 			if (name.startsWith(RELATIONTYPE_COLOR_VIS)) {
 				String color = Config.visual.getProperty(name);
-				name = name.substring(RELATIONTYPE_COLOR_VIS.length(),
-						name.length());
+				name = name.substring(RELATIONTYPE_COLOR_VIS.length(), name.length());
 				colors.put(name, Config.convertToColor(color));
 			}
 		}
 
 		// construct column names
-		String[] columnNames = new String[] {
-				Config.language.getProperty("Legend.Colour"),
-				Config.language.getProperty("Legend.Size"),
-				Config.language.getProperty("Legend.Name"),
-				Config.language.getProperty("Legend.Visible"),
-				Config.language.getProperty("Legend.VisibleAll"),
-				Config.language.getProperty("Legend.Visibility") };
+		String[] columnNames = new String[] { Config.language.getProperty("Legend.Colour"), Config.language.getProperty("Legend.Size"), Config.language.getProperty("Legend.Name"), Config.language.getProperty("Legend.Visible"), Config.language.getProperty("Legend.VisibleAll"), Config.language.getProperty("Legend.Visibility") };
 
 		// specific table model for classes
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
@@ -882,8 +814,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		// set all renderer to table
 		tableRelationType.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
 		tableRelationType.setDefaultEditor(Color.class, new ColorTableEditor());
-		tableRelationType.setDefaultRenderer(RelationType.class,
-				new MetaDataTableCellRenderer(true));
+		tableRelationType.setDefaultRenderer(RelationType.class, new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
 		tableRelationType.setDefaultRenderer(Boolean.class, renderer);
@@ -901,9 +832,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			if (textualRepresentation.length() > 0) {
 				textualRepresentation.append('\n');
 			}
-			textualRepresentation.append(rt.getId()).append("\t")
-					.append(visibleEdges).append("\t")
-					.append(relationTypesTotal.get(rt));
+			textualRepresentation.append(rt.getId()).append("\t").append(visibleEdges).append("\t").append(relationTypesTotal.get(rt));
 
 			// set colour square
 			Color color = null;
@@ -916,19 +845,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			Integer size = Config.getSizeForRelationType(rt);
 
 			// add new column
-			Object[] rowData = new Object[] { color, size, rt, visibleEdges,
-					relationTypesTotal.get(rt), visibleEdges > 0 };
+			Object[] rowData = new Object[] { color, size, rt, visibleEdges, relationTypesTotal.get(rt), visibleEdges > 0 };
 			model.addRow(rowData);
 		}
 
 		// construct label and clip board representation for total
-		JLabel total = new JLabel(
-				Config.language.getProperty("Legend.TotalRelations") + " "
-						+ visibleRelations + " (" + totalRelations + ")");
-		textualRepresentation.append("\n")
-				.append(Config.language.getProperty("Legend.TotalRelations"))
-				.append("\t").append(visibleRelations).append("\t")
-				.append(totalRelations);
+		JLabel total = new JLabel(Config.language.getProperty("Legend.TotalRelations") + " " + visibleRelations + " (" + totalRelations + ")");
+		textualRepresentation.append("\n").append(Config.language.getProperty("Legend.TotalRelations")).append("\t").append(visibleRelations).append("\t").append(totalRelations);
 
 		// button to copy to clip board
 		JButton copyToClipBoardButton = new JButton("Copy to clipboard");
@@ -975,7 +898,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 
 		return panel;
 	}
-	
+
 	private JTable tableRelationType1;
 
 	/**
@@ -991,28 +914,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			String name = (String) key;
 			if (name.startsWith(EVIDENCETYPE_COLOR_VIS)) {
 				String color = Config.visual.getProperty(name);
-				name = name.substring(EVIDENCETYPE_COLOR_VIS.length(),
-						name.length());
+				name = name.substring(EVIDENCETYPE_COLOR_VIS.length(), name.length());
 				colors.put(name, Config.convertToColor(color));
 			}
 		}
 
 		// construct column names
-		String[] columnNames = new String[] {
-				Config.language.getProperty("Legend.Colour"),
-				Config.language.getProperty("Legend.Name"),
-				Config.language
-						.getProperty("Legend.EvidenceTypes.VisibleConcepts"),
-				Config.language
-						.getProperty("Legend.EvidenceTypes.VisibleConceptsAll"),
-				Config.language
-						.getProperty("Legend.EvidenceTypes.VisibleRelations"),
-				Config.language
-						.getProperty("Legend.EvidenceTypes.VisibleRelationsAll"),
-				Config.language
-						.getProperty("Legend.EvidenceTypes.VisibilityConcepts"),
-				Config.language
-						.getProperty("Legend.EvidenceTypes.VisibilityRelations") };
+		String[] columnNames = new String[] { Config.language.getProperty("Legend.Colour"), Config.language.getProperty("Legend.Name"), Config.language.getProperty("Legend.EvidenceTypes.VisibleConcepts"), Config.language.getProperty("Legend.EvidenceTypes.VisibleConceptsAll"), Config.language.getProperty("Legend.EvidenceTypes.VisibleRelations"), Config.language.getProperty("Legend.EvidenceTypes.VisibleRelationsAll"), Config.language.getProperty("Legend.EvidenceTypes.VisibilityConcepts"), Config.language.getProperty("Legend.EvidenceTypes.VisibilityRelations") };
 
 		// specific table model for classes
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
@@ -1062,8 +970,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		// set all renderer to table
 		tableRelationType1.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
 		tableRelationType1.setDefaultEditor(Color.class, new ColorTableEditor());
-		tableRelationType1.setDefaultRenderer(EvidenceType.class,
-				new MetaDataTableCellRenderer(true));
+		tableRelationType1.setDefaultRenderer(EvidenceType.class, new MetaDataTableCellRenderer(true));
 		BooleanTableCellRenderer renderer = new BooleanTableCellRenderer();
 		renderer.setToolTipText("Change visibility");
 		tableRelationType1.setDefaultRenderer(Boolean.class, renderer);
@@ -1075,8 +982,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		final StringBuilder textualRepresentation = new StringBuilder();
 
 		// iterate over contained ETs
-		Set<EvidenceType> mergedKeys = new HashSet<EvidenceType>(
-				evidenceTypeTotalConcepts.keySet());
+		Set<EvidenceType> mergedKeys = new HashSet<EvidenceType>(evidenceTypeTotalConcepts.keySet());
 		mergedKeys.addAll(evidenceTypeTotalRelations.keySet());
 		for (EvidenceType et : mergedKeys) {
 
@@ -1087,16 +993,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			if (textualRepresentation.length() > 0) {
 				textualRepresentation.append('\n');
 			}
-			textualRepresentation.append(et.getId()).append("\t")
-					.append(visibleNodes).append("\t")
-					.append(evidenceTypeTotalConcepts.get(et));
+			textualRepresentation.append(et.getId()).append("\t").append(visibleNodes).append("\t").append(evidenceTypeTotalConcepts.get(et));
 
 			// count visible relations
 			int visibleEdges = evidenceTypeVisibleRelations.get(et);
 
 			// construct clip board representation
-			textualRepresentation.append("\t").append(visibleEdges)
-					.append("\t").append(evidenceTypeTotalRelations.get(et));
+			textualRepresentation.append("\t").append(visibleEdges).append("\t").append(evidenceTypeTotalRelations.get(et));
 
 			// set colour square
 			Color color = null;
@@ -1106,21 +1009,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 				color = Config.getDefaultColor();
 
 			// add new column
-			Object[] rowData = new Object[] { color, et, visibleNodes,
-					evidenceTypeTotalConcepts.get(et) != null ? evidenceTypeTotalConcepts.get(et) : 0, visibleEdges,
-					evidenceTypeTotalRelations.get(et) != null ? evidenceTypeTotalRelations.get(et) : 0, visibleNodes > 0,
-					visibleEdges > 0 };
+			Object[] rowData = new Object[] { color, et, visibleNodes, evidenceTypeTotalConcepts.get(et) != null ? evidenceTypeTotalConcepts.get(et) : 0, visibleEdges, evidenceTypeTotalRelations.get(et) != null ? evidenceTypeTotalRelations.get(et) : 0, visibleNodes > 0, visibleEdges > 0 };
 			model.addRow(rowData);
 		}
 
 		// construct label and clip board representation for total
-		JLabel total = new JLabel(
-				Config.language.getProperty("Legend.TotalEntities") + " "
-						+ visibleEntities + " (" + totalEntities + ")");
-		textualRepresentation.append("\n")
-				.append(Config.language.getProperty("Legend.TotalEntities"))
-				.append("\t").append(visibleEntities).append("\t")
-				.append(totalEntities);
+		JLabel total = new JLabel(Config.language.getProperty("Legend.TotalEntities") + " " + visibleEntities + " (" + totalEntities + ")");
+		textualRepresentation.append("\n").append(Config.language.getProperty("Legend.TotalEntities")).append("\t").append(visibleEntities).append("\t").append(totalEntities);
 
 		// button to copy to clip board
 		JButton copyToClipBoardButton = new JButton("Copy to clipboard");
@@ -1191,8 +1086,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	 * 
 	 */
 	private void initIcon() {
-		File imgLocation = new File(
-				"config/toolbarButtonGraphics/development/Application16.gif");
+		File imgLocation = new File("config/toolbarButtonGraphics/development/Application16.gif");
 		URL imageURL = null;
 
 		try {
@@ -1273,9 +1167,8 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 				Integer size = (Integer) data;
 
 				// set new node size for concept class
-				Config.visual.setProperty("ConceptClass.Size." + cc.getId(),
-						size.toString());
-				
+				Config.visual.setProperty("ConceptClass.Size." + cc.getId(), size.toString());
+
 				// update view
 				viewer.getNodeShapes().setNodeShapeSelection(NodeShapeSelection.NONE);
 				viewer.getNodeShapes().updateAll();
@@ -1284,13 +1177,10 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			}
 
 			// change concept class visibility
-			if (columnName.equals(Config.language
-					.getProperty("Legend.Visibility"))) {
+			if (columnName.equals(Config.language.getProperty("Legend.Visibility"))) {
 				// change visibility button using meta graph functions
 				String cmd = (Boolean) data ? "show" : "hide";
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(new ONDEXMetaConcept(graph, cc),
-								ActionEvent.ACTION_PERFORMED, cmd));
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(new ONDEXMetaConcept(graph, cc), ActionEvent.ACTION_PERFORMED, cmd));
 			}
 		}
 
@@ -1318,13 +1208,11 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			}
 
 			// change data source visibility
-			if (columnName.equals(Config.language
-					.getProperty("Legend.Visibility"))) {
+			if (columnName.equals(Config.language.getProperty("Legend.Visibility"))) {
 				// similar behaviour to meta graph when hiding concept classes
 				boolean visible = (Boolean) data;
 				if (!visible)
-					graph.setVisibility(graph.getRelationsOfDataSource(ds),
-							visible);
+					graph.setVisibility(graph.getRelationsOfDataSource(ds), visible);
 				graph.setVisibility(graph.getConceptsOfDataSource(ds), visible);
 				// update everything of change
 				viewer.getVisualizationViewer().getModel().fireStateChanged();
@@ -1361,21 +1249,17 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 				Integer size = (Integer) data;
 
 				// set new edge size for relation type
-				Config.visual.setProperty("RelationType.Size." + rt.getId(),
-						size.toString());
+				Config.visual.setProperty("RelationType.Size." + rt.getId(), size.toString());
 				viewer.getEdgeStrokes().updateAll();
 				viewer.getVisualizationViewer().repaint();
 				Config.saveVisual();
 			}
 
 			// change relation type visibility
-			if (columnName.equals(Config.language
-					.getProperty("Legend.Visibility"))) {
+			if (columnName.equals(Config.language.getProperty("Legend.Visibility"))) {
 				// change visibility button using meta graph functions
 				String cmd = (Boolean) data ? "show" : "hide";
-				viewer.getMetaGraph().actionPerformed(
-						new ActionEvent(new ONDEXMetaRelation(graph, rt, null),
-								ActionEvent.ACTION_PERFORMED, cmd));
+				viewer.getMetaGraph().actionPerformed(new ActionEvent(new ONDEXMetaRelation(graph, rt, null), ActionEvent.ACTION_PERFORMED, cmd));
 			}
 		}
 
@@ -1404,10 +1288,8 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			}
 
 			// change evidence type visibility concepts
-			if (columnName.equals(Config.language
-					.getProperty("Legend.EvidenceTypes.VisibilityConcepts"))) {
-				graph.setVisibility(graph.getConceptsOfEvidenceType(et),
-						(Boolean) data);
+			if (columnName.equals(Config.language.getProperty("Legend.EvidenceTypes.VisibilityConcepts"))) {
+				graph.setVisibility(graph.getConceptsOfEvidenceType(et), (Boolean) data);
 				// update everything of change
 				viewer.getVisualizationViewer().getModel().fireStateChanged();
 				viewer.getMetaGraphPanel().repaint();
@@ -1415,10 +1297,8 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 			}
 
 			// change evidence type visibility relations
-			if (columnName.equals(Config.language
-					.getProperty("Legend.EvidenceTypes.VisibilityRelations"))) {
-				graph.setVisibility(graph.getRelationsOfEvidenceType(et),
-						(Boolean) data);
+			if (columnName.equals(Config.language.getProperty("Legend.EvidenceTypes.VisibilityRelations"))) {
+				graph.setVisibility(graph.getRelationsOfEvidenceType(et), (Boolean) data);
 				// update everything of change
 				viewer.getVisualizationViewer().getModel().fireStateChanged();
 				viewer.getMetaGraphPanel().repaint();
@@ -1445,8 +1325,7 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 	 * (resulting in an additional width of 2*margin pixels).
 	 */
 	public void packColumn(JTable table, int vColIndex, int margin) {
-		DefaultTableColumnModel colModel = (DefaultTableColumnModel) table
-				.getColumnModel();
+		DefaultTableColumnModel colModel = (DefaultTableColumnModel) table.getColumnModel();
 		TableColumn col = colModel.getColumn(vColIndex);
 		int width = 0;
 
@@ -1455,15 +1334,13 @@ public class OVTK2Legend extends RegisteredJInternalFrame implements
 		if (renderer == null) {
 			renderer = table.getTableHeader().getDefaultRenderer();
 		}
-		Component comp = renderer.getTableCellRendererComponent(table,
-				col.getHeaderValue(), false, false, 0, 0);
+		Component comp = renderer.getTableCellRendererComponent(table, col.getHeaderValue(), false, false, 0, 0);
 		width = comp.getPreferredSize().width;
 
 		// Get maximum width of column data
 		for (int r = 0; r < table.getRowCount(); r++) {
 			renderer = table.getCellRenderer(r, vColIndex);
-			comp = renderer.getTableCellRendererComponent(table,
-					table.getValueAt(r, vColIndex), false, false, r, vColIndex);
+			comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, vColIndex), false, false, r, vColIndex);
 			width = Math.max(width, comp.getPreferredSize().width);
 		}
 

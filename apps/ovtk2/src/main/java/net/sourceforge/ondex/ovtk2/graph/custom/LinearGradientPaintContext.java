@@ -96,20 +96,12 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 	 *            LINEAR_RGB
 	 * 
 	 */
-	public LinearGradientPaintContext(ColorModel cm, Rectangle deviceBounds,
-			Rectangle2D userBounds, AffineTransform t, RenderingHints hints,
-			Point2D dStart, Point2D dEnd, float[] fractions, Color[] colors,
-			MultipleGradientPaint.CycleMethodEnum cycleMethod,
-			MultipleGradientPaint.ColorSpaceEnum colorSpace)
-			throws NoninvertibleTransformException {
-		super(cm, deviceBounds, userBounds, t, hints, fractions, colors,
-				cycleMethod, colorSpace);
+	public LinearGradientPaintContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform t, RenderingHints hints, Point2D dStart, Point2D dEnd, float[] fractions, Color[] colors, MultipleGradientPaint.CycleMethodEnum cycleMethod, MultipleGradientPaint.ColorSpaceEnum colorSpace) throws NoninvertibleTransformException {
+		super(cm, deviceBounds, userBounds, t, hints, fractions, colors, cycleMethod, colorSpace);
 
 		// Use single precision floating points
-		Point2D.Float start = new Point2D.Float((float) dStart.getX(),
-				(float) dStart.getY());
-		Point2D.Float end = new Point2D.Float((float) dEnd.getX(), (float) dEnd
-				.getY());
+		Point2D.Float start = new Point2D.Float((float) dStart.getX(), (float) dStart.getY());
+		Point2D.Float end = new Point2D.Float((float) dEnd.getX(), (float) dEnd.getY());
 
 		// A given point in the raster should take on the same color as its
 		// projection onto the gradient vector.
@@ -161,8 +153,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 		}
 	}
 
-	protected void fillHardNoCycle(int[] pixels, int off, int adjust, int x,
-			int y, int w, int h) {
+	protected void fillHardNoCycle(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 
 		// constant which can be pulled out of the inner loop
 		final float initConst = (dgdX * x) + gc;
@@ -247,8 +238,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 						float delta = (g - fractions[gradIdx]);
 						final int[] grad = gradients[gradIdx];
 
-						double stepsD = Math.ceil((fractions[gradIdx + 1] - g)
-								/ dgdX);
+						double stepsD = Math.ceil((fractions[gradIdx + 1] - g) / dgdX);
 						int steps;
 						if (stepsD > w)
 							steps = w;
@@ -258,8 +248,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 						if (subGradLimit > gradLimit)
 							subGradLimit = gradLimit;
 
-						int idx = (int) (((delta * GRADIENT_SIZE_INDEX) / normalizedIntervals[gradIdx]) * (1 << 16))
-								+ (1 << 15);
+						int idx = (int) (((delta * GRADIENT_SIZE_INDEX) / normalizedIntervals[gradIdx]) * (1 << 16)) + (1 << 15);
 						int step = (int) (((dgdX * GRADIENT_SIZE_INDEX) / normalizedIntervals[gradIdx]) * (1 << 16));
 						while (off < subGradLimit) {
 							pixels[off++] = grad[idx >> 16];
@@ -291,8 +280,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 						if (subGradLimit > gradLimit)
 							subGradLimit = gradLimit;
 
-						int idx = (int) (((delta * GRADIENT_SIZE_INDEX) / normalizedIntervals[gradIdx]) * (1 << 16))
-								+ (1 << 15);
+						int idx = (int) (((delta * GRADIENT_SIZE_INDEX) / normalizedIntervals[gradIdx]) * (1 << 16)) + (1 << 15);
 						int step = (int) (((dgdX * GRADIENT_SIZE_INDEX) / normalizedIntervals[gradIdx]) * (1 << 16));
 						while (off < subGradLimit) {
 							pixels[off++] = grad[idx >> 16];
@@ -311,8 +299,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 		}
 	}
 
-	protected void fillSimpleNoCycle(int[] pixels, int off, int adjust, int x,
-			int y, int w, int h) {
+	protected void fillSimpleNoCycle(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 		// constant which can be pulled out of the inner loop
 		final float initConst = (dgdX * x) + gc;
 		final float step = dgdX * fastGradientArraySize;
@@ -356,8 +343,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 
 				} else { // dgdX < 0
 					gradSteps = (int) ((0 - g) / step);
-					preGradSteps = (int) Math.ceil((fastGradientArraySize - g)
-							/ step);
+					preGradSteps = (int) Math.ceil((fastGradientArraySize - g) / step);
 					preVal = gradientOverflow;
 					postVal = gradientUnderflow;
 				}
@@ -391,8 +377,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 		}
 	}
 
-	protected void fillSimpleRepeat(int[] pixels, int off, int adjust, int x,
-			int y, int w, int h) {
+	protected void fillSimpleRepeat(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 
 		final float initConst = (dgdX * x) + gc;
 
@@ -438,8 +423,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 		}
 	}
 
-	protected void fillSimpleReflect(int[] pixels, int off, int adjust, int x,
-			int y, int w, int h) {
+	protected void fillSimpleReflect(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 		final float initConst = (dgdX * x) + gc;
 
 		final int[] grad = gradient;
@@ -511,8 +495,7 @@ final class LinearGradientPaintContext extends MultipleGradientPaintContext {
 	 *            The height of the area in device space for which colors are
 	 *            generated.
 	 */
-	protected void fillRaster(int[] pixels, int off, int adjust, int x, int y,
-			int w, int h) {
+	protected void fillRaster(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 
 		// constant which can be pulled out of the inner loop
 		final float initConst = (dgdX * x) + gc;

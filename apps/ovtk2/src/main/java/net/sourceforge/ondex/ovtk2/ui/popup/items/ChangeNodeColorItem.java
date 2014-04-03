@@ -27,7 +27,7 @@ public class ChangeNodeColorItem extends EntityMenuItem<ONDEXConcept> {
 	@Override
 	protected void doAction() {
 		// ask user for colour
-		Color c = JColorChooser.showDialog((Component)viewer, "Choose Color", null);
+		Color c = JColorChooser.showDialog((Component) viewer, "Choose Color", null);
 		if (c != null) {
 			// change node colour to manual
 			ONDEXNodeFillPaint fillPaint = viewer.getNodeColors();

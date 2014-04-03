@@ -156,8 +156,7 @@ public class Statistic {
 			System.out.println(histo[i][0] + "\t" + histo[i][1]);
 			total += histo[i][1];
 		}
-		System.out.println("average: " + average + "\tdeviation: " + deviation
-				+ "\ttotal values: " + total);
+		System.out.println("average: " + average + "\tdeviation: " + deviation + "\ttotal values: " + total);
 	}
 
 	/**

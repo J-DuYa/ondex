@@ -19,8 +19,7 @@ import net.sourceforge.ondex.core.ONDEXGraph;
  * @author taubertj
  * 
  */
-public class ConceptAccessionTableCellEditor extends DefaultCellEditor
-		implements MouseListener {
+public class ConceptAccessionTableCellEditor extends DefaultCellEditor implements MouseListener {
 
 	/**
 	 * generated
@@ -60,14 +59,12 @@ public class ConceptAccessionTableCellEditor extends DefaultCellEditor
 		unknown = graph.getMetaData().getDataSource("unknown");
 		// if not yet present in meta data
 		if (unknown == null)
-			unknown = graph.getMetaData().createDataSource("unknown",
-					"unknown datasource", "automatically created");
+			unknown = graph.getMetaData().createDataSource("unknown", "unknown datasource", "automatically created");
 	}
 
 	// Implement the one method defined by TableCellEditor.
 	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 
 		// which concept we are working on
 		concept = (ONDEXConcept) table.getValueAt(row, 0);
@@ -81,8 +78,7 @@ public class ConceptAccessionTableCellEditor extends DefaultCellEditor
 		}
 
 		// use default text field editor
-		return super.getTableCellEditorComponent(table, value, isSelected, row,
-				column);
+		return super.getTableCellEditorComponent(table, value, isSelected, row, column);
 	}
 
 	@Override
@@ -94,20 +90,16 @@ public class ConceptAccessionTableCellEditor extends DefaultCellEditor
 		if (acc == null) {
 			// construct new CA with defaults
 			if (newAccession.trim().length() > 0)
-				acc = concept.createConceptAccession(newAccession, unknown,
-						true);
+				acc = concept.createConceptAccession(newAccession, unknown, true);
 		} else {
 			// existing CA check accession update
 			if (!newAccession.equals(acc.getAccession())) {
 				// delete old one
-				ConceptAccession old = concept.getConceptAccession(acc
-						.getAccession(), acc.getElementOf());
-				concept.deleteConceptAccession(acc
-						.getAccession(), acc.getElementOf());
+				ConceptAccession old = concept.getConceptAccession(acc.getAccession(), acc.getElementOf());
+				concept.deleteConceptAccession(acc.getAccession(), acc.getElementOf());
 				// keep additional settings and create non empty accession
 				if (newAccession.trim().length() > 0)
-					acc = concept.createConceptAccession(newAccession, old
-							.getElementOf(), old.isAmbiguous());
+					acc = concept.createConceptAccession(newAccession, old.getElementOf(), old.isAmbiguous());
 				else
 					// clear existing concept accession from table
 					acc = null;

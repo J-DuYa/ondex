@@ -7,7 +7,6 @@ import javax.swing.undo.StateEditable;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXRelation;
 
-
 /**
  * Records the visibility of nodes and edges before an operation to be able to
  * restore it during undo.
@@ -32,7 +31,7 @@ public class VisibilityUndo implements StateEditable {
 				jung.setVisibility((ONDEXRelation) key, (Boolean) state.get(key));
 			}
 		}
-		//System.out.println("restoreState: " + state.size());
+		// System.out.println("restoreState: " + state.size());
 	}
 
 	@Override
@@ -43,6 +42,6 @@ public class VisibilityUndo implements StateEditable {
 		for (ONDEXRelation edge : jung.getRelations()) {
 			state.put(edge, jung.isVisible(edge));
 		}
-		//System.out.println("storeState: " + state.size());
+		// System.out.println("storeState: " + state.size());
 	}
 }

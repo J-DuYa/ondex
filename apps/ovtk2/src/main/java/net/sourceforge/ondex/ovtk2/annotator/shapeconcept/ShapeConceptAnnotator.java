@@ -49,8 +49,7 @@ import net.sourceforge.ondex.ovtk2.util.renderer.CustomCellRenderer;
  * 
  * @author taubertj, hindlem
  */
-public class ShapeConceptAnnotator extends OVTK2Annotator implements
-		ActionListener {
+public class ShapeConceptAnnotator extends OVTK2Annotator implements ActionListener {
 
 	/**
 	 * generated
@@ -150,8 +149,7 @@ public class ShapeConceptAnnotator extends OVTK2Annotator implements
 			add(goButton);
 		}
 
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 
 	}
 
@@ -161,10 +159,8 @@ public class ShapeConceptAnnotator extends OVTK2Annotator implements
 	private void addAttributeNamesToList() {
 		for (AttributeName attn : graph.getMetaData().getAttributeNames()) {
 			if (Comparable.class.isAssignableFrom(attn.getDataType())) {
-				Set<ONDEXConcept> concepts = graph
-						.getConceptsOfAttributeName(attn);
-				if (concepts != null && concepts.size() > 0
-						&& !AppearanceSynchronizer.attr.contains(attn.getId()))
+				Set<ONDEXConcept> concepts = graph.getConceptsOfAttributeName(attn);
+				if (concepts != null && concepts.size() > 0 && !AppearanceSynchronizer.attr.contains(attn.getId()))
 					anlm.addAttributeName(attn);
 			}
 		}
@@ -175,8 +171,7 @@ public class ShapeConceptAnnotator extends OVTK2Annotator implements
 		int index = list.getSelectedIndex();
 		if (index > -1) {
 			// get attribute name
-			String attNameId = ((JLabel) list.getModel().getElementAt(index))
-					.getName();
+			String attNameId = ((JLabel) list.getModel().getElementAt(index)).getName();
 			an = graph.getMetaData().getAttributeName(attNameId);
 
 			// get value list
@@ -200,8 +195,7 @@ public class ShapeConceptAnnotator extends OVTK2Annotator implements
 					Rectangle bounds = nodeShapes.transform(c).getBounds();
 					double x = bounds.height;
 					double y = bounds.width;
-					af.scale(x / shape.getBounds().height,
-							y / shape.getBounds().width);
+					af.scale(x / shape.getBounds().height, y / shape.getBounds().width);
 					Shape shape1 = af.createTransformedShape(shape);
 					nodeShapes.updateShape(c, shape1, mapping.get(shape));
 				}
@@ -244,8 +238,7 @@ public class ShapeConceptAnnotator extends OVTK2Annotator implements
 			Graphics2D g2d = (Graphics2D) g.create();
 
 			AffineTransform transform = g2d.getTransform();
-			transform.translate((double) width / 2.0 + 1,
-					(double) height / 2.0 + 1);
+			transform.translate((double) width / 2.0 + 1, (double) height / 2.0 + 1);
 			g2d.setTransform(transform);
 
 			g2d.setColor(Color.BLUE);
@@ -284,8 +277,7 @@ public class ShapeConceptAnnotator extends OVTK2Annotator implements
 		 * returns the set up to display the image.
 		 */
 
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 
 			if (isSelected) {
 				setBackground(list.getSelectionBackground());
@@ -317,15 +309,10 @@ public class ShapeConceptAnnotator extends OVTK2Annotator implements
 			int index = list.getSelectedIndex();
 			if (index > -1) {
 				goButton.setEnabled(true);
-				AttributeName attNameName = graph.getMetaData()
-						.getAttributeName(
-								((JLabel) list.getModel().getElementAt(index))
-										.getName());
+				AttributeName attNameName = graph.getMetaData().getAttributeName(((JLabel) list.getModel().getElementAt(index)).getName());
 				Set<String> attValues = new HashSet<String>();
-				for (ONDEXConcept c : graph
-						.getConceptsOfAttributeName(attNameName))
-					attValues.add(c.getAttribute(attNameName).getValue()
-							.toString());
+				for (ONDEXConcept c : graph.getConceptsOfAttributeName(attNameName))
+					attValues.add(c.getAttribute(attNameName).getValue().toString());
 				text.setText("");
 				for (String value : attValues) {
 					text.append(value + "\n");

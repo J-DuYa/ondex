@@ -19,8 +19,7 @@ import edu.uci.ics.jung.visualization.picking.PickedInfo;
  * @author taubertj
  * 
  */
-public class ONDEXMetaRelationColors implements
-		Transformer<ONDEXMetaRelation, Paint> {
+public class ONDEXMetaRelationColors implements Transformer<ONDEXMetaRelation, Paint> {
 
 	// contains mapping id to colour
 	private Map<RelationType, Color> colors = null;
@@ -37,11 +36,9 @@ public class ONDEXMetaRelationColors implements
 	 * @param jung
 	 *            ONDEXJUNGGraph
 	 */
-	public ONDEXMetaRelationColors(ONDEXJUNGGraph jung,
-			PickedInfo<ONDEXMetaRelation> pi) {
+	public ONDEXMetaRelationColors(ONDEXJUNGGraph jung, PickedInfo<ONDEXMetaRelation> pi) {
 		if (pi == null)
-			throw new IllegalArgumentException(
-					"PickedInfo instance must be non-null");
+			throw new IllegalArgumentException("PickedInfo instance must be non-null");
 		this.pi = pi;
 
 		this.graph = jung;

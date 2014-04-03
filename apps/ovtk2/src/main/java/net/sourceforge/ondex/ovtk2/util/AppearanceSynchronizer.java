@@ -76,7 +76,7 @@ public class AppearanceSynchronizer {
 	public static final String VISIBLE = "visible";
 
 	public static final String WIDTH = "width";
-	
+
 	public static final String FLAGGED = "flagged";
 
 	/**
@@ -109,18 +109,13 @@ public class AppearanceSynchronizer {
 	 * @param activeViewer
 	 *            OVTK2Viewer to modify
 	 */
-	public static void loadAppearance(ActionListener listener,
-			OVTK2PropertiesAggregator activeViewer) {
+	public static void loadAppearance(ActionListener listener, OVTK2PropertiesAggregator activeViewer) {
 		ONDEXJUNGGraph graph = activeViewer.getONDEXJUNGGraph();
 		ONDEXGraphMetaData meta = graph.getMetaData();
 		AttributeName anVisible, anLabel;
 		boolean nodeLabelsShown = false, edgeLabelsShown = false;
 		if ((anVisible = meta.getAttributeName(VISIBLE)) == null) {
-			JOptionPane.showMessageDialog(OVTK2Desktop.getDesktopResources()
-					.getParentPane(), Config.language
-					.getProperty("Dialog.Appearance.NotFound"), Config.language
-					.getProperty("Dialog.Appearance.NotFoundTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(OVTK2Desktop.getDesktopResources().getParentPane(), Config.language.getProperty("Dialog.Appearance.NotFound"), Config.language.getProperty("Dialog.Appearance.NotFoundTitle"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		anLabel = meta.getAttributeName(LABEL);
@@ -166,47 +161,33 @@ public class AppearanceSynchronizer {
 		// trigger parse attribute ... and static layout
 		JCheckBoxMenuItem item = new JCheckBoxMenuItem();
 		item.setSelected(true);
-		listener.actionPerformed(new ActionEvent(item,
-				ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.NODESHAPE));
-		listener.actionPerformed(new ActionEvent(item,
-				ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.NODECOLOR));
-		listener.actionPerformed(new ActionEvent(item,
-				ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.EDGESIZE));
-		listener.actionPerformed(new ActionEvent(item,
-				ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.EDGECOLOR));
-		listener.actionPerformed(new ActionEvent(item,
-				ActionEvent.ACTION_PERFORMED, "Menu.Layout.Static"));
+		listener.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.NODESHAPE));
+		listener.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.NODECOLOR));
+		listener.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.EDGESIZE));
+		listener.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, AppearanceMenuAction.EDGECOLOR));
+		listener.actionPerformed(new ActionEvent(item, ActionEvent.ACTION_PERFORMED, "Menu.Layout.Static"));
 
 		// get saved font
 		final Font vertexFont = activeViewer.getVertexFont();
 		if (vertexFont != null)
-			activeViewer
-					.getVisualizationViewer()
-					.getRenderContext()
-					.setVertexFontTransformer(
-							new Transformer<ONDEXConcept, Font>() {
-								@Override
-								public Font transform(ONDEXConcept input) {
-									return vertexFont;
-								}
-							});
+			activeViewer.getVisualizationViewer().getRenderContext().setVertexFontTransformer(new Transformer<ONDEXConcept, Font>() {
+				@Override
+				public Font transform(ONDEXConcept input) {
+					return vertexFont;
+				}
+			});
 		final Font edgeFont = activeViewer.getEdgeFont();
 		if (edgeFont != null)
-			activeViewer
-					.getVisualizationViewer()
-					.getRenderContext()
-					.setEdgeFontTransformer(
-							new Transformer<ONDEXRelation, Font>() {
-								@Override
-								public Font transform(ONDEXRelation input) {
-									return edgeFont;
-								}
-							});
+			activeViewer.getVisualizationViewer().getRenderContext().setEdgeFontTransformer(new Transformer<ONDEXRelation, Font>() {
+				@Override
+				public Font transform(ONDEXRelation input) {
+					return edgeFont;
+				}
+			});
 
 		// hack to get saved label positions set
 		DialogConceptLabel labels = new DialogConceptLabel(activeViewer);
-		labels.actionPerformed(new ActionEvent(labels,
-				ActionEvent.ACTION_PERFORMED, "apply"));
+		labels.actionPerformed(new ActionEvent(labels, ActionEvent.ACTION_PERFORMED, "apply"));
 
 		// update menu bar settings if some labels have been loaded
 		if (anLabel != null) {
@@ -232,8 +213,7 @@ public class AppearanceSynchronizer {
 		if (anColor != null) {
 			edgePaint.setEdgeColorSelection(EdgeColorSelection.MANUAL);
 			for (ONDEXRelation r : graph.getRelationsOfAttributeName(anColor)) {
-				edgePaint.updateColor(r, (Color) r.getAttribute(anColor)
-						.getValue());
+				edgePaint.updateColor(r, (Color) r.getAttribute(anColor).getValue());
 			}
 		}
 	}
@@ -246,8 +226,7 @@ public class AppearanceSynchronizer {
 	 * @param edgeStrokes
 	 *            ONDEXEdgeStrokes
 	 */
-	public static void loadEdgeSize(ONDEXGraph graph,
-			ONDEXEdgeStrokes edgeStrokes) {
+	public static void loadEdgeSize(ONDEXGraph graph, ONDEXEdgeStrokes edgeStrokes) {
 
 		ONDEXGraphMetaData meta = graph.getMetaData();
 
@@ -285,8 +264,7 @@ public class AppearanceSynchronizer {
 	 * @param nodeDrawPaint
 	 *            ONDEXNodeDrawPaint
 	 */
-	public static void loadNodeColor(ONDEXJUNGGraph graph,
-			ONDEXNodeFillPaint nodeFillPaint, ONDEXNodeDrawPaint nodeDrawPaint) {
+	public static void loadNodeColor(ONDEXJUNGGraph graph, ONDEXNodeFillPaint nodeFillPaint, ONDEXNodeDrawPaint nodeDrawPaint) {
 
 		ONDEXGraphMetaData meta = graph.getMetaData();
 
@@ -297,16 +275,14 @@ public class AppearanceSynchronizer {
 			AttributeName anAlpha = meta.getAttributeName(ALPHA);
 			if (anAlpha != null) {
 				for (ONDEXConcept c : graph.getConceptsOfAttributeName(anAlpha)) {
-					nodeFillPaint.updateAlpha(c,
-							(Integer) c.getAttribute(anAlpha).getValue());
+					nodeFillPaint.updateAlpha(c, (Integer) c.getAttribute(anAlpha).getValue());
 				}
 			}
 			nodeFillPaint.setFillPaintSelection(NodeFillPaintSelection.MANUAL);
 			for (ONDEXConcept c : graph.getConceptsOfAttributeName(anColor)) {
 				Color color = (Color) c.getAttribute(anColor).getValue();
 				if (nodeFillPaint.transformAlpha(c) != null) {
-					color = new Color(color.getRed(), color.getGreen(),
-							color.getBlue(), nodeFillPaint.transformAlpha(c));
+					color = new Color(color.getRed(), color.getGreen(), color.getBlue(), nodeFillPaint.transformAlpha(c));
 				}
 				nodeFillPaint.updateColor(c, color);
 			}
@@ -318,18 +294,15 @@ public class AppearanceSynchronizer {
 			// additional alpha value
 			AttributeName anDrawAlpha = meta.getAttributeName(DRAWALPHA);
 			if (anDrawAlpha != null) {
-				for (ONDEXConcept c : graph
-						.getConceptsOfAttributeName(anDrawAlpha)) {
-					nodeDrawPaint.updateAlpha(c,
-							(Integer) c.getAttribute(anDrawAlpha).getValue());
+				for (ONDEXConcept c : graph.getConceptsOfAttributeName(anDrawAlpha)) {
+					nodeDrawPaint.updateAlpha(c, (Integer) c.getAttribute(anDrawAlpha).getValue());
 				}
 			}
 			nodeDrawPaint.setDrawPaintSelection(NodeDrawPaintSelection.MANUAL);
 			for (ONDEXConcept c : graph.getConceptsOfAttributeName(anDrawColor)) {
 				Color color = (Color) c.getAttribute(anDrawColor).getValue();
 				if (nodeDrawPaint.transformAlpha(c) != null) {
-					color = new Color(color.getRed(), color.getGreen(),
-							color.getBlue(), nodeDrawPaint.transformAlpha(c));
+					color = new Color(color.getRed(), color.getGreen(), color.getBlue(), nodeDrawPaint.transformAlpha(c));
 				}
 				nodeDrawPaint.updateColor(c, color);
 			}
@@ -344,8 +317,7 @@ public class AppearanceSynchronizer {
 	 * @param nodeShapes
 	 *            ONDEXNodeShapes
 	 */
-	public static void loadNodeShape(ONDEXJUNGGraph graph,
-			ONDEXNodeShapes nodeShapes) {
+	public static void loadNodeShape(ONDEXJUNGGraph graph, ONDEXNodeShapes nodeShapes) {
 
 		ONDEXGraphMetaData meta = graph.getMetaData();
 
@@ -358,8 +330,7 @@ public class AppearanceSynchronizer {
 
 			// get sizes from graph
 			for (ONDEXConcept c : graph.getConceptsOfAttributeName(anSize)) {
-				sizes.put(c,
-						((Number) c.getAttribute(anSize).getValue()).intValue());
+				sizes.put(c, ((Number) c.getAttribute(anSize).getValue()).intValue());
 			}
 
 			// set new node size function
@@ -379,23 +350,20 @@ public class AppearanceSynchronizer {
 		if (anHeight != null && anWidth != null) {
 
 			// used in size transformer
-			final Map<ONDEXConcept, Integer> sizes = LazyMap.decorate(
-					new HashMap<ONDEXConcept, Integer>(),
-					new Factory<Integer>() {
-						@Override
-						public Integer create() {
-							return Config.defaultNodeSize;
-						}
-					});
+			final Map<ONDEXConcept, Integer> sizes = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(), new Factory<Integer>() {
+				@Override
+				public Integer create() {
+					return Config.defaultNodeSize;
+				}
+			});
 
 			// used in aspect ration transformer
-			final Map<ONDEXConcept, Float> ratios = LazyMap.decorate(
-					new HashMap<ONDEXConcept, Float>(), new Factory<Float>() {
-						@Override
-						public Float create() {
-							return 1.0f;
-						}
-					});
+			final Map<ONDEXConcept, Float> ratios = LazyMap.decorate(new HashMap<ONDEXConcept, Float>(), new Factory<Float>() {
+				@Override
+				public Float create() {
+					return 1.0f;
+				}
+			});
 
 			// get width and height from graph
 			for (ONDEXConcept c : graph.getConceptsOfAttributeName(anWidth)) {
@@ -406,13 +374,12 @@ public class AppearanceSynchronizer {
 			}
 
 			// set new node aspect ratio function
-			nodeShapes
-					.setNodeAspectRatios(new Transformer<ONDEXConcept, Float>() {
-						@Override
-						public Float transform(ONDEXConcept input) {
-							return ratios.get(input);
-						}
-					});
+			nodeShapes.setNodeAspectRatios(new Transformer<ONDEXConcept, Float>() {
+				@Override
+				public Float transform(ONDEXConcept input) {
+					return ratios.get(input);
+				}
+			});
 
 			// set new node size function
 			nodeShapes.setNodeSizes(new Transformer<ONDEXConcept, Integer>() {
@@ -433,10 +400,7 @@ public class AppearanceSynchronizer {
 		AttributeName anShape = meta.getAttributeName(SHAPE);
 		if (anShape != null) {
 			for (ONDEXConcept c : graph.getConceptsOfAttributeName(anShape)) {
-				nodeShapes.updateShape(
-						c,
-						ONDEXNodeShapes.getShape((Integer) c.getAttribute(
-								anShape).getValue()));
+				nodeShapes.updateShape(c, ONDEXNodeShapes.getShape((Integer) c.getAttribute(anShape).getValue()));
 			}
 		}
 
@@ -459,8 +423,7 @@ public class AppearanceSynchronizer {
 					// construct relative shape
 					path.moveTo(startX, startY);
 					for (int i = 2; i < coords.length - 1; i += 2) {
-						path.lineTo(Float.parseFloat(coords[i]),
-								Float.parseFloat(coords[i + 1]));
+						path.lineTo(Float.parseFloat(coords[i]), Float.parseFloat(coords[i + 1]));
 					}
 				}
 
@@ -487,35 +450,25 @@ public class AppearanceSynchronizer {
 		AttributeName attrColor, attrAlpha, attrDrawColor, attrDrawAlpha;
 		AttributeName attrShape, attrVisible, attrLabel;
 		if ((attrGraphicalX = meta.getAttributeName(GRAPHICAL_X)) == null)
-			attrGraphicalX = meta.getFactory().createAttributeName(GRAPHICAL_X,
-					Double.class);
+			attrGraphicalX = meta.getFactory().createAttributeName(GRAPHICAL_X, Double.class);
 		if ((attrGraphicalY = meta.getAttributeName(GRAPHICAL_Y)) == null)
-			attrGraphicalY = meta.getFactory().createAttributeName(GRAPHICAL_Y,
-					Double.class);
+			attrGraphicalY = meta.getFactory().createAttributeName(GRAPHICAL_Y, Double.class);
 		if ((attrShape = meta.getAttributeName(SHAPE)) == null)
-			attrShape = meta.getFactory().createAttributeName(SHAPE,
-					java.lang.Integer.class);
+			attrShape = meta.getFactory().createAttributeName(SHAPE, java.lang.Integer.class);
 		if ((attrVisible = meta.getAttributeName(VISIBLE)) == null)
-			attrVisible = meta.getFactory().createAttributeName(VISIBLE,
-					java.lang.Boolean.class);
+			attrVisible = meta.getFactory().createAttributeName(VISIBLE, java.lang.Boolean.class);
 		if ((attrLabel = meta.getAttributeName(LABEL)) == null)
-			attrLabel = meta.getFactory().createAttributeName(LABEL,
-					java.lang.Boolean.class);
+			attrLabel = meta.getFactory().createAttributeName(LABEL, java.lang.Boolean.class);
 		if ((attrSize = meta.getAttributeName(SIZE)) == null)
-			attrSize = meta.getFactory().createAttributeName(SIZE,
-					java.lang.Integer.class);
+			attrSize = meta.getFactory().createAttributeName(SIZE, java.lang.Integer.class);
 		if ((attrColor = meta.getAttributeName(COLOR)) == null)
-			attrColor = meta.getFactory().createAttributeName(COLOR,
-					java.awt.Color.class);
+			attrColor = meta.getFactory().createAttributeName(COLOR, java.awt.Color.class);
 		if ((attrAlpha = meta.getAttributeName(ALPHA)) == null)
-			attrAlpha = meta.getFactory().createAttributeName(ALPHA,
-					java.lang.Integer.class);
+			attrAlpha = meta.getFactory().createAttributeName(ALPHA, java.lang.Integer.class);
 		if ((attrDrawColor = meta.getAttributeName(DRAWCOLOR)) == null)
-			attrDrawColor = meta.getFactory().createAttributeName(DRAWCOLOR,
-					java.awt.Color.class);
+			attrDrawColor = meta.getFactory().createAttributeName(DRAWCOLOR, java.awt.Color.class);
 		if ((attrDrawAlpha = meta.getAttributeName(DRAWALPHA)) == null)
-			attrDrawAlpha = meta.getFactory().createAttributeName(DRAWALPHA,
-					java.lang.Integer.class);
+			attrDrawAlpha = meta.getFactory().createAttributeName(DRAWALPHA, java.lang.Integer.class);
 
 		// clear visibility
 		for (ONDEXConcept c : graph.getConcepts()) {
@@ -536,8 +489,7 @@ public class AppearanceSynchronizer {
 		}
 
 		// set positions and visibility
-		Layout<ONDEXConcept, ONDEXRelation> layout = activeViewer
-				.getVisualizationViewer().getGraphLayout();
+		Layout<ONDEXConcept, ONDEXRelation> layout = activeViewer.getVisualizationViewer().getGraphLayout();
 		for (ONDEXConcept c : graph.getVertices()) {
 			Point2D p = layout.transform(c);
 			// store X coordinate
@@ -561,8 +513,7 @@ public class AppearanceSynchronizer {
 			// store label mask
 			Attribute label = c.getAttribute(attrLabel);
 			if (label == null)
-				c.createAttribute(attrLabel, activeViewer.getNodeLabels()
-						.getMask().get(c), false);
+				c.createAttribute(attrLabel, activeViewer.getNodeLabels().getMask().get(c), false);
 			else
 				label.setValue(activeViewer.getNodeLabels().getMask().get(c));
 		}
@@ -571,8 +522,7 @@ public class AppearanceSynchronizer {
 		ONDEXNodeShapes nodeShapes = activeViewer.getNodeShapes();
 		ONDEXNodeFillPaint nodeColors = activeViewer.getNodeColors();
 		ONDEXNodeDrawPaint nodeDrawPaint = activeViewer.getNodeDrawPaint();
-		Transformer<ONDEXConcept, Integer> nodeSizes = nodeShapes
-				.getNodeSizes();
+		Transformer<ONDEXConcept, Integer> nodeSizes = nodeShapes.getNodeSizes();
 		for (ONDEXConcept c : graph.getVertices()) {
 			// save colour
 			Paint paint = nodeColors.transform(c);
@@ -626,8 +576,7 @@ public class AppearanceSynchronizer {
 
 		// set edge colours and visibility
 		ONDEXEdgeColors edgeColors = activeViewer.getEdgeColors();
-		Transformer<ONDEXRelation, Integer> edgeSizes = activeViewer
-				.getEdgeStrokes().getEdgeSizeTransformer();
+		Transformer<ONDEXRelation, Integer> edgeSizes = activeViewer.getEdgeStrokes().getEdgeSizeTransformer();
 		for (ONDEXRelation r : graph.getEdges()) {
 			// save colour
 			Paint paint = edgeColors.transform(r);
@@ -647,8 +596,7 @@ public class AppearanceSynchronizer {
 			// store label mask
 			Attribute label = r.getAttribute(attrLabel);
 			if (label == null)
-				r.createAttribute(attrLabel, activeViewer.getEdgeLabels()
-						.getMask().get(r), false);
+				r.createAttribute(attrLabel, activeViewer.getEdgeLabels().getMask().get(r), false);
 			else
 				label.setValue(activeViewer.getEdgeLabels().getMask().get(r));
 			// save size

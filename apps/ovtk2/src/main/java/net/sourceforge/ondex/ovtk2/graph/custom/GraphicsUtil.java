@@ -48,44 +48,32 @@ public class GraphicsUtil {
 	/**
 	 * Standard prebuilt Linear_sRGB color model with no alpha
 	 */
-	public static final ColorModel Linear_sRGB = new DirectColorModel(
-			ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 24, 0x00FF0000,
-			0x0000FF00, 0x000000FF, 0x0, false, DataBuffer.TYPE_INT);
+	public static final ColorModel Linear_sRGB = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x0, false, DataBuffer.TYPE_INT);
 
 	/**
 	 * Standard prebuilt Linear_sRGB color model with premultiplied alpha.
 	 */
-	public static final ColorModel Linear_sRGB_Pre = new DirectColorModel(
-			ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 32, 0x00FF0000,
-			0x0000FF00, 0x000000FF, 0xFF000000, true, DataBuffer.TYPE_INT);
+	public static final ColorModel Linear_sRGB_Pre = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000, true, DataBuffer.TYPE_INT);
 
 	/**
 	 * Standard prebuilt Linear_sRGB color model with unpremultiplied alpha.
 	 */
-	public static final ColorModel Linear_sRGB_Unpre = new DirectColorModel(
-			ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 32, 0x00FF0000,
-			0x0000FF00, 0x000000FF, 0xFF000000, false, DataBuffer.TYPE_INT);
+	public static final ColorModel Linear_sRGB_Unpre = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB), 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000, false, DataBuffer.TYPE_INT);
 
 	/**
 	 * Standard prebuilt sRGB color model with no alpha.
 	 */
-	public static final ColorModel sRGB = new DirectColorModel(ColorSpace
-			.getInstance(ColorSpace.CS_sRGB), 24, 0x00FF0000, 0x0000FF00,
-			0x000000FF, 0x0, false, DataBuffer.TYPE_INT);
+	public static final ColorModel sRGB = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 24, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x0, false, DataBuffer.TYPE_INT);
 
 	/**
 	 * Standard prebuilt sRGB color model with premultiplied alpha.
 	 */
-	public static final ColorModel sRGB_Pre = new DirectColorModel(ColorSpace
-			.getInstance(ColorSpace.CS_sRGB), 32, 0x00FF0000, 0x0000FF00,
-			0x000000FF, 0xFF000000, true, DataBuffer.TYPE_INT);
+	public static final ColorModel sRGB_Pre = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000, true, DataBuffer.TYPE_INT);
 
 	/**
 	 * Standard prebuilt sRGB color model with unpremultiplied alpha.
 	 */
-	public static final ColorModel sRGB_Unpre = new DirectColorModel(ColorSpace
-			.getInstance(ColorSpace.CS_sRGB), 32, 0x00FF0000, 0x0000FF00,
-			0x000000FF, 0xFF000000, false, DataBuffer.TYPE_INT);
+	public static final ColorModel sRGB_Unpre = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000, false, DataBuffer.TYPE_INT);
 
 	/**
 	 * Method that returns either Linear_sRGB_Pre or Linear_sRGB_UnPre based on
@@ -112,8 +100,7 @@ public class GraphicsUtil {
 	 *            The desired state of alpha premultiplied
 	 * @return The requested BufferedImage.
 	 */
-	public static BufferedImage makeLinearBufferedImage(int width, int height,
-			boolean premult) {
+	public static BufferedImage makeLinearBufferedImage(int width, int height, boolean premult) {
 		ColorModel cm = makeLinear_sRGBCM(premult);
 		WritableRaster wr = cm.createCompatibleWritableRaster(width, height);
 		return new BufferedImage(cm, wr, premult, null);
@@ -159,9 +146,7 @@ public class GraphicsUtil {
 		final int srcScanStride = srcSPPSM.getScanlineStride();
 		DataBufferInt srcDB = (DataBufferInt) src.getDataBuffer();
 		final int[] srcPixels = srcDB.getBankData()[0];
-		final int srcBase = (srcDB.getOffset() + srcSPPSM.getOffset(x0
-				- src.getSampleModelTranslateX(), y0
-				- src.getSampleModelTranslateY()));
+		final int srcBase = (srcDB.getOffset() + srcSPPSM.getOffset(x0 - src.getSampleModelTranslateX(), y0 - src.getSampleModelTranslateY()));
 
 		SinglePixelPackedSampleModel dstSPPSM;
 		dstSPPSM = (SinglePixelPackedSampleModel) dst.getSampleModel();
@@ -169,15 +154,12 @@ public class GraphicsUtil {
 		final int dstScanStride = dstSPPSM.getScanlineStride();
 		DataBufferInt dstDB = (DataBufferInt) dst.getDataBuffer();
 		final int[] dstPixels = dstDB.getBankData()[0];
-		final int dstBase = (dstDB.getOffset() + dstSPPSM.getOffset(x0
-				- dst.getSampleModelTranslateX(), y0
-				- dst.getSampleModelTranslateY()));
+		final int dstBase = (dstDB.getOffset() + dstSPPSM.getOffset(x0 - dst.getSampleModelTranslateX(), y0 - dst.getSampleModelTranslateY()));
 
 		if ((srcScanStride == dstScanStride) && (srcScanStride == width)) {
 			// System.out.println("VERY Fast copyData");
 
-			System.arraycopy(srcPixels, srcBase, dstPixels, dstBase, width
-					* height);
+			System.arraycopy(srcPixels, srcBase, dstPixels, dstBase, width * height);
 		} else if (width > 128) {
 			int srcSP = srcBase;
 			int dstSP = dstBase;
@@ -235,8 +217,7 @@ public class GraphicsUtil {
 	 *            The destination for the data.
 	 */
 	public static void copyData(Raster src, WritableRaster dst) {
-		if (is_INT_PACK_Data(src.getSampleModel(), false)
-				&& is_INT_PACK_Data(dst.getSampleModel(), false)) {
+		if (is_INT_PACK_Data(src.getSampleModel(), false) && is_INT_PACK_Data(dst.getSampleModel(), false)) {
 			copyData_INT_PACK(src, dst);
 			return;
 		}
@@ -283,19 +264,14 @@ public class GraphicsUtil {
 	 * @return A writable copy of <tt>ras</tt>
 	 */
 	public static WritableRaster copyRaster(Raster ras, int minX, int minY) {
-		WritableRaster ret = Raster.createWritableRaster(ras.getSampleModel(),
-				new Point(0, 0));
-		ret = ret.createWritableChild(ras.getMinX()
-				- ras.getSampleModelTranslateX(), ras.getMinY()
-				- ras.getSampleModelTranslateY(), ras.getWidth(), ras
-				.getHeight(), minX, minY, null);
+		WritableRaster ret = Raster.createWritableRaster(ras.getSampleModel(), new Point(0, 0));
+		ret = ret.createWritableChild(ras.getMinX() - ras.getSampleModelTranslateX(), ras.getMinY() - ras.getSampleModelTranslateY(), ras.getWidth(), ras.getHeight(), minX, minY, null);
 
 		// Use System.arraycopy to copy the data between the two...
 		DataBuffer srcDB = ras.getDataBuffer();
 		DataBuffer retDB = ret.getDataBuffer();
 		if (srcDB.getDataType() != retDB.getDataType()) {
-			throw new IllegalArgumentException(
-					"New DataBuffer doesn't match original");
+			throw new IllegalArgumentException("New DataBuffer doesn't match original");
 		}
 		int len = srcDB.getSize();
 		int banks = srcDB.getNumBanks();
@@ -305,29 +281,25 @@ public class GraphicsUtil {
 			case DataBuffer.TYPE_BYTE: {
 				DataBufferByte srcDBT = (DataBufferByte) srcDB;
 				DataBufferByte retDBT = (DataBufferByte) retDB;
-				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT
-						.getData(b), offsets[b], len);
+				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT.getData(b), offsets[b], len);
 				break;
 			}
 			case DataBuffer.TYPE_INT: {
 				DataBufferInt srcDBT = (DataBufferInt) srcDB;
 				DataBufferInt retDBT = (DataBufferInt) retDB;
-				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT
-						.getData(b), offsets[b], len);
+				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT.getData(b), offsets[b], len);
 				break;
 			}
 			case DataBuffer.TYPE_SHORT: {
 				DataBufferShort srcDBT = (DataBufferShort) srcDB;
 				DataBufferShort retDBT = (DataBufferShort) retDB;
-				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT
-						.getData(b), offsets[b], len);
+				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT.getData(b), offsets[b], len);
 				break;
 			}
 			case DataBuffer.TYPE_USHORT: {
 				DataBufferUShort srcDBT = (DataBufferUShort) srcDB;
 				DataBufferUShort retDBT = (DataBufferUShort) retDB;
-				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT
-						.getData(b), offsets[b], len);
+				System.arraycopy(srcDBT.getData(b), offsets[b], retDBT.getData(b), offsets[b], len);
 				break;
 			}
 			}
@@ -385,14 +357,9 @@ public class GraphicsUtil {
 	 *         coordinate set to minX, minY (shares it's DataBuffer with
 	 *         <tt>ras</tt>).
 	 */
-	public static WritableRaster makeRasterWritable(Raster ras, int minX,
-			int minY) {
-		WritableRaster ret = Raster.createWritableRaster(ras.getSampleModel(),
-				ras.getDataBuffer(), new Point(0, 0));
-		ret = ret.createWritableChild(ras.getMinX()
-				- ras.getSampleModelTranslateX(), ras.getMinY()
-				- ras.getSampleModelTranslateY(), ras.getWidth(), ras
-				.getHeight(), minX, minY, null);
+	public static WritableRaster makeRasterWritable(Raster ras, int minX, int minY) {
+		WritableRaster ret = Raster.createWritableRaster(ras.getSampleModel(), ras.getDataBuffer(), new Point(0, 0));
+		ret = ret.createWritableChild(ras.getMinX() - ras.getSampleModelTranslateX(), ras.getMinY() - ras.getSampleModelTranslateY(), ras.getWidth(), ras.getHeight(), minX, minY, null);
 		return ret;
 	}
 
@@ -407,8 +374,7 @@ public class GraphicsUtil {
 	 * @return A new colorModel that has isAlphaPremultiplied() equal to
 	 *         newAlphaPreMult.
 	 */
-	public static ColorModel coerceColorModel(ColorModel cm,
-			boolean newAlphaPreMult) {
+	public static ColorModel coerceColorModel(ColorModel cm, boolean newAlphaPreMult) {
 		if (cm.isAlphaPremultiplied() == newAlphaPreMult)
 			return cm;
 
@@ -431,8 +397,7 @@ public class GraphicsUtil {
 	 *            The desired state of alpha Premult for raster.
 	 * @return A new colormodel that matches newAlphaPreMult.
 	 */
-	public static ColorModel coerceData(WritableRaster wr, ColorModel cm,
-			boolean newAlphaPreMult) {
+	public static ColorModel coerceData(WritableRaster wr, ColorModel cm, boolean newAlphaPreMult) {
 
 		// System.out.println("CoerceData: " + cm.isAlphaPremultiplied() +
 		// " Out: " + newAlphaPreMult);
@@ -540,8 +505,7 @@ public class GraphicsUtil {
 	 * @param destP
 	 *            The Place for the upper left corner of srcRect in dst.
 	 */
-	public static void copyData(BufferedImage src, Rectangle srcRect,
-			BufferedImage dst, Point destP) {
+	public static void copyData(BufferedImage src, Rectangle srcRect, BufferedImage dst, Point destP) {
 
 		/*
 		 * if (srcCS != dstCS) throw new IllegalArgumentException
@@ -558,9 +522,7 @@ public class GraphicsUtil {
 		// " is: " + dst.isAlphaPremultiplied());
 
 		if (srcAlpha == dstAlpha)
-			if ((!srcAlpha)
-					|| (src.isAlphaPremultiplied() == dst
-							.isAlphaPremultiplied())) {
+			if ((!srcAlpha) || (src.isAlphaPremultiplied() == dst.isAlphaPremultiplied())) {
 				// They match one another so just copy everything...
 				copyData(src.getRaster(), dst.getRaster());
 				return;
@@ -730,15 +692,13 @@ public class GraphicsUtil {
 		} else {
 			// Src has unpremult alpha, dest does not have alpha,
 			// just copy the color channels over.
-			Rectangle dstRect = new Rectangle(destP.x, destP.y, srcRect.width,
-					srcRect.height);
+			Rectangle dstRect = new Rectangle(destP.x, destP.y, srcRect.width, srcRect.height);
 			for (int b = 0; b < bands; b++)
 				copyBand(srcR, srcRect, b, dstR, dstRect, b);
 		}
 	}
 
-	public static void copyBand(Raster src, int srcBand, WritableRaster dst,
-			int dstBand) {
+	public static void copyBand(Raster src, int srcBand, WritableRaster dst, int dstBand) {
 
 		Rectangle sR = src.getBounds();
 		Rectangle dR = dst.getBounds();
@@ -747,8 +707,7 @@ public class GraphicsUtil {
 		copyBand(src, cpR, srcBand, dst, cpR, dstBand);
 	}
 
-	public static void copyBand(Raster src, Rectangle sR, int sBand,
-			WritableRaster dst, Rectangle dR, int dBand) {
+	public static void copyBand(Raster src, Rectangle sR, int sBand, WritableRaster dst, Rectangle dR, int dBand) {
 		int dy = dR.y - sR.y;
 		int dx = dR.x - sR.x;
 		sR = sR.intersection(src.getBounds());
@@ -824,9 +783,7 @@ public class GraphicsUtil {
 
 		final int scanStride = sppsm.getScanlineStride();
 		DataBufferInt db = (DataBufferInt) wr.getDataBuffer();
-		final int base = (db.getOffset() + sppsm.getOffset(wr.getMinX()
-				- wr.getSampleModelTranslateX(), wr.getMinY()
-				- wr.getSampleModelTranslateY()));
+		final int base = (db.getOffset() + sppsm.getOffset(wr.getMinX() - wr.getSampleModelTranslateX(), wr.getMinY() - wr.getSampleModelTranslateY()));
 
 		// Access the pixel data array
 		final int[] pixels = db.getBankData()[0];
@@ -840,9 +797,7 @@ public class GraphicsUtil {
 					pixels[sp] = 0x00FFFFFF;
 				} else if (a < 255) {
 					int aFP = (0x00FF0000 / a);
-					pixels[sp] = ((a << 24)
-							| (((((pixel & 0xFF0000) >> 16) * aFP) & 0xFF0000))
-							| (((((pixel & 0x00FF00) >> 8) * aFP) & 0xFF0000) >> 8) | (((((pixel & 0x0000FF)) * aFP) & 0xFF0000) >> 16));
+					pixels[sp] = ((a << 24) | (((((pixel & 0xFF0000) >> 16) * aFP) & 0xFF0000)) | (((((pixel & 0x00FF00) >> 8) * aFP) & 0xFF0000) >> 8) | (((((pixel & 0x0000FF)) * aFP) & 0xFF0000) >> 16));
 				}
 				sp++;
 			}
@@ -859,9 +814,7 @@ public class GraphicsUtil {
 
 		final int scanStride = sppsm.getScanlineStride();
 		DataBufferInt db = (DataBufferInt) wr.getDataBuffer();
-		final int base = (db.getOffset() + sppsm.getOffset(wr.getMinX()
-				- wr.getSampleModelTranslateX(), wr.getMinY()
-				- wr.getSampleModelTranslateY()));
+		final int base = (db.getOffset() + sppsm.getOffset(wr.getMinX() - wr.getSampleModelTranslateX(), wr.getMinY() - wr.getSampleModelTranslateY()));
 		// Access the pixel data array
 		final int[] pixels = db.getBankData()[0];
 		for (int y = 0; y < wr.getHeight(); y++) {
@@ -872,9 +825,7 @@ public class GraphicsUtil {
 				int a = pixel >>> 24;
 				if ((a >= 0) && (a < 255)) { // this does NOT include a == 255
 					// (0xff) !
-					pixels[sp] = ((a << 24)
-							| ((((pixel & 0xFF0000) * a) >> 8) & 0xFF0000)
-							| ((((pixel & 0x00FF00) * a) >> 8) & 0x00FF00) | ((((pixel & 0x0000FF) * a) >> 8) & 0x0000FF));
+					pixels[sp] = ((a << 24) | ((((pixel & 0xFF0000) * a) >> 8) & 0xFF0000) | ((((pixel & 0x00FF00) * a) >> 8) & 0x00FF00) | ((((pixel & 0x0000FF) * a) >> 8) & 0x0000FF));
 				}
 				sp++;
 			}
@@ -894,9 +845,7 @@ public class GraphicsUtil {
 		final int[] bandOff = csm.getBandOffsets();
 
 		DataBufferByte db = (DataBufferByte) wr.getDataBuffer();
-		final int base = (db.getOffset() + csm.getOffset(wr.getMinX()
-				- wr.getSampleModelTranslateX(), wr.getMinY()
-				- wr.getSampleModelTranslateY()));
+		final int base = (db.getOffset() + csm.getOffset(wr.getMinX() - wr.getSampleModelTranslateX(), wr.getMinY() - wr.getSampleModelTranslateY()));
 
 		int aOff = bandOff[bandOff.length - 1];
 		int bands = bandOff.length - 1;
@@ -936,9 +885,7 @@ public class GraphicsUtil {
 		final int[] bandOff = csm.getBandOffsets();
 
 		DataBufferByte db = (DataBufferByte) wr.getDataBuffer();
-		final int base = (db.getOffset() + csm.getOffset(wr.getMinX()
-				- wr.getSampleModelTranslateX(), wr.getMinY()
-				- wr.getSampleModelTranslateY()));
+		final int base = (db.getOffset() + csm.getOffset(wr.getMinX() - wr.getSampleModelTranslateX(), wr.getMinY() - wr.getSampleModelTranslateY()));
 
 		int aOff = bandOff[bandOff.length - 1];
 		int bands = bandOff.length - 1;

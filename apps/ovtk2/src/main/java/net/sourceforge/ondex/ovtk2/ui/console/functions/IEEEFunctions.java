@@ -48,6 +48,7 @@ import net.sourceforge.ondex.ovtk2.ui.console.OverviewWindow;
 import net.sourceforge.ondex.ovtk2.ui.console.SetSelector;
 
 import org.apache.commons.collections15.Transformer;
+
 /**
  * 
  * @author lysenkoa
@@ -60,16 +61,14 @@ public class IEEEFunctions {
 
 	private IEEEFunctions() {
 	}
-	
-	public static final void setSelector() throws Exception{
+
+	public static final void setSelector() throws Exception {
 		new SetSelector();
 	}
 
-	public static final void filterKeggPathway(Set<ONDEXConcept> cs,
-			final OVTK2PropertiesAggregator viewer) {
+	public static final void filterKeggPathway(Set<ONDEXConcept> cs, final OVTK2PropertiesAggregator viewer) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
-		Set<ONDEXConcept> pathways = graph.getConceptsOfConceptClass(createCC(
-				graph, "Path"));
+		Set<ONDEXConcept> pathways = graph.getConceptsOfConceptClass(createCC(graph, "Path"));
 		Set<ONDEXConcept> pathwaysToRetain = new HashSet<ONDEXConcept>();
 		for (ONDEXConcept path : pathways) {
 			Set<ONDEXConcept> reactions = new HashSet<ONDEXConcept>();
@@ -82,21 +81,15 @@ public class IEEEFunctions {
 		for (String dir : dirs) {
 			File directory = new File(dir);
 			try {
-				WritableWorkbook workbook = Workbook.createWorkbook(new File(
-						dir + File.separator + "Analysis.xls"));
+				WritableWorkbook workbook = Workbook.createWorkbook(new File(dir + File.separator + "Analysis.xls"));
 				for (File f : directory.listFiles()) {
 					int sheets = 0;
-					if (f.getName().endsWith(".tab")
-							|| f.getName().endsWith(".txt")) {
+					if (f.getName().endsWith(".tab") || f.getName().endsWith(".txt")) {
 
-						String sheetname = f.getName().substring(0,
-								f.getName().length() - 4);
-						WritableSheet sheet = workbook.createSheet(sheetname,
-								sheets);
-						DataInputStream in = new DataInputStream(
-								new FileInputStream(f));
-						BufferedReader br = new BufferedReader(
-								new InputStreamReader(in));
+						String sheetname = f.getName().substring(0, f.getName().length() - 4);
+						WritableSheet sheet = workbook.createSheet(sheetname, sheets);
+						DataInputStream in = new DataInputStream(new FileInputStream(f));
+						BufferedReader br = new BufferedReader(new InputStreamReader(in));
 						String line = "";
 						int row = 0;
 						while ((line = br.readLine()) != null) {
@@ -137,14 +130,12 @@ public class IEEEFunctions {
 		}
 	}
 
-	public static void exportToCFinder(ONDEXGraph graph, String file,
-			String nodeCV, String attribute) {
+	public static void exportToCFinder(ONDEXGraph graph, String file, String nodeCV, String attribute) {
 		AttributeName an = graph.getMetaData().getAttributeName(attribute);
 		Set<ONDEXRelation> relations = graph.getRelationsOfAttributeName(an);
 		DataSource dataSource = graph.getMetaData().getDataSource(nodeCV);
 		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					file));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 			for (ONDEXRelation r : relations) {
 				String[] line = new String[3];
@@ -169,12 +160,10 @@ public class IEEEFunctions {
 		}
 	}
 
-	public static void removeRelationsWithGDSValue(
-			final OVTK2PropertiesAggregator viewer, String attributeName, double value) {
+	public static void removeRelationsWithGDSValue(final OVTK2PropertiesAggregator viewer, String attributeName, double value) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
-		AttributeName an = graph.getMetaData().getFactory()
-				.createAttributeName(attributeName, Double.class);
+		AttributeName an = graph.getMetaData().getFactory().createAttributeName(attributeName, Double.class);
 		int n = 0;
 		for (ONDEXRelation r : graph.getRelations()) {
 			Attribute attribute = r.getAttribute(an);
@@ -194,13 +183,12 @@ public class IEEEFunctions {
 			@Override
 			public void run() {
 				viewer.getVisualizationViewer().getModel().fireStateChanged();
-				//viewer.validate();
+				// viewer.validate();
 			}
 		});
 	}
 
-	public static void setRelationWidth(OVTK2PropertiesAggregator viewer,
-			final int size) {
+	public static void setRelationWidth(OVTK2PropertiesAggregator viewer, final int size) {
 		try {
 			ONDEXEdgeStrokes edgeStrokes = viewer.getEdgeStrokes();
 			edgeStrokes.setEdgeSizes(new Transformer<ONDEXRelation, Integer>() {
@@ -236,8 +224,7 @@ public class IEEEFunctions {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 		ONDEXJUNGGraph jung = viewer.getONDEXJUNGGraph();
 		for (ONDEXRelation r : graph.getRelations()) {
-			System.err.println(viewer.getONDEXJUNGGraph().isVisible(
-					jung.getRelation(r.getId())));
+			System.err.println(viewer.getONDEXJUNGGraph().isVisible(jung.getRelation(r.getId())));
 		}
 	}
 
@@ -294,11 +281,9 @@ public class IEEEFunctions {
 		conf_map.put("bn-page", 0.7d);
 		conf_map.put("protein array", 0.8d);
 		conf_map.put("IMPD", 0d);
-		Set<ONDEXRelation> itr = graph.getRelationsOfRelationType(graph
-				.getMetaData().getRelationType("it_wi"));
+		Set<ONDEXRelation> itr = graph.getRelationsOfRelationType(graph.getMetaData().getRelationType("it_wi"));
 		// Set<ONDEXRelation>itr = graph.getRelations();
-		AttributeName an = graph.getMetaData().getFactory()
-				.createAttributeName("INTERACTION_WEIGHT", Double.class);
+		AttributeName an = graph.getMetaData().getFactory().createAttributeName("INTERACTION_WEIGHT", Double.class);
 		int count = 0;
 		// for (ONDEXRelation r : itr) {
 		// Attribute expSize =
@@ -317,42 +302,29 @@ public class IEEEFunctions {
 		System.err.println("Values assigned: " + count);
 	}
 
-/*	private static Double convertExperimentToConf(Set<EvidenceType> ev,
-			Map<String, Double> rule) {
-		Double max = 0d;
-		for (EvidenceType et : ev) {
-			String evidence = et.getId();
-			Double tmp = rule.get(evidence);
-			if (tmp == null)
-				return 1d;
-			else if (tmp > max)
-				max = tmp;
-		}
-		return max;
-	}*/
+	/*
+	 * private static Double convertExperimentToConf(Set<EvidenceType> ev,
+	 * Map<String, Double> rule) { Double max = 0d; for (EvidenceType et : ev) {
+	 * String evidence = et.getId(); Double tmp = rule.get(evidence); if (tmp ==
+	 * null) return 1d; else if (tmp > max) max = tmp; } return max; }
+	 */
 
 	public static void assignBlastWeight(ONDEXGraph graph) {
-		AttributeName an = graph.getMetaData().getFactory()
-				.createAttributeName("BLAST_WEIGHT", Double.class);
+		AttributeName an = graph.getMetaData().getFactory().createAttributeName("BLAST_WEIGHT", Double.class);
 		for (ONDEXRelation r : graph.getRelations()) {
-			Attribute attribute = r.getAttribute(graph.getMetaData()
-					.getAttributeName("BLEV"));
+			Attribute attribute = r.getAttribute(graph.getMetaData().getAttributeName("BLEV"));
 			if (attribute == null)
 				continue;
 			Float score = (float) (double) (Double) attribute.getValue();
-			Double value = (double) 1f
-					/ (1f + (float) Math
-							.exp(((((float) Math.log10(score) + 3f) * 6.66667f) + 10f)));
+			Double value = (double) 1f / (1f + (float) Math.exp(((((float) Math.log10(score) + 3f) * 6.66667f) + 10f)));
 			r.createAttribute(an, value, false);
 		}
 	}
 
 	private static void assignCoexWeight(ONDEXGraph graph) {
-		AttributeName an = graph.getMetaData().getFactory()
-				.createAttributeName("COEX_WEIGHT", Double.class);
+		AttributeName an = graph.getMetaData().getFactory().createAttributeName("COEX_WEIGHT", Double.class);
 		for (ONDEXRelation r : graph.getRelations()) {
-			Attribute attribute = r.getAttribute(graph.getMetaData()
-					.getAttributeName("Correlation"));
+			Attribute attribute = r.getAttribute(graph.getMetaData().getAttributeName("Correlation"));
 			if (attribute == null)
 				continue;
 			Double score = (Double) attribute.getValue();
@@ -367,19 +339,13 @@ public class IEEEFunctions {
 
 	public static void assignCombinedWeight(ONDEXGraph graph) {
 
-		AttributeName coex = graph.getMetaData()
-				.getAttributeName("COEX_WEIGHT");
-		AttributeName blast = graph.getMetaData().getAttributeName(
-				"BLAST_WEIGHT");
-		AttributeName itwi = graph.getMetaData().getAttributeName(
-				"INTERACTION_WEIGHT");
-		AttributeName tm = graph.getMetaData().getAttributeName(
-				"Co-citation_weight");
-		AttributeName all = graph.getMetaData().getFactory()
-				.createAttributeName("COMBINED_WEIGHT", Double.class);
+		AttributeName coex = graph.getMetaData().getAttributeName("COEX_WEIGHT");
+		AttributeName blast = graph.getMetaData().getAttributeName("BLAST_WEIGHT");
+		AttributeName itwi = graph.getMetaData().getAttributeName("INTERACTION_WEIGHT");
+		AttributeName tm = graph.getMetaData().getAttributeName("Co-citation_weight");
+		AttributeName all = graph.getMetaData().getFactory().createAttributeName("COMBINED_WEIGHT", Double.class);
 		for (ONDEXRelation r : graph.getRelations()) {
-			Double value = ((getNumber(coex, r) + getNumber(blast, r)
-					+ getNumber(itwi, r) + getNumber(tm, r)) / 4d);
+			Double value = ((getNumber(coex, r) + getNumber(blast, r) + getNumber(itwi, r) + getNumber(tm, r)) / 4d);
 			if (r.getAttribute(all) != null) {
 				r.deleteAttribute(all);
 			}
@@ -397,8 +363,7 @@ public class IEEEFunctions {
 			}
 			name = name + a;
 		}
-		AttributeName av = graph.getMetaData().getFactory()
-				.createAttributeName("COMBINED[" + name + "]", Double.class);
+		AttributeName av = graph.getMetaData().getFactory().createAttributeName("COMBINED[" + name + "]", Double.class);
 		for (ONDEXRelation r : graph.getRelations()) {
 			Double sum = 0d;
 			for (AttributeName an : ans) {
@@ -435,29 +400,24 @@ public class IEEEFunctions {
 					thisAttNames.add(attribute.getOfType());
 					if (attribute.getOfType().getId().contains(":")) {
 						attNames.add(attribute.getOfType().getId());
-						if (Number.class.isAssignableFrom(attribute.getOfType()
-								.getDataType())) {
-							String name = attribute.getOfType().getId()
-									.split(":")[0];
+						if (Number.class.isAssignableFrom(attribute.getOfType().getDataType())) {
+							String name = attribute.getOfType().getId().split(":")[0];
 							if (best.get(name) == null) {
 								best.put(name, attribute.getValue());
 							} else {
 								if (name.equals("BLEV")) {
-									if (((Double) best.get(name)) > ((Double) attribute
-											.getValue())) {
+									if (((Double) best.get(name)) > ((Double) attribute.getValue())) {
 										best.put(name, attribute.getValue());
 									}
 								} else {
-									if (((Double) best.get(name)) < ((Double) attribute
-											.getValue())) {
+									if (((Double) best.get(name)) < ((Double) attribute.getValue())) {
 										best.put(name, attribute.getValue());
 									}
 								}
 							}
 						}
 					} else {
-						best.put(attribute.getOfType().getId(),
-								attribute.getValue());
+						best.put(attribute.getOfType().getId(), attribute.getValue());
 					}
 				}
 				for (AttributeName an : thisAttNames) {
@@ -468,16 +428,13 @@ public class IEEEFunctions {
 					if (ent.getKey().equals("BLEV")) {
 						System.err.println(ent.getValue());
 					}
-					r.createAttribute(
-							graph.getMetaData().getAttributeName(ent.getKey()),
-							ent.getValue(), false);
+					r.createAttribute(graph.getMetaData().getAttributeName(ent.getKey()), ent.getValue(), false);
 				}
 			}
 		}
 
 		for (ONDEXConcept c : graph.getConcepts()) {
-			if (graph.getRelationsOfConcept(c) == null
-					|| graph.getRelationsOfConcept(c).size() == 0) {
+			if (graph.getRelationsOfConcept(c) == null || graph.getRelationsOfConcept(c).size() == 0) {
 				graph.deleteConcept(c.getId());
 			} else {
 				Set<AttributeName> thisAttNames = new HashSet<AttributeName>();
@@ -486,26 +443,22 @@ public class IEEEFunctions {
 					thisAttNames.add(attribute.getOfType());
 					if (attribute.getOfType().getId().contains(":")) {
 						attNames.add(attribute.getOfType().getId());
-						if (Number.class.isAssignableFrom(attribute.getOfType()
-								.getDataType())) {
-							String name = attribute.getOfType().getId()
-									.split(":")[0].trim();
+						if (Number.class.isAssignableFrom(attribute.getOfType().getDataType())) {
+							String name = attribute.getOfType().getId().split(":")[0].trim();
 							if (best.get(name) == null) {
 								best.put(name, attribute.getValue());
 							} else {
 								if (name.equals("TAXID")) {
 									continue;
 								} else {
-									if (((Double) best.get(name)) < ((Double) attribute
-											.getValue())) {
+									if (((Double) best.get(name)) < ((Double) attribute.getValue())) {
 										best.put(name, attribute.getValue());
 									}
 								}
 							}
 						}
 					} else {
-						best.put(attribute.getOfType().getId().trim(),
-								attribute.getValue());
+						best.put(attribute.getOfType().getId().trim(), attribute.getValue());
 					}
 				}
 				for (AttributeName an : thisAttNames) {
@@ -513,9 +466,7 @@ public class IEEEFunctions {
 				}
 
 				for (Entry<String, Object> ent : best.entrySet()) {
-					c.createAttribute(
-							graph.getMetaData().getAttributeName(ent.getKey()),
-							ent.getValue(), false);
+					c.createAttribute(graph.getMetaData().getAttributeName(ent.getKey()), ent.getValue(), false);
 				}
 			}
 		}
@@ -533,8 +484,7 @@ public class IEEEFunctions {
 			}
 		}
 		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					"accessions.tab"));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream("accessions.tab"));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 			for (ONDEXConcept c : graph.getConcepts()) {
 				for (ConceptAccession ca : c.getConceptAccessions()) {
@@ -552,8 +502,7 @@ public class IEEEFunctions {
 		}
 	}
 
-	public static void exportRelationGDS(ONDEXGraph graph, String file,
-			List<String> an) {
+	public static void exportRelationGDS(ONDEXGraph graph, String file, List<String> an) {
 		List<AttributeName> acs = new ArrayList<AttributeName>();
 		for (String a : an) {
 			AttributeName atn = graph.getMetaData().getAttributeName(a);
@@ -562,8 +511,7 @@ public class IEEEFunctions {
 			}
 		}
 		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					file));
+			DataOutputStream out = new DataOutputStream(new FileOutputStream(file));
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 			for (ONDEXRelation c : graph.getRelations()) {
 				bw.write(c.getId() + "\t");
@@ -593,11 +541,9 @@ public class IEEEFunctions {
 		return (double) tmp / p;
 	}
 
-	public static void annotateWeightedBW(ONDEXGraph graph, String weightAtt,
-			String bwAtt) {
+	public static void annotateWeightedBW(ONDEXGraph graph, String weightAtt, String bwAtt) {
 		AttributeName an = graph.getMetaData().getAttributeName(weightAtt);
-		AttributeName anbw = graph.getMetaData().getFactory()
-				.createAttributeName(bwAtt, Double.class);
+		AttributeName anbw = graph.getMetaData().getFactory().createAttributeName(bwAtt, Double.class);
 		Map<ONDEXConcept, Double> validCs = new HashMap<ONDEXConcept, Double>();
 		Double totalPaths = 0d;
 		for (ONDEXConcept c : graph.getConcepts()) {
@@ -621,8 +567,7 @@ public class IEEEFunctions {
 			for (Integer a : conceptBitSet) {
 				if (a != c.getId()) {
 					ONDEXConcept conc = graph.getConcept(a);
-					Set<ONDEXRelation> rs = getRelationsWithAttribute(graph,
-							conc, an);
+					Set<ONDEXRelation> rs = getRelationsWithAttribute(graph, conc, an);
 					if (rs.size() > 1) {
 						validCs.put(conc, (validCs.get(conc) + 1d));
 					}
@@ -632,13 +577,11 @@ public class IEEEFunctions {
 		totalPaths = totalPaths / 2d;
 		System.err.println(totalPaths);
 		for (Entry<ONDEXConcept, Double> ent : validCs.entrySet()) {
-			ent.getKey().createAttribute(anbw,
-					(ent.getValue() / 2d) / totalPaths, false);
+			ent.getKey().createAttribute(anbw, (ent.getValue() / 2d) / totalPaths, false);
 		}
 	}
 
-	private static Collection<PathNode> search(ONDEXGraph graph,
-			ONDEXConcept startConcept, AttributeName an) {
+	private static Collection<PathNode> search(ONDEXGraph graph, ONDEXConcept startConcept, AttributeName an) {
 
 		PathNode node_curr, node_succ;
 		ONDEXConcept c_curr, c_succ;
@@ -671,8 +614,7 @@ public class IEEEFunctions {
 		return queue.getResultSet();
 	}
 
-	private static Set<ONDEXRelation> getRelationsWithAttribute(
-			ONDEXGraph graph, ONDEXConcept c, AttributeName an) {
+	private static Set<ONDEXRelation> getRelationsWithAttribute(ONDEXGraph graph, ONDEXConcept c, AttributeName an) {
 		BitSet set = new BitSet();
 		for (ONDEXRelation r : graph.getRelationsOfConcept(c)) {
 			if (r.getFromConcept().equals(r.getToConcept()))
@@ -680,8 +622,7 @@ public class IEEEFunctions {
 			if (r.getAttribute(an) != null)
 				set.set(r.getId());
 		}
-		Set<ONDEXRelation> result = BitSetFunctions.create(graph,
-				ONDEXRelation.class, set);
+		Set<ONDEXRelation> result = BitSetFunctions.create(graph, ONDEXRelation.class, set);
 		return result;
 	}
 
@@ -694,10 +635,8 @@ public class IEEEFunctions {
 	 *            the relation.
 	 * @return the concept on the other end.
 	 */
-	private static ONDEXConcept getOppositeConcept(ONDEXConcept c_curr,
-			ONDEXRelation r_curr) {
-		return (r_curr.getFromConcept().equals(c_curr)) ? r_curr.getToConcept()
-				: r_curr.getFromConcept();
+	private static ONDEXConcept getOppositeConcept(ONDEXConcept c_curr, ONDEXRelation r_curr) {
+		return (r_curr.getFromConcept().equals(c_curr)) ? r_curr.getToConcept() : r_curr.getFromConcept();
 	}
 
 	/**
@@ -708,8 +647,7 @@ public class IEEEFunctions {
 	 * @param weightAttributeName
 	 * @return the edge weight of the given relation.
 	 */
-	private static double getWeight(ONDEXRelation r_curr,
-			AttributeName weightAttributeName) {
+	private static double getWeight(ONDEXRelation r_curr, AttributeName weightAttributeName) {
 		double out;
 		Attribute weightAttribute = r_curr.getAttribute(weightAttributeName);
 		out = ((java.lang.Number) weightAttribute.getValue()).doubleValue();
@@ -723,8 +661,7 @@ public class IEEEFunctions {
 	 *            the current node.
 	 * @param conceptBitSet
 	 */
-	private static void traceBack(PathNode n,
-			Set<Integer> conceptBitSet) {
+	private static void traceBack(PathNode n, Set<Integer> conceptBitSet) {
 		if (n.getParent() != null) {
 			if (!conceptBitSet.contains(n.getParent().getCid())) {
 				conceptBitSet.add(n.getParent().getCid());
@@ -754,12 +691,10 @@ public class IEEEFunctions {
 		return "[" + c.getOfType().getId() + " " + c.getId() + "]";
 	}
 
-	public static void createContextId(ONDEXGraph graph, String conceptClass,
-			String prefix) throws Exception {
+	public static void createContextId(ONDEXGraph graph, String conceptClass, String prefix) throws Exception {
 		ConceptClass cc = graph.getMetaData().getConceptClass(conceptClass);
 		if (cc == null) {
-			throw new Exception("Incorrect concept class specified: "
-					+ conceptClass);
+			throw new Exception("Incorrect concept class specified: " + conceptClass);
 		}
 		Integer i = 0;
 		for (ONDEXConcept c : graph.getConceptsOfConceptClass(cc)) {
@@ -768,10 +703,10 @@ public class IEEEFunctions {
 		}
 	}
 	/*
-	 * public static final String runMCL(OutputPrinter out, OVTK2PropertiesAggregator
-	 * viewer, String attributeName, String clusterName, double inflation){
-	 * String path = Config.properties.getProperty("Extension.MCL"); if(path ==
-	 * null) return
+	 * public static final String runMCL(OutputPrinter out,
+	 * OVTK2PropertiesAggregator viewer, String attributeName, String
+	 * clusterName, double inflation){ String path =
+	 * Config.properties.getProperty("Extension.MCL"); if(path == null) return
 	 * "A valid path to mcl executable should be added to the config.xml for this function to work \n"
 	 * + " e.g.: <entry key=\"Extension.MCL\">D:/mcl/src/shmcl</entry>";
 	 * Clustering.runMCL(out, viewer.getJUNGGraph(), path, attributeName,

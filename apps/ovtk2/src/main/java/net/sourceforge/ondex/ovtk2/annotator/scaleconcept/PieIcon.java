@@ -57,11 +57,7 @@ public class PieIcon implements Icon {
 	 *            original data (plus/minus detection)
 	 * @param significanceMap
 	 */
-	public PieIcon(ONDEXConcept concept,
-			Map<Integer, Map<ONDEXConcept, Double>> normalized,
-			Map<Integer, Map<ONDEXConcept, Double>> data,
-			Map<ONDEXConcept, Double> significanceMap,
-			Map<ONDEXConcept, Double> normalizedSignificanceMap) {
+	public PieIcon(ONDEXConcept concept, Map<Integer, Map<ONDEXConcept, Double>> normalized, Map<Integer, Map<ONDEXConcept, Double>> data, Map<ONDEXConcept, Double> significanceMap, Map<ONDEXConcept, Double> normalizedSignificanceMap) {
 		this.concept = concept;
 		this.normalized = normalized;
 		this.data = data;
@@ -104,8 +100,7 @@ public class PieIcon implements Icon {
 		Graphics2D g2d = (Graphics2D) g;
 
 		// iterate over all categories
-		Integer[] keys = normalized.keySet().toArray(
-				new Integer[normalized.keySet().size()]);
+		Integer[] keys = normalized.keySet().toArray(new Integer[normalized.keySet().size()]);
 		Arrays.sort(keys);
 
 		double maxSize = 0;
@@ -120,14 +115,12 @@ public class PieIcon implements Icon {
 					maxSize = size;
 				}
 
-				double correctedAngle = (((numberOfCats - 1) - category) * angle)
-						+ (90 + angle);
+				double correctedAngle = (((numberOfCats - 1) - category) * angle) + (90 + angle);
 				if (correctedAngle >= 360d) {
 					correctedAngle = correctedAngle - 360d;
 				}
 
-				Arc2D arc = new Arc2D.Double(x - half, y - half, size, size,
-						correctedAngle, -angle, Arc2D.PIE);
+				Arc2D arc = new Arc2D.Double(x - half, y - half, size, size, correctedAngle, -angle, Arc2D.PIE);
 
 				// define colour and fill
 				if (data.get(category).get(concept) == 0)
@@ -151,8 +144,7 @@ public class PieIcon implements Icon {
 				// Arc2D circle = new Arc2D.Double(x - (size/2), y - (size/2),
 				// size, size,
 				// 0, 360, Arc2D.PIE);
-				Ellipse2D circle = new Ellipse2D.Double(x - (size / 2), y
-						- (size / 2), size, size);
+				Ellipse2D circle = new Ellipse2D.Double(x - (size / 2), y - (size / 2), size, size);
 				g2d.setColor(Color.BLACK);
 				Stroke s = g2d.getStroke();
 				g2d.setStroke(new BasicStroke(2.0f, // Width

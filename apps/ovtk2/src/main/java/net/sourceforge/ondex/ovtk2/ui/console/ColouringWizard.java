@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-
 /**
  * 
  * @author lysenkoa
@@ -68,8 +67,7 @@ public class ColouringWizard extends JInternalFrame implements ActionListener {
 		choices.setLayoutOrientation(JList.VERTICAL);
 		choices.setVisibleRowCount(20);
 		JScrollPane listScroller = new JScrollPane(choices);
-		listScroller
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		listScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		listScroller.setPreferredSize(new Dimension(25, 25));
 		listScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.add(listScroller, listCons);
@@ -92,8 +90,7 @@ public class ColouringWizard extends JInternalFrame implements ActionListener {
 		choices.setLayoutOrientation(JList.VERTICAL);
 		configs.setVisibleRowCount(20);
 		JScrollPane listScroller1 = new JScrollPane(configs);
-		listScroller1
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		listScroller1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		listScroller1.setPreferredSize(new Dimension(40, 25));
 		listScroller1.setAlignmentX(Component.LEFT_ALIGNMENT);
 		this.add(listScroller1, listCons);

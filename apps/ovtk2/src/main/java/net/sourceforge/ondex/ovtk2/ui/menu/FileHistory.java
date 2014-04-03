@@ -42,14 +42,11 @@ import net.sourceforge.ondex.ovtk2.config.Config;
 public class FileHistory {
 
 	private static final int MAX_ITEM_LEN = 40;
-	private static final String FILE_SEPARATOR_STR = System
-			.getProperty("file.separator");
+	private static final String FILE_SEPARATOR_STR = System.getProperty("file.separator");
 	private static String historySerFile;
 	private static int max_itemnames;
-	private static ArrayList<String> itemnameHistory = new ArrayList<String>(
-			max_itemnames);
-	private static ArrayList<String> pathnameHistory = new ArrayList<String>(
-			max_itemnames);
+	private static ArrayList<String> itemnameHistory = new ArrayList<String>(max_itemnames);
+	private static ArrayList<String> pathnameHistory = new ArrayList<String>(max_itemnames);
 
 	private IFileHistory caller;
 	private JMenu fileMenu;
@@ -111,8 +108,7 @@ public class FileHistory {
 	// CONSTRUCTOR: caller is the parent frame that hosts the file menu
 	public FileHistory(IFileHistory caller) {
 		this.caller = caller;
-		historySerFile = System.getProperty("user.home") + FILE_SEPARATOR_STR
-				+ caller.getApplicationName() + "_FILE_HISTORY.cfg";
+		historySerFile = System.getProperty("user.home") + FILE_SEPARATOR_STR + caller.getApplicationName() + "_FILE_HISTORY.cfg";
 		String max_itemnames_str = System.getProperty("itemnames.max", "5");
 		try {
 			max_itemnames = Integer.parseInt(max_itemnames_str);
@@ -148,8 +144,7 @@ public class FileHistory {
 				for (int i = 0; i < itemnameCount; i++) {
 					itemnameHistory.add((String) ois.readObject());
 					pathnameHistory.add((String) ois.readObject());
-					MenuItemWithFixedTooltip item = new MenuItemWithFixedTooltip(
-							(i + 1) + ": " + itemnameHistory.get(i));
+					MenuItemWithFixedTooltip item = new MenuItemWithFixedTooltip((i + 1) + ": " + itemnameHistory.get(i));
 					item.setToolTipText(pathnameHistory.get(i));
 					item.addActionListener(new ItemListener(i));
 					fileMenu.add(item);
@@ -157,8 +152,7 @@ public class FileHistory {
 				ois.close();
 				fis.close();
 			} catch (Exception e) {
-				System.err
-						.println("Trouble reading file history entries: " + e);
+				System.err.println("Trouble reading file history entries: " + e);
 				e.printStackTrace();
 			}
 		}
@@ -195,8 +189,7 @@ public class FileHistory {
 	public final void insertPathname(String pathname) {
 		for (int k = 0; k < pathnameHistory.size(); k++) {
 			if (pathnameHistory.get(k).equals(pathname)) {
-				int index = fileMenu.getItemCount() - itemnameHistory.size()
-						+ k;
+				int index = fileMenu.getItemCount() - itemnameHistory.size() + k;
 				fileMenu.remove(index);
 				pathnameHistory.remove(k);
 				itemnameHistory.remove(k);
@@ -212,8 +205,7 @@ public class FileHistory {
 			fileMenu.addSeparator();
 		} else {
 			// remove all itemname entries to prepare for re-arrangement
-			for (int i = fileMenu.getItemCount() - 1, j = 0; j < itemnameHistory
-					.size(); i--, j++) {
+			for (int i = fileMenu.getItemCount() - 1, j = 0; j < itemnameHistory.size(); i--, j++) {
 				fileMenu.remove(i);
 			}
 		}
@@ -226,8 +218,7 @@ public class FileHistory {
 		itemnameHistory.add(0, getItemname(pathname));
 		pathnameHistory.add(0, pathname);
 		for (int i = 0; i < itemnameHistory.size(); i++) {
-			MenuItemWithFixedTooltip item = new MenuItemWithFixedTooltip(
-					(i + 1) + ": " + itemnameHistory.get(i));
+			MenuItemWithFixedTooltip item = new MenuItemWithFixedTooltip((i + 1) + ": " + itemnameHistory.get(i));
 			item.setToolTipText(pathnameHistory.get(i));
 			item.addActionListener(new ItemListener(i));
 			fileMenu.add(item);
@@ -239,27 +230,21 @@ public class FileHistory {
 	 * a dialog to delete itemname items.
 	 *******************************************************************/
 	public void processList() {
-		final JDialog dialog = new JDialog(caller.getParentFrame(),
-				Config.language.getProperty("FileHistory.Title"), true);
+		final JDialog dialog = new JDialog(caller.getParentFrame(), Config.language.getProperty("FileHistory.Title"), true);
 		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		final JList itemList = createItemList();
 		Container c = dialog.getContentPane();
 		JScrollPane scroller = new JScrollPane(itemList);
-		scroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createEmptyBorder(10, 10, 10, 10), BorderFactory
-				.createLoweredBevelBorder()));
+		scroller.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), BorderFactory.createLoweredBevelBorder()));
 		c.add(scroller, BorderLayout.CENTER);
-		JButton deleteB = new JButton(Config.language
-				.getProperty("FileHistory.Delete"));
+		JButton deleteB = new JButton(Config.language.getProperty("FileHistory.Delete"));
 		deleteB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int[] indicesToDelete = itemList.getSelectedIndices();
 				if (indicesToDelete.length > 0) {
 					int oldFileHistorySize = itemnameHistory.size();
-					ArrayList<String> itemnames = new ArrayList<String>(
-							oldFileHistorySize - indicesToDelete.length);
-					ArrayList<String> pathnames = new ArrayList<String>(
-							oldFileHistorySize - indicesToDelete.length);
+					ArrayList<String> itemnames = new ArrayList<String>(oldFileHistorySize - indicesToDelete.length);
+					ArrayList<String> pathnames = new ArrayList<String>(oldFileHistorySize - indicesToDelete.length);
 					for (int i = 0; i < oldFileHistorySize; i++) {
 						boolean copyItem = true;
 						for (int j = 0; j < indicesToDelete.length; j++) {
@@ -283,9 +268,7 @@ public class FileHistory {
 					}
 					int lastIndex = fileMenu.getItemCount() - 1;
 					for (int i = 0; i < itemnameHistory.size(); i++) {
-						MenuItemWithFixedTooltip item = new MenuItemWithFixedTooltip(
-								(i + 1) + ": "
-										+ itemnameHistory.get(i));
+						MenuItemWithFixedTooltip item = new MenuItemWithFixedTooltip((i + 1) + ": " + itemnameHistory.get(i));
 						item.setToolTipText(pathnameHistory.get(i));
 						item.addActionListener(new ItemListener(i));
 						fileMenu.add(item);
@@ -297,8 +280,7 @@ public class FileHistory {
 				}
 			}
 		});
-		JButton closeB = new JButton(Config.language
-				.getProperty("FileHistory.Close"));
+		JButton closeB = new JButton(Config.language.getProperty("FileHistory.Close"));
 		closeB.setMaximumSize(deleteB.getPreferredSize());
 		closeB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -320,8 +302,7 @@ public class FileHistory {
 		// centre dialog in parent frame
 		Dimension parentSize = caller.getParentSize();
 		Dimension mySize = dialog.getSize();
-		dialog.setLocation(parentSize.width / 2 - mySize.width / 2,
-				parentSize.height / 2 - mySize.height / 2);
+		dialog.setLocation(parentSize.width / 2 - mySize.width / 2, parentSize.height / 2 - mySize.height / 2);
 		dialog.setVisible(true);
 	}
 
@@ -340,8 +321,7 @@ public class FileHistory {
 		}
 		// if we have only one directory: return whole pathname
 		// we will not cut to MAX_ITEM_LEN here
-		if (pathname.indexOf(FILE_SEPARATOR_STR) == pathname
-				.lastIndexOf(FILE_SEPARATOR_STR)) {
+		if (pathname.indexOf(FILE_SEPARATOR_STR) == pathname.lastIndexOf(FILE_SEPARATOR_STR)) {
 			return pathname;
 		} else {
 			// abbreviate pathname: Windows OS like solution
@@ -354,17 +334,9 @@ public class FileHistory {
 				}
 			}
 			if (firstFileSeparatorIndex > 0) {
-				return pathname.substring(0, 3)
-						+ ".."
-						+ pathname.substring(firstFileSeparatorIndex,
-								pathnameLen);
+				return pathname.substring(0, 3) + ".." + pathname.substring(firstFileSeparatorIndex, pathnameLen);
 			} else {
-				return pathname.substring(0, 3)
-						+ ".."
-						+ FILE_SEPARATOR_STR
-						+ ".."
-						+ pathname.substring(pathnameLen - MAX_PATHNAME_LEN,
-								pathnameLen);
+				return pathname.substring(0, 3) + ".." + FILE_SEPARATOR_STR + ".." + pathname.substring(pathnameLen - MAX_PATHNAME_LEN, pathnameLen);
 			}
 		}
 	}

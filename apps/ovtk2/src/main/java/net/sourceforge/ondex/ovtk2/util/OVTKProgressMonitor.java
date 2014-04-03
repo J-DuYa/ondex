@@ -106,13 +106,11 @@ public class OVTKProgressMonitor extends JDialog implements ActionListener {
 	/**
 	 * private constructor will be called with start()
 	 */
-	private OVTKProgressMonitor(Frame main, String title,
-			final Monitorable process) {
+	private OVTKProgressMonitor(Frame main, String title, final Monitorable process) {
 		super(main, title);
 		this.process = process;
 
-		progressbar = new JProgressBar(process.getMinProgress(),
-				process.getMaxProgress());
+		progressbar = new JProgressBar(process.getMinProgress(), process.getMaxProgress());
 		progressbar.setIndeterminate(process.isIndeterminate());
 
 		note = new JLabel("   idle");
@@ -128,8 +126,7 @@ public class OVTKProgressMonitor extends JDialog implements ActionListener {
 	private void setupGUI() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		getContentPane().setLayout(
-				new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
 
 		getContentPane().add(Box.createRigidArea(new Dimension(10, 10)));
 
@@ -170,8 +167,7 @@ public class OVTKProgressMonitor extends JDialog implements ActionListener {
 		int h = getParent().getHeight();
 		int w_self = getWidth();
 		int h_self = getHeight();
-		this.setBounds(x + (w - w_self) / 2, y + (h - h_self) / 2, w_self,
-				h_self);
+		this.setBounds(x + (w - w_self) / 2, y + (h - h_self) / 2, w_self, h_self);
 
 		setVisible(true);
 	}
@@ -200,10 +196,7 @@ public class OVTKProgressMonitor extends JDialog implements ActionListener {
 					note.setText(sb.toString());
 					sb.setLength(0);
 
-					if (canceled
-							|| (process.getProgress() >= process
-									.getMaxProgress())
-							|| (process.getUncaughtException() != null)) {
+					if (canceled || (process.getProgress() >= process.getMaxProgress()) || (process.getUncaughtException() != null)) {
 						process.setCancelled(canceled);
 						break;
 					}

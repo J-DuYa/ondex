@@ -12,8 +12,7 @@ import net.sourceforge.ondex.ovtk2.ui.contentsdisplay.AttributePlugin;
  * 
  * @author Jochen Weile, B.Sc.
  */
-public class TaxidPlugin extends AbstractContentDisplayPlugin implements
-		AttributePlugin {
+public class TaxidPlugin extends AbstractContentDisplayPlugin implements AttributePlugin {
 
 	// ####FIELDS####
 
@@ -44,8 +43,7 @@ public class TaxidPlugin extends AbstractContentDisplayPlugin implements
 			if (attribute != null) {
 				String taxid = attribute.getValue().toString();
 				b.append("<h2>Taxonomy</h2>");
-				b.append("<a href=\"http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id="
-						+ taxid + "\">" + taxid + "</a>");
+				b.append("<a href=\"http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=" + taxid + "\">" + taxid + "</a>");
 			}
 		}
 

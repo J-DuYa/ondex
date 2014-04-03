@@ -82,9 +82,7 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
  * @author taubertj
  * 
  */
-public class OVTK2Viewer extends RegisteredJInternalFrame implements
-		ActionListener, KeyListener, ComponentListener, Printable,
-		RegisteredFrame, OVTK2PropertiesAggregator {
+public class OVTK2Viewer extends RegisteredJInternalFrame implements ActionListener, KeyListener, ComponentListener, Printable, RegisteredFrame, OVTK2PropertiesAggregator {
 
 	/**
 	 * Calling auto-save function
@@ -102,19 +100,15 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 
 		@Override
 		public void run() {
-			if (Config.config.getProperty("Autosave.Set") == null
-					|| Boolean.valueOf(Config.config
-							.getProperty("Autosave.Set")) == false)
+			if (Config.config.getProperty("Autosave.Set") == null || Boolean.valueOf(Config.config.getProperty("Autosave.Set")) == false)
 				return;
 
 			if (Config.config.getProperty("Autosave.Interval") != null) {
-				int newvalue = Integer.parseInt(Config.config
-						.getProperty("Autosave.Interval"));
+				int newvalue = Integer.parseInt(Config.config.getProperty("Autosave.Interval"));
 				if (newvalue != minutes) {
 					timer.cancel();
 					timer = new Timer();
-					timer.schedule(new AutoSaveTask(viewer),
-							minutes * 1000 * 60);
+					timer.schedule(new AutoSaveTask(viewer), minutes * 1000 * 60);
 				}
 			}
 
@@ -126,12 +120,10 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 			}
 
 			// save appearance in autosave function
-			OVTK2Desktop.getInstance().actionPerformed(
-					new ActionEvent(this, 0, "saveappearance"));
+			OVTK2Desktop.getInstance().actionPerformed(new ActionEvent(this, 0, "saveappearance"));
 
 			// construct auto-save filename
-			File file = new File(Config.ovtkDir + File.separator + "autosave_"
-					+ name + "_" + System.currentTimeMillis() + ".oxl");
+			File file = new File(Config.ovtkDir + File.separator + "autosave_" + name + "_" + System.currentTimeMillis() + ".oxl");
 			DesktopUtils.saveFile(file, viewer);
 		}
 	}
@@ -236,10 +228,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	public OVTK2Viewer(ONDEXGraph aog, Map<String, String> annotations) {
 
 		// set title and icon
-		super(Config.language.getProperty("Viewer.Title") + " - "
-				+ aog.getName(), "Graph", Config.language
-				.getProperty("Viewer.Title") + " - " + aog.getName(), true,
-				true, true, true);
+		super(Config.language.getProperty("Viewer.Title") + " - " + aog.getName(), "Graph", Config.language.getProperty("Viewer.Title") + " - " + aog.getName(), true, true, true, true);
 		setName(aog.getName());
 
 		// dispose viewer on close
@@ -259,8 +248,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 
 		// set default layouter
 		ConceptClassCircleLayout layout = new ConceptClassCircleLayout(this);
-		visviewer = new VisualizationViewer<ONDEXConcept, ONDEXRelation>(
-				layout, new Dimension(640, 480));
+		visviewer = new VisualizationViewer<ONDEXConcept, ONDEXRelation>(layout, new Dimension(640, 480));
 		visviewer.setGraphLayout(layout);
 		visviewer.setBackground(Color.white);
 		visviewer.setDoubleBuffered(true);
@@ -269,12 +257,10 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 		layout.initialize(true);
 
 		// default label position
-		visviewer.getRenderer().getVertexLabelRenderer()
-				.setPosition(Position.AUTO);
+		visviewer.getRenderer().getVertexLabelRenderer().setPosition(Position.AUTO);
 
 		// set custom vertex renderer for shape transparency
-		visviewer.getRenderer().setVertexRenderer(
-				new ONDEXBasicVertexRenderer(graph));
+		visviewer.getRenderer().setVertexRenderer(new ONDEXBasicVertexRenderer(graph));
 
 		// initialize node labels
 		nodelabels = new ONDEXNodeLabels(true);
@@ -313,8 +299,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 
 		// edge shape transformer
 		visviewer.getRenderContext().setEdgeShapeTransformer(edgeshapes);
-		edgeshapes.setEdgeIndexFunction(visviewer.getRenderContext()
-				.getParallelEdgeIndexFunction());
+		edgeshapes.setEdgeIndexFunction(visviewer.getRenderContext().getParallelEdgeIndexFunction());
 
 		// edge color transformer
 		visviewer.getRenderContext().setEdgeDrawPaintTransformer(edgecolors);
@@ -323,8 +308,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 		visviewer.getRenderContext().setVertexFillPaintTransformer(nodecolors);
 
 		// node draw paint transformer
-		visviewer.getRenderContext().setVertexDrawPaintTransformer(
-				nodeDrawPaint);
+		visviewer.getRenderContext().setVertexDrawPaintTransformer(nodeDrawPaint);
 
 		// edge stroke transformer
 		visviewer.getRenderContext().setEdgeStrokeTransformer(edgestrokes);
@@ -339,13 +323,11 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 		for (RenderingHints.Key key : temp.keySet()) {
 			hints.put(key, temp.get(key));
 		}
-		hints.put(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_OFF);
+		hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 		visviewer.setRenderingHints(hints);
 
 		// standard mouse support
-		OVTK2AnnotatingGraphMousePlugin anno = new OVTK2AnnotatingGraphMousePlugin(
-				visviewer.getRenderContext());
+		OVTK2AnnotatingGraphMousePlugin anno = new OVTK2AnnotatingGraphMousePlugin(visviewer.getRenderContext());
 		graphMouse = new OVTK2DefaultModalGraphMouse(this, anno);
 
 		visviewer.setGraphMouse(graphMouse);
@@ -363,8 +345,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 
 		timer = new Timer();
 		if (Config.config.getProperty("Autosave.Interval") != null) {
-			minutes = Integer.parseInt(Config.config
-					.getProperty("Autosave.Interval"));
+			minutes = Integer.parseInt(Config.config.getProperty("Autosave.Interval"));
 		}
 		timer.schedule(new AutoSaveTask(this), minutes * 1000 * 60);
 	}
@@ -404,8 +385,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 
 	public void addPickingListener(ActionListener l) {
 		if (graphMouse instanceof OVTK2GraphMouse) {
-			((OVTK2GraphMouse) graphMouse).getOVTK2PickingMousePlugin()
-					.addPickingListener(l);
+			((OVTK2GraphMouse) graphMouse).getOVTK2PickingMousePlugin().addPickingListener(l);
 		}
 	}
 
@@ -417,8 +397,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	private Point2D[] calcBounds() {
 		Point2D min = null;
 		Point2D max = null;
-		Layout<ONDEXConcept, ONDEXRelation> layout = getVisualizationViewer()
-				.getGraphLayout();
+		Layout<ONDEXConcept, ONDEXRelation> layout = getVisualizationViewer().getGraphLayout();
 		for (ONDEXConcept ondexNode : getONDEXJUNGGraph().getVertices()) {
 			Point2D point = layout.transform(ondexNode);
 			if (min == null) {
@@ -429,10 +408,8 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 				max = new Point2D.Double(0, 0);
 				max.setLocation(point);
 			}
-			min.setLocation(Math.min(min.getX(), point.getX()),
-					Math.min(min.getY(), point.getY()));
-			max.setLocation(Math.max(max.getX(), point.getX()),
-					Math.max(max.getY(), point.getY()));
+			min.setLocation(Math.min(min.getX(), point.getX()), Math.min(min.getY(), point.getY()));
+			max.setLocation(Math.max(max.getX(), point.getX()), Math.max(max.getY(), point.getY()));
 		}
 		// sanity checks, in case of empty graph
 		if (min == null)
@@ -456,13 +433,10 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 */
 	@Override
 	public void center() {
-		VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = this
-				.getVisualizationViewer();
+		VisualizationViewer<ONDEXConcept, ONDEXRelation> vv = this.getVisualizationViewer();
 		// reset scaling for predictive behaviour
-		vv.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.LAYOUT).setToIdentity();
-		vv.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW).setToIdentity();
+		vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.LAYOUT).setToIdentity();
+		vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).setToIdentity();
 
 		// place layout center in center of the view
 		Point2D[] calc = calcBounds();
@@ -474,20 +448,13 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 		}
 
 		Point2D screen_center = vv.getCenter();
-		Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(),
-				max.getY() - min.getY());
-		Point2D layout_center = new Point2D.Double(screen_center.getX()
-				- (layout_bounds.getX() / 2) - min.getX(), screen_center.getY()
-				- (layout_bounds.getY() / 2) - min.getY());
-		vv.getRenderContext().getMultiLayerTransformer()
-				.getTransformer(Layer.VIEW)
-				.translate(layout_center.getX(), layout_center.getY());
+		Point2D layout_bounds = new Point2D.Double(max.getX() - min.getX(), max.getY() - min.getY());
+		Point2D layout_center = new Point2D.Double(screen_center.getX() - (layout_bounds.getX() / 2) - min.getX(), screen_center.getY() - (layout_bounds.getY() / 2) - min.getY());
+		vv.getRenderContext().getMultiLayerTransformer().getTransformer(Layer.VIEW).translate(layout_center.getX(), layout_center.getY());
 
 		// scale graph
-		Point2D scale_bounds = new Point2D.Double(vv.getWidth()
-				/ layout_bounds.getX(), vv.getHeight() / layout_bounds.getY());
-		float scale = (float) Math
-				.min(scale_bounds.getX(), scale_bounds.getY());
+		Point2D scale_bounds = new Point2D.Double(vv.getWidth() / layout_bounds.getX(), vv.getHeight() / layout_bounds.getY());
+		float scale = (float) Math.min(scale_bounds.getX(), scale_bounds.getY());
 		scale = 0.95f * scale;
 		OVTK2GraphMouse mouse = (OVTK2GraphMouse) vv.getGraphMouse();
 		mouse.getScaler().scale(vv, scale, vv.getCenter());
@@ -500,11 +467,9 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 */
 	public void changeStroke() {
 		if (oldStrokes == null) {
-			oldStrokes = visviewer.getRenderContext()
-					.getVertexStrokeTransformer();
+			oldStrokes = visviewer.getRenderContext().getVertexStrokeTransformer();
 
-			Stroke stroke = new BasicStroke(3f, BasicStroke.CAP_ROUND,
-					BasicStroke.JOIN_ROUND, 10f, new float[] { 5f }, 0f);
+			Stroke stroke = new BasicStroke(3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10f, new float[] { 5f }, 0f);
 
 			for (ONDEXConcept ondexNode : graph.getVertices()) {
 				boolean allVisible = true;
@@ -518,14 +483,13 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 				}
 			}
 
-			visviewer.getRenderContext().setVertexStrokeTransformer(
-					new Transformer<ONDEXConcept, Stroke>() {
+			visviewer.getRenderContext().setVertexStrokeTransformer(new Transformer<ONDEXConcept, Stroke>() {
 
-						@Override
-						public Stroke transform(ONDEXConcept arg0) {
-							return strokes.get(arg0);
-						}
-					});
+				@Override
+				public Stroke transform(ONDEXConcept arg0) {
+					return strokes.get(arg0);
+				}
+			});
 		} else {
 			visviewer.getRenderContext().setVertexStrokeTransformer(oldStrokes);
 			oldStrokes = null;
@@ -594,8 +558,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	@Override
 	public Font getEdgeFont() {
 		if (graph.getAnnotations().containsKey(EDGEFONT)) {
-			ByteArrayInputStream bis = new ByteArrayInputStream(graph
-					.getAnnotations().get(EDGEFONT).getBytes());
+			ByteArrayInputStream bis = new ByteArrayInputStream(graph.getAnnotations().get(EDGEFONT).getBytes());
 			XMLDecoder decoder = new XMLDecoder(bis);
 			return (Font) decoder.readObject();
 		}
@@ -755,8 +718,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	@Override
 	public Font getVertexFont() {
 		if (graph.getAnnotations().containsKey(VERTEXFONT)) {
-			ByteArrayInputStream bis = new ByteArrayInputStream(graph
-					.getAnnotations().get(VERTEXFONT).getBytes());
+			ByteArrayInputStream bis = new ByteArrayInputStream(graph.getAnnotations().get(VERTEXFONT).getBytes());
 			XMLDecoder decoder = new XMLDecoder(bis);
 			return (Font) decoder.readObject();
 		}
@@ -781,9 +743,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 */
 	public void hideSelection() {
 
-		StateEdit edit = new StateEdit(new VisibilityUndo(
-				this.getONDEXJUNGGraph()),
-				Config.language.getProperty("Undo.HideSelection"));
+		StateEdit edit = new StateEdit(new VisibilityUndo(this.getONDEXJUNGGraph()), Config.language.getProperty("Undo.HideSelection"));
 		undoManager.addEdit(edit);
 		OVTK2Desktop.getInstance().getOVTK2Menu().updateUndoRedo(this);
 
@@ -809,8 +769,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	private void initIcon() {
 
 		try {
-			File imgLocation = new File(
-					"config/toolbarButtonGraphics/development/Application16.gif");
+			File imgLocation = new File("config/toolbarButtonGraphics/development/Application16.gif");
 			URL imageURL = imgLocation.toURI().toURL();
 			this.setFrameIcon(new ImageIcon(imageURL));
 		} catch (MalformedURLException mue) {
@@ -826,8 +785,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 */
 	@Override
 	public boolean isAntiAliased() {
-		return hints.get(RenderingHints.KEY_ANTIALIASING).equals(
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		return hints.get(RenderingHints.KEY_ANTIALIASING).equals(RenderingHints.VALUE_ANTIALIAS_ON);
 	}
 
 	/**
@@ -873,54 +831,40 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 		if (arg0.getModifiersEx() == KeyEvent.CTRL_DOWN_MASK) {
 			if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("h")) {
 				hideSelection();
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"c")) {
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("c")) {
 				center();
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"g")) {
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("g")) {
 
-				StateEdit edit = new StateEdit(new VisibilityUndo(
-						this.getONDEXJUNGGraph()),
-						Config.language.getProperty("Undo.RemoveComplement"));
+				StateEdit edit = new StateEdit(new VisibilityUndo(this.getONDEXJUNGGraph()), Config.language.getProperty("Undo.RemoveComplement"));
 				undoManager.addEdit(edit);
 				OVTK2Desktop.getInstance().getOVTK2Menu().updateUndoRedo(this);
 
-				Set<ONDEXConcept> allnodes = new HashSet<ONDEXConcept>(
-						graph.getVertices());
+				Set<ONDEXConcept> allnodes = new HashSet<ONDEXConcept>(graph.getVertices());
 				allnodes.removeAll(this.getPickedNodes());
 				for (ONDEXConcept allnode : allnodes) {
 					graph.setVisibility(allnode, false);
 				}
 				edit.end();
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"n")) {
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("n")) {
 				selectNeighboursOfSelection();
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"w")) {
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("w")) {
 				showAllRelations();
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"d")) {
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("d")) {
 				changeStroke();
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"z")) {
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("z")) {
 				if (undoManager.canUndo()) {
 					undoManager.undo();
-					OVTK2Desktop.getInstance().getOVTK2Menu()
-							.updateUndoRedo(this);
+					OVTK2Desktop.getInstance().getOVTK2Menu().updateUndoRedo(this);
 					visviewer.repaint();
 				}
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"y")) {
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("y")) {
 				if (undoManager.canRedo()) {
 					undoManager.redo();
-					OVTK2Desktop.getInstance().getOVTK2Menu()
-							.updateUndoRedo(this);
+					OVTK2Desktop.getInstance().getOVTK2Menu().updateUndoRedo(this);
 					visviewer.repaint();
 				}
-			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase(
-					"a")) {
-				PickedState<ONDEXConcept> pickState = visviewer
-						.getPickedVertexState();
+			} else if (KeyEvent.getKeyText(arg0.getKeyCode()).equalsIgnoreCase("a")) {
+				PickedState<ONDEXConcept> pickState = visviewer.getPickedVertexState();
 				for (ONDEXConcept n : graph.getVertices())
 					pickState.pick(n, true);
 			}
@@ -929,8 +873,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 		}
 
 		else if (arg0.getKeyCode() == KeyEvent.VK_F5) {
-			VisualisationUtils.relayout(this, OVTK2Desktop.getInstance()
-					.getMainFrame());
+			VisualisationUtils.relayout(this, OVTK2Desktop.getInstance().getMainFrame());
 		}
 
 		else if (arg0.getKeyCode() == KeyEvent.VK_F11) {
@@ -964,8 +907,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 * @return int
 	 */
 	@Override
-	public int print(java.awt.Graphics graphics,
-			java.awt.print.PageFormat pageFormat, int pageIndex) {
+	public int print(java.awt.Graphics graphics, java.awt.print.PageFormat pageFormat, int pageIndex) {
 		if (pageIndex > 0) {
 			return (Printable.NO_SUCH_PAGE);
 		}
@@ -988,8 +930,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 
 	public void removePickingListener(ActionListener l) {
 		if (graphMouse instanceof OVTK2GraphMouse) {
-			((OVTK2GraphMouse) graphMouse).getOVTK2PickingMousePlugin()
-					.removePickingListener(l);
+			((OVTK2GraphMouse) graphMouse).getOVTK2PickingMousePlugin().removePickingListener(l);
 		}
 	}
 
@@ -1015,12 +956,10 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	@Override
 	public void setAntiAliased(boolean antialiased) {
 		if (antialiased) {
-			hints.put(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_ON);
+			hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			visviewer.setRenderingHints(hints);
 		} else {
-			hints.put(RenderingHints.KEY_ANTIALIASING,
-					RenderingHints.VALUE_ANTIALIAS_OFF);
+			hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 			visviewer.setRenderingHints(hints);
 		}
 		visviewer.getModel().fireStateChanged();
@@ -1041,14 +980,13 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 *            the edge font
 	 */
 	public void setEdgeFont(final Font font) {
-		visviewer.getRenderContext().setEdgeFontTransformer(
-				new Transformer<ONDEXRelation, Font>() {
+		visviewer.getRenderContext().setEdgeFontTransformer(new Transformer<ONDEXRelation, Font>() {
 
-					@Override
-					public Font transform(ONDEXRelation input) {
-						return font;
-					}
-				});
+			@Override
+			public Font transform(ONDEXRelation input) {
+				return font;
+			}
+		});
 		visviewer.getModel().fireStateChanged();
 		// serialise font
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -1065,8 +1003,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 *            is in picking mode
 	 */
 	public void setMouseMode(boolean picking) {
-		ModalGraphMouse graphMouse = (ModalGraphMouse) visviewer
-				.getGraphMouse();
+		ModalGraphMouse graphMouse = (ModalGraphMouse) visviewer.getGraphMouse();
 		graphMouse.setMode(picking ? Mode.PICKING : Mode.TRANSFORMING);
 	}
 
@@ -1113,14 +1050,13 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 *            the node/vertex font
 	 */
 	public void setVertexFont(final Font font) {
-		visviewer.getRenderContext().setVertexFontTransformer(
-				new Transformer<ONDEXConcept, Font>() {
+		visviewer.getRenderContext().setVertexFontTransformer(new Transformer<ONDEXConcept, Font>() {
 
-					@Override
-					public Font transform(ONDEXConcept input) {
-						return font;
-					}
-				});
+			@Override
+			public Font transform(ONDEXConcept input) {
+				return font;
+			}
+		});
 		visviewer.getModel().fireStateChanged();
 		// serialise font
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -1135,9 +1071,7 @@ public class OVTK2Viewer extends RegisteredJInternalFrame implements
 	 * 
 	 */
 	public void showAllRelations() {
-		StateEdit edit = new StateEdit(new VisibilityUndo(
-				this.getONDEXJUNGGraph()),
-				Config.language.getProperty("Undo.ShowAllRelations"));
+		StateEdit edit = new StateEdit(new VisibilityUndo(this.getONDEXJUNGGraph()), Config.language.getProperty("Undo.ShowAllRelations"));
 		undoManager.addEdit(edit);
 		OVTK2Desktop.getInstance().getOVTK2Menu().updateUndoRedo(this);
 

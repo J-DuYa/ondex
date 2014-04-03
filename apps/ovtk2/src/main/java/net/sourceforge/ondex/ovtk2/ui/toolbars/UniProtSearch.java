@@ -198,38 +198,23 @@ public class UniProtSearch implements Monitorable {
 		// Populate XML parsing delegates
 		HashMap<String, ComponentParser> delegates = new HashMap<String, ComponentParser>();
 		HashMap<FilterEnum, ValueFilter> filter = new HashMap<FilterEnum, ValueFilter>();
-		delegates.put(
-				"dbReference",
-				new DbReferenceBlockParser(filter
-						.get(FilterEnum.DatabaseReferenceFilter)));
+		delegates.put("dbReference", new DbReferenceBlockParser(filter.get(FilterEnum.DatabaseReferenceFilter)));
 		delegates.put("entry", new EntryStartParser());
 		delegates.put("comment", new CommentBlockParser());
 		delegates.put("sequence", new SequenceBlockParser());
-		delegates.put(
-				"accession",
-				new AccessionBlockParser(filter
-						.get(FilterEnum.DatabaseReferenceFilter)));// .AccessionFilter)));
-		delegates
-				.put("organism",
-						new TaxonomieBlockParser(filter
-								.get(FilterEnum.TaxonomieFilter)));
+		delegates.put("accession", new AccessionBlockParser(filter.get(FilterEnum.DatabaseReferenceFilter)));// .AccessionFilter)));
+		delegates.put("organism", new TaxonomieBlockParser(filter.get(FilterEnum.TaxonomieFilter)));
 		delegates.put("reference", new PublicationBlockParser());
 		delegates.put("protein", new ProteinNameBlockParser());
 		delegates.put("gene", new GeneBlockParser());
 
 		// setup UniProt parser arguments and transformer
-		ONDEXPluginArguments args = new ONDEXPluginArguments(
-				new ArgumentDefinition<?>[] { new BooleanArgumentDefinition(
-						ArgumentNames.HIDE_LARGE_SCALE_PUBLICATIONS_ARG,
-						ArgumentNames.HIDE_LARGE_SCALE_PUBLICATIONS_ARG_DESC,
-						false, true) });
-		args.addOption(ArgumentNames.HIDE_LARGE_SCALE_PUBLICATIONS_ARG,
-				Boolean.TRUE);
+		ONDEXPluginArguments args = new ONDEXPluginArguments(new ArgumentDefinition<?>[] { new BooleanArgumentDefinition(ArgumentNames.HIDE_LARGE_SCALE_PUBLICATIONS_ARG, ArgumentNames.HIDE_LARGE_SCALE_PUBLICATIONS_ARG_DESC, false, true) });
+		args.addOption(ArgumentNames.HIDE_LARGE_SCALE_PUBLICATIONS_ARG, Boolean.TRUE);
 		Transformer transformer = new Transformer(graph, args, false, null);
 
 		// for xml parsing
-		WstxInputFactory factory = (WstxInputFactory) WstxInputFactory
-				.newInstance();
+		WstxInputFactory factory = (WstxInputFactory) WstxInputFactory.newInstance();
 		factory.configureForSpeed();
 
 		Set<ONDEXConcept> created = new HashSet<ONDEXConcept>();
@@ -238,13 +223,11 @@ public class UniProtSearch implements Monitorable {
 		for (String s : search.trim().split("\\|")) {
 
 			// UniProt URL
-			URL url = new URL("http://www.uniprot.org/uniprot/" + s.trim()
-					+ ".xml");
+			URL url = new URL("http://www.uniprot.org/uniprot/" + s.trim() + ".xml");
 
 			InputStream stream = url.openStream();
 
-			XMLStreamReader staxXmlReader = (XMLStreamReader) factory
-					.createXMLStreamReader(stream);
+			XMLStreamReader staxXmlReader = (XMLStreamReader) factory.createXMLStreamReader(stream);
 
 			while (staxXmlReader.hasNext()) {
 				if (cancelled) {
@@ -257,8 +240,7 @@ public class UniProtSearch implements Monitorable {
 					String element = staxXmlReader.getLocalName();
 
 					if (delegates.containsKey(element)) {
-						ComponentParser parser = (ComponentParser) delegates
-								.get(element);
+						ComponentParser parser = (ComponentParser) delegates.get(element);
 						parser.parseElement(staxXmlReader);
 					}
 				}
@@ -268,8 +250,7 @@ public class UniProtSearch implements Monitorable {
 					if (element.equalsIgnoreCase("entry")) {
 
 						// get new UniProt protein
-						ONDEXConcept ac = transformer.transform(Protein
-								.getInstance());
+						ONDEXConcept ac = transformer.transform(Protein.getInstance());
 						created.add(ac);
 
 						// track matching part
@@ -282,8 +263,7 @@ public class UniProtSearch implements Monitorable {
 						IdLabel label = new IdLabel(ac.getId(), name);
 
 						matches.put(label, match);
-						infos.put(label,
-								ac.getOfType() + " [" + ac.getElementOf() + "]");
+						infos.put(label, ac.getOfType() + " [" + ac.getElementOf() + "]");
 
 						// create a new instance
 						Protein.getInstance(true, false);
@@ -299,13 +279,11 @@ public class UniProtSearch implements Monitorable {
 		viewer.getONDEXJUNGGraph().setVisibility(created, true);
 		for (ONDEXConcept c : created) {
 			// make all relations visible
-			viewer.getONDEXJUNGGraph().setVisibility(
-					graph.getRelationsOfConcept(c), true);
+			viewer.getONDEXJUNGGraph().setVisibility(graph.getRelationsOfConcept(c), true);
 		}
 
 		// layout nodes on big circle
-		LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), null,
-				created);
+		LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), null, created);
 
 		if (viewer.getMetaGraph() != null)
 			viewer.getMetaGraph().updateMetaData();

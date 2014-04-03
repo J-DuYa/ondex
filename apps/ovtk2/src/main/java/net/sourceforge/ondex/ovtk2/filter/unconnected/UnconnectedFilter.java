@@ -86,14 +86,12 @@ public class UnconnectedFilter extends OVTK2Filter implements ActionListener {
 		radioPanel.setLayout(new GridLayout(1, 2));
 		radioPanel.add(yesButton);
 		radioPanel.add(noButton);
-		radioPanel.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "Change visibility to:"));
+		radioPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Change visibility to:"));
 		add(radioPanel);
 
 		add(goButton);
 		add(onVisibleOnly);
-		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5,
-				5, 5, 5);
+		SpringUtilities.makeCompactGrid(this, this.getComponentCount(), 1, 5, 5, 5, 5);
 	}
 
 	// ####METHODS####
@@ -117,13 +115,11 @@ public class UnconnectedFilter extends OVTK2Filter implements ActionListener {
 
 	private void callFilter() throws InvalidPluginArgumentException {
 
-		StateEdit edit = new StateEdit(new VisibilityUndo(
-				viewer.getONDEXJUNGGraph()), this.getName());
+		StateEdit edit = new StateEdit(new VisibilityUndo(viewer.getONDEXJUNGGraph()), this.getName());
 		OVTK2Desktop desktop = OVTK2Desktop.getInstance();
 		desktop.setRunningProcess(this.getName());
 
-		Set<ONDEXConcept> concepts = new HashSet<ONDEXConcept>(
-				graph.getConcepts());
+		Set<ONDEXConcept> concepts = new HashSet<ONDEXConcept>(graph.getConcepts());
 
 		if (onVisibleOnly.isSelected() && !visibility) {
 			System.out.println("Calculating visible concepts");

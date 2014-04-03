@@ -67,8 +67,7 @@ public class FilterMenuAction implements ActionListener, InternalFrameListener {
 
 		// for coping with plug-in Attribute data types
 		try {
-			Thread.currentThread().setContextClassLoader(
-					OVTK2PluginLoader.getInstance().ucl);
+			Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 		} catch (FileNotFoundException e) {
 			ErrorDialog.show(e);
 		} catch (MalformedURLException e) {
@@ -87,8 +86,7 @@ public class FilterMenuAction implements ActionListener, InternalFrameListener {
 						try {
 							// for coping with plug-in Attribute data types
 							try {
-								Thread.currentThread().setContextClassLoader(
-										OVTK2PluginLoader.getInstance().ucl);
+								Thread.currentThread().setContextClassLoader(OVTK2PluginLoader.getInstance().ucl);
 							} catch (FileNotFoundException e) {
 								ErrorDialog.show(e);
 							}
@@ -96,33 +94,21 @@ public class FilterMenuAction implements ActionListener, InternalFrameListener {
 							// get new instance of filter
 							int index = className.lastIndexOf(".");
 							String pack = className.substring(0, index);
-							pack = pack.substring(pack.lastIndexOf(".") + 1,
-									pack.length());
-							PluginID plid = new PluginID(pack,
-									className.substring(index + 1,
-											className.length()));
-							OVTK2Filter filter_new = OVTK2PluginLoader
-									.getInstance().loadFilter(plid, viewer);
+							pack = pack.substring(pack.lastIndexOf(".") + 1, pack.length());
+							PluginID plid = new PluginID(pack, className.substring(index + 1, className.length()));
+							OVTK2Filter filter_new = OVTK2PluginLoader.getInstance().loadFilter(plid, viewer);
 
 							// add as frame to desktop
-							JInternalFrame filterFrame = new RegisteredJInternalFrame(
-									filter_new.getName(), "Filter",
-									filter_new.getName() + " - "
-											+ viewer.getTitle(), true, true,
-									true, true);
-							filterFrame
-									.addInternalFrameListener(new OVTK2FilterInternalFrameListener(
-											filter_new));
+							JInternalFrame filterFrame = new RegisteredJInternalFrame(filter_new.getName(), "Filter", filter_new.getName() + " - " + viewer.getTitle(), true, true, true, true);
+							filterFrame.addInternalFrameListener(new OVTK2FilterInternalFrameListener(filter_new));
 							filterFrame.setContentPane(filter_new);
 							filterFrame.setVisible(true);
 							filterFrame.pack();
 
 							// handle closing of all filter windows
-							filterFrame
-									.addInternalFrameListener(new FilterMenuAction());
+							filterFrame.addInternalFrameListener(new FilterMenuAction());
 							if (!filters.containsKey(viewer))
-								filters.put(viewer,
-										new ArrayList<JInternalFrame>());
+								filters.put(viewer, new ArrayList<JInternalFrame>());
 							filters.get(viewer).add(filterFrame);
 
 							desktop.display(filterFrame, Position.leftTop);
@@ -132,8 +118,7 @@ public class FilterMenuAction implements ActionListener, InternalFrameListener {
 					}
 				};
 				p.start();
-				OVTKProgressMonitor.start(OVTK2Desktop.getInstance()
-						.getMainFrame(), "Working...", p);
+				OVTKProgressMonitor.start(OVTK2Desktop.getInstance().getMainFrame(), "Working...", p);
 			}
 		}
 	}
@@ -155,8 +140,7 @@ public class FilterMenuAction implements ActionListener, InternalFrameListener {
 			Iterator<OVTK2Viewer> it = filters.keySet().iterator();
 			while (it.hasNext()) {
 				// get filter per viewer
-				Iterator<JInternalFrame> it2 = filters.get(it.next())
-						.iterator();
+				Iterator<JInternalFrame> it2 = filters.get(it.next()).iterator();
 				while (it2.hasNext()) {
 					// check if filter was closed
 					if (it2.next().equals(e.getInternalFrame()))
@@ -166,8 +150,7 @@ public class FilterMenuAction implements ActionListener, InternalFrameListener {
 		} else if (e.getInternalFrame() instanceof OVTK2Viewer) {
 			// make all filter frames disappear
 			if (filters.containsKey(e.getInternalFrame())) {
-				for (JInternalFrame frame : filters.get(e.getInternalFrame())
-						.toArray(new JInternalFrame[0])) {
+				for (JInternalFrame frame : filters.get(e.getInternalFrame()).toArray(new JInternalFrame[0])) {
 					close(frame);
 				}
 				filters.remove(e.getInternalFrame());

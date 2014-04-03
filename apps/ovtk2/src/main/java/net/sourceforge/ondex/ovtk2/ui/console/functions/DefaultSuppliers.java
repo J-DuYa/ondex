@@ -9,25 +9,30 @@ import com.google.common.collect.Sets;
 
 /**
  * Type-safe Supplier constructors for Guava collections
+ * 
  * @author lysenkoa
- *
+ * 
  */
-		
+
 public class DefaultSuppliers {
-	
-	private DefaultSuppliers(){
-		
+
+	private DefaultSuppliers() {
+
 	};
-	
-	public static <T> Supplier<List<T>> list(Class<T> type){
-		return new Supplier<List<T>>(){
-			public List<T> get(){return Lists.newArrayList();}
+
+	public static <T> Supplier<List<T>> list(Class<T> type) {
+		return new Supplier<List<T>>() {
+			public List<T> get() {
+				return Lists.newArrayList();
+			}
 		};
 	}
-	
-	public static <T> Supplier<Set<T>> set(Class<T> type){
-		return new Supplier<Set<T>>(){
-			public Set<T> get(){return Sets.newHashSet();}
+
+	public static <T> Supplier<Set<T>> set(Class<T> type) {
+		return new Supplier<Set<T>>() {
+			public Set<T> get() {
+				return Sets.newHashSet();
+			}
 		};
 	}
 }

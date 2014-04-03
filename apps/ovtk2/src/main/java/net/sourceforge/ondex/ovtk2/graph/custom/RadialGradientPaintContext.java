@@ -135,14 +135,8 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 *            LINEAR_RGB
 	 * 
 	 */
-	public RadialGradientPaintContext(ColorModel cm, Rectangle deviceBounds,
-			Rectangle2D userBounds, AffineTransform t, RenderingHints hints,
-			float cx, float cy, float r, float fx, float fy, float[] fractions,
-			Color[] colors, MultipleGradientPaint.CycleMethodEnum cycleMethod,
-			MultipleGradientPaint.ColorSpaceEnum colorSpace)
-			throws NoninvertibleTransformException {
-		super(cm, deviceBounds, userBounds, t, hints, fractions, colors,
-				cycleMethod, colorSpace);
+	public RadialGradientPaintContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform t, RenderingHints hints, float cx, float cy, float r, float fx, float fy, float[] fractions, Color[] colors, MultipleGradientPaint.CycleMethodEnum cycleMethod, MultipleGradientPaint.ColorSpaceEnum colorSpace) throws NoninvertibleTransformException {
+		super(cm, deviceBounds, userBounds, t, hints, fractions, colors, cycleMethod, colorSpace);
 
 		// copy some parameters.
 		centerX = cx;
@@ -186,14 +180,12 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 
 		fillMethod = 0;
 
-		if ((rend == RenderingHints.VALUE_RENDER_QUALITY)
-				|| (colorRend == RenderingHints.VALUE_COLOR_RENDER_QUALITY)) {
+		if ((rend == RenderingHints.VALUE_RENDER_QUALITY) || (colorRend == RenderingHints.VALUE_COLOR_RENDER_QUALITY)) {
 			// System.out.println("AAHints set: " + rend + ", " + colorRend);
 			fillMethod = ANTI_ALIAS_IMPL;
 		}
 
-		if ((rend == RenderingHints.VALUE_RENDER_SPEED)
-				|| (colorRend == RenderingHints.VALUE_COLOR_RENDER_SPEED)) {
+		if ((rend == RenderingHints.VALUE_RENDER_SPEED) || (colorRend == RenderingHints.VALUE_COLOR_RENDER_SPEED)) {
 			// System.out.println("SPHints set: " + rend + ", " + colorRend);
 			fillMethod = DEFAULT_IMPL;
 		}
@@ -205,20 +197,15 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 			// one is not specified.
 			fillMethod = DEFAULT_IMPL;
 
-			/*if (false) {
-				// This could be used for a 'smart' choice in
-				// the default case, if the gradient has obvious
-				// discontinuites use AA, otherwise default
-				if (hasDiscontinuity) {
-					fillMethod = ANTI_ALIAS_IMPL;
-				} else {
-					fillMethod = DEFAULT_IMPL;
-				}
-			}*/
+			/*
+			 * if (false) { // This could be used for a 'smart' choice in // the
+			 * default case, if the gradient has obvious // discontinuites use
+			 * AA, otherwise default if (hasDiscontinuity) { fillMethod =
+			 * ANTI_ALIAS_IMPL; } else { fillMethod = DEFAULT_IMPL; } }
+			 */
 		}
 
-		if ((fillMethod == DEFAULT_IMPL)
-				&& (isSimpleFocus && isNonCyclic && isSimpleLookup)) {
+		if ((fillMethod == DEFAULT_IMPL) && (isSimpleFocus && isNonCyclic && isSimpleLookup)) {
 			this.calculateFixedPointSqrtLookupTable();
 			fillMethod = FIXED_POINT_IMPL;
 		}
@@ -241,13 +228,11 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 *            The height of the area in device space for which colors are
 	 *            generated.
 	 */
-	protected void fillRaster(int[] pixels, int off, int adjust, int x, int y,
-			int w, int h) {
+	protected void fillRaster(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 		switch (fillMethod) {
 		case FIXED_POINT_IMPL:
 			// System.out.println("Calling FP");
-			fixedPointSimplestCaseNonCyclicFillRaster(pixels, off, adjust, x,
-					y, w, h);
+			fixedPointSimplestCaseNonCyclicFillRaster(pixels, off, adjust, x, y, w, h);
 			break;
 		case ANTI_ALIAS_IMPL:
 			// System.out.println("Calling AA");
@@ -266,8 +251,7 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 * (single array index, no conversion necessary).
 	 * 
 	 */
-	private void fixedPointSimplestCaseNonCyclicFillRaster(int[] pixels,
-			int off, int adjust, int x, int y, int w, int h) {
+	private void fixedPointSimplestCaseNonCyclicFillRaster(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 		float iSq = 0; // Square distance index
 		final float indexFactor = fastGradientArraySize / radius;
 
@@ -362,8 +346,7 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 */
 	private void calculateFixedPointSqrtLookupTable() {
 		float sqStepFloat;
-		sqStepFloat = (fastGradientArraySize * fastGradientArraySize)
-				/ (MAX_PRECISION - 2.0f);
+		sqStepFloat = (fastGradientArraySize * fastGradientArraySize) / (MAX_PRECISION - 2.0f);
 
 		// The last two values are the same so that linear square root
 		// interpolation can happen on the maximum reachable element in the
@@ -395,11 +378,9 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 * been extracted out of the inner loop.
 	 * 
 	 */
-	private void cyclicCircularGradientFillRaster(int[] pixels, int off,
-			int adjust, int x, int y, int w, int h) {
+	private void cyclicCircularGradientFillRaster(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 		// Constant part of the C factor of the quadratic equation
-		final double constC = -(radiusSq) + (centerX * centerX)
-				+ (centerY * centerY);
+		final double constC = -(radiusSq) + (centerX * centerX) + (centerY * centerY);
 		double A; // coefficient of the quadratic equation (Ax^2 + Bx + C = 0)
 		double B; // coefficient of the quadratic equation
 		double C; // coefficient of the quadratic equation
@@ -523,11 +504,9 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 	 * formula produces the following set of equations. Constant factors have
 	 * been extracted out of the inner loop.
 	 * */
-	private void antiAliasFillRaster(int[] pixels, int off, int adjust, int x,
-			int y, int w, int h) {
+	private void antiAliasFillRaster(int[] pixels, int off, int adjust, int x, int y, int w, int h) {
 		// Constant part of the C factor of the quadratic equation
-		final double constC = -(radiusSq) + (centerX * centerX)
-				+ (centerY * centerY);
+		final double constC = -(radiusSq) + (centerX * centerX) + (centerY * centerY);
 		// coefficients of the quadratic equation (Ax^2 + Bx + C = 0)
 		final float precalc2 = 2 * centerY;// const in inner loop quad. formula
 		final float precalc3 = -2 * centerX;// const in inner loop quad. formula
@@ -761,9 +740,7 @@ final class RadialGradientPaintContext extends MultipleGradientPaintContext {
 				prevGs[i] = g11;
 
 				// Get the color at this point
-				pixels[indexer + i] = indexGradientAntiAlias((float) ((g00
-						+ g01 + g10 + g11) / 4), (float) Math.max(Math.abs(g11
-						- g00), Math.abs(g10 - g01)));
+				pixels[indexer + i] = indexGradientAntiAlias((float) ((g00 + g01 + g10 + g11) / 4), (float) Math.max(Math.abs(g11 - g00), Math.abs(g10 - g01)));
 
 				X += a00; // incremental change in X, Y
 				Y += a10;

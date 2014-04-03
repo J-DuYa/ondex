@@ -53,9 +53,7 @@ public class Statisitics {
 	 *            the name of the cv of accessions to search in (can not be
 	 *            null)
 	 */
-	public static final int countConceptsOnRegex(OVTK2PropertiesAggregator viewer,
-			String regex, String ccName, String concept_cvName,
-			String accession_cvName) {
+	public static final int countConceptsOnRegex(OVTK2PropertiesAggregator viewer, String regex, String ccName, String concept_cvName, String accession_cvName) {
 
 		ONDEXGraphMetaData md = viewer.getONDEXJUNGGraph().getMetaData();
 
@@ -70,8 +68,7 @@ public class Statisitics {
 		Set<ONDEXConcept> concepts = graph.getConcepts();
 
 		if (cc != null) {
-			BitSetFunctions.and(concepts, graph
-					.getConceptsOfConceptClass(cc));
+			BitSetFunctions.and(concepts, graph.getConceptsOfConceptClass(cc));
 		}
 
 		if (concept_dataSource != null) {
@@ -94,11 +91,9 @@ public class Statisitics {
 			}
 
 			for (String oldAccession : replacements.keySet()) {
-				boolean ambiguous = concept.getConceptAccession(oldAccession,
-						accession_dataSource).isAmbiguous();
+				boolean ambiguous = concept.getConceptAccession(oldAccession, accession_dataSource).isAmbiguous();
 				concept.deleteConceptAccession(oldAccession, accession_dataSource);
-				concept.createConceptAccession(replacements.get(oldAccession),
-						accession_dataSource, ambiguous);
+				concept.createConceptAccession(replacements.get(oldAccession), accession_dataSource, ambiguous);
 			}
 		}
 		return count;
@@ -116,8 +111,7 @@ public class Statisitics {
 	 * @param rt
 	 * @param targetCC
 	 */
-	public static final void enumerateConnectingCVs(OVTK2PropertiesAggregator viewer,
-			String cc, String cv, String rt, String targetCC) {
+	public static final void enumerateConnectingCVs(OVTK2PropertiesAggregator viewer, String cc, String cv, String rt, String targetCC) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 
 		ONDEXGraphMetaData md = graph.getMetaData();
@@ -125,19 +119,16 @@ public class Statisitics {
 		DataSource dataSourceSource = md.getDataSource(cv);
 
 		Set<ONDEXConcept> cvConcepts = graph.getConceptsOfDataSource(dataSourceSource);
-		Set<ONDEXConcept> ccConcepts = graph
-				.getConceptsOfConceptClass(conceptClassSource);
+		Set<ONDEXConcept> ccConcepts = graph.getConceptsOfConceptClass(conceptClassSource);
 
-		Set<ONDEXConcept> concepts = BitSetFunctions.and(cvConcepts,
-				ccConcepts);
+		Set<ONDEXConcept> concepts = BitSetFunctions.and(cvConcepts, ccConcepts);
 		int allTotal = concepts.size();
 		Map<String, Integer> countOnCvs = new HashMap<String, Integer>();
 		System.out.println("---Intersectons---");
 		for (ONDEXConcept queryConcept : concepts) {
 			Set<String> cvs = new HashSet<String>();
 
-			for (ONDEXRelation relation : graph
-					.getRelationsOfConcept(queryConcept)) {
+			for (ONDEXRelation relation : graph.getRelationsOfConcept(queryConcept)) {
 				if (relation.getOfType().getId().equals(rt)) {
 					ONDEXConcept targetConcept = null;
 
@@ -150,9 +141,7 @@ public class Statisitics {
 						continue;
 					}
 
-					if (!targetConcept.equals(queryConcept)
-							&& targetConcept.getOfType().getId().equals(
-									targetCC)) {
+					if (!targetConcept.equals(queryConcept) && targetConcept.getOfType().getId().equals(targetCC)) {
 						DataSource targetDataSource = targetConcept.getElementOf();
 						String[] indivCVs = targetDataSource.getId().split(":");
 						cvs.addAll(Arrays.asList(indivCVs));
@@ -178,20 +167,17 @@ public class Statisitics {
 			System.out.println(cvIntersect + "\t" + count);
 			total = total + count;
 		}
-		System.out.println("Total " + total + " with relations out of "
-				+ allTotal);
+		System.out.println("Total " + total + " with relations out of " + allTotal);
 
 	}
 
-	public static final void enumerateECAnnotation(OVTK2PropertiesAggregator viewer,
-			String cc, String rt) {
+	public static final void enumerateECAnnotation(OVTK2PropertiesAggregator viewer, String cc, String rt) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 
 		ONDEXGraphMetaData md = graph.getMetaData();
 		ConceptClass conceptClassSource = md.getConceptClass(cc);
 
-		Set<ONDEXConcept> concepts = graph
-				.getConceptsOfConceptClass(conceptClassSource);
+		Set<ONDEXConcept> concepts = graph.getConceptsOfConceptClass(conceptClassSource);
 
 		int allTotal = concepts.size();
 		Map<Integer, Map<String, Integer>> digitsToDB = new HashMap<Integer, Map<String, Integer>>();
@@ -213,23 +199,19 @@ public class Statisitics {
 			cvs.put(3, new HashSet<String>());
 			cvs.put(4, new HashSet<String>());
 
-			for (ONDEXRelation relation : graph
-					.getRelationsOfConcept(queryConcept)) {
+			for (ONDEXRelation relation : graph.getRelationsOfConcept(queryConcept)) {
 				if (relation.getOfType().getId().equals(rt)) {
 					ONDEXConcept targetConcept = null;
 					if (relation.getKey().getFromID() == queryConcept.getId()) {
 						targetConcept = relation.getToConcept();
-					} else if (relation.getKey().getToID() == queryConcept
-							.getId()) {
+					} else if (relation.getKey().getToID() == queryConcept.getId()) {
 						targetConcept = relation.getFromConcept();
 					} else {
 						continue;
 					}
 
-					if (!targetConcept.equals(queryConcept)
-							&& targetConcept.getOfType().getId().equals("EC")) {
-						String ec = getAccessionOfCV(targetConcept
-								.getConceptAccessions(), "EC");
+					if (!targetConcept.equals(queryConcept) && targetConcept.getOfType().getId().equals("EC")) {
+						String ec = getAccessionOfCV(targetConcept.getConceptAccessions(), "EC");
 
 						int digit = 4 - countChar(ec, '-');
 
@@ -244,8 +226,7 @@ public class Statisitics {
 							cvList.add(tcv);
 						}
 					} else {
-						System.out.println("invalid "
-								+ targetConcept.getOfType().getId());
+						System.out.println("invalid " + targetConcept.getOfType().getId());
 					}
 				}
 			}
@@ -263,8 +244,7 @@ public class Statisitics {
 
 				Set<String> cvs4Protein = cvs.get(digit);
 
-				Map<String, Integer> ecLevel = digitsToDB.get(Integer
-						.valueOf(digit));
+				Map<String, Integer> ecLevel = digitsToDB.get(Integer.valueOf(digit));
 				if (ecLevel == null) {
 					ecLevel = new HashMap<String, Integer>();
 					digitsToDB.put(Integer.valueOf(digit), ecLevel);
@@ -286,8 +266,7 @@ public class Statisitics {
 					cvToAnnotations.put(cv, countPerConcept);
 				}
 
-				Map<String, Integer> cvCountMap = proteinsNoCVAnnotation
-						.get(digit);
+				Map<String, Integer> cvCountMap = proteinsNoCVAnnotation.get(digit);
 				if (cvCountMap == null) {
 					cvCountMap = new HashMap<String, Integer>();
 					proteinsNoCVAnnotation.put(digit, cvCountMap);
@@ -311,8 +290,7 @@ public class Statisitics {
 			Map<String, Integer> cvs = digitsToDB.get(ecLevel);
 			for (String cv : cvs.keySet()) {
 				Integer count = cvs.get(cv);
-				Map<String, Integer> proteinsNoCount = proteinsNoCVAnnotation
-						.get(ecLevel);
+				Map<String, Integer> proteinsNoCount = proteinsNoCVAnnotation.get(ecLevel);
 				Integer emptyProteins = proteinsNoCount.get(cv);
 				if (emptyProteins == null)
 					emptyProteins = 0;
@@ -326,46 +304,29 @@ public class Statisitics {
 			for (Integer value : list) {
 				runningTotal = runningTotal + value;
 			}
-			System.out.println(cv + "\tAnnotations:" + runningTotal + "\tMean:"
-					+ (double) runningTotal / (double) list.size());
+			System.out.println(cv + "\tAnnotations:" + runningTotal + "\tMean:" + (double) runningTotal / (double) list.size());
 		}
 	}
 
 	public static final int transferECtoProtein2(OVTK2PropertiesAggregator viewer) {
 		ONDEXGraph graph = viewer.getONDEXJUNGGraph();
 
-		String[][] metaRoute1 = new String[][] { new String[] { "EC" },
-				new String[] { "cat_c" }, new String[] { "Reaction" },
-				new String[] { "cat_by" }, new String[] { "Enzyme" },
-				new String[] { "is_a" }, new String[] { "Protein" } };
+		String[][] metaRoute1 = new String[][] { new String[] { "EC" }, new String[] { "cat_c" }, new String[] { "Reaction" }, new String[] { "cat_by" }, new String[] { "Enzyme" }, new String[] { "is_a" }, new String[] { "Protein" } };
 
-		String[][] metaRoute2 = new String[][] { new String[] { "EC" },
-				new String[] { "cat_c" }, new String[] { "Enzyme" },
-				new String[] { "is_a" }, new String[] { "Protein" } };
+		String[][] metaRoute2 = new String[][] { new String[] { "EC" }, new String[] { "cat_c" }, new String[] { "Enzyme" }, new String[] { "is_a" }, new String[] { "Protein" } };
 
-		String[][] metaRoute3 = new String[][] { new String[] { "EC" },
-				new String[] { "cat_c" }, new String[] { "Reaction" },
-				new String[] { "cat_by" }, new String[] { "Enzyme" },
-				new String[] { "is_a" }, new String[] { "ProteinCplx" },
-				new String[] { "part_of" }, new String[] { "Protein" } };
+		String[][] metaRoute3 = new String[][] { new String[] { "EC" }, new String[] { "cat_c" }, new String[] { "Reaction" }, new String[] { "cat_by" }, new String[] { "Enzyme" }, new String[] { "is_a" }, new String[] { "ProteinCplx" }, new String[] { "part_of" }, new String[] { "Protein" } };
 
-		String[][] metaRoute4 = new String[][] { new String[] { "EC" },
-				new String[] { "cat_c" }, new String[] { "Enzyme" },
-				new String[] { "is_a" }, new String[] { "ProteinCplx" },
-				new String[] { "part_of" }, new String[] { "Protein" } };
+		String[][] metaRoute4 = new String[][] { new String[] { "EC" }, new String[] { "cat_c" }, new String[] { "Enzyme" }, new String[] { "is_a" }, new String[] { "ProteinCplx" }, new String[] { "part_of" }, new String[] { "Protein" } };
 
-		String[][] metaRoute5 = new String[][] { new String[] { "EC" },
-				new String[] { "cat_c" }, new String[] { "ProteinCplx" },
-				new String[] { "part_of" }, new String[] { "Protein" } };
+		String[][] metaRoute5 = new String[][] { new String[] { "EC" }, new String[] { "cat_c" }, new String[] { "ProteinCplx" }, new String[] { "part_of" }, new String[] { "Protein" } };
 
-		Object[] metaRoutes = new Object[] { metaRoute1, metaRoute2,
-				metaRoute3, metaRoute4, metaRoute5 };
+		Object[] metaRoutes = new Object[] { metaRoute1, metaRoute2, metaRoute3, metaRoute4, metaRoute5 };
 
 		int relationsTrasfered = 0;
 		for (Object metaRoute : metaRoutes) {
 
-			List<Subgraph> subgraphs = StandardFunctions.getSubgraphMatch(
-					graph, (String[][]) metaRoute);
+			List<Subgraph> subgraphs = StandardFunctions.getSubgraphMatch(graph, (String[][]) metaRoute);
 
 			for (Subgraph subgraph : subgraphs) {
 
@@ -391,8 +352,7 @@ public class Statisitics {
 							continue;
 						}
 						for (ONDEXConcept protein : proteins) {
-							GraphElementManipulation.changeRelationVertex(
-									graph, fromConcept, protein, relation);
+							GraphElementManipulation.changeRelationVertex(graph, fromConcept, protein, relation);
 							relationsTrasfered++;
 						}
 
@@ -409,8 +369,7 @@ public class Statisitics {
 		ONDEXGraphMetaData md = graph.getMetaData();
 		ConceptClass conceptClassSource = md.getConceptClass("Reaction");
 
-		for (ONDEXConcept reaction : graph
-				.getConceptsOfConceptClass(conceptClassSource)) {
+		for (ONDEXConcept reaction : graph.getConceptsOfConceptClass(conceptClassSource)) {
 
 			HashSet<ONDEXConcept> proteins = new HashSet<ONDEXConcept>();
 			HashSet<ONDEXRelation> ecRelations = new HashSet<ONDEXRelation>();
@@ -418,11 +377,9 @@ public class Statisitics {
 			for (ONDEXRelation relation : graph.getRelationsOfConcept(reaction)) {
 				if (relation.getOfType().getId().equals("cat_c")) {
 					ONDEXConcept ecTerm = null;
-					if (relation.getFromConcept().getOfType().getId().equals(
-							"EC")) {
+					if (relation.getFromConcept().getOfType().getId().equals("EC")) {
 						ecTerm = relation.getFromConcept();
-					} else if (relation.getToConcept().getOfType().getId()
-							.equals("EC")) {
+					} else if (relation.getToConcept().getOfType().getId().equals("EC")) {
 						ecTerm = relation.getFromConcept();
 					} else {
 						continue;
@@ -431,24 +388,19 @@ public class Statisitics {
 
 				} else if (relation.getOfType().getId().equals("ca_by")) {
 					ONDEXConcept enzyme = null;
-					if (relation.getFromConcept().getOfType().getId().equals(
-							"Enzyme")) {
+					if (relation.getFromConcept().getOfType().getId().equals("Enzyme")) {
 						enzyme = relation.getFromConcept();
-					} else if (relation.getToConcept().getOfType().getId()
-							.equals("Enzyme")) {
+					} else if (relation.getToConcept().getOfType().getId().equals("Enzyme")) {
 						enzyme = relation.getFromConcept();
 					} else {
 						continue;
 					}
-					for (ONDEXRelation relationE : graph
-							.getRelationsOfConcept(enzyme)) {
+					for (ONDEXRelation relationE : graph.getRelationsOfConcept(enzyme)) {
 						if (relationE.getOfType().getId().equals("cat_c")) {
 							ONDEXConcept ecTerm = null;
-							if (relationE.getFromConcept().getOfType().getId()
-									.equals("EC")) {
+							if (relationE.getFromConcept().getOfType().getId().equals("EC")) {
 								ecTerm = relationE.getFromConcept();
-							} else if (relationE.getToConcept().getOfType()
-									.getId().equals("EC")) {
+							} else if (relationE.getToConcept().getOfType().getId().equals("EC")) {
 								ecTerm = relationE.getFromConcept();
 							} else {
 								continue;
@@ -456,11 +408,9 @@ public class Statisitics {
 							ecRelations.add(relationE);
 						} else if (relationE.getOfType().getId().equals("is_a")) {
 							ONDEXConcept protein = null;
-							if (relationE.getFromConcept().getOfType().getId()
-									.equals("Protein")) {
+							if (relationE.getFromConcept().getOfType().getId().equals("Protein")) {
 								protein = relationE.getFromConcept();
-							} else if (relationE.getToConcept().getOfType()
-									.getId().equals("Protein")) {
+							} else if (relationE.getToConcept().getOfType().getId().equals("Protein")) {
 								protein = relationE.getFromConcept();
 							} else {
 								continue;
@@ -473,11 +423,9 @@ public class Statisitics {
 			for (ONDEXConcept protein : proteins) {
 				for (ONDEXRelation ec : ecRelations) {
 					if (ec.getKey().getFromID() == protein.getId()) {
-						GraphElementManipulation.changeRelationVertex(graph, ec
-								.getToConcept(), protein, ec);
+						GraphElementManipulation.changeRelationVertex(graph, ec.getToConcept(), protein, ec);
 					} else {
-						GraphElementManipulation.changeRelationVertex(graph, ec
-								.getFromConcept(), protein, ec);
+						GraphElementManipulation.changeRelationVertex(graph, ec.getFromConcept(), protein, ec);
 					}
 				}
 
@@ -502,8 +450,7 @@ public class Statisitics {
 	 * @param conceptAccessions
 	 * @return
 	 */
-	private static final String getAccessionOfCV(
-			Set<ConceptAccession> conceptAccessions, String cv) {
+	private static final String getAccessionOfCV(Set<ConceptAccession> conceptAccessions, String cv) {
 		for (ConceptAccession acc : conceptAccessions) {
 			if (acc.getElementOf().getId().equals(cv)) {
 				return acc.getAccession();

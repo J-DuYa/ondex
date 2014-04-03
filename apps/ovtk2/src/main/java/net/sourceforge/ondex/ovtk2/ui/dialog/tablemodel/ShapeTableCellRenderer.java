@@ -31,22 +31,19 @@ public class ShapeTableCellRenderer extends JLabel implements TableCellRenderer 
 		setOpaque(true); // MUST do this for background to show up.
 	}
 
-	public Component getTableCellRendererComponent(JTable table, Object shape,
-			boolean isSelected, boolean hasFocus, int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object shape, boolean isSelected, boolean hasFocus, int row, int column) {
 		ShapeIcon icon = new ShapeIcon((Shape) shape);
 		this.setIcon(icon);
 		if (isBordered) {
 			if (isSelected) {
 				if (selectedBorder == null) {
-					selectedBorder = BorderFactory.createMatteBorder(2, 5, 2,
-							5, table.getSelectionBackground());
+					selectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5, table.getSelectionBackground());
 				}
 				setBorder(selectedBorder);
 				setBackground(table.getSelectionBackground());
 			} else {
 				if (unselectedBorder == null) {
-					unselectedBorder = BorderFactory.createMatteBorder(2, 5, 2,
-							5, table.getBackground());
+					unselectedBorder = BorderFactory.createMatteBorder(2, 5, 2, 5, table.getBackground());
 				}
 				setBorder(unselectedBorder);
 				setBackground(table.getBackground());

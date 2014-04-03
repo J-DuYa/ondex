@@ -34,56 +34,35 @@ public class AccessionPlugin extends AbstractContentDisplayPlugin {
 
 	static {
 		cvToURL = new HashMap<String, String>();
-		cvToURL.put("CHEMBLTARGET",
-				"https://www.ebi.ac.uk/chembldb/target/inspect/");
-		cvToURL.put("CHEMBLASSAY",
-				"https://www.ebi.ac.uk/chembldb/assay/inspect/");
-		cvToURL.put("CHEMBL",
-				"https://www.ebi.ac.uk/chembldb/compound/inspect/");
+		cvToURL.put("CHEMBLTARGET", "https://www.ebi.ac.uk/chembldb/target/inspect/");
+		cvToURL.put("CHEMBLASSAY", "https://www.ebi.ac.uk/chembldb/assay/inspect/");
+		cvToURL.put("CHEMBL", "https://www.ebi.ac.uk/chembldb/compound/inspect/");
 		cvToURL.put("GO", "http://www.ebi.ac.uk/QuickGO/GTerm?id=");
 		cvToURL.put("UNIPROTKB", "http://beta.uniprot.org/uniprot/");
-		cvToURL.put("EMBL",
-				"http://www.ebi.ac.uk/cgi-bin/emblfetch?style=html&id=");
+		cvToURL.put("EMBL", "http://www.ebi.ac.uk/cgi-bin/emblfetch?style=html&id=");
 		cvToURL.put("IPRO", "http://www.ebi.ac.uk/interpro/IEntry?ac=");
 		cvToURL.put("NLM", "http://www.ncbi.nlm.nih.gov/pubmed/");
 		cvToURL.put("PubMed", "http://www.ncbi.nlm.nih.gov/pubmed/");
-		cvToURL.put("TAIR",
-				"http://www.arabidopsis.org/servlets/TairObject?type=locus&name=");
+		cvToURL.put("TAIR", "http://www.arabidopsis.org/servlets/TairObject?type=locus&name=");
 		cvToURL.put("EC", "http://www.expasy.org/enzyme/");
 		cvToURL.put("PROSITE", "http://www.expasy.org/prosite/");
-		cvToURL.put("NC_NP",
-				"http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?db=protein&id=");
-		cvToURL.put("NC_NM",
-				"http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?id=");
-		cvToURL.put("NC_GE",
-				"http://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&term=");
+		cvToURL.put("NC_NP", "http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?db=protein&id=");
+		cvToURL.put("NC_NM", "http://www.ncbi.nlm.nih.gov/entrez/viewer.fcgi?id=");
+		cvToURL.put("NC_GE", "http://www.ncbi.nlm.nih.gov/sites/entrez?db=gene&term=");
 		cvToURL.put("PFAM", "http://pfam.sanger.ac.uk/family?acc=");
-		cvToURL.put("TX",
-				"http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=");
-		cvToURL.put("INTACT",
-				"http://www.ebi.ac.uk/intact/binary-search/faces/search.xhtml?query=");
+		cvToURL.put("TX", "http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=");
+		cvToURL.put("INTACT", "http://www.ebi.ac.uk/intact/binary-search/faces/search.xhtml?query=");
 		cvToURL.put("AC", "http://pmn.plantcyc.org/ARA/NEW-IMAGE?object=");
-		cvToURL.put("SCOP",
-				"http://scop.mrc-lmb.cam.ac.uk/scop/search.cgi?sid=");
-		cvToURL.put("GENB",
-				"http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=");
-		cvToURL.put(
-				"PRINTS",
-				"http://www.bioinf.manchester.ac.uk/cgi-bin/dbbrowser/PRINTS/DoPRINTS.pl?cmd_a=Display&fun_a=Text&qst_a=");
-		cvToURL.put("PRODOM",
-				"http://prodom.prabi.fr/prodom/current/cgi-bin/request.pl?question=DBEN&query=");
-		cvToURL.put("MC",
-				"http://metacyc.org/META/substring-search?type=NIL&object=");
-		cvToURL.put(
-				"OMIM",
-				"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=OMIM&dopt=Detailed&tmpl=dispomimTemplate&list_uids=");
-		cvToURL.put("REAC",
-				"http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&ID=");
+		cvToURL.put("SCOP", "http://scop.mrc-lmb.cam.ac.uk/scop/search.cgi?sid=");
+		cvToURL.put("GENB", "http://www.ncbi.nlm.nih.gov/sites/entrez?db=nuccore&cmd=search&term=");
+		cvToURL.put("PRINTS", "http://www.bioinf.manchester.ac.uk/cgi-bin/dbbrowser/PRINTS/DoPRINTS.pl?cmd_a=Display&fun_a=Text&qst_a=");
+		cvToURL.put("PRODOM", "http://prodom.prabi.fr/prodom/current/cgi-bin/request.pl?question=DBEN&query=");
+		cvToURL.put("MC", "http://metacyc.org/META/substring-search?type=NIL&object=");
+		cvToURL.put("OMIM", "http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=OMIM&dopt=Detailed&tmpl=dispomimTemplate&list_uids=");
+		cvToURL.put("REAC", "http://www.reactome.org/cgi-bin/eventbrowser?DB=gk_current&ID=");
 		cvToURL.put("DOI", "http://dx.doi.org/");
-		cvToURL.put("Poplar-JGI",
-				"http://genome.jgi-psf.org/cgi-bin/dispGeneModel?db=Poptr1_1&id=");
-		cvToURL.put("PoplarCyc",
-				"http://pmn.plantcyc.org/POPLAR/NEW-IMAGE?object=");
+		cvToURL.put("Poplar-JGI", "http://genome.jgi-psf.org/cgi-bin/dispGeneModel?db=Poptr1_1&id=");
+		cvToURL.put("PoplarCyc", "http://pmn.plantcyc.org/POPLAR/NEW-IMAGE?object=");
 	}
 
 	/**
@@ -91,26 +70,21 @@ public class AccessionPlugin extends AbstractContentDisplayPlugin {
 	 * 
 	 * @throws InvalidPluginArgumentException
 	 */
-	public AccessionPlugin(ONDEXGraph aog)
-			throws InvalidPluginArgumentException {
+	public AccessionPlugin(ONDEXGraph aog) throws InvalidPluginArgumentException {
 		super(aog);
 
-		File existingMapping = new File(Config.ondexDir + File.separator
-				+ "importdata" + File.separator + "htmlaccessionlink");
+		File existingMapping = new File(Config.ondexDir + File.separator + "importdata" + File.separator + "htmlaccessionlink");
 
 		if (existingMapping.exists()) {
 			// singleton for mapper
 			if (mapper == null) {
 				mapper = new Validator();
 
-				ONDEXPluginArguments varg = new ONDEXPluginArguments(
-						mapper.getArgumentDefinitions());
-				varg.setOption(FileArgumentDefinition.INPUT_DIR,
-						existingMapping.getAbsolutePath());
+				ONDEXPluginArguments varg = new ONDEXPluginArguments(mapper.getArgumentDefinitions());
+				varg.setOption(FileArgumentDefinition.INPUT_DIR, existingMapping.getAbsolutePath());
 
 				mapper.setArguments(varg);
-				System.out.println("Using mapping file: "
-						+ existingMapping.getAbsolutePath());
+				System.out.println("Using mapping file: " + existingMapping.getAbsolutePath());
 			}
 		}
 	}
@@ -136,8 +110,7 @@ public class AccessionPlugin extends AbstractContentDisplayPlugin {
 	/*
 	 * Collects for a given concept its accessions grouped by DataSource
 	 */
-	private Map<DataSource, List<ConceptAccession>> getCVtoAccessions(
-			ONDEXConcept c) {
+	private Map<DataSource, List<ConceptAccession>> getCVtoAccessions(ONDEXConcept c) {
 		Map<DataSource, List<ConceptAccession>> cvMap = new HashMap<DataSource, List<ConceptAccession>>();
 		for (ConceptAccession acc : c.getConceptAccessions()) {
 			// add all accessions by data source
@@ -155,8 +128,7 @@ public class AccessionPlugin extends AbstractContentDisplayPlugin {
 	/*
 	 * Writes the collected accessions
 	 */
-	private void writeAccessions(Map<DataSource, List<ConceptAccession>> cvMap,
-			ConceptClass cc, StringBuffer b) {
+	private void writeAccessions(Map<DataSource, List<ConceptAccession>> cvMap, ConceptClass cc, StringBuffer b) {
 		b.append("<h2>Accessions</h2>");
 		for (DataSource ds : cvMap.keySet()) {
 
@@ -183,8 +155,7 @@ public class AccessionPlugin extends AbstractContentDisplayPlugin {
 
 				// add in URL
 				if (url != null) {
-					b.append("<a href=" + url + "" + acc.getAccession() + ">"
-							+ acc.getAccession() + "</a>");
+					b.append("<a href=" + url + "" + acc.getAccession() + ">" + acc.getAccession() + "</a>");
 				} else {
 					b.append(acc.getAccession());
 				}

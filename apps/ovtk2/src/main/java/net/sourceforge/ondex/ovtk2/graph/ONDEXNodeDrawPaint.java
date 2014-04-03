@@ -49,20 +49,18 @@ public class ONDEXNodeDrawPaint implements Transformer<ONDEXConcept, Paint> {
 	 * 
 	 */
 	public ONDEXNodeDrawPaint() {
-		this.colors = LazyMap.decorate(new HashMap<ONDEXConcept, Paint>(),
-				new Factory<Paint>() {
-					@Override
-					public Paint create() {
-						return Color.BLACK;
-					}
-				});
-		this.alphas = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(),
-				new Factory<Integer>() {
-					@Override
-					public Integer create() {
-						return 255;
-					}
-				});
+		this.colors = LazyMap.decorate(new HashMap<ONDEXConcept, Paint>(), new Factory<Paint>() {
+			@Override
+			public Paint create() {
+				return Color.BLACK;
+			}
+		});
+		this.alphas = LazyMap.decorate(new HashMap<ONDEXConcept, Integer>(), new Factory<Integer>() {
+			@Override
+			public Integer create() {
+				return 255;
+			}
+		});
 		this.strategy = NodeDrawPaintSelection.NONE;
 	}
 
@@ -141,8 +139,7 @@ public class ONDEXNodeDrawPaint implements Transformer<ONDEXConcept, Paint> {
 		// Explicitly set alpha channel of colour
 		if (paint instanceof Color && alphas.containsKey(node)) {
 			Color color = (Color) paint;
-			paint = new Color(color.getRed(), color.getGreen(),
-					color.getBlue(), alphas.get(node));
+			paint = new Color(color.getRed(), color.getGreen(), color.getBlue(), alphas.get(node));
 		}
 		updateColor(node, paint);
 	}

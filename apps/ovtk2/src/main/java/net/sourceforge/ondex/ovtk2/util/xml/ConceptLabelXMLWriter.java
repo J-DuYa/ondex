@@ -45,8 +45,7 @@ public class ConceptLabelXMLWriter {
 	 * @param dialog
 	 * @throws XMLStreamException
 	 */
-	public static void write(XMLStreamWriter2 xmlw, DialogConceptLabel dialog)
-			throws XMLStreamException {
+	public static void write(XMLStreamWriter2 xmlw, DialogConceptLabel dialog) throws XMLStreamException {
 
 		xmlw.writeStartElement(SETTINGS);
 
@@ -97,10 +96,9 @@ public class ConceptLabelXMLWriter {
 
 			xmlw.writeEndElement();
 		}
-		
+
 		// label position, write only once
-		Renderer.VertexLabel.Position position = (Renderer.VertexLabel.Position) dialog.labelPositions
-				.getSelectedItem();
+		Renderer.VertexLabel.Position position = (Renderer.VertexLabel.Position) dialog.labelPositions.getSelectedItem();
 		xmlw.writeStartElement(LABELPOSITION);
 		xmlw.writeCharacters(position.name());
 		xmlw.writeEndElement();

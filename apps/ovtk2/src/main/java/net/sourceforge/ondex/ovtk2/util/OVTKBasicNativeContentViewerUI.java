@@ -39,9 +39,7 @@ public class OVTKBasicNativeContentViewerUI extends BasicContentViewerUI {
 		if (he.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 			try {
 				URL u = he.getURL();
-				if (u.getProtocol().equalsIgnoreCase("mailto")
-						|| u.getProtocol().equalsIgnoreCase("http")
-						|| u.getProtocol().equalsIgnoreCase("ftp")) {
+				if (u.getProtocol().equalsIgnoreCase("mailto") || u.getProtocol().equalsIgnoreCase("http") || u.getProtocol().equalsIgnoreCase("ftp")) {
 					Desktop.getDesktop().browse(u.toURI());
 					return;
 				}

@@ -142,14 +142,10 @@ public class DialogMerging extends OVTK2Dialog {
 		contentPane.setLayout(new BorderLayout());
 		if (accessions.size() > 0) {
 			contentPane.add(initGUI(), BorderLayout.CENTER);
-			contentPane.add(
-					makeButtonsPanel("Dialog.Merging.Apply",
-							"Dialog.Merging.Cancel"), BorderLayout.SOUTH);
+			contentPane.add(makeButtonsPanel("Dialog.Merging.Apply", "Dialog.Merging.Cancel"), BorderLayout.SOUTH);
 		} else {
-			contentPane.add(new JLabel("No concept accessions found."),
-					BorderLayout.CENTER);
-			JButton cancel = new JButton(
-					Config.language.getProperty("Dialog.Merging.Cancel"));
+			contentPane.add(new JLabel("No concept accessions found."), BorderLayout.CENTER);
+			JButton cancel = new JButton(Config.language.getProperty("Dialog.Merging.Cancel"));
 			cancel.setActionCommand("cancel");
 			cancel.addActionListener(this);
 			contentPane.add(cancel, BorderLayout.SOUTH);
@@ -171,16 +167,9 @@ public class DialogMerging extends OVTK2Dialog {
 
 			// Output a warning message
 			if (collapseConcepts.isSelected()) {
-				ClusterCollapser collapser = new ClusterCollapser(true, true,
-						null);
+				ClusterCollapser collapser = new ClusterCollapser(true, true, null);
 
-				int option = JOptionPane.showConfirmDialog(contentPane,
-						Config.language
-								.getProperty("Dialog.Merging.WarningMessage"),
-						Config.language
-								.getProperty("Dialog.Merging.WarningTitle"),
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE);
+				int option = JOptionPane.showConfirmDialog(contentPane, Config.language.getProperty("Dialog.Merging.WarningMessage"), Config.language.getProperty("Dialog.Merging.WarningTitle"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 
 				if (option == JOptionPane.YES_OPTION) {
 					// process collapsing here
@@ -201,31 +190,26 @@ public class DialogMerging extends OVTK2Dialog {
 							}
 							i++;
 						}
-						System.out.println("Found " + clusters.size()
-								+ " clusters.");
+						System.out.println("Found " + clusters.size() + " clusters.");
 
 						Set<ONDEXConcept> created = new HashSet<ONDEXConcept>();
 						for (Integer key : clusters.keySet()) {
 							// collapse every cluster
-							ONDEXConcept c = collapser.collapseConceptCluster(
-									graph, clusters.get(key));
+							ONDEXConcept c = collapser.collapseConceptCluster(graph, clusters.get(key));
 							created.add(c);
 						}
 
-						System.out.println("Created " + created.size()
-								+ " cluster concepts.");
+						System.out.println("Created " + created.size() + " cluster concepts.");
 
 						// make new concepts visible
 						viewer.getONDEXJUNGGraph().setVisibility(created, true);
 						for (ONDEXConcept c : created) {
 							// make all relations visible
-							viewer.getONDEXJUNGGraph().setVisibility(
-									graph.getRelationsOfConcept(c), true);
+							viewer.getONDEXJUNGGraph().setVisibility(graph.getRelationsOfConcept(c), true);
 						}
 
 						// layout nodes on big circle
-						LayoutNeighbours.layoutNodes(
-								viewer.getVisualizationViewer(), null, created);
+						LayoutNeighbours.layoutNodes(viewer.getVisualizationViewer(), null, created);
 
 						if (viewer.getMetaGraph() != null)
 							viewer.getMetaGraph().updateMetaData();
@@ -241,16 +225,12 @@ public class DialogMerging extends OVTK2Dialog {
 			} else {
 
 				// init meta data
-				RelationType ofType = graph.getMetaData()
-						.getRelationType("equ");
+				RelationType ofType = graph.getMetaData().getRelationType("equ");
 				if (ofType == null)
-					ofType = graph.getMetaData().getFactory()
-							.createRelationType("equ");
-				EvidenceType evidencetype = graph.getMetaData()
-						.getEvidenceType("ACC");
+					ofType = graph.getMetaData().getFactory().createRelationType("equ");
+				EvidenceType evidencetype = graph.getMetaData().getEvidenceType("ACC");
 				if (evidencetype == null)
-					evidencetype = graph.getMetaData().getFactory()
-							.createEvidenceType("ACC");
+					evidencetype = graph.getMetaData().getFactory().createEvidenceType("ACC");
 
 				// simply create equivalent relationship
 				Set<ONDEXRelation> created = new HashSet<ONDEXRelation>();
@@ -258,9 +238,7 @@ public class DialogMerging extends OVTK2Dialog {
 					for (ONDEXConcept toConcept : mappings.keySet()) {
 						if (!fromConcept.equals(toConcept)) {
 							// create new relation
-							ONDEXRelation r = graph.getFactory()
-									.createRelation(fromConcept, toConcept,
-											ofType, evidencetype);
+							ONDEXRelation r = graph.getFactory().createRelation(fromConcept, toConcept, ofType, evidencetype);
 							created.add(r);
 						}
 					}
@@ -304,8 +282,7 @@ public class DialogMerging extends OVTK2Dialog {
 		else if (arg0.getSource().equals(useAmbiguous)) {
 
 			// re-create accession list
-			extractAccessions(useAmbiguous.isSelected(),
-					caseInsensitive.isSelected());
+			extractAccessions(useAmbiguous.isSelected(), caseInsensitive.isSelected());
 
 			// update data source drop-down box
 			populateAccessionDataSource();
@@ -314,8 +291,7 @@ public class DialogMerging extends OVTK2Dialog {
 		// update accession list
 		else if (arg0.getSource().equals(caseInsensitive)) {
 			// re-create accession list
-			extractAccessions(useAmbiguous.isSelected(),
-					caseInsensitive.isSelected());
+			extractAccessions(useAmbiguous.isSelected(), caseInsensitive.isSelected());
 
 			// update data source drop-down box
 			populateAccessionDataSource();
@@ -354,8 +330,7 @@ public class DialogMerging extends OVTK2Dialog {
 					// sort by DataSource first
 					DataSource ds = ca.getElementOf();
 					if (!accessions.containsKey(ds)) {
-						accessions.put(ds,
-								new HashMap<String, Set<ONDEXConcept>>());
+						accessions.put(ds, new HashMap<String, Set<ONDEXConcept>>());
 					}
 
 					// check for case insensitive
@@ -365,8 +340,7 @@ public class DialogMerging extends OVTK2Dialog {
 
 					// use accession as map key
 					if (!accessions.get(ds).containsKey(accession)) {
-						accessions.get(ds).put(accession,
-								new HashSet<ONDEXConcept>());
+						accessions.get(ds).put(accession, new HashSet<ONDEXConcept>());
 					}
 
 					// finally add concept to map
@@ -389,14 +363,11 @@ public class DialogMerging extends OVTK2Dialog {
 		properties.setLayout(layout);
 
 		// nice border
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.Merging.Properties"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.Merging.Properties"));
 		properties.setBorder(propertiesBorder);
 
 		// help text for accession box
-		JLabel accessionDataSourceLabel = new JLabel(
-				Config.language.getProperty("Dialog.Merging.AccessionsOf"));
+		JLabel accessionDataSourceLabel = new JLabel(Config.language.getProperty("Dialog.Merging.AccessionsOf"));
 		properties.add(accessionDataSourceLabel);
 
 		// selection of accession data source
@@ -405,9 +376,7 @@ public class DialogMerging extends OVTK2Dialog {
 		properties.add(accessionDataSource);
 
 		// help text for ambiguous box
-		JLabel useAmbiguousLabel = new JLabel(
-				Config.language
-						.getProperty("Dialog.Merging.AmbiguousAccessions"));
+		JLabel useAmbiguousLabel = new JLabel(Config.language.getProperty("Dialog.Merging.AmbiguousAccessions"));
 		properties.add(useAmbiguousLabel);
 
 		// make ambiguous selection box
@@ -416,8 +385,7 @@ public class DialogMerging extends OVTK2Dialog {
 		properties.add(useAmbiguous);
 
 		// help text for case insensitive box
-		JLabel caseInsensitiveLabel = new JLabel(
-				Config.language.getProperty("Dialog.Merging.CaseInsensitive"));
+		JLabel caseInsensitiveLabel = new JLabel(Config.language.getProperty("Dialog.Merging.CaseInsensitive"));
 		properties.add(caseInsensitiveLabel);
 
 		// make case insensitive box
@@ -427,8 +395,7 @@ public class DialogMerging extends OVTK2Dialog {
 		properties.add(caseInsensitive);
 
 		// help text for within data source box
-		JLabel withinDataSourceLabel = new JLabel(
-				Config.language.getProperty("Dialog.Merging.WithinDataSource"));
+		JLabel withinDataSourceLabel = new JLabel(Config.language.getProperty("Dialog.Merging.WithinDataSource"));
 		properties.add(withinDataSourceLabel);
 
 		// make within data source box
@@ -437,9 +404,7 @@ public class DialogMerging extends OVTK2Dialog {
 		properties.add(withinDataSource);
 
 		// help text for restrict data source box
-		JLabel restrictDataSourceLabel = new JLabel(
-				Config.language
-						.getProperty("Dialog.Merging.RestrictDataSource"));
+		JLabel restrictDataSourceLabel = new JLabel(Config.language.getProperty("Dialog.Merging.RestrictDataSource"));
 		properties.add(restrictDataSourceLabel);
 
 		// make restrict data source box
@@ -448,8 +413,7 @@ public class DialogMerging extends OVTK2Dialog {
 		properties.add(restrictDataSource);
 
 		// help text for collapse concepts bix
-		JLabel collapseConceptsLabel = new JLabel(
-				Config.language.getProperty("Dialog.Merging.CollapseConcepts"));
+		JLabel collapseConceptsLabel = new JLabel(Config.language.getProperty("Dialog.Merging.CollapseConcepts"));
 		properties.add(collapseConceptsLabel);
 
 		// make collapse concepts box
@@ -458,82 +422,16 @@ public class DialogMerging extends OVTK2Dialog {
 		properties.add(collapseConcepts);
 
 		// preamble for mapping figure
-		JLabel possibleMappingsLabel = new JLabel(
-				Config.language.getProperty("Dialog.Merging.PossibleMappings"));
+		JLabel possibleMappingsLabel = new JLabel(Config.language.getProperty("Dialog.Merging.PossibleMappings"));
 		properties.add(possibleMappingsLabel);
 
 		// number possible mappings
 		properties.add(possibleMappings);
 
-		layout.setHorizontalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup()
-								.addComponent(accessionDataSourceLabel)
-								.addComponent(useAmbiguousLabel)
-								.addComponent(caseInsensitiveLabel)
-								.addComponent(withinDataSourceLabel)
-								.addComponent(restrictDataSourceLabel)
-								.addComponent(collapseConceptsLabel)
-								.addComponent(possibleMappingsLabel))
-				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
-						GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGroup(
-						layout.createParallelGroup()
-								.addComponent(accessionDataSource, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(useAmbiguous, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(caseInsensitive, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(withinDataSource, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(restrictDataSource, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(collapseConcepts, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(possibleMappings, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(accessionDataSourceLabel)
-								.addComponent(accessionDataSource))
-				.addGroup(
-						layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-								.addComponent(useAmbiguousLabel)
-								.addComponent(useAmbiguous))
-				.addGroup(
-						layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-								.addComponent(caseInsensitiveLabel)
-								.addComponent(caseInsensitive))
-				.addGroup(
-						layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-								.addComponent(withinDataSourceLabel)
-								.addComponent(withinDataSource))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(restrictDataSourceLabel)
-								.addComponent(restrictDataSource))
-				.addGroup(
-						layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-								.addComponent(collapseConceptsLabel)
-								.addComponent(collapseConcepts))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(possibleMappingsLabel)
-								.addComponent(possibleMappings)));
+		layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup().addComponent(accessionDataSourceLabel).addComponent(useAmbiguousLabel).addComponent(caseInsensitiveLabel).addComponent(withinDataSourceLabel).addComponent(restrictDataSourceLabel).addComponent(collapseConceptsLabel).addComponent(possibleMappingsLabel)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(layout.createParallelGroup().addComponent(accessionDataSource, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(useAmbiguous, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(caseInsensitive, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(withinDataSource, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(restrictDataSource, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(collapseConcepts, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(possibleMappings, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(accessionDataSourceLabel).addComponent(accessionDataSource)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(useAmbiguousLabel).addComponent(useAmbiguous)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(caseInsensitiveLabel).addComponent(caseInsensitive)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(withinDataSourceLabel).addComponent(withinDataSource)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(restrictDataSourceLabel).addComponent(restrictDataSource)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER).addComponent(collapseConceptsLabel).addComponent(collapseConcepts))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(possibleMappingsLabel).addComponent(possibleMappings)));
 
 		return properties;
 	}
@@ -543,8 +441,7 @@ public class DialogMerging extends OVTK2Dialog {
 	 */
 	private void populateAccessionDataSource() {
 		// accessions are first index by data source
-		DataSource[] dataSources = accessions.keySet().toArray(
-				new DataSource[0]);
+		DataSource[] dataSources = accessions.keySet().toArray(new DataSource[0]);
 		Arrays.sort(dataSources);
 
 		// update drop-down box
@@ -622,14 +519,12 @@ public class DialogMerging extends OVTK2Dialog {
 				// index concepts by their concept class
 				ConceptClass conceptClass = c.getOfType();
 				if (!index.containsKey(conceptClass))
-					index.put(conceptClass,
-							new HashMap<DataSource, Set<ONDEXConcept>>());
+					index.put(conceptClass, new HashMap<DataSource, Set<ONDEXConcept>>());
 
 				// index concepts by their data source
 				DataSource dataSource = c.getElementOf();
 				if (!index.get(conceptClass).containsKey(dataSource))
-					index.get(conceptClass).put(dataSource,
-							new HashSet<ONDEXConcept>());
+					index.get(conceptClass).put(dataSource, new HashSet<ONDEXConcept>());
 
 				// this is a two dimensional index
 				index.get(conceptClass).get(dataSource).add(c);
@@ -644,27 +539,23 @@ public class DialogMerging extends OVTK2Dialog {
 				if (withinDataSource.isSelected()) {
 
 					// map within a particular data source
-					if (restrictDataSource != null
-							&& restrictDataSource.getSelectedIndex() > 0) {
+					if (restrictDataSource != null && restrictDataSource.getSelectedIndex() > 0) {
 
 						// check for particular data source
-						Set<ONDEXConcept> set = index.get(conceptClass).get(
-								restrictDataSource.getSelectedItem());
+						Set<ONDEXConcept> set = index.get(conceptClass).get(restrictDataSource.getSelectedItem());
 						if (set != null) {
 
 							// all vs. all mapping
 							for (ONDEXConcept fromConcept : set) {
 								// make sure key exists
 								if (!mappings.containsKey(fromConcept))
-									mappings.put(fromConcept,
-											new HashSet<ONDEXConcept>());
+									mappings.put(fromConcept, new HashSet<ONDEXConcept>());
 
 								// all other concepts
 								for (ONDEXConcept toConcept : set) {
 									// prevent self-loops
 									if (!fromConcept.equals(toConcept)) {
-										mappings.get(fromConcept)
-												.add(toConcept);
+										mappings.get(fromConcept).add(toConcept);
 									}
 								}
 							}
@@ -675,22 +566,19 @@ public class DialogMerging extends OVTK2Dialog {
 
 						// map in each of the data sources
 						for (DataSource dataSource : dataSources) {
-							Set<ONDEXConcept> set = index.get(conceptClass)
-									.get(dataSource);
+							Set<ONDEXConcept> set = index.get(conceptClass).get(dataSource);
 
 							// all vs. all mapping
 							for (ONDEXConcept fromConcept : set) {
 								// make sure key exists
 								if (!mappings.containsKey(fromConcept))
-									mappings.put(fromConcept,
-											new HashSet<ONDEXConcept>());
+									mappings.put(fromConcept, new HashSet<ONDEXConcept>());
 
 								// all other concepts
 								for (ONDEXConcept toConcept : set) {
 									// prevent self-loops
 									if (!fromConcept.equals(toConcept)) {
-										mappings.get(fromConcept)
-												.add(toConcept);
+										mappings.get(fromConcept).add(toConcept);
 									}
 								}
 							}
@@ -705,21 +593,18 @@ public class DialogMerging extends OVTK2Dialog {
 					for (DataSource ds1 : dataSources) {
 
 						// all concepts of first data source
-						for (ONDEXConcept fromConcept : index.get(conceptClass)
-								.get(ds1)) {
+						for (ONDEXConcept fromConcept : index.get(conceptClass).get(ds1)) {
 
 							// make sure key exists
 							if (!mappings.containsKey(fromConcept))
-								mappings.put(fromConcept,
-										new HashSet<ONDEXConcept>());
+								mappings.put(fromConcept, new HashSet<ONDEXConcept>());
 
 							// look at other data sources
 							for (DataSource ds2 : dataSources) {
 
 								// concepts from different data source
 								if (!ds1.equals(ds2)) {
-									mappings.get(fromConcept).addAll(
-											index.get(conceptClass).get(ds2));
+									mappings.get(fromConcept).addAll(index.get(conceptClass).get(ds2));
 								}
 							}
 						}

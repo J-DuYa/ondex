@@ -22,16 +22,18 @@ public class CustomFileFilter extends FileFilter {
 	/**
 	 * Constructor takes custom extension.
 	 * 
-	 * @param extension String
+	 * @param extension
+	 *            String
 	 */
 	public CustomFileFilter(String extension) {
 		this.extensions.add(extension);
 	}
-	
+
 	/**
 	 * Constructor takes array of extensions.
 	 * 
-	 * @param extensions String[]
+	 * @param extensions
+	 *            String[]
 	 */
 	public CustomFileFilter(String[] extensions) {
 		for (int i = 0; i < extensions.length; i++) {

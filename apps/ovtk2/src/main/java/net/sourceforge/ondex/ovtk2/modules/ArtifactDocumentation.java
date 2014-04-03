@@ -12,43 +12,42 @@ import javax.xml.transform.TransformerException;
  */
 public class ArtifactDocumentation {
 
-    private FetchPluginDescription pluginDescriptor = new FetchPluginDescription();
+	private FetchPluginDescription pluginDescriptor = new FetchPluginDescription();
 
-    private Artifact artifact;
-    private String xmlDocumentation;
+	private Artifact artifact;
+	private String xmlDocumentation;
 
-    public Artifact getArtifact() {
-        return artifact;
-    }
+	public Artifact getArtifact() {
+		return artifact;
+	}
 
-    public String getXmlDocumentation() {
-        return xmlDocumentation;
-    }
+	public String getXmlDocumentation() {
+		return xmlDocumentation;
+	}
 
-    public ArtifactDocumentation(Artifact artifact) throws IOException {
-        this.artifact = artifact;
-        init();
-    }
+	public ArtifactDocumentation(Artifact artifact) throws IOException {
+		this.artifact = artifact;
+		init();
+	}
 
-    public void init() throws IOException {
-        try {
-            StringBuilder sb = new StringBuilder();
-            InputStream stream = pluginDescriptor.getDocumentation(artifact);
-            BufferedReader isr = new BufferedReader(new InputStreamReader(stream));
-            while (isr.ready()) {
-                sb.append(isr.readLine());
-                sb.append('\n');
-            }
+	public void init() throws IOException {
+		try {
+			StringBuilder sb = new StringBuilder();
+			InputStream stream = pluginDescriptor.getDocumentation(artifact);
+			BufferedReader isr = new BufferedReader(new InputStreamReader(stream));
+			while (isr.ready()) {
+				sb.append(isr.readLine());
+				sb.append('\n');
+			}
 
-            xmlDocumentation = sb.toString();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        }
-    }
+			xmlDocumentation = sb.toString();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public String toString() {
-        return artifact.getArtifactId();
-    }
-
+	public String toString() {
+		return artifact.getArtifactId();
+	}
 
 }

@@ -155,10 +155,7 @@ public class ToolBarSearch implements Monitorable {
 	 * @param restrictDataSource
 	 * @param restrictContext
 	 */
-	public ToolBarSearch(OVTK2PropertiesAggregator viewer, String search,
-			boolean isRegex, boolean isCaseSensitive,
-			ConceptClass restrictConceptClass, DataSource restrictDataSource,
-			ONDEXConcept restrictContext) {
+	public ToolBarSearch(OVTK2PropertiesAggregator viewer, String search, boolean isRegex, boolean isCaseSensitive, ConceptClass restrictConceptClass, DataSource restrictDataSource, ONDEXConcept restrictContext) {
 		this.viewer = viewer;
 		this.search = search;
 		this.isRegex = isRegex;
@@ -196,13 +193,10 @@ public class ToolBarSearch implements Monitorable {
 				lastEnd = mr.end(group);
 				// reached end, append rest of target
 				if (group == count - 1) {
-					result.append(target.substring(mr.end(group),
-							target.length()));
+					result.append(target.substring(mr.end(group), target.length()));
 				}
 			} catch (IndexOutOfBoundsException e) {
-				throw (IndexOutOfBoundsException) new IndexOutOfBoundsException(
-						"Problem formatting match with result: " + mr
-								+ " on target: " + target).initCause(e);
+				throw (IndexOutOfBoundsException) new IndexOutOfBoundsException("Problem formatting match with result: " + mr + " on target: " + target).initCause(e);
 			}
 		}
 		result.append("</html>");
@@ -372,22 +366,16 @@ public class ToolBarSearch implements Monitorable {
 
 				mr = isMatching(p, search, accession);
 				if (mr != null)
-					match.add(formatMatch(mr, accession) + " (" + cv
-							+ ") [ConceptAccession]");
+					match.add(formatMatch(mr, accession) + " (" + cv + ") [ConceptAccession]");
 			}
 
 			// search in Attribute
 			for (Attribute attribute : ac.getAttributes()) {
 				Class<?> c = attribute.getOfType().getDataType();
-				if (String.class.isAssignableFrom(c)
-						|| Number.class.isAssignableFrom(c)) {
+				if (String.class.isAssignableFrom(c) || Number.class.isAssignableFrom(c)) {
 					mr = isMatching(p, search, attribute.getValue().toString());
 					if (mr != null)
-						match.add(formatMatch(mr, attribute.getValue()
-								.toString())
-								+ " ("
-								+ attribute.getOfType().getId()
-								+ ") [ConceptAttribute]");
+						match.add(formatMatch(mr, attribute.getValue().toString()) + " (" + attribute.getOfType().getId() + ") [ConceptAttribute]");
 				}
 			}
 
@@ -399,8 +387,7 @@ public class ToolBarSearch implements Monitorable {
 					name = ac.getConceptName().getName();
 				IdLabel label = new IdLabel(ac.getId(), name);
 				matches.put(label, match);
-				infos.put(label, ac.getOfType() + " [" + ac.getElementOf()
-						+ "]");
+				infos.put(label, ac.getOfType() + " [" + ac.getElementOf() + "]");
 			}
 
 			// update progress bar

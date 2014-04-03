@@ -21,21 +21,20 @@ import net.sourceforge.ondex.core.RelationType;
 import net.sourceforge.ondex.ovtk2.config.Config;
 
 /**
- * This class represents the panel that is displayed on
- * the right hand side of the statistics window. It provides
- * two main components: 
+ * This class represents the panel that is displayed on the right hand side of
+ * the statistics window. It provides two main components:
  * <ul>
- *  <li>The variable selection field, which holds the element that 
- *  was selected to serve as the statistical variable</li>
- *  <li>The filter table, which holds in each row one filter
- *  element consisting of a selected element and potentially a value.
- *  Values are only evaluated for attribute names.</li>  
+ * <li>The variable selection field, which holds the element that was selected
+ * to serve as the statistical variable</li>
+ * <li>The filter table, which holds in each row one filter element consisting
+ * of a selected element and potentially a value. Values are only evaluated for
+ * attribute names.</li>
  * </ul>
- * The class also provides methods to set, add and pop elements from
- * both the variable field and the filter table.
+ * The class also provides methods to set, add and pop elements from both the
+ * variable field and the filter table.
  * 
  * @author Jochen Weile, B.Sc.
- *
+ * 
  */
 public class SelectionPanel extends JPanel {
 
@@ -67,18 +66,17 @@ public class SelectionPanel extends JPanel {
 	private ONDEXGraph aog;
 
 	/**
-	 * this is the action listener from the main statistics panel.
-	 * It only serves the purpose to trigger a recalculation of 
-	 * all statistics once the value in a filter statement was 
-	 * changed.
+	 * this is the action listener from the main statistics panel. It only
+	 * serves the purpose to trigger a recalculation of all statistics once the
+	 * value in a filter statement was changed.
 	 */
 	private ActionListener al;
 
 	// ####CONSTRUCTOR####
 
 	/**
-	 * the constructor. sets the graph and the actionlistener and
-	 * then initializes the graphics.
+	 * the constructor. sets the graph and the actionlistener and then
+	 * initializes the graphics.
 	 */
 	public SelectionPanel(ONDEXGraph aog, ActionListener al) {
 		this.aog = aog;
@@ -88,12 +86,12 @@ public class SelectionPanel extends JPanel {
 	}
 
 	// ####METHODS####
-	
+
 	/**
 	 * english
 	 */
 	private String engl(String s) {
-		return Config.language.getProperty("Statistics."+s);
+		return Config.language.getProperty("Statistics." + s);
 	}
 
 	/**
@@ -112,14 +110,12 @@ public class SelectionPanel extends JPanel {
 
 		JPanel varPanel = new JPanel();
 		varPanel.setLayout(new BoxLayout(varPanel, BoxLayout.PAGE_AXIS));
-		varPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
-				.createEtchedBorder(), engl("Variable")));
+		varPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), engl("Variable")));
 		varPanel.add(variable);
 
 		JPanel filterPanel = new JPanel();
 		filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
-		filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory
-				.createEtchedBorder(), engl("Filters")));
+		filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), engl("Filters")));
 		filterPanel.add(new JScrollPane(filters));
 
 		setLayout(new BorderLayout());
@@ -131,13 +127,15 @@ public class SelectionPanel extends JPanel {
 	 * @return whether the variable is set or not.
 	 */
 	public boolean isVariableSet() {
-		return (variable.getText() != null && !variable.getText().trim()
-				.equals(""));
+		return (variable.getText() != null && !variable.getText().trim().equals(""));
 	}
 
 	/**
 	 * sets the given object as the new variable.
-	 * @param o either a ConceptClass or an AttributeName or a RelationType or a String.
+	 * 
+	 * @param o
+	 *            either a ConceptClass or an AttributeName or a RelationType or
+	 *            a String.
 	 */
 	public void setVariable(Object o) {
 		if (o instanceof AttributeName) {
@@ -193,6 +191,7 @@ public class SelectionPanel extends JPanel {
 
 	/**
 	 * pops (i.e. removes and returns) the current variable.
+	 * 
 	 * @return the current variable.
 	 */
 	public Object popVariable() {
@@ -205,7 +204,9 @@ public class SelectionPanel extends JPanel {
 
 	/**
 	 * adds a filter to the main filter table
-	 * @param filter either a ConceptClass or a RelationType or an AttributeName
+	 * 
+	 * @param filter
+	 *            either a ConceptClass or a RelationType or an AttributeName
 	 */
 	public void addFilter(Object filter) {
 		model.addFilter(filter);
@@ -223,6 +224,7 @@ public class SelectionPanel extends JPanel {
 
 	/**
 	 * pops (i.e. removes and returns) the currently selected filter.
+	 * 
 	 * @return the filter element.
 	 */
 	public Object popSelectedFilter() {
@@ -251,17 +253,15 @@ public class SelectionPanel extends JPanel {
 	}
 
 	/**
-	 * This class is a custom table model that is capable of
-	 * storing objects of types ConceptClass, RelationType, 
-	 * AttributeName and Strings. It is extended with custom
-	 * methods to return whole rows (which represent filter
-	 * statements), removeRows, pop elements, and add filter
-	 * statements. It performs an automatic extension to the
-	 * underlying array when necessary.
-	 *  
+	 * This class is a custom table model that is capable of storing objects of
+	 * types ConceptClass, RelationType, AttributeName and Strings. It is
+	 * extended with custom methods to return whole rows (which represent filter
+	 * statements), removeRows, pop elements, and add filter statements. It
+	 * performs an automatic extension to the underlying array when necessary.
+	 * 
 	 * 
 	 * @author Jochen Weile, B.Sc.
-	 *
+	 * 
 	 */
 	private class FilterTableModel extends AbstractTableModel {
 
@@ -287,6 +287,7 @@ public class SelectionPanel extends JPanel {
 
 		/**
 		 * returns the name of the column with the given index.
+		 * 
 		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 		 */
 		@Override
@@ -296,6 +297,7 @@ public class SelectionPanel extends JPanel {
 
 		/**
 		 * returns the current number of used rows.
+		 * 
 		 * @see javax.swing.table.TableModel#getRowCount()
 		 */
 		public int getRowCount() {
@@ -304,6 +306,7 @@ public class SelectionPanel extends JPanel {
 
 		/**
 		 * gets the current number of columns.
+		 * 
 		 * @see javax.swing.table.TableModel#getColumnCount()
 		 */
 		public int getColumnCount() {
@@ -311,30 +314,28 @@ public class SelectionPanel extends JPanel {
 		}
 
 		/**
-		 * returns the value that is stored in the table for
-		 * the given coordinates (row and column).
+		 * returns the value that is stored in the table for the given
+		 * coordinates (row and column).
+		 * 
 		 * @see javax.swing.table.TableModel#getValueAt(int, int)
 		 */
 		public Object getValueAt(int row, int col) {
 			Object o = rowData[row][col];
 			if (o instanceof AttributeName) {
 				AttributeName an = (AttributeName) o;
-				if (an.getFullname() == null
-						|| an.getFullname().trim().equals(""))
+				if (an.getFullname() == null || an.getFullname().trim().equals(""))
 					return an.getId();
 				else
 					return an.getFullname();
 			} else if (o instanceof ConceptClass) {
 				ConceptClass cc = (ConceptClass) o;
-				if (cc.getFullname() == null
-						|| cc.getFullname().trim().equals(""))
+				if (cc.getFullname() == null || cc.getFullname().trim().equals(""))
 					return cc.getId();
 				else
 					return cc.getFullname();
 			} else if (o instanceof RelationType) {
 				RelationType rt = (RelationType) o;
-				if (rt.getFullname() == null
-						|| rt.getFullname().trim().equals(""))
+				if (rt.getFullname() == null || rt.getFullname().trim().equals(""))
 					return rt.getId();
 				else
 					return rt.getFullname();
@@ -343,16 +344,16 @@ public class SelectionPanel extends JPanel {
 		}
 
 		/**
-		 * returns the filter element that is stored in row
-		 * of the given index. For safety reasons it returns
-		 * a copy instead of a pointer to the raw data.
+		 * returns the filter element that is stored in row of the given index.
+		 * For safety reasons it returns a copy instead of a pointer to the raw
+		 * data.
 		 * 
-		 * @param row the index of the row to query.
-		 * @return an Object[] array that holds either a 
-		 * ConceptClass, RelationType, String, or AttributeName
-		 * in its first slot; and the potential Attribute value in its
-		 * second slot. If no value is specified by the user,
-		 * the second slot is empty.
+		 * @param row
+		 *            the index of the row to query.
+		 * @return an Object[] array that holds either a ConceptClass,
+		 *         RelationType, String, or AttributeName in its first slot; and
+		 *         the potential Attribute value in its second slot. If no value
+		 *         is specified by the user, the second slot is empty.
 		 */
 		public Object[] getFilterAtRow(int row) {
 			Object[] out = new Object[2];
@@ -362,10 +363,11 @@ public class SelectionPanel extends JPanel {
 		}
 
 		/**
-		 * removes one row from the data table
-		 * all rows with higher indexes will move up
-		 * one position.
-		 * @param row the index of the row to delete.
+		 * removes one row from the data table all rows with higher indexes will
+		 * move up one position.
+		 * 
+		 * @param row
+		 *            the index of the row to delete.
 		 */
 		private void removeRow(int row) {
 			if (row < rowcount - 1) {
@@ -385,9 +387,11 @@ public class SelectionPanel extends JPanel {
 		}
 
 		/**
-		 * pops (i.e. removes and returns) content
-		 * of the row with the given index.
-		 * @param row the index of the row.
+		 * pops (i.e. removes and returns) content of the row with the given
+		 * index.
+		 * 
+		 * @param row
+		 *            the index of the row.
 		 * @return the element (Object[] array of size 2).
 		 */
 		public Object popElementAtRow(int row) {
@@ -398,6 +402,7 @@ public class SelectionPanel extends JPanel {
 
 		/**
 		 * returns whether the selected cell is editable or not.
+		 * 
 		 * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
 		 */
 		public boolean isCellEditable(int row, int col) {
@@ -406,7 +411,8 @@ public class SelectionPanel extends JPanel {
 
 		/**
 		 * 
-		 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object, int, int)
+		 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object,
+		 *      int, int)
 		 */
 		public void setValueAt(Object value, int row, int col) {
 			if (row < rowcount && col < 2) {
@@ -418,6 +424,7 @@ public class SelectionPanel extends JPanel {
 
 		/**
 		 * adds a filter to the table.
+		 * 
 		 * @param o
 		 */
 		public void addFilter(Object o) {

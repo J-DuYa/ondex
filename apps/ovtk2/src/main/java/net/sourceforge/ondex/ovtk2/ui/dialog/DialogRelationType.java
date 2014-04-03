@@ -59,20 +59,16 @@ public class DialogRelationType extends OVTK2Dialog {
 	private JTextField inverse = new JTextField();
 
 	// antisymmetric input box
-	private JComboBox antisym = new JComboBox(new Boolean[] { Boolean.FALSE,
-			Boolean.TRUE });
+	private JComboBox antisym = new JComboBox(new Boolean[] { Boolean.FALSE, Boolean.TRUE });
 
 	// reflexive input box
-	private JComboBox reflexive = new JComboBox(new Boolean[] { Boolean.FALSE,
-			Boolean.TRUE });
+	private JComboBox reflexive = new JComboBox(new Boolean[] { Boolean.FALSE, Boolean.TRUE });
 
 	// symmetric input box
-	private JComboBox sym = new JComboBox(new Boolean[] { Boolean.FALSE,
-			Boolean.TRUE });
+	private JComboBox sym = new JComboBox(new Boolean[] { Boolean.FALSE, Boolean.TRUE });
 
 	// transitive input box
-	private JComboBox trans = new JComboBox(new Boolean[] { Boolean.FALSE,
-			Boolean.TRUE });
+	private JComboBox trans = new JComboBox(new Boolean[] { Boolean.FALSE, Boolean.TRUE });
 
 	// specialisationOf input box
 	private JComboBox specialisationOf = null;
@@ -95,9 +91,7 @@ public class DialogRelationType extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.RelationType.Apply",
-						"Dialog.RelationType.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel("Dialog.RelationType.Apply", "Dialog.RelationType.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -129,13 +123,10 @@ public class DialogRelationType extends OVTK2Dialog {
 				inverse.setText(relationType.getInverseName());
 
 			if (relationType.getSpecialisationOf() != null)
-				specialisationOf.setSelectedItem(relationType
-						.getSpecialisationOf().getId());
+				specialisationOf.setSelectedItem(relationType.getSpecialisationOf().getId());
 
-			antisym.setSelectedItem(Boolean.valueOf(relationType
-					.isAntisymmetric()));
-			reflexive.setSelectedItem(Boolean.valueOf(relationType
-					.isReflexive()));
+			antisym.setSelectedItem(Boolean.valueOf(relationType.isAntisymmetric()));
+			reflexive.setSelectedItem(Boolean.valueOf(relationType.isReflexive()));
 			sym.setSelectedItem(Boolean.valueOf(relationType.isSymmetric()));
 			trans.setSelectedItem(Boolean.valueOf(relationType.isTransitiv()));
 		}
@@ -153,9 +144,7 @@ public class DialogRelationType extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel(null, "Dialog.RelationType.Cancel"),
-				BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel(null, "Dialog.RelationType.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -167,8 +156,7 @@ public class DialogRelationType extends OVTK2Dialog {
 		// get list of available rts
 		Vector<String> relationTypes = new Vector<String>();
 		relationTypes.add("");
-		RelationType[] sorted = aog.getMetaData().getRelationTypes()
-				.toArray(new RelationType[0]);
+		RelationType[] sorted = aog.getMetaData().getRelationTypes().toArray(new RelationType[0]);
 		Arrays.sort(sorted, new CaseInsensitiveMetaDataComparator());
 		for (RelationType rt : sorted) {
 			relationTypes.add(rt.getId());
@@ -188,171 +176,69 @@ public class DialogRelationType extends OVTK2Dialog {
 		GroupLayout layout = new GroupLayout(properties);
 		properties.setLayout(layout);
 
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.RelationType.RelationType"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.RelationType.RelationType"));
 		properties.setBorder(propertiesBorder);
 
 		// RT id
-		JLabel idLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.ID"));
+		JLabel idLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.ID"));
 		properties.add(idLabel);
-		id.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		id.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		id.setBackground(this.getRequiredColor());
 		properties.add(id);
 
 		// RT fullname
-		JLabel fullnameLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.FullName"));
+		JLabel fullnameLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.FullName"));
 		properties.add(fullnameLabel);
-		fullname.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		fullname.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(fullname);
 
 		// RT description
-		JLabel descriptionLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.Description"));
+		JLabel descriptionLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.Description"));
 		properties.add(descriptionLabel);
 		JScrollPane scroll = new JScrollPane(description);
-		scroll.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight() * 2));
+		scroll.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight() * 2));
 		properties.add(scroll);
 
 		// RT inverseName
-		JLabel inverseLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.InverseName"));
+		JLabel inverseLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.InverseName"));
 		properties.add(inverseLabel);
-		inverse.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		inverse.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(inverse);
 
 		// RT antisymmetric
-		JLabel antisymLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.AntiSym"));
+		JLabel antisymLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.AntiSym"));
 		properties.add(antisymLabel);
-		antisym.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		antisym.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(antisym);
 
 		// RT reflexive
-		JLabel reflexiveLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.Reflexive"));
+		JLabel reflexiveLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.Reflexive"));
 		properties.add(reflexiveLabel);
-		reflexive.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		reflexive.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(reflexive);
 
 		// RT symmetric
-		JLabel symLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.Symmetric"));
+		JLabel symLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.Symmetric"));
 		properties.add(symLabel);
-		sym.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		sym.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(sym);
 
 		// RT transitive
-		JLabel transLabel = new JLabel(
-				Config.language.getProperty("Dialog.RelationType.Transitive"));
+		JLabel transLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.Transitive"));
 		properties.add(transLabel);
-		trans.setPreferredSize(new Dimension(this.getFieldWidth(), this
-				.getFieldHeight()));
+		trans.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(trans);
 
 		// RT specialisationOf
-		JLabel specialisationOfLabel = new JLabel(
-				Config.language
-						.getProperty("Dialog.RelationType.SpecialisationOf"));
+		JLabel specialisationOfLabel = new JLabel(Config.language.getProperty("Dialog.RelationType.SpecialisationOf"));
 		properties.add(specialisationOfLabel);
-		specialisationOf.setPreferredSize(new Dimension(this.getFieldWidth(),
-				this.getFieldHeight()));
+		specialisationOf.setPreferredSize(new Dimension(this.getFieldWidth(), this.getFieldHeight()));
 		properties.add(specialisationOf);
 
-		layout.setHorizontalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup().addComponent(idLabel)
-								.addComponent(fullnameLabel)
-								.addComponent(descriptionLabel)
-								.addComponent(inverseLabel)
-								.addComponent(antisymLabel)
-								.addComponent(reflexiveLabel)
-								.addComponent(symLabel)
-								.addComponent(transLabel)
-								.addComponent(specialisationOfLabel))
-				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,
-						GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-				.addGroup(
-						layout.createParallelGroup()
-								.addComponent(id, 0, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(fullname, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(scroll, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(inverse, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(antisym, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(reflexive, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(sym, 0, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(trans, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addComponent(specialisationOf, 0,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)));
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(idLabel).addComponent(id))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(fullnameLabel)
-								.addComponent(fullname))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(descriptionLabel)
-								.addComponent(scroll))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(inverseLabel)
-								.addComponent(inverse))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(antisymLabel)
-								.addComponent(antisym))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(reflexiveLabel)
-								.addComponent(reflexive))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(symLabel).addComponent(sym))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(transLabel).addComponent(trans))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(specialisationOfLabel)
-								.addComponent(specialisationOf)));
+		layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup().addComponent(idLabel).addComponent(fullnameLabel).addComponent(descriptionLabel).addComponent(inverseLabel).addComponent(antisymLabel).addComponent(reflexiveLabel).addComponent(symLabel).addComponent(transLabel).addComponent(specialisationOfLabel)).addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(layout.createParallelGroup().addComponent(id, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(fullname, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(scroll, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(inverse, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(antisym, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(reflexive, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(sym, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(trans, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE).addComponent(specialisationOf, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(idLabel).addComponent(id)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(fullnameLabel).addComponent(fullname)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(descriptionLabel).addComponent(scroll)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(inverseLabel).addComponent(inverse)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(antisymLabel).addComponent(antisym)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(reflexiveLabel).addComponent(reflexive)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(symLabel).addComponent(sym)).addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(transLabel).addComponent(trans))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(specialisationOfLabel).addComponent(specialisationOf)));
 
 		return properties;
 	}
@@ -364,18 +250,10 @@ public class DialogRelationType extends OVTK2Dialog {
 	 */
 	private boolean validateEntry() {
 		if (id.getText().trim().length() == 0 || id.getText().contains(" ")) {
-			JOptionPane.showInternalMessageDialog(this, Config.language
-					.getProperty("Dialog.RelationType.InvalidID"),
-					Config.language
-							.getProperty("Dialog.RelationType.InvalidTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, Config.language.getProperty("Dialog.RelationType.InvalidID"), Config.language.getProperty("Dialog.RelationType.InvalidTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else if (aog.getMetaData().checkRelationType(id.getText())) {
-			JOptionPane.showInternalMessageDialog(this, Config.language
-					.getProperty("Dialog.RelationType.DuplicateID"),
-					Config.language
-							.getProperty("Dialog.RelationType.DuplicateTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showInternalMessageDialog(this, Config.language.getProperty("Dialog.RelationType.DuplicateID"), Config.language.getProperty("Dialog.RelationType.DuplicateTitle"), JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;
@@ -392,25 +270,10 @@ public class DialogRelationType extends OVTK2Dialog {
 			if (validateEntry()) {
 				String selection = (String) specialisationOf.getSelectedItem();
 				if (selection.length() > 0) {
-					RelationType rt = aog.getMetaData().getRelationType(
-							selection);
-					aog.getMetaData().createRelationType(id.getText(),
-							fullname.getText(), description.getText(),
-							inverse.getText(),
-							(Boolean) antisym.getSelectedItem(),
-							(Boolean) reflexive.getSelectedItem(),
-							(Boolean) sym.getSelectedItem(),
-							(Boolean) trans.getSelectedItem(), rt);
+					RelationType rt = aog.getMetaData().getRelationType(selection);
+					aog.getMetaData().createRelationType(id.getText(), fullname.getText(), description.getText(), inverse.getText(), (Boolean) antisym.getSelectedItem(), (Boolean) reflexive.getSelectedItem(), (Boolean) sym.getSelectedItem(), (Boolean) trans.getSelectedItem(), rt);
 				} else {
-					aog.getMetaData()
-							.getFactory()
-							.createRelationType(id.getText(),
-									fullname.getText(), description.getText(),
-									inverse.getText(),
-									(Boolean) antisym.getSelectedItem(),
-									(Boolean) reflexive.getSelectedItem(),
-									(Boolean) sym.getSelectedItem(),
-									(Boolean) trans.getSelectedItem());
+					aog.getMetaData().getFactory().createRelationType(id.getText(), fullname.getText(), description.getText(), inverse.getText(), (Boolean) antisym.getSelectedItem(), (Boolean) reflexive.getSelectedItem(), (Boolean) sym.getSelectedItem(), (Boolean) trans.getSelectedItem());
 				}
 				try {
 					this.setClosed(true);

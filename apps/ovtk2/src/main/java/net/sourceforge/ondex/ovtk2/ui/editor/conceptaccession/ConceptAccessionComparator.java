@@ -5,8 +5,8 @@ import java.util.Comparator;
 import net.sourceforge.ondex.core.ConceptAccession;
 
 /**
- * Comparator for concept accessions. First sorting according to DataSource id, than by
- * ambiguity and last by accession.
+ * Comparator for concept accessions. First sorting according to DataSource id,
+ * than by ambiguity and last by accession.
  * 
  * @author taubertj
  * 
@@ -25,8 +25,7 @@ public class ConceptAccessionComparator implements Comparator<ConceptAccession> 
 				return o1.getAccession().compareTo(o2.getAccession());
 		} else {
 			// sort according to DataSource
-			return o1.getElementOf().getId().compareTo(
-					o2.getElementOf().getId());
+			return o1.getElementOf().getId().compareTo(o2.getElementOf().getId());
 		}
 	}
 

@@ -40,8 +40,7 @@ public class OVTK2PluginLoader {
 	 * 
 	 */
 	private enum Type {
-		ANNOTATOR("annotator"), FILTER("filter"), LAYOUT("layout"), IO("io"), GDSEDITOR(
-				"ui.gds"), POPUPITEM("ui.popup.items");
+		ANNOTATOR("annotator"), FILTER("filter"), LAYOUT("layout"), IO("io"), GDSEDITOR("ui.gds"), POPUPITEM("ui.popup.items");
 
 		String pack;
 
@@ -54,7 +53,7 @@ public class OVTK2PluginLoader {
 	 * singleton getter.
 	 * 
 	 * @return the singleton instance of this class.
-	 * @throws MalformedURLException 
+	 * @throws MalformedURLException
 	 */
 	public static OVTK2PluginLoader getInstance() throws FileNotFoundException, MalformedURLException {
 		if (instance == null) {
@@ -95,7 +94,8 @@ public class OVTK2PluginLoader {
 
 	/**
 	 * singleton constructor.
-	 * @throws MalformedURLException 
+	 * 
+	 * @throws MalformedURLException
 	 */
 	private OVTK2PluginLoader() throws FileNotFoundException, MalformedURLException {
 		reload();
@@ -110,8 +110,7 @@ public class OVTK2PluginLoader {
 	 * @return a Set of producer names of the given types.
 	 */
 	private Set<PluginID> findInstances(String list, Type type) {
-		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/" + type.pack
-				+ "/([a-zA-Z0-9]+?)/([a-zA-Z0-9]+?)\\.class");
+		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/" + type.pack + "/([a-zA-Z0-9]+?)/([a-zA-Z0-9]+?)\\.class");
 		Matcher m = p.matcher(list);
 		Set<PluginID> set = new HashSet<PluginID>();
 		while (m.find()) {
@@ -150,7 +149,7 @@ public class OVTK2PluginLoader {
 	 * @return a Set of producer names of the given types.
 	 */
 	private Set<String> findIOInstances(String list) {
-		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/"+ Type.IO.pack + "/([a-zA-Z0-9]+?)\\.class");
+		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/" + Type.IO.pack + "/([a-zA-Z0-9]+?)\\.class");
 		Matcher m = p.matcher(list);
 		Set<String> set = new HashSet<String>();
 		while (m.find()) {
@@ -178,8 +177,7 @@ public class OVTK2PluginLoader {
 	 * @return a Set of producer names of the given types.
 	 */
 	private Set<String> findLayoutInstances(String list) {
-		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/"
-				+ Type.LAYOUT.pack + "/([a-zA-Z0-9]+?)\\.class");
+		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/" + Type.LAYOUT.pack + "/([a-zA-Z0-9]+?)\\.class");
 		Matcher m = p.matcher(list);
 		Set<String> set = new HashSet<String>();
 		while (m.find()) {
@@ -207,8 +205,7 @@ public class OVTK2PluginLoader {
 	 * @return a Set of producer names of the given types.
 	 */
 	private Set<String> findPopupitemInstances(String list) {
-		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/"
-				+ Type.POPUPITEM.pack + "/([a-zA-Z0-9]+?)\\.class");
+		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/" + Type.POPUPITEM.pack + "/([a-zA-Z0-9]+?)\\.class");
 		Matcher m = p.matcher(list);
 		Set<String> set = new HashSet<String>();
 		while (m.find()) {
@@ -236,8 +233,7 @@ public class OVTK2PluginLoader {
 	 * @return a Set of producer names of the given types.
 	 */
 	private Set<String> findGDSEditorInstances(String list) {
-		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/"
-				+ Type.GDSEDITOR.pack + "/([a-zA-Z0-9]+?)\\.class");
+		Pattern p = Pattern.compile("net/sourceforge/ondex/ovtk2/" + Type.GDSEDITOR.pack + "/([a-zA-Z0-9]+?)\\.class");
 		Matcher m = p.matcher(list);
 		Set<String> set = new HashSet<String>();
 		while (m.find()) {
@@ -253,8 +249,7 @@ public class OVTK2PluginLoader {
 					// JABRegistry
 					Thread.currentThread().setContextClassLoader(ucl);
 					Class<?>[] args = new Class<?>[] { Attribute.class };
-					Class<?> clazz = ucl.loadClass(toClassName(Type.GDSEDITOR,
-							name));
+					Class<?> clazz = ucl.loadClass(toClassName(Type.GDSEDITOR, name));
 					Constructor<?> constr = clazz.getConstructor(args);
 					Attribute attribute = null;
 					constr.newInstance(attribute);
@@ -384,15 +379,12 @@ public class OVTK2PluginLoader {
 	}
 
 	@SuppressWarnings("unchecked")
-	public OVTK2Annotator loadAnnotator(PluginID plid,
-			OVTK2PropertiesAggregator viewer) throws InstantiationException {
+	public OVTK2Annotator loadAnnotator(PluginID plid, OVTK2PropertiesAggregator viewer) throws InstantiationException {
 		String classname = toClassName(Type.ANNOTATOR, plid);
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
-			Class<OVTK2Annotator> clazz = (Class<OVTK2Annotator>) ucl
-					.loadClass(classname);
-			OVTK2Annotator plugin = clazz.getConstructor(
-					OVTK2PropertiesAggregator.class).newInstance(viewer);
+			Class<OVTK2Annotator> clazz = (Class<OVTK2Annotator>) ucl.loadClass(classname);
+			OVTK2Annotator plugin = clazz.getConstructor(OVTK2PropertiesAggregator.class).newInstance(viewer);
 			return plugin;
 		} catch (Throwable t) {
 			if (DEBUG) {
@@ -403,15 +395,12 @@ public class OVTK2PluginLoader {
 	}
 
 	@SuppressWarnings("unchecked")
-	public OVTK2Filter loadFilter(PluginID plid, OVTK2Viewer viewer)
-			throws InstantiationException {
+	public OVTK2Filter loadFilter(PluginID plid, OVTK2Viewer viewer) throws InstantiationException {
 		String classname = toClassName(Type.FILTER, plid);
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
-			Class<OVTK2Filter> clazz = (Class<OVTK2Filter>) ucl
-					.loadClass(classname);
-			OVTK2Filter plugin = clazz.getConstructor(OVTK2Viewer.class)
-					.newInstance(viewer);
+			Class<OVTK2Filter> clazz = (Class<OVTK2Filter>) ucl.loadClass(classname);
+			OVTK2Filter plugin = clazz.getConstructor(OVTK2Viewer.class).newInstance(viewer);
 			return plugin;
 		} catch (Throwable t) {
 			if (DEBUG) {
@@ -436,7 +425,7 @@ public class OVTK2PluginLoader {
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
 			Class<OVTK2IO> clazz = (Class<OVTK2IO>) ucl.loadClass(classname);
-			if(!OVTK2IO.class.isAssignableFrom(clazz)){
+			if (!OVTK2IO.class.isAssignableFrom(clazz)) {
 				return null;
 			}
 			OVTK2IO plugin = clazz.getConstructor().newInstance();
@@ -461,15 +450,12 @@ public class OVTK2PluginLoader {
 	 *             if the instantiation fails for any reason.
 	 */
 	@SuppressWarnings("unchecked")
-	public OVTK2Layouter loadLayouter(String name,
-			OVTK2PropertiesAggregator viewer) throws InstantiationException {
+	public OVTK2Layouter loadLayouter(String name, OVTK2PropertiesAggregator viewer) throws InstantiationException {
 		String classname = toClassName(Type.LAYOUT, name);
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
-			Class<OVTK2Layouter> clazz = (Class<OVTK2Layouter>) ucl
-					.loadClass(classname);
-			OVTK2Layouter plugin = clazz.getConstructor(
-					OVTK2PropertiesAggregator.class).newInstance(viewer);
+			Class<OVTK2Layouter> clazz = (Class<OVTK2Layouter>) ucl.loadClass(classname);
+			OVTK2Layouter plugin = clazz.getConstructor(OVTK2PropertiesAggregator.class).newInstance(viewer);
 			return plugin;
 		} catch (Throwable t) {
 			if (DEBUG) {
@@ -491,15 +477,12 @@ public class OVTK2PluginLoader {
 	 *             if the instantiation fails for any reason.
 	 */
 	@SuppressWarnings("unchecked")
-	public GDSEditor loadAttributeEditor(String name, Attribute attribute)
-			throws InstantiationException {
+	public GDSEditor loadAttributeEditor(String name, Attribute attribute) throws InstantiationException {
 		String classname = toClassName(Type.GDSEDITOR, name);
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
-			Class<GDSEditor> clazz = (Class<GDSEditor>) ucl
-					.loadClass(classname);
-			GDSEditor plugin = clazz.getConstructor(Attribute.class)
-					.newInstance(attribute);
+			Class<GDSEditor> clazz = (Class<GDSEditor>) ucl.loadClass(classname);
+			GDSEditor plugin = clazz.getConstructor(Attribute.class).newInstance(attribute);
 			return plugin;
 		} catch (Throwable t) {
 			if (DEBUG) {
@@ -519,21 +502,18 @@ public class OVTK2PluginLoader {
 	 *             if the instantiation fails for any reason.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public EntityMenuItem loadPopupItem(String name)
-			throws InstantiationException {
+	public EntityMenuItem loadPopupItem(String name) throws InstantiationException {
 		String classname = toClassName(Type.POPUPITEM, name);
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
-			Class<EntityMenuItem> clazz = (Class<EntityMenuItem>) ucl
-					.loadClass(classname);
+			Class<EntityMenuItem> clazz = (Class<EntityMenuItem>) ucl.loadClass(classname);
 			EntityMenuItem plugin = clazz.getConstructor().newInstance();
 			return plugin;
 		} catch (Throwable t) {
 			if (DEBUG) {
 				t.printStackTrace();
 			}
-			throw new InstantiationException(
-					"EntityMenuItem instantiation failed");
+			throw new InstantiationException("EntityMenuItem instantiation failed");
 		}
 	}
 
@@ -555,9 +535,7 @@ public class OVTK2PluginLoader {
 	 * @param path
 	 * @throws MalformedURLException
 	 */
-	private void loadFromPath(Vector<URL> urls,
-			StringBuilder classRegisterBuilder, String path)
-			throws MalformedURLException {
+	private void loadFromPath(Vector<URL> urls, StringBuilder classRegisterBuilder, String path) throws MalformedURLException {
 		// loading from URL for applet
 		URL url = new URL(path);
 		urls.add(url);
@@ -579,19 +557,18 @@ public class OVTK2PluginLoader {
 
 		if (Config.ovtkDir.contains("://") || Config.ovtkDir.startsWith("file:/")) {
 			System.out.println("Scanning http lib directory for plugins");
-			File dir = new File(Config.ovtkDir.substring(0, Config.ovtkDir.lastIndexOf("config"))+ "lib/");
-			if(dir.exists() && dir.isDirectory()){
-				for(File f : dir.listFiles()){
-					if(f.getName().contains("ovtk2-default-")){
-						loadFromPath(urls, classRegisterBuilder, f.getAbsolutePath());	
+			File dir = new File(Config.ovtkDir.substring(0, Config.ovtkDir.lastIndexOf("config")) + "lib/");
+			if (dir.exists() && dir.isDirectory()) {
+				for (File f : dir.listFiles()) {
+					if (f.getName().contains("ovtk2-default-")) {
+						loadFromPath(urls, classRegisterBuilder, f.getAbsolutePath());
 					}
-					if(f.getName().contains("ovtk2-experimental-")){
-						loadFromPath(urls, classRegisterBuilder, f.getAbsolutePath());	
+					if (f.getName().contains("ovtk2-experimental-")) {
+						loadFromPath(urls, classRegisterBuilder, f.getAbsolutePath());
 					}
 				}
-			}
-			else{
-				throw new FileNotFoundException("Could not find valid plugin directory at: "+ dir.getAbsoluteFile());
+			} else {
+				throw new FileNotFoundException("Could not find valid plugin directory at: " + dir.getAbsoluteFile());
 			}
 
 		} else {
@@ -599,9 +576,7 @@ public class OVTK2PluginLoader {
 			// make sure directory exists.
 			File pluginDir = new File(PLUGIN_DIR);
 			if (!pluginDir.exists()) {
-				throw new FileNotFoundException(
-						"Could not find plugin directory: "
-								+ pluginDir.getAbsoluteFile());
+				throw new FileNotFoundException("Could not find plugin directory: " + pluginDir.getAbsoluteFile());
 			}
 
 			// register urls
@@ -707,13 +682,11 @@ public class OVTK2PluginLoader {
 	 */
 	private void loadConfig(File file, Properties properties, String config) {
 		try {
-			ZipInputStream stream = new ZipInputStream(
-					new FileInputStream(file));
+			ZipInputStream stream = new ZipInputStream(new FileInputStream(file));
 			ZipEntry entry;
 			while ((entry = stream.getNextEntry()) != null) {
 				if (entry.getName().equals(config)) {
-					System.out.println("Loading: " + file.getAbsoluteFile()
-							+ "#" + config);
+					System.out.println("Loading: " + file.getAbsoluteFile() + "#" + config);
 					properties.loadFromXML(stream);
 				}
 			}
@@ -735,8 +708,7 @@ public class OVTK2PluginLoader {
 			ZipEntry entry;
 			while ((entry = stream.getNextEntry()) != null) {
 				if (entry.getName().equals(config)) {
-					System.out.println("Loading: " + url.toString() + "#"
-							+ config);
+					System.out.println("Loading: " + url.toString() + "#" + config);
 					properties.loadFromXML(stream);
 				}
 			}
@@ -750,8 +722,7 @@ public class OVTK2PluginLoader {
 		String classname = toClassName(Type.ANNOTATOR, plid);
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
-			Class<OVTK2Annotator> clazz = (Class<OVTK2Annotator>) ucl
-					.loadClass(classname);
+			Class<OVTK2Annotator> clazz = (Class<OVTK2Annotator>) ucl.loadClass(classname);
 			if (OVTK2Annotator.class.isAssignableFrom(clazz)) {
 				return true;
 			} else {
@@ -767,8 +738,7 @@ public class OVTK2PluginLoader {
 		String classname = toClassName(Type.FILTER, plid);
 		try {
 			Thread.currentThread().setContextClassLoader(ucl);
-			Class<OVTK2Filter> clazz = (Class<OVTK2Filter>) ucl
-					.loadClass(classname);
+			Class<OVTK2Filter> clazz = (Class<OVTK2Filter>) ucl.loadClass(classname);
 			if (OVTK2Filter.class.isAssignableFrom(clazz)) {
 				return true;
 			} else {
@@ -783,8 +753,7 @@ public class OVTK2PluginLoader {
 	 * helper class constructs a classname for a producer type and id.
 	 */
 	private String toClassName(Type type, PluginID plid) {
-		return "net.sourceforge.ondex.ovtk2." + type.pack + "."
-				+ plid.getPackage() + "." + plid.getClassName();
+		return "net.sourceforge.ondex.ovtk2." + type.pack + "." + plid.getPackage() + "." + plid.getClassName();
 	}
 
 	/**

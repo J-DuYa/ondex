@@ -53,15 +53,15 @@ public class AnnotationXMLWriter {
 	public static final String B = "b";
 
 	public static final String ALPHA = "alpha";
-	
+
 	public static final String PATH = "path";
-	
+
 	public static final String RULE = "rule";
-	
+
 	public static final String COORDINATES = "coordinates";
-	
+
 	public static final String COORDS = "coords";
-	
+
 	public static final String ARRAY = "array";
 
 	/**
@@ -71,8 +71,7 @@ public class AnnotationXMLWriter {
 	 * @param annos
 	 * @throws XMLStreamException
 	 */
-	public static void write(XMLStreamWriter2 xmlw, Set<Annotation> annos)
-			throws XMLStreamException {
+	public static void write(XMLStreamWriter2 xmlw, Set<Annotation> annos) throws XMLStreamException {
 
 		xmlw.writeStartElement(ANNOTATIONS);
 
@@ -90,8 +89,7 @@ public class AnnotationXMLWriter {
 	 * @param anno
 	 * @throws XMLStreamException
 	 */
-	public static void write(XMLStreamWriter2 xmlw, Annotation<?> anno)
-			throws XMLStreamException {
+	public static void write(XMLStreamWriter2 xmlw, Annotation<?> anno) throws XMLStreamException {
 
 		xmlw.writeStartElement(ANNOTATION);
 
@@ -135,34 +133,34 @@ public class AnnotationXMLWriter {
 			xmlw.writeStartElement(RULE);
 			xmlw.writeInt(rule);
 			xmlw.writeEndElement();
-			
-			// iterate over all coordinates	
+
+			// iterate over all coordinates
 			xmlw.writeStartElement(COORDINATES);
 			while (!pi.isDone()) {
-				
+
 				// write each coordinates
 				xmlw.writeStartElement(COORDS);
 				double[] coords = new double[6];
-				
+
 				// write type of coordinates
 				int type = pi.currentSegment(coords);
 				xmlw.writeStartElement(TYPE);
 				xmlw.writeInt(type);
 				xmlw.writeEndElement();
-				
+
 				// write point array
 				xmlw.writeStartElement(ARRAY);
 				xmlw.writeDoubleArray(coords, 0, 6);
 				xmlw.writeEndElement();
-				
+
 				xmlw.writeEndElement();
-				
+
 				// move to next element
 				pi.next();
 			}
-			
+
 			// close all nested elements
-			xmlw.writeEndElement();			
+			xmlw.writeEndElement();
 			xmlw.writeEndElement();
 			xmlw.writeEndElement();
 
@@ -189,8 +187,7 @@ public class AnnotationXMLWriter {
 	 * @param location
 	 * @throws XMLStreamException
 	 */
-	protected static void write(XMLStreamWriter2 xmlw, Point2D location)
-			throws XMLStreamException {
+	protected static void write(XMLStreamWriter2 xmlw, Point2D location) throws XMLStreamException {
 
 		xmlw.writeStartElement(LOCATION);
 
@@ -214,8 +211,7 @@ public class AnnotationXMLWriter {
 	 * @param paint
 	 * @throws XMLStreamException
 	 */
-	protected static void write(XMLStreamWriter2 xmlw, Paint paint)
-			throws XMLStreamException {
+	protected static void write(XMLStreamWriter2 xmlw, Paint paint) throws XMLStreamException {
 
 		xmlw.writeStartElement(PAINT);
 
@@ -248,8 +244,7 @@ public class AnnotationXMLWriter {
 
 			xmlw.writeEndElement();
 		} else
-			throw new XMLStreamException(
-					"Paint is not instance of Color. Cannot serialize.");
+			throw new XMLStreamException("Paint is not instance of Color. Cannot serialize.");
 
 		xmlw.writeEndElement();
 	}
@@ -261,8 +256,7 @@ public class AnnotationXMLWriter {
 	 * @param layer
 	 * @throws XMLStreamException
 	 */
-	protected static void write(XMLStreamWriter2 xmlw, Layer layer)
-			throws XMLStreamException {
+	protected static void write(XMLStreamWriter2 xmlw, Layer layer) throws XMLStreamException {
 
 		xmlw.writeStartElement(LAYER);
 
@@ -278,8 +272,7 @@ public class AnnotationXMLWriter {
 	 * @param fill
 	 * @throws XMLStreamException
 	 */
-	protected static void write(XMLStreamWriter2 xmlw, boolean fill)
-			throws XMLStreamException {
+	protected static void write(XMLStreamWriter2 xmlw, boolean fill) throws XMLStreamException {
 
 		xmlw.writeStartElement(FILL);
 

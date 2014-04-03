@@ -51,11 +51,8 @@ public class DialogRelationTypeColor extends OVTK2Dialog {
 		super("Dialog.RtColor.Title", "Properties16.gif");
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
-		this.getContentPane().add(makeProperties(selection),
-				BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.RtColor.Apply",
-						"Dialog.RtColor.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeProperties(selection), BorderLayout.CENTER);
+		this.getContentPane().add(makeButtonsPanel("Dialog.RtColor.Apply", "Dialog.RtColor.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -80,9 +77,7 @@ public class DialogRelationTypeColor extends OVTK2Dialog {
 		JPanel properties = new JPanel();
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.RtColor.RT"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.RtColor.RT"));
 		properties.setBorder(propertiesBorder);
 
 		// get mapping to colour from visual.xml
@@ -97,9 +92,7 @@ public class DialogRelationTypeColor extends OVTK2Dialog {
 		}
 
 		// setup table
-		model = new ColorTableModel(colors, Config.language
-				.getProperty("Dialog.RtColor.TableName"), Config.language
-				.getProperty("Dialog.RtColor.TableColor"));
+		model = new ColorTableModel(colors, Config.language.getProperty("Dialog.RtColor.TableName"), Config.language.getProperty("Dialog.RtColor.TableColor"));
 		table = new JTable(model);
 		table.setDefaultEditor(Color.class, new ColorTableEditor());
 		table.setDefaultRenderer(Color.class, new ColorTableCellRenderer(true));
@@ -108,8 +101,7 @@ public class DialogRelationTypeColor extends OVTK2Dialog {
 		setSelection(selection);
 
 		TableColumn color = table.getColumnModel().getColumn(1);
-		int width = Config.language.getProperty("Dialog.RtColor.TableColor")
-				.length() * 7;
+		int width = Config.language.getProperty("Dialog.RtColor.TableColor").length() * 7;
 		color.setMaxWidth(width);
 		color.setMinWidth(width);
 
@@ -191,15 +183,13 @@ public class DialogRelationTypeColor extends OVTK2Dialog {
 				// RT name not existing
 				if (!existing.containsKey(name)) {
 					// new mapping here
-					Config.visual.put(COLOR_VIS + name, Config
-							.convertToString(colors.get(name)));
+					Config.visual.put(COLOR_VIS + name, Config.convertToString(colors.get(name)));
 					existing.put(name, colors.get(name));
 				}
 				// colour different
 				else if (!existing.get(name).equals(colors.get(name))) {
 					// change colour here
-					Config.visual.put(COLOR_VIS + name, Config
-							.convertToString(colors.get(name)));
+					Config.visual.put(COLOR_VIS + name, Config.convertToString(colors.get(name)));
 				}
 			}
 		}

@@ -42,13 +42,10 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 				itemBean = CustomPopupItemBean.loadXML(xmlFile);
 				item.setText(itemBean.getName());
 			} catch (FileNotFoundException e) {
-				JOptionPane
-						.showMessageDialog(item,
-								"custom popup item file not found in customPopup/ directory");
+				JOptionPane.showMessageDialog(item, "custom popup item file not found in customPopup/ directory");
 				e.printStackTrace();
 			} catch (NoSuchElementException e) {
-				JOptionPane.showMessageDialog(item,
-						"custom popup item xml has bad format");
+				JOptionPane.showMessageDialog(item, "custom popup item xml has bad format");
 				e.printStackTrace();
 			}
 		}
@@ -60,13 +57,10 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 				itemBean = CustomPopupItemBean.loadXML(url);
 				item.setText(itemBean.getName());
 			} catch (NoSuchElementException e) {
-				JOptionPane.showMessageDialog(item,
-						"custom popup item xml has bad format");
+				JOptionPane.showMessageDialog(item, "custom popup item xml has bad format");
 				e.printStackTrace();
 			} catch (IOException e) {
-				JOptionPane
-						.showMessageDialog(item,
-								"custom popup item file not found in customPopup/ directory");
+				JOptionPane.showMessageDialog(item, "custom popup item file not found in customPopup/ directory");
 				e.printStackTrace();
 			}
 		}
@@ -91,8 +85,7 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 					list.add(concept);
 			}
 			for (ONDEXConcept concept : list)
-				viewer.getVisualizationViewer().getPickedVertexState()
-						.pick(concept, false);
+				viewer.getVisualizationViewer().getPickedVertexState().pick(concept, false);
 
 			// run in a new thread (avoid time consuming operations in AWT
 			// EventQueue)
@@ -100,13 +93,10 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 				@Override
 				public void run() {
 					// start up command interpreter
-					final CommandLine c = (CommandLine) OVTKScriptingInitialiser
-							.getCommandLine(viewer);
-					final SimpleMonitor monitor = new SimpleMonitor(
-							"Initializing command line...", 3);
+					final CommandLine c = (CommandLine) OVTKScriptingInitialiser.getCommandLine(viewer);
+					final SimpleMonitor monitor = new SimpleMonitor("Initializing command line...", 3);
 
-					OVTKProgressMonitor.start((Frame) parent, "Custom Popup",
-							monitor);
+					OVTKProgressMonitor.start((Frame) parent, "Custom Popup", monitor);
 
 					while (!c.isCommandInterpreterReady()) {
 						// user cancelled operation?
@@ -131,22 +121,18 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 						if (Config.isApplet) {
 							popupPath = Config.ovtkDir + "/popupMenu/";
 						} else {
-							popupPath = CustomPopupItemBean.getPopupPath()
-									.toString() + File.separatorChar;
+							popupPath = CustomPopupItemBean.getPopupPath().toString() + File.separatorChar;
 						}
 
 						// load libraries
-						System.out
-								.println("Trying to load additional library: "
-										+ popupPath + library.trim());
+						System.out.println("Trying to load additional library: " + popupPath + library.trim());
 						c.executeJavaScriptFile(popupPath + library.trim());
 						c.waitForCommandCompletion();
 					}
 
 					monitor.next("running popup item script");
 					c.printAndPrompt(itemBean.getCode());
-					c.fireCommandEvent(new CommandEvent(this, itemBean
-							.getCode(), c));
+					c.fireCommandEvent(new CommandEvent(this, itemBean.getCode(), c));
 					c.waitForCommandCompletion();
 
 					monitor.complete();
@@ -188,8 +174,7 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 		public boolean isAcceptedConceptClass(ConceptClass cc) {
 			String[] itemCCs = itemBean.getConceptClasses().split(",");
 			for (String itemCC : itemCCs)
-				if ("".equals(itemCC.trim())
-						|| cc.getId().equals(itemCC.trim()))
+				if ("".equals(itemCC.trim()) || cc.getId().equals(itemCC.trim()))
 					return true;
 			return false;
 		}
@@ -212,8 +197,7 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 			if (Config.config.getProperty("PopupEditor.Scripts") != null) {
 				// System.out.println(Config.config
 				// .getProperty("PopupEditor.Scripts"));
-				String[] paths = Config.config.getProperty(
-						"PopupEditor.Scripts").split(",");
+				String[] paths = Config.config.getProperty("PopupEditor.Scripts").split(",");
 				for (String p : paths) {
 					try {
 						URL url = new URL(Config.ovtkDir + "/popupMenu/" + p);
@@ -266,8 +250,7 @@ public class CustomPopupItem extends EntityMenuItem<ONDEXConcept> {
 		if ("".equals(cc))
 			split[split.length - 1] = split[split.length - 1] + " [ all ]  ";
 		else
-			split[split.length - 1] = split[split.length - 1] + " [ "
-					+ menuItem.getAcceptedConceptClasses() + " ]  ";
+			split[split.length - 1] = split[split.length - 1] + " [ " + menuItem.getAcceptedConceptClasses() + " ]  ";
 
 		// put same subdirs into same menu containers
 		JMenuItem container = null;

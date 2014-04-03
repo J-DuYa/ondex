@@ -79,8 +79,7 @@ public class DataSourceListModel extends AbstractListModel {
 				name = dataSource.getId();
 			label = new JLabel(name);
 			label.setName(dataSource.getId());
-			label.setToolTipText("(" + dataSource.getId() + ") "
-					+ dataSource.getDescription());
+			label.setToolTipText("(" + dataSource.getId() + ") " + dataSource.getDescription());
 		}
 		return label;
 	}

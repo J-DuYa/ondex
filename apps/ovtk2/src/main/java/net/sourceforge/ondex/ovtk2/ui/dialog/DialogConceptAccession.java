@@ -89,14 +89,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 		private static final long serialVersionUID = -7469086391255891387L;
 
 		// table header
-		private String[] columnNames = new String[] {
-				Config.language
-						.getProperty("Dialog.ConceptAccession.TableAccession"),
-				Config.language
-						.getProperty("Dialog.ConceptAccession.TableDataSource"),
-				Config.language
-						.getProperty("Dialog.ConceptAccession.TableAmbiguous"),
-				"" };
+		private String[] columnNames = new String[] { Config.language.getProperty("Dialog.ConceptAccession.TableAccession"), Config.language.getProperty("Dialog.ConceptAccession.TableDataSource"), Config.language.getProperty("Dialog.ConceptAccession.TableAmbiguous"), "" };
 
 		// contains accession+data source to ambiguous mapping
 		private Map<Pair<?>, Boolean> accessions = null;
@@ -113,11 +106,9 @@ public class DialogConceptAccession extends OVTK2Dialog {
 		 * @param conceptAccessions
 		 *            Map<Pair,Boolean>
 		 */
-		public ConceptAccessionTableModel(
-				Map<Pair<?>, Boolean> conceptAccessions) {
+		public ConceptAccessionTableModel(Map<Pair<?>, Boolean> conceptAccessions) {
 			this.accessions = conceptAccessions;
-			File imgLocation = new File(
-					"config/toolbarButtonGraphics/general/delete16.gif");
+			File imgLocation = new File("config/toolbarButtonGraphics/general/delete16.gif");
 			URL imageURL = null;
 
 			try {
@@ -198,8 +189,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 					// OVTK-349 remove trailing whitespace
 					String accession = (String) value;
 					accession = accession.trim();
-					Pair<String> pair = new Pair<String>(accession,
-							(String) key.getSecond());
+					Pair<String> pair = new Pair<String>(accession, (String) key.getSecond());
 					accessions.put(pair, ambiguous);
 					this.fireTableDataChanged();
 				}
@@ -210,8 +200,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 					Pair<?> key = keys[row];
 					Boolean ambiguous = accessions.get(key);
 					accessions.remove(key);
-					Pair<String> pair = new Pair<String>(
-							(String) key.getFirst(), (String) value);
+					Pair<String> pair = new Pair<String>((String) key.getFirst(), (String) value);
 					accessions.put(pair, ambiguous);
 					this.fireTableDataChanged();
 				}
@@ -219,9 +208,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 				else if (col == 2) {
 					Pair<?>[] keys = accessions.keySet().toArray(new Pair[0]);
 					Arrays.sort(keys, comparator);
-					Pair<String> pair = new Pair<String>(
-							(String) keys[row].getFirst(),
-							(String) keys[row].getSecond());
+					Pair<String> pair = new Pair<String>((String) keys[row].getFirst(), (String) keys[row].getSecond());
 					accessions.put(pair, (Boolean) value);
 					this.fireTableDataChanged();
 				}
@@ -251,8 +238,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 	 * @author taubertj
 	 * 
 	 */
-	private class DeleteCellEditor extends AbstractCellEditor implements
-			TableCellEditor, ActionListener {
+	private class DeleteCellEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
 
 		// generated
 		private static final long serialVersionUID = 2277895696342068127L;
@@ -277,8 +263,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 		 */
 		public DeleteCellEditor(Map<Pair<?>, Boolean> conceptAccessions) {
 			this.accessions = conceptAccessions;
-			File imgLocation = new File(
-					"config/toolbarButtonGraphics/general/delete16.gif");
+			File imgLocation = new File("config/toolbarButtonGraphics/general/delete16.gif");
 			URL imageURL = null;
 
 			try {
@@ -308,15 +293,12 @@ public class DialogConceptAccession extends OVTK2Dialog {
 			int row = Integer.parseInt(cmd);
 			if (row < keys.length) {
 				accessions.remove(keys[row]);
-				((ConceptAccessionTableModel) table.getModel())
-						.fireTableRowsDeleted(row, row);
-				((ConceptAccessionTableModel) table.getModel())
-						.fireTableDataChanged();
+				((ConceptAccessionTableModel) table.getModel()).fireTableRowsDeleted(row, row);
+				((ConceptAccessionTableModel) table.getModel()).fireTableDataChanged();
 			}
 		}
 
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 			this.table = table;
 			button.setActionCommand("" + row);
 			return button;
@@ -352,9 +334,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(makeProperties(), BorderLayout.CENTER);
-		this.getContentPane().add(
-				makeButtonsPanel("Dialog.ConceptAccession.Apply",
-						"Dialog.ConceptAccession.Cancel"), BorderLayout.SOUTH);
+		this.getContentPane().add(makeButtonsPanel("Dialog.ConceptAccession.Apply", "Dialog.ConceptAccession.Cancel"), BorderLayout.SOUTH);
 		this.pack();
 	}
 
@@ -369,16 +349,13 @@ public class DialogConceptAccession extends OVTK2Dialog {
 		JPanel properties = new JPanel();
 		BoxLayout contentLayout = new BoxLayout(properties, BoxLayout.PAGE_AXIS);
 		properties.setLayout(contentLayout);
-		TitledBorder propertiesBorder = BorderFactory
-				.createTitledBorder(Config.language
-						.getProperty("Dialog.ConceptAccession.ConceptAccessions"));
+		TitledBorder propertiesBorder = BorderFactory.createTitledBorder(Config.language.getProperty("Dialog.ConceptAccession.ConceptAccessions"));
 		properties.setBorder(propertiesBorder);
 
 		// get concept accessions from concept
 		Map<Pair<?>, Boolean> accessions = new HashMap<Pair<?>, Boolean>();
 		for (ConceptAccession ca : concept.getConceptAccessions()) {
-			accessions.put(new Pair<String>(ca.getAccession(), ca
-					.getElementOf().getId()), ca.isAmbiguous());
+			accessions.put(new Pair<String>(ca.getAccession(), ca.getElementOf().getId()), ca.isAmbiguous());
 		}
 
 		// setup table
@@ -386,8 +363,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 		JTable table = new JTable(model);
 
 		TableColumn columnDataSource = table.getColumnModel().getColumn(1);
-		DataSource[] sorted = viewer.getONDEXJUNGGraph().getMetaData()
-				.getDataSources().toArray(new DataSource[0]);
+		DataSource[] sorted = viewer.getONDEXJUNGGraph().getMetaData().getDataSources().toArray(new DataSource[0]);
 		Arrays.sort(sorted, new CaseInsensitiveMetaDataComparator());
 		JComboBox cb = new JComboBox();
 		for (DataSource dataSource : sorted) {
@@ -396,8 +372,7 @@ public class DialogConceptAccession extends OVTK2Dialog {
 		columnDataSource.setCellEditor(new DefaultCellEditor(cb));
 
 		TableColumn columnAmbiguous = table.getColumnModel().getColumn(2);
-		int width = Config.language.getProperty(
-				"Dialog.ConceptAccession.TableAmbiguous").length() * 8;
+		int width = Config.language.getProperty("Dialog.ConceptAccession.TableAmbiguous").length() * 8;
 		columnAmbiguous.setMaxWidth(width);
 		columnAmbiguous.setMinWidth(width);
 
@@ -426,42 +401,30 @@ public class DialogConceptAccession extends OVTK2Dialog {
 			// get existing concept accessions
 			Map<Pair<?>, Boolean> existing = new HashMap<Pair<?>, Boolean>();
 			for (ConceptAccession ca : concept.getConceptAccessions()) {
-				existing.put(new Pair<String>(ca.getAccession(), ca
-						.getElementOf().getId()), ca.isAmbiguous());
+				existing.put(new Pair<String>(ca.getAccession(), ca.getElementOf().getId()), ca.isAmbiguous());
 			}
 			Map<Pair<?>, Boolean> accessions = model.getData();
 			// check for positive changes
 			for (Pair<?> pair : accessions.keySet()) {
-				if (((String) pair.getFirst()).trim().length() > 0
-						&& ((String) pair.getSecond()).trim().length() > 0) {
+				if (((String) pair.getFirst()).trim().length() > 0 && ((String) pair.getSecond()).trim().length() > 0) {
 					// concept accessions not existing
 					if (!existing.containsKey(pair)) {
-						DataSource dataSource = viewer.getONDEXJUNGGraph()
-								.getMetaData()
-								.getDataSource((String) pair.getSecond());
-						concept.createConceptAccession(
-								(String) pair.getFirst(), dataSource,
-								accessions.get(pair));
+						DataSource dataSource = viewer.getONDEXJUNGGraph().getMetaData().getDataSource((String) pair.getSecond());
+						concept.createConceptAccession((String) pair.getFirst(), dataSource, accessions.get(pair));
 						existing.put(pair, accessions.get(pair));
 					}
 					// ambiguous different
 					else if (!existing.get(pair).equals(accessions.get(pair))) {
-						DataSource dataSource = viewer.getONDEXJUNGGraph()
-								.getMetaData()
-								.getDataSource((String) pair.getSecond());
-						concept.getConceptAccession((String) pair.getFirst(),
-								dataSource).setAmbiguous(accessions.get(pair));
+						DataSource dataSource = viewer.getONDEXJUNGGraph().getMetaData().getDataSource((String) pair.getSecond());
+						concept.getConceptAccession((String) pair.getFirst(), dataSource).setAmbiguous(accessions.get(pair));
 					}
 				}
 			}
 			// check for deletions
 			for (Pair<?> pair : existing.keySet()) {
 				if (!accessions.containsKey(pair)) {
-					DataSource dataSource = viewer.getONDEXJUNGGraph()
-							.getMetaData()
-							.getDataSource((String) pair.getSecond());
-					concept.deleteConceptAccession((String) pair.getFirst(),
-							dataSource);
+					DataSource dataSource = viewer.getONDEXJUNGGraph().getMetaData().getDataSource((String) pair.getSecond());
+					concept.deleteConceptAccession((String) pair.getFirst(), dataSource);
 				}
 			}
 			try {
