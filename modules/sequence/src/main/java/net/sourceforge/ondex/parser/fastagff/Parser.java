@@ -87,6 +87,7 @@ public class Parser extends ONDEXParser {
 		ConceptClass ccProtein = md.getConceptClass(MetaData.CC_PROTEIN);
 		RelationType rtEncodes = md.getRelationType(MetaData.RT_ENCODES);
 		AttributeName anChromosome = md.getAttributeName(MetaData.CHROMOSOME);
+		AttributeName anLocation = md.getFactory().createAttributeName("Location", String.class);
 		AttributeName anBegin = md.getAttributeName(MetaData.AN_BEGIN);
 		AttributeName anEnd = md.getAttributeName(MetaData.AN_END);
 		AttributeName anTaxid = md.getAttributeName(MetaData.AN_TAXID);
@@ -115,14 +116,11 @@ public class Parser extends ONDEXParser {
 			System.out.println("New data source object was created: "+ xref);
 		}
 		
-
 		//creates hashmaps between ondex and concept classes
 		HashMap<String,Integer> ondex2gene = new HashMap<String,Integer>();
 		HashMap<String,Integer> ondex2protein = new HashMap<String,Integer>();
 
-
-
-
+		
 		//parse GFF lines and create Gene concepts
 		//----------------------------------------
 		String GFFFilePath = (String) args.getUniqueValue(ArgumentNames.GFF_ARG);
@@ -159,6 +157,8 @@ public class Parser extends ONDEXParser {
 				}
 				
 				//Standarize the name of the chromosome
+				String geneLocation = splited[0];
+				
                 Pattern p = Pattern.compile("\\d+");
                 Matcher m = p.matcher(splited[0]);
 
@@ -174,25 +174,29 @@ public class Parser extends ONDEXParser {
                        missingChr++;
                 }
                 else {
-                       geneChrName = values.get(values.size()-1);
+                	//everything which is higher tan 99 or equals NA is not a chromosome
+                	 if ((values.get(0).length() > 2) || values.equals("NA")){
+                         geneChrName = "0";
+                		 missingChr++;
+                     }
+                	 else {
+                		 geneChrName = values.get(0);
+                	 }
                 }
 
 				Integer geneChr = Integer.parseInt(geneChrName);  
 				Integer geneBegin = Integer.parseInt(splited[3]);
 				Integer geneEnd = Integer.parseInt(splited[4]);
 
-				
-
 				ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", geneDescription, dsConcept, ccGene, etIMPD);
 				c1.createConceptName(geneId, false);
 				c1.createConceptAccession(geneId, dsAccession, false);
 				c1.createAttribute(anTaxid, taxid, false);
 				c1.createAttribute(anChromosome, geneChr, false);
+				c1.createAttribute(anLocation, geneLocation, false);
 				c1.createAttribute(anBegin, geneBegin, false);
 				c1.createAttribute(anEnd, geneEnd, false);
 				ondex2gene.put(geneId, c1.getId());
-
-				//System.out.println(geneChr);
 			}
 			System.out.println("Amount of missing chromosomes: "+missingChr);
 		}
@@ -209,8 +213,7 @@ public class Parser extends ONDEXParser {
 			}
 		}
 
-
-
+		
 		//parse FASTA and create protein concepts
 		//---------------------------------------
 		String FASTAFilePath = (String) args.getUniqueValue(ArgumentNames.FASTA_ARG);
@@ -272,7 +275,6 @@ public class Parser extends ONDEXParser {
 			}
 		}
 
-
 		//parse mapping file and create relations
 		//---------------------------------------
 		String MappingFilePath = null;
@@ -285,7 +287,6 @@ public class Parser extends ONDEXParser {
 			BufferedReader Mappingbr = null;
 	
 			try {
-	
 				MappingFile = new File (MappingFilePath);
 				Mappingfr = new FileReader (MappingFile);
 				Mappingbr = new BufferedReader(Mappingfr);
@@ -316,8 +317,7 @@ public class Parser extends ONDEXParser {
 					ONDEXConcept proteinCocnept = graph.getConcept(ondexProteinId);
 	
 					graph.getFactory().createRelation(geneCocnept, proteinCocnept, rtEncodes, etIMPD);			
-	
-	
+
 				}
 				System.out.println("Amount of missing genes: "+missingGenes);
 				System.out.println("Amount of missing proteins: "+missingProteins);			
@@ -340,20 +340,22 @@ public class Parser extends ONDEXParser {
 			Integer missingProteins = 0;
 			for(String pAcc : ondex2protein.keySet()){
 				
-				String gAcc = "";
+				int ondexGeneId;
+				int ondexProteinId;
 				
-				if(!(pAcc.contains("."))){
-					gAcc = pAcc;
-				}	
-				else{
-					gAcc = pAcc.split("\\.")[0];
+				if((ondex2gene.get(pAcc) != null) || (ondex2gene.get(pAcc.split("\\.")[0]) != null)){
+					ondexProteinId = ondex2protein.get(pAcc);
+					if (ondex2gene.containsKey(pAcc)) {
+						ondexGeneId = ondex2gene.get(pAcc);
+					}
+					else {
+						ondexGeneId = ondex2gene.get(pAcc.split("\\.")[0]);
+					}
 				}
-				if (ondex2gene.get(gAcc) == null){
+				else {
 					missingGenes++;	        		
 					continue;
 				}
-				int ondexGeneId = ondex2gene.get(gAcc);
-				int ondexProteinId = ondex2protein.get(pAcc);
 
 				ONDEXConcept geneCocnept = graph.getConcept(ondexGeneId);
 				ONDEXConcept proteinCocnept = graph.getConcept(ondexProteinId);
@@ -364,17 +366,10 @@ public class Parser extends ONDEXParser {
 			System.out.println("Amount of missing genes: "+missingGenes);
 			System.out.println("Amount of missing proteins: "+missingProteins);	
 		}
-
-
-
-
-
-
 	}
 
 	@Override
 	public String[] requiresValidators() {
 		return new String[0];
 	}
-
 }
