@@ -238,7 +238,7 @@ public class Parser extends ONDEXParser {
 					if(!secuenceName.isEmpty()){
 						//creates protein concept when find the next > symbol
 						ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein, etIMPD);
-						c2.createConceptName(secuenceName, true);
+						c2.createConceptName(secuenceName, false);
 						c2.createConceptAccession(secuenceName, dsAccession, false);	    	     		 
 						c2.createAttribute(anSecuenceAA, secuence, false);
 						c2.createAttribute(anTaxid, taxid, false);
@@ -257,7 +257,7 @@ public class Parser extends ONDEXParser {
 			}
 			//creates the last protein concept			 
 			ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein, etIMPD);
-			c2.createConceptName(secuenceName, true);
+			c2.createConceptName(secuenceName, false);
 			c2.createConceptAccession(secuenceName, dsConcept, false);	    	     		 
 			c2.createAttribute(anSecuenceAA, secuence, false);
 			ondex2protein.put(secuenceName, c2.getId());
