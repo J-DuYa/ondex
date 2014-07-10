@@ -1,15 +1,20 @@
 package net.sourceforge.ondex.ovtk2.config;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
@@ -20,7 +25,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import net.sourceforge.ondex.core.Attribute;
-import net.sourceforge.ondex.exception.type.ONDEXConfigurationException;
+//import net.sourceforge.ondex.exception.type.ONDEXConfigurationException;
 import net.sourceforge.ondex.ovtk2.annotator.OVTK2Annotator;
 import net.sourceforge.ondex.ovtk2.filter.OVTK2Filter;
 import net.sourceforge.ondex.ovtk2.io.OVTK2IO;
@@ -557,7 +562,8 @@ public class OVTK2PluginLoader {
 
 		if (Config.ovtkDir.contains("://") || Config.ovtkDir.startsWith("file:/")) {
 			System.out.println("Scanning http lib directory for plugins");
-			File dir = new File(Config.ovtkDir.substring(0, Config.ovtkDir.lastIndexOf("config")) + "lib/");
+			String path = Config.ovtkDir.substring(0, Config.ovtkDir.lastIndexOf("config")) + "lib/";
+			File dir = new File(path);
 			if (dir.exists() && dir.isDirectory()) {
 				for (File f : dir.listFiles()) {
 					if (f.getName().contains("ovtk2-default-")) {
@@ -567,12 +573,20 @@ public class OVTK2PluginLoader {
 						loadFromPath(urls, classRegisterBuilder, f.getAbsolutePath());
 					}
 				}
-			} else {
-				throw new FileNotFoundException("Could not find valid plugin directory at: " + dir.getAbsoluteFile());
+			} 
+			
+			else 
+			{
+				List<String> founds = getHttpFilePaths(path);				
+	
+		        for(String found : founds)
+		        {   
+		        	loadFromPath(urls, classRegisterBuilder, path+found);
+		        }
+				
 			}
 
 		} else {
-
 			// make sure directory exists.
 			File pluginDir = new File(PLUGIN_DIR);
 			if (!pluginDir.exists()) {
@@ -609,6 +623,76 @@ public class OVTK2PluginLoader {
 		popupitemNames = findPopupitemInstances(classRegister);
 	}
 
+	
+	/**
+	 * Search the file paths of ovtk2-default and ovtk2-experimental per http 
+	 */	
+	protected List<String> getHttpFilePaths(String path) throws FileNotFoundException
+	{	
+		List<String> founds = new ArrayList<String>();
+		URL url=null;		
+		
+		try 
+		{
+			//Http connection
+			url = new URL(path);   		    	 	
+			URLConnection con = url.openConnection();
+			// ConnectionTimout = 10sec
+			con.setConnectTimeout(10*1000);
+			con.setReadTimeout(10*1000);   	
+    	
+			BufferedReader in = new BufferedReader(
+	    			new InputStreamReader(con.getInputStream()));
+
+			String inputLine;
+		
+			// Pattern to find the line of the correct filename
+			Pattern pat = Pattern.compile("ovtk2-default|ovtk2-experimental");
+			// Pattern to find the start of the filename
+			Pattern pat2 = Pattern.compile("href=");
+			// Pattern to find the end of the filename
+			Pattern pat3 = Pattern.compile("\"");        
+		        
+			while ((inputLine = in.readLine()) != null)
+			{	   
+				Matcher mat = pat.matcher(inputLine);			
+				
+				// if "ovtk2-..." was found
+				if(mat.find()==true)
+				{				
+					Matcher mat2 = pat2.matcher(inputLine);
+					
+					// find the beginning of "href=" at this line
+					if(mat2.find()==true)
+					{	
+						// the result string begin behind href" 
+						inputLine = inputLine.substring(mat2.end()+1);        	
+						Matcher mat3 = pat3.matcher(inputLine);	        	
+						
+						// the result string ends at the first found of " 
+						if(mat3.find()==true)
+						{
+							inputLine = inputLine.substring(0,mat3.start());
+							founds.add(inputLine);
+						}			        
+					}        	       
+				}		        	
+			}		            
+			
+			in.close();
+			
+		}
+	
+		catch (Exception e)
+		{
+			throw new FileNotFoundException("Could not find valid plugin directory at: " + path + "\n" + e.getMessage());
+		}
+		
+		return founds;
+	}
+	
+	
+	
 	/**
 	 * scans a given zip file for file entries and appends them to the given
 	 * string builder.
