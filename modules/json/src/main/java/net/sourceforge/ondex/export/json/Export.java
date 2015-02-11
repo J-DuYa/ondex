@@ -37,7 +37,7 @@ import org.json.simple.JSONArray;
  * @author Ajit Singh
  * @version 19/12/14
  */
-@Status(description = "Under development", status = StatusType.EXPERIMENTAL)
+@Status(description = "Under development", status = StatusType.STABLE)
 @Authors(authors = { "Ajit Singh" }, emails = { "ajit.singh at rothamsted.ac.uk" })
 @Custodians(custodians = { "Ajit Singh" }, emails = { "ajit.singh at rothamsted.ac.uk" })
 public class Export extends ONDEXExport {
