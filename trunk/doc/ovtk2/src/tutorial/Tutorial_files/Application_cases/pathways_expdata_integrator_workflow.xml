@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ondex version="3.0">
+  <Workflow>
+    <Graph name="memorygraph">
+      <Arg name="GraphName">default</Arg>
+      <Arg name="graphId">default</Arg>
+    </Graph>
+    <Parser name="drastic">
+      <Arg name="InputFile"></Arg>
+      <Arg name="graphId">default</Arg>
+    </Parser>
+    <Parser name="tableparser">
+      <Arg name="firstRow">3</Arg>
+      <Arg name="lastRow">22812</Arg>
+      <Arg name="InputFile">...\importdata\tab\merged_no_ambiguous_probes.txt</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="attribute">c1,0,ACC,EC</Arg>
+      <Arg name="attribute">c1,1,ACC,PFAM</Arg>
+      <Arg name="attribute">c1,2,ACC,SCOP</Arg>
+      <Arg name="attribute">c1,3,ACC,TAIR</Arg>
+      <Arg name="attribute">c1,4,ACC,AFFYMETRIX</Arg>
+      <Arg name="attribute">c1,5,GDS,5N0C,NUMBER</Arg>
+      <Arg name="attribute">c1,6,GDS,10N0C,NUMBER</Arg>
+      <Arg name="attribute">c1,7,GDS,15N0C,NUMBER</Arg>
+      <Arg name="attribute">c1,8,GDS,0N30C,NUMBER</Arg>
+      <Arg name="attribute">c1,9,GDS,0N60C,NUMBER</Arg>
+      <Arg name="attribute">c1,10,GDS,0N90C,NUMBER</Arg>
+      <Arg name="attribute">c1,11,GDS,5N30C,NUMBER</Arg>
+      <Arg name="attribute">c1,12,GDS,10N60C,NUMBER</Arg>
+      <Arg name="attribute">c1,13,GDS,15N90C,NUMBER</Arg>
+      <Arg name="attribute">c1,14,GDS,5N90C,NUMBER</Arg>
+      <Arg name="attribute">c1,15,GDS,15N30C,NUMBER</Arg>
+      <Arg name="attribute">c1,16,GDS,30N60C,NUMBER</Arg>
+      <Arg name="attribute">c1,17,GDS,45N90C,NUMBER</Arg>
+      <Arg name="attribute">c1,18,GDS,1.7N30C,NUMBER</Arg>
+      <Arg name="attribute">c1,19,GDS,3.3N60C,NUMBER</Arg>
+      <Arg name="concept_class">c1,Gene</Arg>
+    </Parser>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">...\pathways.xml</Arg>
+      <Arg name="graphId">default</Arg>
+    </Export>
+    <Mapping name="lowmemoryaccessionbased">
+      <Arg name="IgnoreAmbiguity">true</Arg>
+      <Arg name="RelationType">equ</Arg>
+      <Arg name="WithinCVMapping">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="CVRestriction">TAIR</Arg>
+    </Mapping>
+    <Filter name="unconnected">
+      <Arg name="RemoveContextDependencies">false</Arg>
+      <Arg name="graphId">default</Arg>
+    </Filter>
+    <Transformer name="copycontext">
+      <Arg name="Reverse">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="CVRestriction">AC,UC</Arg>
+    </Transformer>
+    <Transformer name="copycontext">
+      <Arg name="Reverse">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="CVRestriction">AC,DRA</Arg>
+    </Transformer>
+    <Transformer name="copycontext">
+      <Arg name="Reverse">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="CVRestriction">UC,AC</Arg>
+    </Transformer>
+    <Transformer name="copycontext">
+      <Arg name="Reverse">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="CVRestriction">DRA,AC</Arg>
+    </Transformer>
+    <Transformer name="copycontext">
+      <Arg name="Reverse">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="CVRestriction">UC,DRA</Arg>
+    </Transformer>
+    <Transformer name="copycontext">
+      <Arg name="Reverse">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="CVRestriction">DRA,UC</Arg>
+    </Transformer>
+    <Transformer name="copycontext">
+      <Arg name="Reverse">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="ConceptClassRestriction">Gene,Treatment</Arg>
+      <Arg name="CVRestriction">DRA,DRA</Arg>
+    </Transformer>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">...\pathways_mapping.xml</Arg>
+      <Arg name="graphId">default</Arg>
+    </Export>
+    <Transformer name="relationcollapser">
+      <Arg name="CloneGDS">true</Arg>
+      <Arg name="CreateGDSSets">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="RelationType">equ</Arg>
+    </Transformer>
+    <Transformer name="relationcollapser">
+      <Arg name="CloneGDS">true</Arg>
+      <Arg name="CreateGDSSets">false</Arg>
+      <Arg name="graphId">default</Arg>
+      <Arg name="RelationType">en_by</Arg>
+      <Arg name="ConceptClassRestriction">Protein,Gene</Arg>
+    </Transformer>
+    <Export name="oxl">
+      <Arg name="pretty">true</Arg>
+      <Arg name="ExportIsolatedConcepts">true</Arg>
+      <Arg name="GZip">true</Arg>
+      <Arg name="ExportFile">...\pathways_mapping_collapse.xml</Arg>
+      <Arg name="graphId">default</Arg>
+    </Export>
+  </Workflow>
+</Ondex>
+

@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Tue Feb 19 10:10:49 GMT 2013
+markTmpDer=true
+builderNum=2
+outputDir=src/main/latex/user_guide_master/
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=src/main/latex/user_guide_master
+mainTexFile=user_guide_master.tex
+outputFile=user_guide_master.pdf
+langSpell=
+markDer=true
+srcDir=src/main/latex/user_guide_master/

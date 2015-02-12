@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>modules</artifactId>
+		<groupId>net.sourceforge.ondex</groupId>
+		<version>0.6.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sourceforge.ondex.modules</groupId>
+	<artifactId>generic</artifactId>
+	<name>ONDEX/modules/generic</name>
+	<version>0.6.0-SNAPSHOT</version>
+
+	<dependencies>
+		<!-- ONDEX deps -->
+		<dependency> <!-- needed for memory graph factory only -->
+			<groupId>net.sourceforge.ondex.core</groupId>
+			<artifactId>memory</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+        
+		<dependency> <!-- needed for memory-dist graph factory only -->
+			<groupId>net.sourceforge.ondex.core</groupId>
+			<artifactId>memory-dist</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency> <!-- needed for graph factory only -->
+			<groupId>net.sourceforge.ondex.core</groupId>
+			<artifactId>workflow-base</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.ondex.core</groupId>
+			<artifactId>lucene</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.ondex.modules</groupId>
+			<artifactId>oxl</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>12.0</version>
+		</dependency>
+	</dependencies>
+</project>        

@@ -1,0 +1,60 @@
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{xspace}
+\usepackage{url}
+
+%% definitions for the term
+\newcommand{\defn}[1]{\begin{itemize}\item\textbf{Definition: }#1\end{itemize}}
+%% examples of how terms might be used. 
+\newcommand{\example}[1]{\begin{itemize}\item\textbf{Example: }#1\xspace\end{itemize}}
+%% notes which qualify the definitions
+\newcommand{\note}[1]{\begin{itemize}\item\textbf{Note: }#1\end{itemize}}
+%% Suggestions for things we might change
+\newcommand{\suggest}[1]{\begin{itemize}\item\textbf{Suggest: }#1\end{itemize}}
+%% individual fields
+\newcommand{\field}[1]{\textit{#1}\xspace}
+\newcommand{\term}[1]{\texttt{#1}\xspace}
+\newcommand{\todo}[1]{\begin{itemize}\textbf{TODO:} #1\end{itemize}}
+
+\newcommand{\cc}{\term{ConceptClass}}
+\newcommand{\co}{\term{Concept}}
+\newcommand{\rt}{\term{RelationType}}
+\newcommand{\re}{\term{Relation}}
+\newcommand{\gds}{\term{GDS}}
+\newcommand{\nl}{\vskip 0.5cm \noindent}
+
+\title{Usage of Ondex as a knowledge-base}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+This document is intended to be a discussion of the use of Ondex as a knowledge-base.
+
+\nl
+Typically, the use of Ondex has mostly been on a task based inclination. One or few researchers build up a data set for their own workflow, for the consumption of one (or few). The results of these workflows are not necessarily ideal, for either persistence or multiple usage.
+
+
+For more public use, a few issues need to be addressed.
+
+\section{Comments}
+\begin{itemize}
+\item Access and transport: Ondex does not have an obvious way to deploy or transfer graph components. Ondex graphs may be uploaded in OXL to a public webserver, but it is not clear how the Ondex security model would be applied, and how search would operate. Access to Ondex should ideally be on a subgraph or even individual node level via a web browser (or similarly ubiquitous tool) but there is no infrastructure to do this, and it's not obvious how such a thing would be achieved. There is a prototype of Ondex Lite which runs as a Java applet, but this is only able to read very small graphs, and is still under development.
+
+\nl
+\item Data versioning and maintenance: The data should be versioned, the data sources from which a Ondex data set is built from is prone to change, given any piece of data in Ondex, it should not only be the case that it is written where this data is from, but \textbf{when} this data is from. For a public knowledge-base, it will also worthwhile to include the name of the individual who brought into the knowledge-base (i.e. as bringing data from the original data source into any potential knowledge base is likely to be a non-trivial exercise, it makes sense to identify a maintainer).
+
+\nl
+\item Plugin nomenclature and versioning: Ondex plugin development is ad-hoc and sporadic, parsers are updated, rewritten, etc. For data sets intended for use as a permanent and public graph, it is important to find out which is the parsers were used to build the database and which versions. Ondex has a few plugins in duplicate (i.e. atregnet, atregnet2, kegg, kegg2) which provide different representations of a graph (although this should be addressed by following the normalised data model), but moreover, have names that are not complete enough to characterise their function. i.e. atregnet and atregnet2 do not parse the same data files, neither does kegg and kegg2. It should be noted that the names are generally misleading, one might suppose that kegg and kegg2 are both parsers for KEGG with different data model representations, and whilst this might be true, neither kegg nor kegg2 parse the whole of the KEGG, both parse subsets, with some overlaps.
+
+\nl
+\item Ondex nomenclature: Ondex uses nomenclature that is different from much of community, i.e. a Ondex Concept can be used to identify a publication, and it's said in Ondex that this publication would belong to the Ondex ConceptClass of "Publication". (i.e. Ondex Concept ``Will, George F. "Electronic Morphine." Newsweek 25 Nov. 2002: 92.'' belong to Ondex ConceptClass ``Publication'') whereas many would identify this as a Instance-Class relationship. Also, in Ondex, it is not clear why RelationType is used for Ondex Relations and ConceptClass is used for Ondex Concepts rather than both being types or classes.
+
+\nl
+\item Documentation: Ondex suffers from a lack of documentation, where Ondex documentation about core elements exists, it tends to give definitions by example rather than by explicit statement. 
+
+\end{itemize}
+
+\end{document}
+
+

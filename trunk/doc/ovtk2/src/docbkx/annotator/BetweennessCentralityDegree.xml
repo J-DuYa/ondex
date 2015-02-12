@@ -1,0 +1,37 @@
+<sect1 id="Annotator.BetweennessCentralityDegree">
+	<title>Betweenness / Degree Centrality</title>
+	<para>
+		Betweenness is a centrality measure of a node within a graph. A score
+		for this betweenness is computed using the algorithm presented in the
+		following
+		<ulink
+			url="http://www.inf.uni-konstanz.de/algo/publications/b-fabc-01.pdf">
+			<citetitle>publication</citetitle>
+		</ulink>
+		by Ulrik Brandes.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_bd1.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+	<para>
+		Betweenness is represented by the colour of concepts while degree
+		is represented by their size. The colour legend used for betweenness
+		centrality is based on the colours of the rainbow (purple = minimum,
+		indigo, blue, green, yellow, orange, red = maximum).
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center" fileref="../images/annotator/annotator_bd2.png" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

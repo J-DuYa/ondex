@@ -1,0 +1,18 @@
+<sect1 id="Graph.Edgelist">
+	<title>Relation List</title>
+	<para>
+	The relation list shows a list of all the relations on the network.
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/network_relationlist1.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	The relation list works in the same way the concept list does.
+	</para>
+</sect1>

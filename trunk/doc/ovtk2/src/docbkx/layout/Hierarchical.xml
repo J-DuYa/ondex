@@ -1,0 +1,18 @@
+<sect1 id="Layout.ConceptClassHierarchical">
+	<title>Hierarchical</title>
+	<para>
+		Hierarchical layout of concepts based on their concept classes.
+		Each row represents one concept class. Rows can also be assigned
+		according to concept attributes.
+	</para>
+	<para>
+		<screenshot>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/layout/layout_hierarchical.png"
+						align="center" />
+				</imageobject>
+			</mediaobject>
+		</screenshot>
+	</para>
+</sect1>

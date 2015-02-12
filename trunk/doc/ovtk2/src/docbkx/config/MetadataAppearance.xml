@@ -1,0 +1,54 @@
+<sect1 id="Config.MetadataAppearance">
+	<title>Metadata Appearance</title>
+	<para>
+	This option allows users to change colours and shapes on the network.
+	The following screenshot shows the colours and shaped of the concept classes of the network.
+	Clicking on the listed colours and shapes allows users to change them (see tutorial for more details).
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+				<imagedata align="center" fileref="../images/Scaled/config_metadata1.png"/>
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	The screenshot below shows the colours for the controlled vocabularies.
+	In this case there are two data sources: PHI-base database (PHI) and Botrytis genome sequence (unknown).
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/config_metadata2.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	Should you wish to see these colours applied on the network, click on View -> Colour Concepts by Controlled Vocabulary. You get:
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/config_metadata3.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+	<para>
+	Finally, the last tab gives colours for the relations of the network (in this case, paralogs and orthologs).
+	</para>
+	<para>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="../images/Scaled/config_metadata4.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+	</para>
+</sect1>
