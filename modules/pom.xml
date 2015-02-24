@@ -33,6 +33,7 @@
 		<module>habitat</module>
 		<module>iah</module>
 		<module>interaction</module>
+		<module>json</module>
 		<module>kegg</module>
 		<module>legacy</module>
 		<module>oxl</module>
