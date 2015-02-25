@@ -678,6 +678,7 @@ SectionGroupEnd
   	LangString DESC_SecOndexHabitat ${LANG_ENGLISH} "Habitat functionality plugin-in for Integrator."
   	LangString DESC_SecOndexIAH ${LANG_ENGLISH} "IAH functionality plugin-in for Integrator."
   	LangString DESC_SecOndexInteraction ${LANG_ENGLISH} "Interaction functionality plugin-in for Integrator."
+  	LangString DESC_SecOndexJSON ${LANG_ENGLISH} "JSON functionality plugin-in for Integrator."
   	LangString DESC_SecOndexKEGG ${LANG_ENGLISH} "KEGG functionality plugin-in for Integrator."
   	LangString DESC_SecOndexLegacy ${LANG_ENGLISH} "Legacy functionality plugin-in for Integrator."
   	LangString DESC_SecOndexOXL ${LANG_ENGLISH} "OXL functionality plugin-in for Integrator."
@@ -721,6 +722,7 @@ SectionGroupEnd
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexHabitat} $(DESC_SecOndexHabitat)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexIAH} $(DESC_SecOndexIAH)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexInteraction} $(DESC_SecOndexInteraction)
+  	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexJSON} $(DESC_SecOndexJSON)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexKEGG} $(DESC_SecOndexKEGG)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexLegacy} $(DESC_SecOndexLegacy)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexOXL} $(DESC_SecOndexOXL)
@@ -769,6 +771,7 @@ Function .onInit
   !insertmacro SelectSection ${SecOndexHabitat}
   !insertmacro SelectSection ${SecOndexIAH}
   !insertmacro SelectSection ${SecOndexInteraction}
+  !insertmacro SelectSection ${SecOndexJSON}
   !insertmacro SelectSection ${SecOndexKEGG}
   !insertmacro SelectSection ${SecOndexLegacy}
   !insertmacro SelectSection ${SecOndexOXL}
