@@ -452,6 +452,17 @@ SectionGroup "Ondex Integrator"
 		SectionIn 3 4
 	SectionEnd
 	
+	Section "Integrator JSON plug-in" SecOndexJSON
+	
+	    SetOutPath $INSTDIR
+	    SetOverwrite on
+	
+	    ;ADD YOUR OWN FILES HERE...
+	    File "/oname=$INSTDIR\plugins\json-jar-with-dependencies.jar" "${PROJECT_BUILD_DIR}\plugins\json-jar-with-dependencies.jar"
+	
+		SectionIn 3 4
+	SectionEnd
+	
 	Section "Integrator KEGG plug-in" SecOndexKEGG
 	
 	    SetOutPath $INSTDIR
