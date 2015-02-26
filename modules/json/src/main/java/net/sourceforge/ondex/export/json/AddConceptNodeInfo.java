@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 /**
  * Build node json objects using their various attributes.
  * @author Ajit Singh
- * @version 03/12/14
+ * @version 26/02/15
  */
 public class AddConceptNodeInfo {
 
@@ -30,13 +30,16 @@ public class AddConceptNodeInfo {
        }
     }
   String conceptType= con.getOfType().getFullname(); // conceptType.
+  if(conceptType.equalsIgnoreCase("Compound")) {
+     conceptType= "SNP";
+    }
   String conceptShape;
   String conceptColour;
   String conceptVisibility= defaultVisibility; // default
 
   nodeData.put(JSONAttributeNames.ID, conceptID);
   nodeData.put(JSONAttributeNames.VALUE, conceptName);
-  nodeData.put("conceptType", conceptType); // conceptType ("ofType").
+  nodeData.put("conceptType", conceptType); // conceptType ("ofType").  
   nodeData.put(JSONAttributeNames.PID, con.getPID());
   nodeData.put(JSONAttributeNames.ANNOTATION, con.getAnnotation().replaceAll("(\\r|\\n)", " "));
   // Set the shape, color & visibility attributes for this Concept.
@@ -114,7 +117,7 @@ public class AddConceptNodeInfo {
      shape= ConceptShape.pentagon.toString();
      colour= ConceptColour.yellow.toString();
     }
-  else if(conType.equals(ConceptType.Compound.toString())) {
+  else if((conType.equals(ConceptType.Compound.toString())) || (conType.equals(ConceptType.SNP.toString()))) {
      shape= ConceptShape.heptagon.toString();
      colour= ConceptColour.teal.toString();
     }
