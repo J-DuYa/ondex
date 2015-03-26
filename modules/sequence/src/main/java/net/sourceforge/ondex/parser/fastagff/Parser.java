@@ -149,11 +149,11 @@ public class Parser extends ONDEXParser {
 				String geneDescription = "";
 				if(splited[8].contains(";")){
 					String[] col =   splited[8].split(";");
-					geneId = col[0].split("=")[1];
-					geneDescription = col[1].split("=")[1];
+					geneId = col[0].split("=")[1].toUpperCase();
+					geneDescription = col[1].split("=")[1].toUpperCase();
 				}else{
-					geneId = splited[8].split("=")[1];
-					geneDescription = splited[8].split("=")[1];
+					geneId = splited[8].split("=")[1].toUpperCase();
+					geneDescription = splited[8].split("=")[1].toUpperCase();
 				}
 				
 				//Standarize the name of the chromosome
@@ -244,11 +244,11 @@ public class Parser extends ONDEXParser {
 						c2.createAttribute(anTaxid, taxid, false);
 						ondex2protein.put(secuenceName, c2.getId());
 						//saves the new secuence name and clears de secuence	    	        			 
-						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1);
+						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1).toUpperCase();
 						secuence = "";
 					} else {
 						//saves the first secuence name
-						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1);	        			 	        			 
+						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1).toUpperCase();	        			 	        			 
 					}
 				} else {
 					//concate the secuence to the current secuence name
