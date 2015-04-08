@@ -488,12 +488,14 @@ public class Export extends ONDEXExport {
       * "attributes" instead of using older terminology: "cogds" & "concept_gds". These are now used as Keys 
       * in addition to older terms like "attrnames" and "attrname".
       */
-     Set<Attribute> attributes= con.getAttributes();
-     JSONObject attrJson= new JSONObject();
+     Set<Attribute> attributes= con.getAttributes(); // get all concept Attributes.
+//     JSONObject attrJson= new JSONObject();
+     JSONArray conAttributesArray= new JSONArray(); // fetch array of concept attributes.
      for(Attribute attr : attributes) {
-         attrJson.put(JSONAttributeNames.COATTRIBUTE, buildAttribute(attr));
+//         attrJson.put(JSONAttributeNames.COATTRIBUTE, buildAttribute(attr));
+         conAttributesArray.add(buildAttribute(attr)); // add to concept attributes array.
         }
-     conceptJson.put(JSONAttributeNames.CONCEPTATTRIBUTES, attrJson);
+     conceptJson.put(JSONAttributeNames.CONCEPTATTRIBUTES, conAttributesArray/*attrJson*/);
 
      // Contexts.
      Set<ONDEXConcept> contexts= con.getTags();
@@ -539,11 +541,13 @@ public class Export extends ONDEXExport {
       * "relation_gds" and "attrname" as keys instead of just "attrnames" and "attrname".
       */
      Set<Attribute> attributes= rel.getAttributes();
-     JSONObject attrJson= new JSONObject();
+//     JSONObject attrJson= new JSONObject();
+     JSONArray relAttributesArray= new JSONArray(); // fetch array of relation attributes.
      for(Attribute attr : attributes) {
-         attrJson.put(JSONAttributeNames.RELATIONGDS, buildAttribute(attr));
+//         attrJson.put(JSONAttributeNames.RELATIONGDS, buildAttribute(attr));
+         relAttributesArray.add(buildAttribute(attr)); // add to relation attributes array.
         }
-     relationJson.put(JSONAttributeNames.RELGDS, attrJson);
+     relationJson.put(JSONAttributeNames.RELGDS, relAttributesArray/*attrJson*/);
 
      // Contexts.
      Set<ONDEXConcept> contexts= rel.getTags();
