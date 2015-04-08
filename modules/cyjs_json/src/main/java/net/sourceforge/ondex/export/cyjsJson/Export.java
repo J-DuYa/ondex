@@ -1,8 +1,9 @@
-package net.sourceforge.ondex.export.json;
+package net.sourceforge.ondex.export.cyjsJson;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import net.sourceforge.ondex.InvalidPluginArgumentException;
@@ -32,51 +33,23 @@ import org.json.simple.JSONArray;
 /**
  * Builds JSON files to be used with CytoscapeJS using data from ONDEX concepts, relations and other 
  * important Item Info. The concepts and relations' information used for generating the Network Graph is 
- * generated in a timestamped 'networkGraph' file & all metadata is generated in a timestamped 
- * 'networkMetadata' file.
+ * stored in a 'graphJSON' object & all the metadata is stored in an 'allGraphData' object, both of 
+ * which are generated timestamped 'result' JSON file.
  * @author Ajit Singh
- * @version 19/12/14
+ * @version 07/04/2015
  */
-@Status(description = "Under development", status = StatusType.STABLE)
+@Status(description = "stable", status = StatusType.STABLE)
 @Authors(authors = { "Ajit Singh" }, emails = { "ajit.singh at rothamsted.ac.uk" })
 @Custodians(custodians = { "Ajit Singh" }, emails = { "ajit.singh at rothamsted.ac.uk" })
 public class Export extends ONDEXExport {
 
     private FileWriter graphFileWriter= null;
     
-    // current version of the JSON Exporter Plugin.
+    // current version of the cytoscapeJS JSON Exporter Plugin.
     public static final String version = "1.0";
 
-    // toggle debugging
-//    private static final boolean DEBUG = true;
-
     // line delimiter
-    private final String newline = "\n";
-
-    // parameter to exclude all of selected feature
-/*    private static final String ALL = "ALL";
-
-    // export concepts that do not have relations, default true
-    private boolean writeIsolatedConcepts = true;
-
-    // mapping concepts to relation counts
-    private Map<Integer, Integer> conIdToRelationCounts = null;
-
-    // A list of the Attributes of Attribute values to exclude. String ALL =>
-    // Excludes all attributes.
-    private Set<String> excludeGDSSet = new HashSet<String>();
-
-    // A list of the ConceptClasses to be excluded in the export.
-    private Set<String> excludeCCSet = new HashSet<String>();
-
-    // A list of the RelationTypes to be excluded in the export.
-    private Set<String> excludeRt = new HashSet<String>();
-*/
-
-    /**
-     * Other application dependent annotation data for this export, can be null.
-     */
-//    protected Map<String, String> annotations = null;
+    private final String newline= "\n";
 
     /**
      * Builds a file with Ondex Graph data exported to JSON variables for concepts (nodes), relations (edges)
@@ -146,29 +119,6 @@ public class Export extends ONDEXExport {
 		if (graph == null && (concepts == null || relations == null))
 		    throw new NullPointerException("Error: Ondex graph not set for export");
 
-		if (graph != null) {
-                    // get Attribute list to exclude
-                    // excludeGDSSet.add(anAttributeList);
-
-		    // get CC list to exclude
-                    // excludeCCSet.add(aCclist);
-
-		    // get RelationType list to exclude
-		    // excludeRt.add(aRtList);
-
-		    // get Attribute list with exclusive inclusions
-                    // excludeGDSSet
-                    
-                    // get CC list with exclusive inclusions
-		    // excludeCCSet
-                    
-		    // get RelationType list with exclusive inclusions
-		    // excludeRt
-                    
-		    // get write isolated concepts option
-		    // writeIsolatedConcepts = (Boolean) args.getUniqueValue(ArgumentNames.EXPORT_ISOLATED_CONCEPTS);
-		   }
-
 	}
 
     /**
@@ -176,7 +126,7 @@ public class Export extends ONDEXExport {
      */
     @Override
     public String getId() {
-     return "json";
+     return "cyjs_json";
     }
 
     /**
@@ -184,7 +134,7 @@ public class Export extends ONDEXExport {
      */
     @Override
     public String getName() {
-     return "JSON Export";
+     return "CytoscapeJS JSON Export";
     }
 
     /**
@@ -192,7 +142,7 @@ public class Export extends ONDEXExport {
      */
     @Override
     public String getVersion() {
-     return "01/12/2014";
+     return "07/04/2015";
     }
 
     /**
@@ -295,7 +245,7 @@ public class Export extends ONDEXExport {
     }
 
     /** 
-     * Generate metadata in JSON format.
+     * Generate metadata object in JSON format.
      * @return A JSONObject containing information about all concepts, relations & metadata.
      */
     private JSONObject getJsonMetadata() {
@@ -444,7 +394,7 @@ public class Export extends ONDEXExport {
        }
      conceptJson.put(JSONAttributeNames.VALUE, conName); // concept name.
      conceptJson.put(JSONAttributeNames.PID, con.getPID());
-     conceptJson.put(JSONAttributeNames.ANNOTATION, con.getAnnotation());
+     conceptJson.put(JSONAttributeNames.ANNOTATION, con.getAnnotation().replaceAll("(\\r|\\n)", " "));
      conceptJson.put(JSONAttributeNames.DESCRIPTION, con.getDescription());
 
      /** Element Of (parent Data Source details returned in another JSON object). Now, uses "ElementOf" as key
@@ -465,7 +415,7 @@ public class Export extends ONDEXExport {
          evidencesJson.put(JSONAttributeNames.EVIDENCE, buildEvidenceType(et));
         }
      conceptJson.put(JSONAttributeNames.EVIDENCES, evidencesJson);
-     
+
      // Concept Names (conames).
      Set<ConceptName> conames= con.getConceptNames();
      JSONObject conamesJson= new JSONObject();
@@ -488,7 +438,7 @@ public class Export extends ONDEXExport {
       * "attributes" instead of using older terminology: "cogds" & "concept_gds". These are now used as Keys 
       * in addition to older terms like "attrnames" and "attrname".
       */
-     Set<Attribute> attributes= con.getAttributes();
+     Set<Attribute> attributes= con.getAttributes(); // get all concept Attributes.
 //     JSONObject attrJson= new JSONObject();
      JSONArray conAttributesArray= new JSONArray(); // fetch array of concept attributes.
      for(Attribute attr : attributes) {
@@ -519,7 +469,7 @@ public class Export extends ONDEXExport {
     private JSONObject buildRelation(ONDEXRelation rel) {
      JSONObject relationJson= new JSONObject();
 
-     relationJson.put(JSONAttributeNames.ID, String.valueOf(rel.getId())); // relation ID.
+     relationJson.put(JSONAttributeNames.ID, "e"+String.valueOf(rel.getId())); // relation ID.
      relationJson.put(JSONAttributeNames.FROMCONCEPT, String.valueOf(rel.getFromConcept().getId())); // relation source ID.
      relationJson.put(JSONAttributeNames.TOCONCEPT,String.valueOf(rel.getToConcept().getId())); // relation target ID.
 
@@ -565,29 +515,35 @@ public class Export extends ONDEXExport {
      * Generate metadata for Data Source.
      * @param ds
      *            A Data Source (from the Ondex API).
-     * @return JSONObject
-     *            JSONObject containing information about the Data Source.
+     * @return String
+     *            String containing full name or id.
      */
-    private JSONObject buildDataSource(DataSource ds) {
-     JSONObject dsJson= new JSONObject();
-     
+    private String/*JSONObject*/ buildDataSource(DataSource ds) {
+     String elementOf;
+/*     JSONObject dsJson= new JSONObject();
      dsJson.put(JSONAttributeNames.ID, ds.getId());
      dsJson.put(JSONAttributeNames.FULLNAME, ds.getFullname());
      dsJson.put(JSONAttributeNames.DESCRIPTION, ds.getDescription());
-
-     return dsJson;
+*/
+     if(ds.getFullname().equals("")) {
+        elementOf= ds.getId();
+       }
+     else {
+        elementOf= ds.getFullname();
+       }
+     return elementOf/*dsJson*/;
     }
 
     /**
      * Generate metadata for Concept Class.
      * @param cc
      *            A Concept Class (from the Ondex API).
-     * @return JSONObject
-     *            JSONObject containing information about the Concept Class.
+     * @return String
+     *            String containing full name or id.
      */
-    private JSONObject buildConceptClass(ConceptClass cc) {
-     JSONObject ccJson= new JSONObject();
-     
+    private String/*JSONObject*/ buildConceptClass(ConceptClass cc) {
+     String ofType;
+/*     JSONObject ccJson= new JSONObject();
      ccJson.put(JSONAttributeNames.ID, cc.getId());
      ccJson.put(JSONAttributeNames.FULLNAME, cc.getFullname());
      ccJson.put(JSONAttributeNames.DESCRIPTION, cc.getDescription());
@@ -596,25 +552,33 @@ public class Export extends ONDEXExport {
      if(spec != null) {
         ccJson.put(JSONAttributeNames.SPECIALISATIONOF, buildConceptClass(spec));
        }
-
-     return ccJson;
+*/
+     if(cc.getFullname().equals("")) {
+        ofType= cc.getId();
+       }
+     else {
+        ofType= cc.getFullname();
+       }
+     return ofType/*ccJson*/;
     }
 
     /**
      * Generate metadata for Evidence Type.
      * @param et
      *            Evidence Type (from the Ondex API).
-     * @return JSONObject
-     *            JSONObject containing information about the Evidence Type.
+     * @return String
+     *            String containing information about the Evidence Type.
      */
-    private JSONObject buildEvidenceType(EvidenceType et) {
-     JSONObject evidenceJson= new JSONObject();
+    private String/*JSONObject*/ buildEvidenceType(EvidenceType et) {
+/*     JSONObject evidenceJson= new JSONObject();
      
      evidenceJson.put(JSONAttributeNames.ID, et.getId());
      evidenceJson.put(JSONAttributeNames.FULLNAME, et.getFullname());
      evidenceJson.put(JSONAttributeNames.DESCRIPTION, et.getDescription());
+*/
+     String evidenceName= et.getFullname();
 
-     return evidenceJson;
+     return evidenceName/*evidenceJson*/;
     }
 
     /**
@@ -646,7 +610,7 @@ public class Export extends ONDEXExport {
      accJson.put(JSONAttributeNames.ACCESSION, accession.getAccession());
      // Element Of (return parent data source information).
      accJson.put(JSONAttributeNames.ELEMENTOF, buildDataSource(accession.getElementOf()));
-     accJson.put(JSONAttributeNames.AMBIGUOUS, String.valueOf(accession.isAmbiguous()));
+//     accJson.put(JSONAttributeNames.AMBIGUOUS, String.valueOf(accession.isAmbiguous()));
 
      return accJson;
     }
@@ -661,15 +625,14 @@ public class Export extends ONDEXExport {
      */
     private JSONObject buildAttribute(Attribute attr) {
      JSONObject attrJson= new JSONObject();
-     
+
      attrJson.put(JSONAttributeNames.ATTRIBUTENAME, buildAttributeName(attr.getOfType()));
 
      // Attribute value (can be a String or any other data type or an Object or a Java class instance).
      attrJson.put(JSONAttributeNames.VALUE, attr.getValue().toString());
-     /** ^^ fix this. */
+     /** ^^using String for now. */
      
-     attrJson.put(JSONAttributeNames.DOINDEX, String.valueOf(attr.isDoIndex()));
-
+//     attrJson.put(JSONAttributeNames.DOINDEX, String.valueOf(attr.isDoIndex()));
      return attrJson;
     }
 
@@ -677,11 +640,11 @@ public class Export extends ONDEXExport {
      * Generate metadata for Attribute Name.
      * @param attr
      *            An AttributeName (from the Ondex API).
-     * @return JSONObject
-     *            JSONObject containing information about the Attribute.
+     * @return String
+     *            String containing information about the Attribute.
      */
-    private JSONObject buildAttributeName(AttributeName attrName) {
-     JSONObject attrNameJson= new JSONObject();
+    private String/*JSONObject*/ buildAttributeName(AttributeName attrName) {
+/*     JSONObject attrNameJson= new JSONObject();
      
      attrNameJson.put(JSONAttributeNames.ID, attrName.getId());
      attrNameJson.put(JSONAttributeNames.FULLNAME, attrName.getFullname());
@@ -698,8 +661,15 @@ public class Export extends ONDEXExport {
      if(spec != null) {
         attrNameJson.put(JSONAttributeNames.SPECIALISATIONOF, buildAttributeName(spec));
        }
-
-     return attrNameJson;
+*/
+     String attribute;
+     if(attrName.getId().equals("")) {
+        attribute= attrName.getFullname();
+       }
+     else {
+        attribute= attrName.getId();
+       }
+     return attribute/*attrNameJson*/;
     }
 
     /**
@@ -738,12 +708,11 @@ public class Export extends ONDEXExport {
      * Generate metadata for Relation Type.
      * @param rt
      *            Relation Type (from the Ondex API).
-     * @return JSONObject
-     *            JSONObject containing information about the Relation Type.
+     * @return String
+     *            String containing information about the Relation Type.
      */
-    private JSONObject buildRelationType(RelationType rt) {
-     JSONObject rtJson= new JSONObject();
-     
+    private String/*JSONObject*/ buildRelationType(RelationType rt) {
+/*     JSONObject rtJson= new JSONObject();
      rtJson.put(JSONAttributeNames.ID, rt.getId());
      rtJson.put(JSONAttributeNames.FULLNAME, rt.getFullname());
      rtJson.put(JSONAttributeNames.INVERSENAME, rt.getInverseName());
@@ -757,8 +726,16 @@ public class Export extends ONDEXExport {
      if(spec != null) {
         rtJson.put(JSONAttributeNames.SPECIALISATIONOF, buildRelationType(spec));
        }
+*/
+     String relType;
+     if(rt.getFullname().equals("")) {
+        relType= rt.getId();
+       }
+     else {
+       relType= rt.getFullname();
+      }
 
-     return rtJson;
+     return relType/*rtJson*/;
     }
 
     /**

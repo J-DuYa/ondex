@@ -20,6 +20,7 @@
 		<module>chemical</module>
 		<module>clustering</module>
 		<module>cyc-pathwaydbs</module>
+		<module>cyjs_json</module>
 		<module>decypher</module>
 		<module>enzymatics</module>
 		<module>experimental</module>
