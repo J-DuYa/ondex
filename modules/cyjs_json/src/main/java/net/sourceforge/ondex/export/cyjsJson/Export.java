@@ -428,8 +428,9 @@ public class Export extends ONDEXExport {
         }
      relationJson.put(JSONAttributeNames.EVIDENCES, evidencesJson);
 
-     /* Relation GDS (Attributes), Attribute Names, Units & SpecialisationOf. Now, uses "relgds", 
-      * "relation_gds" and "attrname" as keys instead of just "attrnames" and "attrname".
+     /** Relation GDS (Attributes), Attribute Names, Units & SpecialisationOf. Now, uses "attributes" & 
+      * "attribute" instead of using older terminology: "relgds" & "relation_gds". These are now used as 
+      * Keys in addition to older terms like "attrnames" and "attrname".
       */
      Set<Attribute> attributes= rel.getAttributes();
 //     JSONObject attrJson= new JSONObject();

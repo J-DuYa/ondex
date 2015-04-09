@@ -111,9 +111,9 @@ public final class JSONAttributeNames {
 	public final static String ISTRANSITIVE = "isTransitive";
 
 	// RELATION GDSs
-	public final static String RELGDS = "relgds";
+	public final static String RELGDS = "attributes"; // "relgds";
 
-	public final static String RELATIONGDS = "relation_gds";
+	public final static String RELATIONGDS = "attribute"; // "relation_gds";
 
 /*	// contained in metadata.
 	public final static String GRAPHANNOTATIONS = "graphAnnotations";
