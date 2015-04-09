@@ -3,8 +3,6 @@ package net.sourceforge.ondex.export.cyjsJson;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import net.sourceforge.ondex.InvalidPluginArgumentException;
 import net.sourceforge.ondex.annotations.Authors;
@@ -13,7 +11,6 @@ import net.sourceforge.ondex.annotations.Status;
 import net.sourceforge.ondex.annotations.StatusType;
 import net.sourceforge.ondex.args.ArgumentDefinition;
 import net.sourceforge.ondex.args.FileArgumentDefinition;
-import net.sourceforge.ondex.args.StringArgumentDefinition;
 import net.sourceforge.ondex.core.Attribute;
 import net.sourceforge.ondex.core.AttributeName;
 import net.sourceforge.ondex.core.ConceptAccession;
@@ -202,7 +199,6 @@ public class Export extends ONDEXExport {
      * @return A JSONObject containing information about all the nodes.
      */
     private JSONObject getNodesJsonData(JSONObject graphJson, JSONArray conceptNodes, Set<ONDEXRelation> allRelations) {
-
      /** Pass a Set containing all the Concepts that are used as source or target in a Relation. 
       * This is used to toggle the default visibility of a particular Concept. */
      Set<Integer> conceptsUsedInRelations= new HashSet<Integer>();
@@ -210,7 +206,6 @@ public class Export extends ONDEXExport {
          conceptsUsedInRelations.add(rel.getFromConcept().getId());
          conceptsUsedInRelations.add(rel.getToConcept().getId());
         }
-//     System.out.println("All used Relations: "+ conceptsUsedInRelations);
 
      AddConceptNodeInfo anci= new AddConceptNodeInfo();
      for(ONDEXConcept con : concepts) {
@@ -238,7 +233,6 @@ public class Export extends ONDEXExport {
          // generate, return & store relation/ edge data.
          relationEdges.add(arei.getEdgeJson(rel)); // add the returned edge to the JSONArray.
         }
-
      graphJson.put("edges", relationEdges); // add the "edges" array to the JSON object.
 
      return graphJson;
@@ -264,71 +258,19 @@ public class Export extends ONDEXExport {
      mdJson.put(JSONAttributeNames.NUMBERRELATIONS, relations.size());
 
      // Build JSON for all the Concepts.
-//     JSONObject conceptsJson= new JSONObject();
      JSONArray conceptsJsonArray= new JSONArray();
      for(ONDEXConcept con : concepts) {
-//         conceptsJson.put(JSONAttributeNames.CONCEPT, buildConcept(con));
          conceptsJsonArray.add(buildConcept(con));
         }
      mdJson.put(JSONAttributeNames.CONCEPTS, conceptsJsonArray);
 
      // Build JSON for all the Relations.
-//     JSONObject relationsJson= new JSONObject();
      JSONArray relationsJsonArray= new JSONArray();
      for(ONDEXRelation rel : relations) {
-//         relationsJson.put(JSONAttributeNames.RELATION, buildRelation(rel));
          relationsJsonArray.add(buildRelation(rel));
         }
      mdJson.put(JSONAttributeNames.RELATIONS, relationsJsonArray);
 
-/*   // Generate metadata for Data Sources.
-     Set<DataSource> dataSources= graph.getMetaData().getDataSources();
-     JSONObject cvsJson= new JSONObject();
-     for(DataSource dataSource : dataSources) {
-         cvsJson.put(JSONAttributeNames.CV, buildDataSource(dataSource));
-        }
-     allGraphDataJson.put(JSONAttributeNames.CVS, cvsJson);
-
-     // Generate metadata for Units.
-     Set<Unit> units= graph.getMetaData().getUnits();
-     JSONObject unitsJson= new JSONObject();
-     for(Unit unit : units) {
-         unitsJson.put(JSONAttributeNames.UNIT, buildUnit(unit));
-        }
-     allGraphDataJson.put(JSONAttributeNames.UNITS, unitsJson);
-
-     // Generate metadata for Attribute Names.
-     Set<AttributeName> attributeNames= graph.getMetaData().getAttributeNames();
-     JSONObject attrNamesJson= new JSONObject();
-     for(AttributeName an : attributeNames) {
-         attrNamesJson.put(JSONAttributeNames.ATTRIBUTENAME, buildAttributeName(an));
-        }
-     allGraphDataJson.put(JSONAttributeNames.ATTRIBUTENAMES, attrNamesJson);
-
-     // Generate metadata for Evidence Types.
-     Set<EvidenceType> evidenceTypes= graph.getMetaData().getEvidenceTypes();
-     JSONObject evidencesJson= new JSONObject();
-     for(EvidenceType et : evidenceTypes) {
-         evidencesJson.put(JSONAttributeNames.EVIDENCE, buildEvidenceType(et));
-        }
-     allGraphDataJson.put(JSONAttributeNames.EVIDENCES, evidencesJson);
-
-     // Generate metadata for Concept Classes.
-     Set<ConceptClass> conceptClasses= graph.getMetaData().getConceptClasses();
-     JSONObject conceptClassesJson= new JSONObject();
-     for(ConceptClass cc : conceptClasses) {
-         conceptClassesJson.put(JSONAttributeNames.CC, buildConceptClass(cc));
-        }
-     allGraphDataJson.put(JSONAttributeNames.CONCEPTCLASSES, conceptClassesJson);
-
-     // Generate metadata for Relation Types.
-     Set<RelationType> relationTypes = graph.getMetaData().getRelationTypes();
-     JSONObject relationTypesJson= new JSONObject();
-     for(RelationType rt : relationTypes) {
-         relationTypesJson.put(JSONAttributeNames.RELATIONTYPE, buildRelationType(rt));
-        }
-     allGraphDataJson.put(JSONAttributeNames.RELATIONTYPES, relationTypesJson);
-*/
      return mdJson;
     }
 
@@ -351,8 +293,7 @@ public class Export extends ONDEXExport {
     allData= formatJson(allData);
 
     // Displaying contents of the generated JSON object.
-    System.out.println("graphJson= "+ graphData +"\n \n"+ "metadataJson= "+ allData);
-
+//    System.out.println("graphJson= "+ graphData +"\n \n"+ "metadataJson= "+ allData);
     try {
          // Write the JSON object to be used for displaying the nodes & edges using CytoscapeJS.
          outputFile.write("var graphJSON= ");
@@ -751,9 +692,6 @@ public class Export extends ONDEXExport {
      jsonData= jsonData.replace(":", ": ");
      jsonData= jsonData.replace("{", "{ ");
      jsonData= jsonData.replace("}", "} ");
-/*     jsonData= jsonData.replace("},{", "},"+newline+"{");
-     jsonData= jsonData.replace("],", "],"+newline);
-     jsonData= jsonData.replace(": {", ": {"+newline);*/
      jsonData= jsonData.trim();
 
      return jsonData;
