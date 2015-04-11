@@ -350,12 +350,14 @@ public class Export extends ONDEXExport {
 
      // Evidence Types.
      Set<EvidenceType> evidenceTypes= con.getEvidence();
-     JSONObject evidencesJson= new JSONObject();
+//     JSONObject evidencesJson= new JSONObject();
+     JSONArray evidencesArray= new JSONArray(); // fetch array of concept attributes.
      for(EvidenceType et : evidenceTypes) {
          // return various JSON objects for each Evidence Type.
-         evidencesJson.put(JSONAttributeNames.EVIDENCE, buildEvidenceType(et));
+//         evidencesJson.put(JSONAttributeNames.EVIDENCE, buildEvidenceType(et));
+         evidencesArray.add(buildEvidenceType(et)); // add to evidences array.
         }
-     conceptJson.put(JSONAttributeNames.EVIDENCES, evidencesJson);
+     conceptJson.put(JSONAttributeNames.EVIDENCES, evidencesArray/*evidencesJson*/);
 
      // Concept Names (conames).
      Set<ConceptName> conames= con.getConceptNames();
@@ -368,15 +370,17 @@ public class Export extends ONDEXExport {
 
      // Concept Accessions.
      Set<ConceptAccession> accessions= con.getConceptAccessions();
-     JSONObject accessionsJson= new JSONObject();
+//     JSONObject accessionsJson= new JSONObject();
+     JSONArray accessionsArray= new JSONArray(); // fetch array of concept attributes.
      for(ConceptAccession accession : accessions) {
          // return various JSON objects for each Concept Accession.
-         accessionsJson.put(JSONAttributeNames.CONCEPTACCESSION, buildConceptAccession(accession));
+//         accessionsJson.put(JSONAttributeNames.CONCEPTACCESSION, buildConceptAccession(accession));
+         accessionsArray.add(buildConceptAccession(accession)); // add to co-accessions array.
         }
-     conceptJson.put(JSONAttributeNames.COACCESSIONS, accessionsJson);
+     conceptJson.put(JSONAttributeNames.COACCESSIONS, accessionsArray/*accessionsJson*/);
 
-     /* Concept GDS (Attributes), Attribute Names, Units & SpecialisationOf. Now, uses "attribute" & 
-      * "attributes" instead of using older terminology: "cogds" & "concept_gds". These are now used as Keys 
+     /* Concept GDS (Attributes), Attribute Names, Units & SpecialisationOf. Now, uses "attributes" & 
+      * "attribute" instead of using older terminology: "cogds" & "concept_gds". These are now used as Keys 
       * in addition to older terms like "attrnames" and "attrname".
       */
      Set<Attribute> attributes= con.getAttributes(); // get all concept Attributes.
@@ -421,12 +425,14 @@ public class Export extends ONDEXExport {
 
      // Evidence Types.
      Set<EvidenceType> evidenceTypes= rel.getEvidence();
-     JSONObject evidencesJson= new JSONObject();
+//     JSONObject evidencesJson= new JSONObject();
+     JSONArray evidencesArray= new JSONArray(); // fetch array of concept attributes.
      for(EvidenceType et : evidenceTypes) {
          // return various JSON objects for each Evidence Type.
-         evidencesJson.put(JSONAttributeNames.EVIDENCE, buildEvidenceType(et));
+//         evidencesJson.put(JSONAttributeNames.EVIDENCE, buildEvidenceType(et));
+         evidencesArray.add(buildEvidenceType(et)); // add to evidences array.
         }
-     relationJson.put(JSONAttributeNames.EVIDENCES, evidencesJson);
+     relationJson.put(JSONAttributeNames.EVIDENCES, evidencesArray/*evidencesJson*/);
 
      /** Relation GDS (Attributes), Attribute Names, Units & SpecialisationOf. Now, uses "attributes" & 
       * "attribute" instead of using older terminology: "relgds" & "relation_gds". These are now used as 
