@@ -473,11 +473,11 @@ public class Export extends ONDEXExport {
      dsJson.put(JSONAttributeNames.FULLNAME, ds.getFullname());
      dsJson.put(JSONAttributeNames.DESCRIPTION, ds.getDescription());
 */
-     if(ds.getFullname().equals("")) {
-        elementOf= ds.getId();
+     if(ds.getId().equals("")) {
+        elementOf= ds.getFullname();
        }
      else {
-        elementOf= ds.getFullname();
+        elementOf= ds.getId();
        }
      return elementOf/*dsJson*/;
     }
