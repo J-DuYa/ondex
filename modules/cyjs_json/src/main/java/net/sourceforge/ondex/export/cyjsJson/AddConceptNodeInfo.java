@@ -109,7 +109,7 @@ public class AddConceptNodeInfo {
      shape= ConceptShape.pentagon.toString();
      colour= ConceptColour.purple.toString();
     }
-  else if(conType.equals(ConceptType.Enzyme_Classification.toString())) {
+  else if((conType.equals(ConceptType.Enzyme_Classification.toString())) || (conType.equals("Enzyme Classification"))) {
      shape= ConceptShape.pentagon.toString();
      colour= ConceptColour.pink.toString();
     }
