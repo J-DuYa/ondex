@@ -103,7 +103,7 @@ public class AddConceptNodeInfo {
     }
   else if(conType.equals(ConceptType.Enzyme.toString())) {
      shape= ConceptShape.heptagon.toString();
-     colour= ConceptColour.lightRed.toString();
+     colour= ConceptColour.salmon.toString();
     }
   else if(conType.equals(ConceptType.Molecular_Function.toString())) {
      shape= ConceptShape.pentagon.toString();
@@ -116,6 +116,10 @@ public class AddConceptNodeInfo {
   else if(conType.equals("Trait Ontology")) {
      shape= ConceptShape.pentagon.toString();
      colour= ConceptColour.yellow.toString();
+    }
+  else if(conType.equals("Quantitative Trait Locus")) {
+     shape= ConceptShape.triangle.toString();
+     colour= ConceptColour.blue.toString();
     }
   else if((conType.equals(ConceptType.Compound.toString())) || (conType.equals(ConceptType.SNP.toString()))) {
      shape= ConceptShape.heptagon.toString();
