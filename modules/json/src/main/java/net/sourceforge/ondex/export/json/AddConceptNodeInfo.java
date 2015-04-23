@@ -1,6 +1,7 @@
 package net.sourceforge.ondex.export.json;
 
 import java.util.Set;
+import net.sourceforge.ondex.core.Attribute;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import org.json.simple.JSONObject;
 
@@ -14,7 +15,7 @@ public class AddConceptNodeInfo {
  private String defaultVisibility= null;
 
  public AddConceptNodeInfo() {
-  defaultVisibility= ConceptVisibility.element.toString();
+  defaultVisibility= ElementVisibility.element.toString();
  }
 
  public JSONObject getNodeJson(ONDEXConcept con, Set<Integer> conceptsUsedInRelations) {
@@ -35,7 +36,8 @@ public class AddConceptNodeInfo {
     }
   String conceptShape;
   String conceptColour;
-  String conceptVisibility= defaultVisibility; // default
+  String conceptSize= "18px"; // default.
+  String conceptVisibility= defaultVisibility; // default (element, i.e., true).
 
   nodeData.put(JSONAttributeNames.ID, conceptID);
   nodeData.put(JSONAttributeNames.VALUE, conceptName);
@@ -51,15 +53,39 @@ public class AddConceptNodeInfo {
   nodeData.put("conceptColor", conceptColour);
 
   if(conceptsUsedInRelations.contains(conId)) {
-     conceptVisibility= ConceptVisibility.element.toString();
+     conceptVisibility= ElementVisibility.element.toString();
 //     System.out.println("ConceptID: "+ conId +" , visibleDisplay: "+ conceptVisibility);
     }
   else {
-     conceptVisibility= ConceptVisibility.none.toString();
+     conceptVisibility= ElementVisibility.none.toString();
 //     System.out.println("ConceptID: "+ conId +" , visibleDisplay: "+ conceptVisibility);
     }
 
+  // Set concept visibility & concept size (height & width) from Attributes.
+  String attrID, visibility;
+  Set<Attribute> concept_attributes= con.getAttributes(); // get all concept Attributes.
+  for(Attribute attr : concept_attributes) {
+      attrID= attr.getOfType().getId(); // Attribute ID.
+      if(attrID.equals("")) {
+         attrID= attr.getOfType().getFullname();
+        }
+
+      if(attrID.equals("visible")) { // set visibility.
+         visibility= attr.getValue().toString();
+         if(visibility.equals("false")) {
+            conceptVisibility= ElementVisibility.none.toString();
+           }
+         else {
+           conceptVisibility= ElementVisibility.element.toString();
+          }
+        }
+      else if(attrID.equals("size")) { // set size.
+              conceptSize= attr.getValue().toString() +"px";
+             }
+     }
+
   nodeData.put("visibleDisplay", conceptVisibility);
+  nodeData.put("conceptSize", conceptSize);
 
   node.put("data", nodeData); // the node's data.
   node.put("group", "nodes"); // Grouping nodes together
@@ -116,10 +142,6 @@ public class AddConceptNodeInfo {
   else if(conType.equals("Trait Ontology")) {
      shape= ConceptShape.pentagon.toString();
      colour= ConceptColour.greenYellow.toString();
-    }
-  else if(conType.equals("Quantitative Trait Locus")) {
-     shape= ConceptShape.triangle.toString();
-     colour= ConceptColour.blue.toString();
     }
   else if(conType.equals("Quantitative Trait Locus")) {
      shape= ConceptShape.triangle.toString();
