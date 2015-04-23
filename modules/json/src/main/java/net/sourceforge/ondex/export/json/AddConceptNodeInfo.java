@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 /**
  * Build node json objects using their various attributes.
  * @author Ajit Singh
- * @version 26/02/15
+ * @version 23/04/15
  */
 public class AddConceptNodeInfo {
 
@@ -70,7 +70,7 @@ public class AddConceptNodeInfo {
  private String[] determineNodeColourAndShape(String conType) {
   String[] attr= new String[2];
   String shape= ConceptShape.triangle.toString(); // default (for concept Type: 'Gene').
-  String colour= ConceptColour.cyan.toString(); // default (for concept Type: 'Gene').
+  String colour= ConceptColour.lightBlue.toString(); // default (for concept Type: 'Gene').
 
   // Determine the shape & colour attributes for this concept based on the concept type.
   if(conType.equals(ConceptType.Biological_Process.toString())) {
@@ -79,19 +79,19 @@ public class AddConceptNodeInfo {
     }
   else if(conType.equals(ConceptType.Cellular_Component.toString())) {
      shape= ConceptShape.pentagon.toString();
-     colour= ConceptColour.lightGreen.toString();
+     colour= ConceptColour.springGreen.toString();
     }
   else if(conType.equals("Protein Domain")) {
      shape= ConceptShape.pentagon.toString();
-     colour= ConceptColour.grey.toString();
+     colour= ConceptColour.lightGrey.toString();
     }
   else if(conType.equals(ConceptType.Pathway.toString())) {
-     shape= ConceptShape.heptagon.toString();
-     colour= ConceptColour.lightGreen.toString();
+     shape= ConceptShape.star.toString();
+     colour= ConceptColour.springGreen.toString();
     }
   else if(conType.equals(ConceptType.Reaction.toString())) {
-     shape= ConceptShape.heptagon.toString();
-     colour= ConceptColour.yellow.toString();
+     shape= ConceptShape.star.toString();
+     colour= ConceptColour.greenYellow.toString();
     }
   else if(conType.equals(ConceptType.Publication.toString())) {
      shape= ConceptShape.rectangle.toString();
@@ -102,7 +102,7 @@ public class AddConceptNodeInfo {
      colour= ConceptColour.red.toString();
     }
   else if(conType.equals(ConceptType.Enzyme.toString())) {
-     shape= ConceptShape.heptagon.toString();
+     shape= ConceptShape.star.toString();
      colour= ConceptColour.salmon.toString();
     }
   else if(conType.equals(ConceptType.Molecular_Function.toString())) {
@@ -115,19 +115,19 @@ public class AddConceptNodeInfo {
     }
   else if(conType.equals("Trait Ontology")) {
      shape= ConceptShape.pentagon.toString();
-     colour= ConceptColour.yellow.toString();
+     colour= ConceptColour.greenYellow.toString();
     }
   else if(conType.equals("Quantitative Trait Locus")) {
      shape= ConceptShape.triangle.toString();
      colour= ConceptColour.blue.toString();
     }
   else if((conType.equals(ConceptType.Compound.toString())) || (conType.equals(ConceptType.SNP.toString()))) {
-     shape= ConceptShape.heptagon.toString();
+     shape= ConceptShape.star.toString();
      colour= ConceptColour.teal.toString();
     }
   else if(conType.equals(ConceptType.Phenotype.toString())) {
      shape= ConceptShape.rectangle.toString();
-     colour= ConceptColour.yellow.toString();
+     colour= ConceptColour.greenYellow.toString();
     }
   
   // Set the determined attribute values;

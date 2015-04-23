@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 /**
  * Build edge json objects using their various attributes.
  * @author Ajit Singh
- * @version 09/01/15
+ * @version 23/04/15
  */
 public class AddRelationEdgeInfo {
     
@@ -56,7 +56,7 @@ public class AddRelationEdgeInfo {
      colour= EdgeColour.blue.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.located_in.toString())) {
-     colour= EdgeColour.lightGreen.toString();
+     colour= EdgeColour.springGreen.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.has_function.toString())) {
      colour= EdgeColour.purple.toString();
