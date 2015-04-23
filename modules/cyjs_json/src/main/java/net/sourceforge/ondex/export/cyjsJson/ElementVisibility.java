@@ -2,8 +2,8 @@ package net.sourceforge.ondex.export.cyjsJson;
 
 /**
  * @author Ajit Singh
- * @version 16/12/14
+ * @version 23/04/15
  */
-public enum ConceptVisibility {
+public enum ElementVisibility {
  element, none
 }
