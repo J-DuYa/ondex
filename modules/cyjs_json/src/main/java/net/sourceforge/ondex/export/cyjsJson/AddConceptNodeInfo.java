@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 /**
  * Build node json objects using their various attributes.
  * @author Ajit Singh
- * @version 23/04/15
+ * @version 24/04/15
  */
 public class AddConceptNodeInfo {
 
@@ -144,6 +144,10 @@ public class AddConceptNodeInfo {
      colour= ConceptColour.greenYellow.toString();
     }
   else if(conType.equals("Quantitative Trait Locus")) {
+     shape= ConceptShape.triangle.toString();
+     colour= ConceptColour.red.toString();
+    }
+  else if(conType.equals(ConceptType.Scaffold.toString())) {
      shape= ConceptShape.triangle.toString();
      colour= ConceptColour.blue.toString();
     }
