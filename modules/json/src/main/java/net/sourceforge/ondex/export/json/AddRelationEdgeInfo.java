@@ -61,7 +61,7 @@ public class AddRelationEdgeInfo {
              }
      }
 
-  edgeData.put("visibleDisplay", relationVisibility);
+  edgeData.put("relationDisplay", relationVisibility);
   edgeData.put("relationSize", relationSize);
 
   edge.put("data", edgeData); // the edge's data.

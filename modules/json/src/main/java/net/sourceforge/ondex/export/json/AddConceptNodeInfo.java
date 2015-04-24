@@ -84,7 +84,7 @@ public class AddConceptNodeInfo {
              }
      }
 
-  nodeData.put("visibleDisplay", conceptVisibility);
+  nodeData.put("conceptDisplay", conceptVisibility);
   nodeData.put("conceptSize", conceptSize);
 
   node.put("data", nodeData); // the node's data.
