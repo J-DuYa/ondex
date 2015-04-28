@@ -15,7 +15,7 @@ public class AddRelationEdgeInfo {
  private String defaultVisibility= null;
  
  public AddRelationEdgeInfo() {
-  defaultVisibility= ElementVisibility.element.toString();
+  defaultVisibility= ElementVisibility.none.toString();
  }
 
  public JSONObject getEdgeJson(ONDEXRelation rel) {
