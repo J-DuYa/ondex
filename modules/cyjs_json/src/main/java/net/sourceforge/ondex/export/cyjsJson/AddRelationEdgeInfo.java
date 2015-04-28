@@ -8,14 +8,14 @@ import org.json.simple.JSONObject;
 /**
  * Build edge json objects using their various attributes.
  * @author Ajit Singh
- * @version 23/04/15
+ * @version 28/04/15
  */
 public class AddRelationEdgeInfo {
     
  private String defaultVisibility= null;
  
  public AddRelationEdgeInfo() {
-  defaultVisibility= ElementVisibility.element.toString();
+  defaultVisibility= ElementVisibility.none.toString();
  }
 
  public JSONObject getEdgeJson(ONDEXRelation rel) {

@@ -8,14 +8,14 @@ import org.json.simple.JSONObject;
 /**
  * Build node json objects using their various attributes.
  * @author Ajit Singh
- * @version 24/04/15
+ * @version 28/04/15
  */
 public class AddConceptNodeInfo {
 
  private String defaultVisibility= null;
 
  public AddConceptNodeInfo() {
-  defaultVisibility= ElementVisibility.element.toString();
+  defaultVisibility= ElementVisibility.none.toString();
  }
 
  public JSONObject getNodeJson(ONDEXConcept con, Set<Integer> conceptsUsedInRelations) {
@@ -52,14 +52,14 @@ public class AddConceptNodeInfo {
   nodeData.put("conceptShape", conceptShape);
   nodeData.put("conceptColor", conceptColour);
 
-  if(conceptsUsedInRelations.contains(conId)) {
+/*  if(conceptsUsedInRelations.contains(conId)) {
      conceptVisibility= ElementVisibility.element.toString();
 //     System.out.println("ConceptID: "+ conId +" , visibleDisplay: "+ conceptVisibility);
     }
   else {
      conceptVisibility= ElementVisibility.none.toString();
 //     System.out.println("ConceptID: "+ conId +" , visibleDisplay: "+ conceptVisibility);
-    }
+    }*/
 
   // Set concept visibility & concept size (height & width) from Attributes.
   String attrID, visibility;
