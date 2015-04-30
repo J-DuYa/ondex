@@ -189,7 +189,7 @@
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}/plugins</outputDirectory>
 									<includes>**/*</includes>
-									<destFileName>json-jar-with-dependencies.jar</destFileName>
+									<destFileName>cyjs_json-jar-with-dependencies.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
