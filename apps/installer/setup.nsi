@@ -320,6 +320,17 @@ SectionGroup "Ondex Integrator"
 		SectionIn 3 4
 	SectionEnd
 	
+	Section "Integrator CyJS_JSON plug-in" SecOndexCyJS_JSON
+	
+	    SetOutPath $INSTDIR
+	    SetOverwrite on
+	
+	    ;ADD YOUR OWN FILES HERE...
+	    File "/oname=$INSTDIR\plugins\cyjs_json-jar-with-dependencies.jar" "${PROJECT_BUILD_DIR}\plugins\cyjs_json-jar-with-dependencies.jar"
+	
+		SectionIn 3 4
+	SectionEnd
+	
 	Section "Integrator Decypher plug-in" SecOndexDecypher
 	
 	    SetOutPath $INSTDIR
@@ -666,6 +677,7 @@ SectionGroupEnd
   	LangString DESC_SecOndexChemical ${LANG_ENGLISH} "Chemical functionality plugin-in for Integrator."
   	LangString DESC_SecOndexClustering ${LANG_ENGLISH} "Clustering functionality plugin-in for Integrator."
   	LangString DESC_SecOndexCyc-pathwaydbs ${LANG_ENGLISH} "Cyc-pathwaydbs functionality plugin-in for Integrator."
+  	LangString DESC_SecOndexCyJS_JSON ${LANG_ENGLISH} "CytoscapeJS_JSON functionality plugin-in for Integrator."
   	LangString DESC_SecOndexDecypher ${LANG_ENGLISH} "Decypher functionality plugin-in for Integrator."
   	LangString DESC_SecOndexEnzymatics ${LANG_ENGLISH} "Enzymatics functionality plugin-in for Integrator."
   	LangString DESC_SecOndexExperimental ${LANG_ENGLISH} "Experimental functionality plugin-in for Integrator."
@@ -710,6 +722,7 @@ SectionGroupEnd
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexChemical} $(DESC_SecOndexChemical)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexClustering} $(DESC_SecOndexClustering)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexCyc-pathwaydbs} $(DESC_SecOndexCyc-pathwaydbs)
+  	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexCyJS_JSON} $(DESC_SecOndexCyJS_JSON)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexDecypher} $(DESC_SecOndexDecypher)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexEnzymatics} $(DESC_SecOndexEnzymatics)
   	!insertmacro MUI_DESCRIPTION_TEXT ${SecOndexExperimental} $(DESC_SecOndexExperimental)
@@ -759,6 +772,7 @@ Function .onInit
   !insertmacro SelectSection ${SecOndexChemical}
   !insertmacro SelectSection ${SecOndexClustering}
   !insertmacro SelectSection ${SecOndexCyc-pathwaydbs}
+  !insertmacro SelectSection ${SecOndexCyJS_JSON}
   !insertmacro SelectSection ${SecOndexDecypher}
   !insertmacro SelectSection ${SecOndexEnzymatics}
   !insertmacro SelectSection ${SecOndexExperimental}

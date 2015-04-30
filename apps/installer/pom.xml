@@ -182,6 +182,17 @@
 								</artifactItem>
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>
+									<artifactId>cyjs_json</artifactId>
+									<version>0.6.0-SNAPSHOT</version>
+									<classifier>jar-with-dependencies</classifier>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${project.build.directory}/plugins</outputDirectory>
+									<includes>**/*</includes>
+									<destFileName>json-jar-with-dependencies.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>net.sourceforge.ondex.modules</groupId>
 									<artifactId>decypher</artifactId>
 									<version>0.6.0-SNAPSHOT</version>
 									<classifier>jar-with-dependencies</classifier>
