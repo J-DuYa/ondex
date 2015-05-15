@@ -63,6 +63,7 @@ public class AddConceptNodeInfo {
 
   // Set concept visibility & concept size (height & width) from Attributes.
   String attrID, visibility;
+  int con_size;
   Set<Attribute> concept_attributes= con.getAttributes(); // get all concept Attributes.
   for(Attribute attr : concept_attributes) {
       attrID= attr.getOfType().getId(); // Attribute ID.
@@ -80,7 +81,15 @@ public class AddConceptNodeInfo {
           }
         }
       else if(attrID.equals("size")) { // set size.
-              conceptSize= attr.getValue().toString() +"px";
+              con_size= Integer.parseInt(attr.getValue().toString());
+              if(con_size > 18 && con_size <= 30) {
+                 con_size= 22;
+                }
+              else if(con_size > 30) {
+                      con_size= 26;
+                     }
+//              conceptSize= attr.getValue().toString() +"px";
+              conceptSize= String.valueOf(con_size) +"px";
              }
      }
 

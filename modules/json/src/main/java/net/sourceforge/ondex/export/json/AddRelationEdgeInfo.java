@@ -40,6 +40,7 @@ public class AddRelationEdgeInfo {
   String relationVisibility= defaultVisibility; // default (element, i.e., true).
   // Set relation visibility & relation size (width) from Attributes.
   String attrID, visibility;
+  int rel_size;
   Set<Attribute> rel_attributes= rel.getAttributes(); // get all relation Attributes.
   for(Attribute attr : rel_attributes) {
       attrID= attr.getOfType().getId(); // Attribute ID.
@@ -57,7 +58,12 @@ public class AddRelationEdgeInfo {
           }
         }
       else if(attrID.equals("size")) { // set size.
-              relationSize= attr.getValue().toString() +"px";
+              rel_size= Integer.parseInt(attr.getValue().toString());
+              if(rel_size > 2) {
+                 rel_size= 3;
+                }
+//              relationSize= attr.getValue().toString() +"px";
+              relationSize= String.valueOf(rel_size) +"px";
              }
      }
 
