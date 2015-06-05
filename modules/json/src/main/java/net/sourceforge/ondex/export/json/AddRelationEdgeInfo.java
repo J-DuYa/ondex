@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 /**
  * Build edge json objects using their various attributes.
  * @author Ajit Singh
- * @version 15/05/15
+ * @version 23/04/15
  */
 public class AddRelationEdgeInfo {
     
