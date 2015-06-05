@@ -61,8 +61,8 @@ public class AddConceptNodeInfo {
 //     System.out.println("ConceptID: "+ conId +" , visibleDisplay: "+ conceptVisibility);
     }*/
 
-  // Set concept visibility & concept size (height & width) from Attributes.
-  String attrID, visibility;
+  // Set concept visibility, concept size (height & width) & flagged status from Attributes.
+  String attrID, visibility, flagged= "false";
   int con_size;
   Set<Attribute> concept_attributes= con.getAttributes(); // get all concept Attributes.
   for(Attribute attr : concept_attributes) {
@@ -91,10 +91,15 @@ public class AddConceptNodeInfo {
 //              conceptSize= attr.getValue().toString() +"px";
               conceptSize= String.valueOf(con_size) +"px";
              }
+
+      else if(attrID.equals("flagged")) { // set flagged status.
+              flagged= attr.getValue().toString(); // true
+             }
      }
 
   nodeData.put("conceptDisplay", conceptVisibility);
   nodeData.put("conceptSize", conceptSize);
+  nodeData.put("flagged", flagged);
 
   node.put("data", nodeData); // the node's data.
   node.put("group", "nodes"); // Grouping nodes together
