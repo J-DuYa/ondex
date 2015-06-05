@@ -99,10 +99,10 @@ public class AddConceptNodeInfo {
 
   nodeData.put("conceptDisplay", conceptVisibility);
   nodeData.put("conceptSize", conceptSize);
+  nodeData.put("flagged", flagged);
 
   node.put("data", nodeData); // the node's data.
   node.put("group", "nodes"); // Grouping nodes together
-  nodeData.put("flagged", flagged);
 
   return node;
  }
