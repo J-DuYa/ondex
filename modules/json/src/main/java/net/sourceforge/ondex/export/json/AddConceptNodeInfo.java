@@ -31,9 +31,15 @@ public class AddConceptNodeInfo {
        }
     }
   String conceptType= con.getOfType().getFullname(); // conceptType.
-  if(conceptType.equalsIgnoreCase("Compound")) {
-     conceptType= "SNP";
+  if(conceptType.equals("")) {
+     conceptType= ConceptType.Phenotype.toString(); // default.
     }
+
+  // For concept Type: "SNP".
+  if(conceptType.equalsIgnoreCase(ConceptType.Compound.toString())) {
+     conceptType= ConceptType.SNP.toString();
+    }
+
   String conceptShape;
   String conceptColour;
   String conceptSize= "18px"; // default.
