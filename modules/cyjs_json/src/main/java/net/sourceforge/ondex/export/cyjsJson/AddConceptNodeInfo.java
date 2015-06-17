@@ -31,9 +31,9 @@ public class AddConceptNodeInfo {
        }
     }
   String conceptType= con.getOfType().getFullname(); // conceptType.
-  if(conceptType.equals("")) {
+/*  if(conceptType.equals("")) {
      conceptType= ConceptType.Phenotype.toString(); // default.
-    }
+    }*/
 
   // For concept Type: "SNP".
   if(conceptType.equalsIgnoreCase(ConceptType.Compound.toString())) {
@@ -115,8 +115,10 @@ public class AddConceptNodeInfo {
 
  private String[] determineNodeColourAndShape(String conType) {
   String[] attr= new String[2];
-  String shape= ConceptShape.rectangle.toString(); // default (for concept Type: 'Phenotype').
-  String colour= ConceptColour.greenYellow.toString(); // default (for concept Type: 'Phenotype').
+//  String shape= ConceptShape.rectangle.toString(); // default (for concept Type: 'Phenotype').
+//  String colour= ConceptColour.greenYellow.toString(); // default (for concept Type: 'Phenotype').
+  String shape= ConceptShape.triangle.toString(); // default (for concept Type: 'Gene').
+  String colour= ConceptColour.blue.toString(); // default (for concept Type: 'Gene').
 
   // Determine the shape & colour attributes for this concept based on the concept type.
   if(conType.equals(ConceptType.Biological_Process.toString())) {
