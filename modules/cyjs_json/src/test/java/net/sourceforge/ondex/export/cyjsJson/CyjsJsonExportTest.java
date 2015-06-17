@@ -25,7 +25,8 @@ public class CyjsJsonExportTest {
         // Using .oxl test file located under src/test/resources/.
         ClassLoader classLoader= getClass().getClassLoader();
         // example .oxl file to Test.
-	File oxlTestFile= new File(classLoader.getResource("result_bo.oxl").getFile());
+//	File oxlTestFile= new File(classLoader.getResource("result_bo.oxl").getFile());
+	File oxlTestFile= new File(classLoader.getResource("result_phenotypeTest_poplar_flowering.oxl").getFile());
 //	File oxlTestFile= new File(classLoader.getResource("oxlnetwork.oxl").getFile());
 
         // output file (with timestamped filename) to get exported network graph data in JSON format.
