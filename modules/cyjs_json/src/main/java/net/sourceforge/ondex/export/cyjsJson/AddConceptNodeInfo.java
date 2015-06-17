@@ -118,7 +118,7 @@ public class AddConceptNodeInfo {
 //  String shape= ConceptShape.rectangle.toString(); // default (for concept Type: 'Phenotype').
 //  String colour= ConceptColour.greenYellow.toString(); // default (for concept Type: 'Phenotype').
   String shape= ConceptShape.triangle.toString(); // default (for concept Type: 'Gene').
-  String colour= ConceptColour.blue.toString(); // default (for concept Type: 'Gene').
+  String colour= ConceptColour.lightBlue.toString(); // default (for concept Type: 'Gene').
 
   // Determine the shape & colour attributes for this concept based on the concept type.
   if(conType.equals(ConceptType.Biological_Process.toString())) {
