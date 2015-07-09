@@ -442,7 +442,7 @@ public class Export extends ONDEXExport {
            conName= con.getConceptName().getName();
           }
        }
-     conceptJson.put(JSONAttributeNames.VALUE, conName); // concept name.
+     conceptJson.put(JSONAttributeNames.VALUE, conName); // preferred concept name.
      conceptJson.put(JSONAttributeNames.PID, con.getPID());
      conceptJson.put(JSONAttributeNames.ANNOTATION, con.getAnnotation());
      conceptJson.put(JSONAttributeNames.DESCRIPTION, con.getDescription());
@@ -468,14 +468,16 @@ public class Export extends ONDEXExport {
         }
      conceptJson.put(JSONAttributeNames.EVIDENCES, evidencesArray/*evidencesJson*/);
      
-     // Concept Names (conames).
+     // Concept Names (conames), whether preferred or not.
      Set<ConceptName> conames= con.getConceptNames();
-     JSONObject conamesJson= new JSONObject();
+//     JSONObject conamesJson= new JSONObject();
+     JSONArray concept_names_Array= new JSONArray();
      for(ConceptName coname : conames) {
          // return various JSON objects for each Concept Name.
-         conamesJson.put(JSONAttributeNames.CONCEPTNAME, buildConceptName(coname));
+//         conamesJson.put(JSONAttributeNames.CONCEPTNAME, buildConceptName(coname));
+         concept_names_Array.add(buildConceptName(coname));
         }
-     conceptJson.put(JSONAttributeNames.CONAMES, conamesJson);
+     conceptJson.put(JSONAttributeNames.CONAMES, concept_names_Array/*conamesJson*/);
 
      // Concept Accessions.
      Set<ConceptAccession> accessions= con.getConceptAccessions();
