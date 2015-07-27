@@ -35,7 +35,7 @@ import org.json.simple.JSONArray;
  * generated in a timestamped 'networkGraph' file & all metadata is generated in a timestamped 
  * 'networkMetadata' file.
  * @author Ajit Singh
- * @version 19/12/14
+ * @version 17/07/2015
  */
 @Status(description = "Under development", status = StatusType.STABLE)
 @Authors(authors = { "Ajit Singh" }, emails = { "ajit.singh at rothamsted.ac.uk" })
@@ -442,20 +442,66 @@ public class Export extends ONDEXExport {
            conName= con.getConceptName().getName();
           }
        }
-     conceptJson.put(JSONAttributeNames.VALUE, conName); // concept name.
+
+     /* Concept Type (details returned in another JSON object). Now, uses "ofType" as key instead of 
+      * "ConceptClasses" & "CC".
+      */
+     String conceptType= buildConceptClass(con.getOfType());
+
+     /* Fetch the Set of all concept names and retain only the preferred ones, to later choose the 
+      * "best" concept name to display from amongst them, for Genes. */
+     if(conceptType.equals(ConceptType.Gene.toString()) || conceptType.equals(ConceptType.Protein.toString())) {
+        // For Genes and Proteins.
+        // Get the shortest, non-ambiguous concept accession for this Concept.
+        String shortest_acc= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
+        // Get the shortest, preferred concept name for this Concept.
+        String shortest_coname= getShortestPreferredConceptName(con.getConceptNames());
+     
+        int shortest_acc_length= 100000, shortest_coname_length= 100000; // default values.
+        if(!shortest_acc.equals(" ")) {
+           shortest_acc_length= shortest_acc.length();
+          }
+        if(!shortest_coname.equals(" ")) {
+           shortest_coname_length= shortest_coname.length();
+          }
+        if(shortest_acc_length < shortest_coname_length) {
+           conName= shortest_acc; // use shortest, non-ambiguous concept accession.
+          }
+        else {
+         conName= shortest_coname; // use shortest, preferred concept name.
+        }
+       }
+     else if(conceptType.equals(ConceptType.Phenotype.toString())) {
+             System.out.println("Current "+ conceptType +" conName: "+ conName);
+             if(conName.equals(" ")) {
+                Set<Attribute> attributes= con.getAttributes(); // get all concept Attributes.
+                for(Attribute attr : attributes) {
+                    if(attr.getOfType().toString().equals("Phenotype")) {
+                       conName= attr.getValue().toString().trim(); // use Phenotype as the preferred concept name instead.
+                      }
+                   }
+                System.out.println("\t Phenotype: Selected conceptName: "+ conName +"\n");
+               }
+            }
+     else {
+       if(!getShortestPreferredConceptName(con.getConceptNames()).equals(" ")) {
+          conName= getShortestPreferredConceptName(con.getConceptNames());
+         }
+       else {
+         conName= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
+        }
+      }
+
+     conceptJson.put(JSONAttributeNames.VALUE, conName); // preferred concept name.
+     conceptJson.put(JSONAttributeNames.OFTYPE, conceptType);
      conceptJson.put(JSONAttributeNames.PID, con.getPID());
-     conceptJson.put(JSONAttributeNames.ANNOTATION, con.getAnnotation());
+     conceptJson.put(JSONAttributeNames.ANNOTATION, con.getAnnotation().replaceAll("(\\r|\\n)", " "));
      conceptJson.put(JSONAttributeNames.DESCRIPTION, con.getDescription());
 
      /** Element Of (parent Data Source details returned in another JSON object). Now, uses "ElementOf" as key
       * instead of "CVS" & "CV".
       */
      conceptJson.put(JSONAttributeNames.ELEMENTOF, buildDataSource(con.getElementOf()));
-
-     /* Concept Type (details returned in another JSON object). Now, uses "ofType" as key instead of 
-      * "ConceptClasses" & "CC".
-      */
-     conceptJson.put(JSONAttributeNames.OFTYPE, buildConceptClass(con.getOfType()));
 
      // Evidence Types.
      Set<EvidenceType> evidenceTypes= con.getEvidence();
@@ -468,7 +514,7 @@ public class Export extends ONDEXExport {
         }
      conceptJson.put(JSONAttributeNames.EVIDENCES, evidencesArray/*evidencesJson*/);
      
-     // Get all Concept Names (conames), whether preferred or not.
+     // Concept Names (conames), whether preferred or not.
      Set<ConceptName> conames= con.getConceptNames();
 //     JSONObject conamesJson= new JSONObject();
      JSONArray concept_names_Array= new JSONArray();
@@ -593,9 +639,9 @@ public class Export extends ONDEXExport {
      * @return JSONObject
      *            JSONObject containing information about the Concept Class.
      */
-    private JSONObject buildConceptClass(ConceptClass cc) {
-     JSONObject ccJson= new JSONObject();
-     
+    private String/*JSONObject*/ buildConceptClass(ConceptClass cc) {
+     String ofType;
+/*     JSONObject ccJson= new JSONObject();
      ccJson.put(JSONAttributeNames.ID, cc.getId());
      ccJson.put(JSONAttributeNames.FULLNAME, cc.getFullname());
      ccJson.put(JSONAttributeNames.DESCRIPTION, cc.getDescription());
@@ -604,8 +650,14 @@ public class Export extends ONDEXExport {
      if(spec != null) {
         ccJson.put(JSONAttributeNames.SPECIALISATIONOF, buildConceptClass(spec));
        }
-
-     return ccJson;
+*/
+     if(cc.getFullname().equals("")) {
+        ofType= cc.getId();
+       }
+     else {
+        ofType= cc.getFullname();
+       }
+     return ofType/*ccJson*/;
     }
 
     /**
@@ -788,6 +840,33 @@ public class Export extends ONDEXExport {
      jsonData= jsonData.trim();
 
      return jsonData;
+    }
+
+    private String getShortestNotAmbiguousConceptAccession(Set<ConceptAccession> co_accs) {
+     String shortest_acc=" ";
+     int length= 100000;
+     for(ConceptAccession acc : co_accs) {
+         if(!(acc.isAmbiguous()) && (acc.getAccession().trim().length() <= length)) {
+            shortest_acc= acc.getAccession().trim();
+	    length= shortest_acc.length();
+           }
+        }
+     return shortest_acc;
+    }
+
+    private String getShortestPreferredConceptName(Set<ConceptName> conames) {
+     String shortest_coname=" ";
+     int length= 100000;
+     for(ConceptName coname : conames) {
+         if((coname.isPreferred()) && (coname.getName() != null)) {
+//            if((coname.getName().trim().length() >= 3) && (coname.getName().trim().length() <= 6)) {
+            if(coname.getName().trim().length() <= length) {
+               shortest_coname= coname.getName().trim(); // use this preferred concept name instead.
+               length= shortest_coname.length();
+              }
+           }
+        }
+     return shortest_coname;
     }
 
 }
