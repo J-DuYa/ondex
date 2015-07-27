@@ -43,7 +43,7 @@ public class AddConceptNodeInfo {
      conceptType= ConceptType.SNP.toString();
     }
 
-  System.out.println("Current "+ conceptType +" Name: "+ conceptName);
+//  System.out.println("Current "+ conceptType +" Name: "+ conceptName);
   /* Fetch the Set of all concept names and retain only the preferred ones, to later choose the 
    * "best" concept name to display from amongst them, for Genes. */
   if(conceptType.equals(ConceptType.Gene.toString()) || conceptType.equals(ConceptType.Protein.toString())) {
@@ -66,7 +66,7 @@ public class AddConceptNodeInfo {
      else {
       conceptName= shortest_coname; // use shortest, preferred concept name.
      }
-     System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
+//     System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
     }
   else if(conceptType.equals(ConceptType.Phenotype.toString())) {
           if(conceptName.equals(" ")) {
@@ -76,7 +76,7 @@ public class AddConceptNodeInfo {
                     conceptName= attr.getValue().toString().trim(); // use Phenotype as the preferred concept name instead.
                    }
                 }
-             System.out.println("\t \t Phenotype: Selected Name: "+ conceptName +"\n");
+//             System.out.println("\t \t Phenotype: Selected Name: "+ conceptName +"\n");
             }
          }
   else {
@@ -86,7 +86,7 @@ public class AddConceptNodeInfo {
     else {
       conceptName= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
      }
-    System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
+//    System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
    }
 
   String conceptShape;
