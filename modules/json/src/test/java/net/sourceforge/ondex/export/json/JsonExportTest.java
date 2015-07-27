@@ -27,6 +27,7 @@ public class JsonExportTest {
         // example .oxl file to Test.
 	File oxlTestFile= new File(classLoader.getResource("oxlnetwork.oxl").getFile());
 
+//	File oxlTestFile= new File(classLoader.getResource("result_ara_geneNames.oxl").getFile());
 //	File oxlTestFile= new File(classLoader.getResource("result_1389457140212.oxl").getFile());
 //	File oxlTestFile= new File(classLoader.getResource("result_1415375688827.oxl").getFile());
 
