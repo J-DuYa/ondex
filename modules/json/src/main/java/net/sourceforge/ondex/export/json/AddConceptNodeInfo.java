@@ -34,7 +34,8 @@ public class AddConceptNodeInfo {
     }
   String conceptType= con.getOfType().getFullname(); // conceptType.
   if(conceptType.equals("")) {
-     conceptType= ConceptType.Phenotype.toString(); // default.
+//     conceptType= ConceptType.Phenotype.toString(); // default.
+     conceptType= con.getOfType().getId();
     }
 
   // For concept Type: "SNP".
@@ -232,6 +233,22 @@ public class AddConceptNodeInfo {
   else if(conType.equals(ConceptType.Phenotype.toString())) {
      shape= ConceptShape.rectangle.toString();
      colour= ConceptColour.greenYellow.toString();
+    }
+  else if(conType.equals(ConceptType.Chromosome.toString())) {
+     shape= ConceptShape.octagon.toString();
+     colour= ConceptColour.blue.toString();
+    }
+  else if(conType.equals(ConceptType.RNA.toString())) {
+     shape= ConceptShape.hexagon.toString();
+     colour= ConceptColour.teal.toString();
+    }
+  else if((conType.equals(ConceptType.Protein_Complex.toString())) || (conType.equals("Protein Complex"))) {
+     shape= ConceptShape.roundrectangle.toString();
+     colour= ConceptColour.red.toString();
+    }
+  else if(conType.equals(ConceptType.Transport.toString())) {
+     shape= ConceptShape.diamond.toString();
+     colour= ConceptColour.lightBlue.toString();
     }
   
   // Set the determined attribute values;
