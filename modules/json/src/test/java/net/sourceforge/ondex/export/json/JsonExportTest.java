@@ -25,7 +25,8 @@ public class JsonExportTest {
         // Using .oxl test file located under src/test/resources/.
         ClassLoader classLoader= getClass().getClassLoader();
         // example .oxl file to Test.
-	File oxlTestFile= new File(classLoader.getResource("oxlnetwork.oxl").getFile());
+//	File oxlTestFile= new File(classLoader.getResource("oxlnetwork.oxl").getFile());
+	File oxlTestFile= new File(classLoader.getResource("barley_shootB_phenoSNP_issue.oxl").getFile());
 
 //	File oxlTestFile= new File(classLoader.getResource("result_ara_geneNames.oxl").getFile());
 //	File oxlTestFile= new File(classLoader.getResource("result_1389457140212.oxl").getFile());
