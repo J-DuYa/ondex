@@ -40,7 +40,7 @@ public class JsonExportTest {
         ONDEXGraph graph= new MemoryONDEXGraph("test");
 
         // Import the OXL test file using the OXL Parser from the Ondex API.
-        System.out.println("Test using example OXL file: "+ oxlTestFile.getName() +" , path: "+ oxlTestFile.getPath());
+        System.out.println("Test using example OXL file: "+ oxlTestFile.getName() +"\n Path: "+ oxlTestFile.getPath());
 
         Parser parser= new Parser(); // OXL Parser.
 
@@ -68,7 +68,7 @@ public class JsonExportTest {
         String conName;
         for(ONDEXConcept con : graph.getConcepts()) {
             int conId= con.getId(); // concept ID.
-            System.out.print("Concept ID: "+ conId);
+//            System.out.print("Concept ID: "+ conId);
             // test
             assertTrue(conId > 0);
             conName= " ";
@@ -77,12 +77,12 @@ public class JsonExportTest {
                   conName= con.getConceptName().getName(); // concept name.
                  }
               }
-            System.out.print(" , Name: "+ conName);
+/*            System.out.print(" , Name: "+ conName);
             System.out.print(" , Type: "+ con.getOfType().getFullname()); // concept type.
-            System.out.print("\n");
+            System.out.print("\n");*/
            }
-        System.out.print("\n");
-        System.out.println("Relations: ");
+//        System.out.print("\n");
+//        System.out.println("Relations: ");
         for(ONDEXRelation rel : graph.getRelations()) {
             int relId= rel.getId(); // relation ID.
             // test
@@ -90,13 +90,13 @@ public class JsonExportTest {
             int srcCon= rel.getFromConcept().getId(); // relation source ID.
             int targetCon= rel.getToConcept().getId(); // relation target ID.
             String edgeLbl= rel.getOfType().getFullname(); // relation type label.
-            System.out.print("Relation ID: "+ relId);
+/*            System.out.print("Relation ID: "+ relId);
             System.out.print(" , Source: "+ srcCon);
             System.out.print(" , Target: "+ targetCon);
             System.out.print(" , Edge Label: "+ edgeLbl);
-            System.out.print("\n");
+            System.out.print("\n");*/
            }
-        System.out.print("\n");
+//        System.out.print("\n");
 
         // Now, Export the graph as JSON using JSON Exporter plugin.
         Export jsonExp= new Export(); // Export.
