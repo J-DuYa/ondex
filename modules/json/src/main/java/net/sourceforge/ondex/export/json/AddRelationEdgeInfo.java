@@ -94,7 +94,7 @@ public class AddRelationEdgeInfo {
      colour= EdgeColour.teal.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.has_similar_sequence.toString())) {
-     colour= EdgeColour.red.toString();
+     colour= EdgeColour.fireBrick.toString();
     }
   else if((edgeLbl.equals(EdgeLabel.cooccurs_with.toString()))) {
      colour= EdgeColour.blue.toString();
@@ -103,7 +103,7 @@ public class AddRelationEdgeInfo {
      colour= EdgeColour.crimson.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.interacts_with.toString())) {
-     colour= EdgeColour.cyan.toString();
+     colour= EdgeColour.steelBlue.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.located_in.toString())) {
      colour= EdgeColour.springGreen.toString();
@@ -112,7 +112,7 @@ public class AddRelationEdgeInfo {
      colour= EdgeColour.purple.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.orthologue.toString())) {
-     colour= EdgeColour.maroon.toString();
+     colour= EdgeColour.red.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.is_p.toString())) {
      colour= EdgeColour.darkGrey.toString();
@@ -135,11 +135,17 @@ public class AddRelationEdgeInfo {
   else if(edgeLbl.equals(EdgeLabel.produced_by.toString())) {
      colour= EdgeColour.limeGreen.toString();
     }
-  else if(edgeLbl.equals(EdgeLabel.catalyzed_by.toString())) {
+  else if((edgeLbl.equals(EdgeLabel.catalyzed_by.toString())) || 
+          (edgeLbl.equals(EdgeLabel.is_a.toString())) || 
+          (edgeLbl.equals(EdgeLabel.part_of.toString())) || 
+          (edgeLbl.equals(EdgeLabel.is_part_of.toString()))) {
      colour= EdgeColour.salmon.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.part_of_catalyzing_class.toString())) {
      colour= EdgeColour.pink.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.is_equivalent_to.toString())) {
+     colour= EdgeColour.lightBlue.toString();
     }
 
   return colour;
