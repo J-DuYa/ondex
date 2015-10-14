@@ -29,7 +29,7 @@ public class AddRelationEdgeInfo {
   if(edgeLabel.equals("")) {
      edgeLabel= rel.getOfType().getId();
     }
-  System.out.println("\n \n AddRelationEdgeInfo: Relation ID: e"+ relationID +", label: "+ edgeLabel +", from: "+ sourceConcept +", to: "+ targetConcept);
+  System.out.println("AddRelationEdgeInfo: Relation ID: e"+ relationID +", label: "+ edgeLabel +", from: "+ sourceConcept +", to: "+ targetConcept);
 
   edgeData.put(/*"id"*/JSONAttributeNames.ID, "e"+relationID);
   edgeData.put("source", sourceConcept);

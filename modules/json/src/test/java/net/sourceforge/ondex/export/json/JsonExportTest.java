@@ -111,7 +111,7 @@ public class JsonExportTest {
         jsonExp.setArguments(ea);
         jsonExp.setONDEXGraph(graph);
 
-        System.out.println("Running JSON Exporter plugin...");
+        System.out.println("Running JSON Exporter plugin... \n");
 
         // Export the contents of the 'graph' object as multiple JSON objects to an output file ('jsonOutputFile').
         jsonExp.start();

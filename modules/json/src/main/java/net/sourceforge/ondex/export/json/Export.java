@@ -267,6 +267,7 @@ public class Export extends ONDEXExport {
          // generate, return & store concept/ node data.
          conceptNodes.add(anci.getNodeJson(con, conceptsUsedInRelations)); // add the returned node to the JSONArray.
         }
+     System.out.println("\n");
 
      graphJson.put("nodes", conceptNodes); // add the "nodes" array to the JSON object.
 

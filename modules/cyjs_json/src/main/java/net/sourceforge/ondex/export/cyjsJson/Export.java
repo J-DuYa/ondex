@@ -33,7 +33,7 @@ import org.json.simple.JSONArray;
  * stored in a 'graphJSON' object & all the metadata is stored in an 'allGraphData' object, both of 
  * which are generated timestamped 'result' JSON file.
  * @author Ajit Singh
- * @version 17/07/2015
+ * @version 14/10/2015
  */
 @Status(description = "stable", status = StatusType.STABLE)
 @Authors(authors = { "Ajit Singh" }, emails = { "ajit.singh at rothamsted.ac.uk" })
@@ -212,6 +212,7 @@ public class Export extends ONDEXExport {
          // generate, return & store concept/ node data.
          conceptNodes.add(anci.getNodeJson(con, conceptsUsedInRelations)); // add the returned node to the JSONArray.
         }
+     System.out.println("\n");
 
      graphJson.put("nodes", conceptNodes); // add the "nodes" array to the JSON object.
 
@@ -343,27 +344,32 @@ public class Export extends ONDEXExport {
       * "best" concept name to display from amongst them, for Genes. */
      if(conceptType.equals(ConceptType.Gene.toString()) || conceptType.equals(ConceptType.Protein.toString())) {
         // For Genes and Proteins.
-        // Get the shortest, non-ambiguous concept accession for this Concept.
-        String shortest_acc= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
         // Get the shortest, preferred concept name for this Concept.
         String shortest_coname= getShortestPreferredConceptName(con.getConceptNames());
+        // Get the shortest, non-ambiguous concept accession for this Concept.
+        String shortest_acc= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
      
-        int shortest_acc_length= 100000, shortest_coname_length= 100000; // default values.
-        if(!shortest_acc.equals(" ")) {
-           shortest_acc_length= shortest_acc.length();
-          }
+//        int shortest_acc_length= 100000, shortest_coname_length= 100000; // default values.
         if(!shortest_coname.equals(" ")) {
-           shortest_coname_length= shortest_coname.length();
+//           shortest_coname_length= shortest_coname.length();
+           conName= shortest_coname; // use the shortest, preferred concept name.
           }
-        if(shortest_acc_length < shortest_coname_length) {
-           conName= shortest_acc; // use shortest, non-ambiguous concept accession.
+        else {
+          if(!shortest_acc.equals(" ")) {
+//             shortest_acc_length= shortest_acc.length();
+             conName= shortest_acc; // use the shortest, non-ambiguous concept accession.
+            }
+        }
+/*        if(shortest_acc_length < shortest_coname_length) {
+           conName= shortest_acc; // use the shortest, non-ambiguous concept accession.
           }
         else {
          conName= shortest_coname; // use shortest, preferred concept name.
-        }
+        }*/
+//        System.out.println("\t \t Selected (preferred) concept Name: "+ conName +"\n");
        }
      else if(conceptType.equals(ConceptType.Phenotype.toString())) {
-             System.out.println("Current "+ conceptType +" conName: "+ conName);
+//             System.out.println("Current "+ conceptType +" conName: "+ conName);
              if(conName.equals(" ")) {
                 Set<Attribute> attributes= con.getAttributes(); // get all concept Attributes.
                 for(Attribute attr : attributes) {
@@ -371,7 +377,7 @@ public class Export extends ONDEXExport {
                        conName= attr.getValue().toString().trim(); // use Phenotype as the preferred concept name instead.
                       }
                    }
-                System.out.println("\t Phenotype: Selected conceptName: "+ conName +"\n");
+//                System.out.println("\t Phenotype: Selected conceptName: "+ conName +"\n");
                }
             }
      else {
@@ -379,7 +385,9 @@ public class Export extends ONDEXExport {
           conName= getShortestPreferredConceptName(con.getConceptNames());
          }
        else {
-         conName= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
+         if(!getShortestNotAmbiguousConceptAccession(con.getConceptAccessions()).equals(" ")) {
+            conName= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
+           }
         }
       }
 

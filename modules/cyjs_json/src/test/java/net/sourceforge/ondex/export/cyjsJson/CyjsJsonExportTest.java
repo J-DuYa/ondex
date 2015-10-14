@@ -13,9 +13,9 @@ import net.sourceforge.ondex.parser.oxl.Parser;
 import org.junit.Test;
 
 /**
- * To test the JSON Export code.
+ * To test the cyjsJSON Export code.
  * @author Ajit Singh
- * @version 17/07/15
+ * @version 14/10/15
  */
 public class CyjsJsonExportTest {
 
@@ -40,7 +40,7 @@ public class CyjsJsonExportTest {
         ONDEXGraph graph= new MemoryONDEXGraph("test");
 
         // Import the OXL test file using the OXL Parser from the Ondex API.
-        System.out.println("Test using example OXL file: "+ oxlTestFile.getName() +" , path: "+ oxlTestFile.getPath());
+        System.out.println("Test using example OXL file: "+ oxlTestFile.getName() +"\n path: "+ oxlTestFile.getPath());
 
         Parser parser= new Parser(); // OXL Parser.
 
@@ -64,11 +64,11 @@ public class CyjsJsonExportTest {
         assertTrue(conceptsCount > 0);
         assertTrue(relationsCount > 0);
         System.out.println("conceptsCount= "+ conceptsCount +" , relationsCount= "+ relationsCount);
-        System.out.println("Concepts: ");
+//        System.out.println("Concepts: ");
         String conName;
         for(ONDEXConcept con : graph.getConcepts()) {
             int conId= con.getId(); // concept ID.
-            System.out.print("Concept ID: "+ conId);
+//            System.out.print("Concept ID: "+ conId);
             // test
             assertTrue(conId > 0);
             conName= " ";
@@ -77,12 +77,12 @@ public class CyjsJsonExportTest {
                   conName= con.getConceptName().getName(); // concept name.
                  }
               }
-            System.out.print(" , Name: "+ conName);
+/*            System.out.print(" , Name: "+ conName);
             System.out.print(" , Type: "+ con.getOfType().getFullname()); // concept type.
-            System.out.print("\n");
+            System.out.print("\n");*/
            }
-        System.out.print("\n");
-        System.out.println("Relations: ");
+//        System.out.print("\n");
+//        System.out.println("Relations: ");
         for(ONDEXRelation rel : graph.getRelations()) {
             int relId= rel.getId(); // relation ID.
             // test
@@ -90,13 +90,13 @@ public class CyjsJsonExportTest {
             int srcCon= rel.getFromConcept().getId(); // relation source ID.
             int targetCon= rel.getToConcept().getId(); // relation target ID.
             String edgeLbl= rel.getOfType().getFullname(); // relation type label.
-            System.out.print("Relation ID: "+ relId);
+/*            System.out.print("Relation ID: "+ relId);
             System.out.print(" , Source: "+ srcCon);
             System.out.print(" , Target: "+ targetCon);
             System.out.print(" , Edge Label: "+ edgeLbl);
-            System.out.print("\n");
+            System.out.print("\n");*/
            }
-        System.out.print("\n");
+//        System.out.print("\n");
 
         // Now, Export the graph as JSON using JSON Exporter plugin.
         Export jsonExp= new Export(); // Export.
@@ -111,7 +111,7 @@ public class CyjsJsonExportTest {
         jsonExp.setArguments(ea);
         jsonExp.setONDEXGraph(graph);
 
-        System.out.println("Running JSON Exporter plugin...");
+        System.out.println("Running JSON Exporter plugin... \n");
 
         // Export the contents of the 'graph' object as multiple JSON objects to an output file ('jsonOutputFile').
         jsonExp.start();

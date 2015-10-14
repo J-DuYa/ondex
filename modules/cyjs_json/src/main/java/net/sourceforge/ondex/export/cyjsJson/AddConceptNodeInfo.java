@@ -11,7 +11,7 @@ import org.json.simple.JSONObject;
 /**
  * Build node json objects using their various attributes.
  * @author Ajit Singh
- * @version 17/07/15
+ * @version 14/10/15
  */
 public class AddConceptNodeInfo {
 
@@ -35,7 +35,8 @@ public class AddConceptNodeInfo {
     }
   String conceptType= con.getOfType().getFullname(); // conceptType.
   if(conceptType.equals("")) {
-     conceptType= ConceptType.Phenotype.toString(); // default.
+//     conceptType= ConceptType.Phenotype.toString(); // default.
+     conceptType= con.getOfType().getId();
     }
 
   // For concept Type: "SNP".
@@ -43,30 +44,34 @@ public class AddConceptNodeInfo {
      conceptType= ConceptType.SNP.toString();
     }
 
-  System.out.println("Current "+ conceptType +" Name: "+ conceptName);
+//  System.out.println("Current "+ conceptType +" Name: "+ conceptName);
   /* Fetch the Set of all concept names and retain only the preferred ones, to later choose the 
    * "best" concept name to display from amongst them, for Genes. */
   if(conceptType.equals(ConceptType.Gene.toString()) || conceptType.equals(ConceptType.Protein.toString())) {
      // For Genes and Proteins.
-     // Get the shortest, non-ambiguous concept accession for this Concept.
-     String shortest_acc= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
      // Get the shortest, preferred concept name for this Concept.
      String shortest_coname= getShortestPreferredConceptName(con.getConceptNames());
+     // Get the shortest, non-ambiguous concept accession for this Concept.
+     String shortest_acc= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
      
-     int shortest_acc_length= 100000, shortest_coname_length= 100000; // default values.
-     if(!shortest_acc.equals(" ")) {
-        shortest_acc_length= shortest_acc.length();
-       }
+//     int shortest_acc_length= 100000, shortest_coname_length= 100000; // default values.
      if(!shortest_coname.equals(" ")) {
-        shortest_coname_length= shortest_coname.length();
+//        shortest_coname_length= shortest_coname.length();
+        conceptName= shortest_coname; // use the shortest, preferred concept name.
        }
-     if(shortest_acc_length < shortest_coname_length) {
+     else {
+       if(!shortest_acc.equals(" ")) {
+//          shortest_acc_length= shortest_acc.length();
+          conceptName= shortest_acc; // use the shortest, non-ambiguous concept accession.
+         }
+      }
+/*     if(shortest_acc_length < shortest_coname_length) {
         conceptName= shortest_acc; // use shortest, non-ambiguous concept accession.
        }
      else {
       conceptName= shortest_coname; // use shortest, preferred concept name.
-     }
-     System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
+     }*/
+//     System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
     }
   else if(conceptType.equals(ConceptType.Phenotype.toString())) {
           if(conceptName.equals(" ")) {
@@ -76,7 +81,7 @@ public class AddConceptNodeInfo {
                     conceptName= attr.getValue().toString().trim(); // use Phenotype as the preferred concept name instead.
                    }
                 }
-             System.out.println("\t \t Phenotype: Selected Name: "+ conceptName +"\n");
+//             System.out.println("\t \t Phenotype: Selected Name: "+ conceptName +"\n");
             }
          }
   else {
@@ -84,10 +89,13 @@ public class AddConceptNodeInfo {
        conceptName= getShortestPreferredConceptName(con.getConceptNames());
       }
     else {
-      conceptName= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
+      if(!getShortestNotAmbiguousConceptAccession(con.getConceptAccessions()).equals(" ")) {
+         conceptName= getShortestNotAmbiguousConceptAccession(con.getConceptAccessions());
+        }
      }
-    System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
+//    System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
    }
+  System.out.println("AddConceptNodeInfo: conceptID: "+ conceptID +", name: "+ conceptName +", type: "+ conceptType);
 
   String conceptShape;
   String conceptColour;
@@ -166,8 +174,6 @@ public class AddConceptNodeInfo {
   String[] attr= new String[2];
   String shape= ConceptShape.rectangle.toString(); // default (for concept Type: 'Phenotype').
   String colour= ConceptColour.greenYellow.toString(); // default (for concept Type: 'Phenotype').
-//  String shape= ConceptShape.triangle.toString(); // default (for concept Type: 'Gene').
-//  String colour= ConceptColour.lightBlue.toString(); // default (for concept Type: 'Gene').
 
   // Determine the shape & colour attributes for this concept based on the concept type.
   if(conType.equals(ConceptType.Biological_Process.toString())) {
@@ -226,6 +232,10 @@ public class AddConceptNodeInfo {
      shape= ConceptShape.triangle.toString();
      colour= ConceptColour.blue.toString();
     }
+  else if(conType.equals(ConceptType.Trait.toString())) {
+     shape= ConceptShape.triangle.toString();
+     colour= ConceptColour.greenYellow.toString();
+    }
   else if((conType.equals(ConceptType.Compound.toString())) || (conType.equals(ConceptType.SNP.toString()))) {
      shape= ConceptShape.star.toString();
      colour= ConceptColour.teal.toString();
@@ -233,6 +243,22 @@ public class AddConceptNodeInfo {
   else if(conType.equals(ConceptType.Phenotype.toString())) {
      shape= ConceptShape.rectangle.toString();
      colour= ConceptColour.greenYellow.toString();
+    }
+  else if(conType.equals(ConceptType.Chromosome.toString())) {
+     shape= ConceptShape.octagon.toString();
+     colour= ConceptColour.blue.toString();
+    }
+  else if(conType.equals(ConceptType.RNA.toString())) {
+     shape= ConceptShape.hexagon.toString();
+     colour= ConceptColour.teal.toString();
+    }
+  else if((conType.equals(ConceptType.Protein_Complex.toString())) || (conType.equals("Protein Complex"))) {
+     shape= ConceptShape.roundrectangle.toString();
+     colour= ConceptColour.red.toString();
+    }
+  else if(conType.equals(ConceptType.Transport.toString())) {
+     shape= ConceptShape.diamond.toString();
+     colour= ConceptColour.lightBlue.toString();
     }
   
   // Set the determined attribute values;
@@ -242,25 +268,11 @@ public class AddConceptNodeInfo {
   return attr;
  }
 
-    private String getShortestNotAmbiguousConceptAccession(Set<ConceptAccession> co_accs) {
-     String shortest_acc=" ";
-     int length= 100000;
-     for(ConceptAccession acc : co_accs) {
-         System.out.println("\t acc: "+ acc.getAccession().trim() +", isAmbiguous: "+ acc.isAmbiguous());
-         if(!(acc.isAmbiguous()) && (acc.getAccession().trim().length() <= length)) {
-            shortest_acc= acc.getAccession().trim();
-	    length= shortest_acc.length();
-           }
-        }
-     System.out.println("\t shortest_acc: "+ shortest_acc);
-     return shortest_acc;
-    }
-
     private String getShortestPreferredConceptName(Set<ConceptName> conames) {
      String shortest_coname=" ";
      int length= 100000;
      for(ConceptName coname : conames) {
-         System.out.println("\t coname: "+ coname.getName().trim() +", isPreferred: "+ coname.isPreferred());
+//         System.out.println("\t coname: "+ coname.getName().trim() +", isPreferred: "+ coname.isPreferred());
          if((coname.isPreferred()) && (coname.getName() != null)) {
 //            if((coname.getName().trim().length() >= 3) && (coname.getName().trim().length() <= 6)) {
             if(coname.getName().trim().length() <= length) {
@@ -269,8 +281,22 @@ public class AddConceptNodeInfo {
               }
            }
         }
-     System.out.println("\t shortest_coname: "+ shortest_coname);
+//     System.out.println("\t shortest_coname: "+ shortest_coname);
      return shortest_coname;
+    }
+
+    private String getShortestNotAmbiguousConceptAccession(Set<ConceptAccession> co_accs) {
+     String shortest_acc=" ";
+     int length= 100000;
+     for(ConceptAccession acc : co_accs) {
+//         System.out.println("\t acc: "+ acc.getAccession().trim() +", isAmbiguous: "+ acc.isAmbiguous());
+         if(!(acc.isAmbiguous()) && (acc.getAccession().trim().length() <= length)) {
+            shortest_acc= acc.getAccession().trim();
+	    length= shortest_acc.length();
+           }
+        }
+//     System.out.println("\t shortest_acc: "+ shortest_acc);
+     return shortest_acc;
     }
 
 }
