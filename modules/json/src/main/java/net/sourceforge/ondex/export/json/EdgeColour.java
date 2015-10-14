@@ -6,5 +6,5 @@ package net.sourceforge.ondex.export.json;
  */
 public enum EdgeColour {
  black, orange, red, maroon, crimson, teal, grey, lightGrey, darkGrey, springGreen, greenYellow, 
- limeGreen, blue, lightBlue, navy, cyan, purple, pink, salmon
+ limeGreen, blue, lightBlue, navy, cyan, purple, magenta, brown, pink, salmon
 }
