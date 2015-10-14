@@ -4,7 +4,7 @@ package net.sourceforge.ondex.export.json;
  * Static String content for JSON Attribute names, used when retrieving values of attributes from the 
  * ONDEXGraph object and writing them as attribute-value pairs in the JSON object.
  * @author Ajit Singh
- * @version 08/01/15
+ * @version 08/07/15
  */
 public final class JSONAttributeNames {
 

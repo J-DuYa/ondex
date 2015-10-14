@@ -35,7 +35,7 @@ import org.json.simple.JSONArray;
  * generated in a timestamped 'networkGraph' file & all metadata is generated in a timestamped 
  * 'networkMetadata' file.
  * @author Ajit Singh
- * @version 17/07/2015
+ * @version 14/10/2015
  */
 @Status(description = "Under development", status = StatusType.STABLE)
 @Authors(authors = { "Ajit Singh" }, emails = { "ajit.singh at rothamsted.ac.uk" })
@@ -469,7 +469,7 @@ public class Export extends ONDEXExport {
            }
         }
 /*        if(shortest_acc_length < shortest_coname_length) {
-           conName= shortest_acc; // use shortest, non-ambiguous concept accession.
+           conName= shortest_acc; // use the shortest, non-ambiguous concept accession.
           }
         else {
          conName= shortest_coname; // use shortest, preferred concept name.
