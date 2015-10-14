@@ -2,9 +2,9 @@ package net.sourceforge.ondex.export.json;
 
 /**
  * @author Ajit Singh
- * @version 23/04/15
+ * @version 13/10/15
  */
 public enum EdgeColour {
- red, orange, teal, grey, springGreen, blue, purple
-    
+ black, orange, red, maroon, crimson, teal, grey, lightGrey, darkGrey, springGreen, greenYellow, 
+ limeGreen, blue, lightBlue, navy, cyan, purple, magenta, brown, pink, salmon
 }

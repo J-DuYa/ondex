@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 /**
  * Build edge json objects using their various attributes.
  * @author Ajit Singh
- * @version 15/05/15
+ * @version 14/10/15
  */
 public class AddRelationEdgeInfo {
     
@@ -26,6 +26,10 @@ public class AddRelationEdgeInfo {
   String sourceConcept= String.valueOf(rel.getFromConcept().getId()); // relation source ID.
   String targetConcept= String.valueOf(rel.getToConcept().getId()); // relation target ID.
   String edgeLabel= rel.getOfType().getFullname(); // relation type label.
+  if(edgeLabel.equals("")) {
+     edgeLabel= rel.getOfType().getId();
+    }
+  System.out.println("AddRelationEdgeInfo: Relation ID: e"+ relationID +", label: "+ edgeLabel +", from: "+ sourceConcept +", to: "+ targetConcept);
 
   edgeData.put(/*"id"*/JSONAttributeNames.ID, "e"+relationID);
   edgeData.put("source", sourceConcept);
@@ -77,7 +81,7 @@ public class AddRelationEdgeInfo {
  }
 
  private String determineEdgeColour(String edgeLbl) {
-  String colour= EdgeColour.grey.toString(); // default.
+  String colour= EdgeColour.black.toString(); // default.
 
   // Determine the colour for this relation based on the edge label.
   if(edgeLbl.equals(EdgeLabel.published_in.toString())) {
@@ -92,16 +96,50 @@ public class AddRelationEdgeInfo {
   else if(edgeLbl.equals(EdgeLabel.has_similar_sequence.toString())) {
      colour= EdgeColour.red.toString();
     }
-  else if((edgeLbl.equals(EdgeLabel.has_protein_domain.toString())) || 
-          (edgeLbl.equals(EdgeLabel.interacts_with.toString())) || 
-          (edgeLbl.equals(EdgeLabel.cooccurs_with.toString()))) {
+  else if((edgeLbl.equals(EdgeLabel.cooccurs_with.toString()))) {
      colour= EdgeColour.blue.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.has_protein_domain.toString())) {
+     colour= EdgeColour.crimson.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.interacts_with.toString())) {
+     colour= EdgeColour.cyan.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.located_in.toString())) {
      colour= EdgeColour.springGreen.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.has_function.toString())) {
      colour= EdgeColour.purple.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.orthologue.toString())) {
+     colour= EdgeColour.maroon.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.is_p.toString())) {
+     colour= EdgeColour.darkGrey.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.has_observed_phenotype.toString())) {
+     colour= EdgeColour.greenYellow.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.control.toString())) {
+     colour= EdgeColour.lightGrey.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.has_variation.toString())) {
+     colour= EdgeColour.navy.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.activated_by.toString())) {
+     colour= EdgeColour.magenta.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.consumed_by.toString())) {
+     colour= EdgeColour.brown.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.produced_by.toString())) {
+     colour= EdgeColour.limeGreen.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.catalyzed_by.toString())) {
+     colour= EdgeColour.salmon.toString();
+    }
+  else if(edgeLbl.equals(EdgeLabel.part_of_catalyzing_class.toString())) {
+     colour= EdgeColour.pink.toString();
     }
 
   return colour;
