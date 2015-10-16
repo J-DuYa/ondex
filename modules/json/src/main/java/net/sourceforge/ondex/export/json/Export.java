@@ -675,14 +675,19 @@ public class Export extends ONDEXExport {
      * @return JSONObject
      *            JSONObject containing information about the Evidence Type.
      */
-    private JSONObject buildEvidenceType(EvidenceType et) {
-     JSONObject evidenceJson= new JSONObject();
+    private String/*JSONObject*/ buildEvidenceType(EvidenceType et) {
+/*     JSONObject evidenceJson= new JSONObject();
      
-     evidenceJson.put(JSONAttributeNames.ID, et.getId());
-     evidenceJson.put(JSONAttributeNames.FULLNAME, et.getFullname());
-     evidenceJson.put(JSONAttributeNames.DESCRIPTION, et.getDescription());
+     evidenceJson.put(JSONAttributeNames.ID, et.getId().trim());
+     evidenceJson.put(JSONAttributeNames.FULLNAME, et.getFullname().trim());
+     evidenceJson.put(JSONAttributeNames.DESCRIPTION, et.getDescription().trim());
+*/
+     String evidenceName= et.getFullname().trim();
+     if(evidenceName.equals("")) { 
+        evidenceName= et.toString().trim();
+       }
 
-     return evidenceJson;
+     return evidenceName/*evidenceJson*/;
     }
 
     /**

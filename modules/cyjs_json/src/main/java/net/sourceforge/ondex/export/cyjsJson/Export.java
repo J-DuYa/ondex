@@ -580,7 +580,10 @@ public class Export extends ONDEXExport {
      evidenceJson.put(JSONAttributeNames.FULLNAME, et.getFullname());
      evidenceJson.put(JSONAttributeNames.DESCRIPTION, et.getDescription());
 */
-     String evidenceName= et.getFullname();
+     String evidenceName= et.getFullname().trim();
+     if(evidenceName.equals("")) { 
+        evidenceName= et.toString().trim();
+       }
 
      return evidenceName/*evidenceJson*/;
     }

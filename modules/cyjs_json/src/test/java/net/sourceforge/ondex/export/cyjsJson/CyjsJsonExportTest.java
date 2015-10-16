@@ -28,10 +28,6 @@ public class CyjsJsonExportTest {
 //	File oxlTestFile= new File(classLoader.getResource("result_phenotypeTest_poplar_flowering.oxl").getFile());
 	File oxlTestFile= new File(classLoader.getResource("result_ara_geneNames.oxl").getFile());
 
-//        File oxlTestFile= new File(classLoader.getResource("barley_shootB_phenoSNP_issue.oxl").getFile());
-//	File oxlTestFile= new File(classLoader.getResource("result_bo.oxl").getFile());
-//	File oxlTestFile= new File(classLoader.getResource("oxlnetwork.oxl").getFile());
-
         // output file (with timestamped filename) to get exported network graph data in JSON format.
         String outputFileName= "networkGraph_"+ new SimpleDateFormat("yyyyMMddhhmmss'.json'").format(new Date());
         File jsonOutputFile= new File(System.getProperty("java.io.tmpdir") + File.separator + outputFileName);
