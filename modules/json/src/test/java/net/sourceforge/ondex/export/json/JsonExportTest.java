@@ -26,11 +26,7 @@ public class JsonExportTest {
         ClassLoader classLoader= getClass().getClassLoader();
         // example .oxl file to Test.
 //	File oxlTestFile= new File(classLoader.getResource("oxlnetwork.oxl").getFile());
-	File oxlTestFile= new File(classLoader.getResource("barley_shootB_phenoSNP_issue.oxl").getFile());
-
-//	File oxlTestFile= new File(classLoader.getResource("result_ara_geneNames.oxl").getFile());
-//	File oxlTestFile= new File(classLoader.getResource("result_1389457140212.oxl").getFile());
-//	File oxlTestFile= new File(classLoader.getResource("result_1415375688827.oxl").getFile());
+	File oxlTestFile= new File(classLoader.getResource("result_wheat_161015_4.oxl").getFile());
 
         // output file (with timestamped filename) to get exported network graph data in JSON format.
         String outputFileName= "networkGraph_"+ new SimpleDateFormat("yyyyMMddhhmmss'.json'").format(new Date());
