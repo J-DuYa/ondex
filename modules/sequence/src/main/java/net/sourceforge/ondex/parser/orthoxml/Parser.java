@@ -42,17 +42,17 @@ import com.ctc.wstx.io.CharsetNames;
  * This format is used especially by Inparanoid
  * http://inparanoid.sbc.su.se/download/current/orthoXML/
  * 
- * @author keywan
+ * @author keywan, singha
  *
  */
 @Status(description = "Tested November 2010 (Keywan Hassani-Pak)", status = StatusType.EXPERIMENTAL)
-@Authors(authors = {"Keywan Hassani-Pak"}, emails = {"keywan at users.sourceforge.net"})
+@Authors(authors = {"Keywan Hassani-Pak", "Ajit Singh"}, emails = {"keywan at users.sourceforge.net"})
 @DatabaseTarget(name = "OrthoXML", description = "OrthoXML is designed broadly to allow the storage and comparison of orthology data from any ortholog database. This Ondex parser for OrthoXML was tested on OrthoXML files provided by Inparanoid.", version = "0.2", url = "http://orthoxml.org/")
 @DataURL(name = "OrthoXML file",
         description = "This parser requires as input a single OrthoXML file. It was tested on the Arabidopsis-Rice ortholog file provided by Inparanoid:",
         urls = {"http://inparanoid.sbc.su.se/download/current/orthoXML/"})
-@Custodians(custodians = {"Keywan Hassani-pak"}, emails = {"keywan at users.sourceforge.net"})
-@DataSourceRequired(ids = {MetaData.cvInparanoid })
+@Custodians(custodians = {"Keywan Hassani-pak", "Ajit Singh"}, emails = {"keywan at users.sourceforge.net"})
+//@DataSourceRequired(ids = {MetaData.cvInparanoid })
 @ConceptClassRequired(ids = {MetaData.ccProtein })
 @EvidenceTypeRequired(ids = {MetaData.etIMPD}) 
 @RelationTypeRequired(ids = {MetaData.rtOrtholog, MetaData.rtParalog}) 
@@ -74,7 +74,8 @@ public class Parser extends ONDEXParser {
 	@Override
 	public ArgumentDefinition<?>[] getArgumentDefinitions() {
 		return new ArgumentDefinition<?>[]{
-				new FileArgumentDefinition(FileArgumentDefinition.INPUT_FILE, "Absolute path to an OrthoXML input file", true, true, false, false)
+				new FileArgumentDefinition(FileArgumentDefinition.INPUT_FILE, "Absolute path to an OrthoXML input file", true, true, false, false),
+                                new FileArgumentDefinition(ArgumentNames.orthoXML_dataSource, "Data Source", true, true, false, false)
 		};
 	}
 
@@ -103,7 +104,7 @@ public class Parser extends ONDEXParser {
 
 		ONDEXGraphMetaData md = graph.getMetaData();
 		ccProtein = md.getConceptClass(MetaData.ccProtein);
-		dataSourceInparanoid = md.getDataSource(MetaData.cvInparanoid);
+//		dataSourceInparanoid = md.getDataSource(MetaData.cvInparanoid);
 		rtOrtholog = md.getRelationType(MetaData.rtOrtholog);
 		rtParalog = md.getRelationType(MetaData.rtParalog);
 		etIMPD = md.getEvidenceType(MetaData.etIMPD);
@@ -113,6 +114,7 @@ public class Parser extends ONDEXParser {
 		ondexConcepts = new HashMap<Integer,Integer>();
 
 		File xmlFile = new File((String) args.getUniqueValue(FileArgumentDefinition.INPUT_FILE));
+                dataSourceInparanoid= (DataSource) args.getUniqueValue(ArgumentNames.orthoXML_dataSource);
 
 		// setup XMLStreamReader
 		System.setProperty("javax.xml.stream.XMLInputFactory",
@@ -178,9 +180,27 @@ public class Parser extends ONDEXParser {
 				// example
 				// <gene id="1" geneId="GL50803_17570" protId="GL50803_17570" /> 
 
-				Integer id = Integer.parseInt(xmlr.getAttributeValue(0));
-				String geneId = xmlr.getAttributeValue(1);
-				String protId = xmlr.getAttributeValue(2);
+//				Integer id = Integer.parseInt(xmlr.getAttributeValue(0));
+//				String geneId = xmlr.getAttributeValue(1);
+//				String protId = xmlr.getAttributeValue(2);
+				Integer id= null;
+                                String geneId= null;
+                                String protId= null;
+                                int attrCount= xmlr.getAttributeCount();
+                                System.out.println("attrCount= "+ attrCount);
+                                for(int i=0; i< attrCount; i++) {
+                                    String attrName= xmlr.getAttributeLocalName(i);
+                                    System.out.println("attrName= "+ attrName +", attrVal= "+ xmlr.getAttributeValue(i));
+                                    if(attrName.equals("id")) {
+				       id= Integer.parseInt(xmlr.getAttributeValue(i));
+                                      }
+                                    else if(attrName.equals("geneId")) {
+                                            geneId= xmlr.getAttributeValue(i);
+                                      }
+                                    else if(attrName.equals("protId")) {
+                                            protId= xmlr.getAttributeValue(i);
+                                      }
+                                   }
 
 				if(!ondexConcepts.containsKey(id)){
 					ONDEXConcept c = graph.getFactory().createConcept(protId, dataSourceInparanoid, ccProtein, etIMPD);

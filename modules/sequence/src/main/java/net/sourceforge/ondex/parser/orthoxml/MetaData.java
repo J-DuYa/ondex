@@ -12,8 +12,9 @@ public class MetaData {
 	// RelateType
 	public static final String rtOrtholog = "ortho";
 	public static final String rtParalog = "para";
+
 	public static final String ccProtein = "Protein";
-	public static final String cvInparanoid = "INPARANOID";
+//	public static final String cvInparanoid = "INPARANOID";
 
 
 }
