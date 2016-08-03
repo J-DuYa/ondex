@@ -58,7 +58,7 @@ public class Parser extends ONDEXParser {
 
 	@Override
 	public String getVersion() {
-		return "15/08/2012";
+		return "02/08/2016";
 	}
 
 	@Override
@@ -94,12 +94,13 @@ public class Parser extends ONDEXParser {
 		AttributeName anSecuenceAA = md.getAttributeName(MetaData.AN_AA);
 		EvidenceType etIMPD = md.getEvidenceType(MetaData.ET_IMPD);
 		DataSource dsConcept = null;		
-		DataSource dsAccession = null;		
+		DataSource dsAccession = null;
 
 		//saves taxid and data source name into variables
 		String taxid = (String) args.getUniqueValue(ArgumentNames.TAXID_ARG);
 		String xref = (String) args.getUniqueValue(ArgumentNames.XREF_ARG);
 		String dsName = (String) args.getUniqueValue(ArgumentNames.DATASOURCE_ARG);
+                System.out.println("TaxID: "+ taxid +", XRef: "+ xref +", DataSource: "+ dsName);
 
 
 		if(md.getDataSource(dsName) != null){
@@ -123,10 +124,13 @@ public class Parser extends ONDEXParser {
 		
 		//parse GFF lines and create Gene concepts
 		//----------------------------------------
+                System.out.println("Parsing GFF3 file...");
 		String GFFFilePath = (String) args.getUniqueValue(ArgumentNames.GFF_ARG);
 		File gffFile = null;
 		FileReader fr = null;
 		BufferedReader br = null;
+		//creates hashmaps for gene properties retrieved from the gff3 file
+                HashMap<String,String> geneProps = new HashMap<String,String>();
 
 		try {
 
@@ -147,23 +151,41 @@ public class Parser extends ONDEXParser {
 				
 				String geneId = "";
 				String geneDescription = "";
+                                String geneCName= null;
+                                // Remove gene: from TAB column
+                                splited[8]= splited[8].replaceAll("gene:", "");
 				if(splited[8].contains(";")){
 					String[] col =   splited[8].split(";");
-					geneId = col[0].split("=")[1].toUpperCase();
-					geneDescription = col[1].split("=")[1].toUpperCase();
+                                        // Store all properties in a hashmap
+                                        for (String col1 : col) {
+                                             String[] gene_props= col1.split("=");
+                                             geneProps.put(gene_props[0].toUpperCase(), gene_props[1]);
+                                            }
+//					geneId = col[0].split("=")[1].toUpperCase();
+//					geneDescription = col[1].split("=")[1].toUpperCase();
+					geneId = geneProps.get("ID").toUpperCase();
+					geneDescription = geneProps.get("DESCRIPTION").toUpperCase();
+					geneCName= geneProps.get("NAME").toUpperCase();
 				}else{
 					geneId = splited[8].split("=")[1].toUpperCase();
 					geneDescription = splited[8].split("=")[1].toUpperCase();
 				}
+                // test
+                System.out.println("geneProps hashmap contents:");
+                for(String key: geneProps.keySet()) {
+                    System.out.println(key +": "+ geneProps.get(key).toUpperCase());
+                   }
+                System.out.print("geneId= "+ geneId +", \t");
+                System.out.print("geneDescription= "+ geneDescription +", \t");
+                System.out.println("geneCName= "+ geneCName);
+
+		//Standarize the name of the chromosome
+		String geneLocation = splited[0];
 				
-				//Standarize the name of the chromosome
-				String geneLocation = splited[0];
-				
-                Pattern p = Pattern.compile("\\d+");
-                Matcher m = p.matcher(splited[0]);
+                Pattern p= Pattern.compile("\\d+");
+                Matcher m= p.matcher(splited[0]);
 
                 List<String> values = new ArrayList<String>();
-                
                 while(m.find()){
                        values.add(m.group());
                 }
@@ -187,9 +209,16 @@ public class Parser extends ONDEXParser {
 				Integer geneChr = Integer.parseInt(geneChrName);  
 				Integer geneBegin = Integer.parseInt(splited[3]);
 				Integer geneEnd = Integer.parseInt(splited[4]);
+                                System.out.print("gene Location (attr):"+ geneLocation +", \t");
+                                System.out.println("gene Chromosome (attr):"+ geneChr);
+                                System.out.println("dsConcept: "+ dsConcept.getFullname());
+                                System.out.println("evidenceType: "+ etIMPD.toString());
 
 				ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", geneDescription, dsConcept, ccGene, etIMPD);
 				c1.createConceptName(geneId, true);
+                                if(geneCName != null) { // add 2nd preferred concept name
+				   c1.createConceptName(geneCName, true);
+                                  }
 				c1.createConceptAccession(geneId, dsAccession, false);
 				c1.createAttribute(anTaxid, taxid, false);
 				c1.createAttribute(anChromosome, geneChr, false);
