@@ -4,7 +4,7 @@
 	<artifactId>sequence</artifactId>
 	<name>sequence</name>
 	<version>0.6.0-SNAPSHOT</version>
-	<description>dna and protein sequence parser for species independent data sources</description>
+	<description>DNA and Protein Sequence parser for species-independent data sources</description>
 	<parent>
 		<artifactId>modules</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
@@ -32,5 +32,18 @@
 			<version>0.6.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
+                <!-- Test deps -->
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.11</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>net.sourceforge.ondex.core</groupId>
+                    <artifactId>memory</artifactId>
+                    <version>0.6.0-SNAPSHOT</version>
+                    <scope>test</scope>
+                </dependency>
 	</dependencies>
 </project>
