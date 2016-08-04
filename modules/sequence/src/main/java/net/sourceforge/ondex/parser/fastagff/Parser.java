@@ -212,38 +212,44 @@ public class Parser extends ONDEXParser {
                  */
                 if(splited[0].contains("_")) {
                    String[] chrArr= splited[0].split("_");
-                   geneLocation= chrArr[chrArr.length-1].substring(0,2);
-                   geneChrName= chrArr[chrArr.length-1].substring(0,1);
+                   if(chrArr[chrArr.length-1].length()<=2) {
+                      geneChrName= chrArr[chrArr.length-1];
+                     }
+                   else {
+                     //  geneLocation= chrArr[chrArr.length-1].substring(0,2);
+                     //  geneChrName= chrArr[chrArr.length-1].substring(0,1);
+                       geneChrName= chrArr[chrArr.length-1].substring(0,2);
+                     }
                   }
 
-				Integer geneChr = Integer.parseInt(geneChrName);
-				Integer geneBegin = Integer.parseInt(splited[3]);
-				Integer geneEnd = Integer.parseInt(splited[4]);
+		//Integer geneChr = Integer.parseInt(geneChrName);
+		Integer geneBegin = Integer.parseInt(splited[3]);
+		Integer geneEnd = Integer.parseInt(splited[4]);
                 System.out.print("gene Location (attr):"+ geneLocation +", \t");
-                System.out.println("gene Chromosome (attr):"+ geneChr);
+                System.out.println("gene Chromosome (attr):"+ geneChrName);
                 System.out.println("dsConcept: "+ dsConcept.getFullname());
                 System.out.println("evidenceType: "+ etIMPD.toString());
 
-				ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", geneDescription, dsConcept, ccGene, etIMPD);
-				c1.createConceptName(geneId, true);
-				if(geneCName != null) { // add 2nd preferred concept name
-                   c1.createConceptName(geneCName, true);
-                  }
+		ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", geneDescription, dsConcept, ccGene, etIMPD);
+		c1.createConceptName(geneId, true);
+		if(geneCName != null) { // add 2nd preferred concept name
+                    c1.createConceptName(geneCName, true);
+                   }
 
-				c1.createConceptAccession(geneId, dsAccession, false);
-				c1.createAttribute(anTaxid, taxid, false);
-				c1.createAttribute(anChromosome, geneChr, false); // integer Chromosome
-				c1.createAttribute(anLocation, geneLocation, false); // string Location
-				c1.createAttribute(anBegin, geneBegin, false);
-				c1.createAttribute(anEnd, geneEnd, false);
-				ondex2gene.put(geneId, c1.getId());
-			}
-			System.out.println("Amount of missing chromosomes: "+missingChr);
+		c1.createConceptAccession(geneId, dsAccession, false);
+		c1.createAttribute(anTaxid, taxid, false);
+		c1.createAttribute(anChromosome, /*geneChr*/geneChrName, false); // integer Chromosome
+		c1.createAttribute(anLocation, geneLocation, false); // string Location
+		c1.createAttribute(anBegin, geneBegin, false);
+		c1.createAttribute(anEnd, geneEnd, false);
+		ondex2gene.put(geneId, c1.getId());
+	       }
+	    System.out.println("Amount of missing chromosomes: "+missingChr);
+	   }
+	  catch(Exception e) {
+	         e.printStackTrace();
 		}
-		catch(Exception e){
-			e.printStackTrace();
-		}finally{
-
+          finally {
 			try{                    
 				if( null != fr ){   
 					fr.close();     
