@@ -1830,7 +1830,7 @@
 				<fullname>Chromosome</fullname>
 				<description>Main linkage groups of the organism
 		</description>
-				<datatype>java.lang.Integer</datatype>
+				<datatype>java.lang.String</datatype>
 			</attrname>
 			<attrname>
 				<id>Scaffold</id>
