@@ -230,7 +230,7 @@ public class Parser extends ONDEXParser {
                 System.out.println("dsConcept: "+ dsConcept.getFullname());
                 System.out.println("evidenceType: "+ etIMPD.toString());
 
-		ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", geneDescription, dsConcept, ccGene, etIMPD);
+		ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", ""/*geneDescription*/, dsConcept, ccGene, etIMPD);
 		c1.createConceptName(geneId, true);
 		if(geneCName != null) { // add 2nd preferred concept name
                     c1.createConceptName(geneCName, true);
