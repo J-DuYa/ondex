@@ -51,6 +51,8 @@ public class MetaData {
     public static final String GRAMENE = "GR";
     public static final String UC = "UC";
     public static final String SGN = "SGN";
+
+	public static final String RT_PUB_IN = "pub_in";
 	
 
     //Attribute

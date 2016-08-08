@@ -49,6 +49,8 @@ public class GAFTransformer {
 	private ConceptClass ccOntTermsParent;
 	private DataSource dsAccNLM;
 	
+	private RelationType rt_pub_in;
+	
     private final Pattern atgPattern = Pattern.compile("AT[C|M|0-9]G[0-9]+([.][0-9]+)?", Pattern.CASE_INSENSITIVE);
     private final Pattern uniprotCheck = Pattern.compile("(^[A-N,R-Z][0-9][A-Z][A-Z,0-9][A-Z,0-9][0-9]$)|(^[O,P,Q][0-9][A-Z,0-9][A-Z,0-9][A-Z,0-9][0-9]$)");
 	
@@ -67,6 +69,7 @@ public class GAFTransformer {
         etIMPD = md.getEvidenceType(MetaData.IMPD);
         attTAXID = md.getAttributeName(MetaData.taxID);
         attEvidence = md.getAttributeName(MetaData.attEVIDENCE);
+        rt_pub_in = md.getRelationType(MetaData.RT_PUB_IN);
     	
         parsed = new HashMap<String, Integer>();
         ccMap = new HashMap<String, String>();
@@ -265,6 +268,12 @@ public class GAFTransformer {
     		// dbObjectConcept.addTag(pubConcept);
     		// ontologyConcept.addTag(pubConcept);
     		// rel.addTag(pubConcept);
+        	
+        	if (graph.getRelation(dbObjectConcept, ontologyConcept, rt_pub_in) == null) {
+        		graph.getFactory().createRelation(dbObjectConcept, pubConcept, rt_pub_in, etIMPD);
+
+        	}
+        	
     	}
 
     	if (annoReferences != null) {
