@@ -262,9 +262,9 @@ public class GAFTransformer {
     	}
 
     	if(pubConcept != null){
-    		dbObjectConcept.addTag(pubConcept);
-    		ontologyConcept.addTag(pubConcept);
-    		rel.addTag(pubConcept);
+    		// dbObjectConcept.addTag(pubConcept);
+    		// ontologyConcept.addTag(pubConcept);
+    		// rel.addTag(pubConcept);
     	}
 
     	if (annoReferences != null) {
