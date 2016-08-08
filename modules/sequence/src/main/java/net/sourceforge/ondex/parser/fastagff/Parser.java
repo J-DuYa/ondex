@@ -164,7 +164,7 @@ public class Parser extends ONDEXParser {
                         }
 //					geneId = col[0].split("=")[1].toUpperCase();
 //					geneDescription = col[1].split("=")[1].toUpperCase();
-					geneId = geneProps.get("ID");
+					geneId= geneProps.get("ID");
 					geneDescription = geneProps.get("DESCRIPTION");
 					geneCName= geneProps.get("NAME");
 				}else{
@@ -176,9 +176,9 @@ public class Parser extends ONDEXParser {
                 for(String key: geneProps.keySet()) {
                     System.out.println(key +": "+ geneProps.get(key).toUpperCase());
                    }*/
-                System.out.print("geneId= "+ geneId +", \t");
+                /*System.out.print("geneId= "+ geneId +", \t");
                 System.out.print("geneCName= "+ geneCName +", \t");
-                System.out.println("geneDescription= "+ geneDescription);
+                System.out.println("geneDescription= "+ geneDescription);*/
 
 		//Standarize the name of the chromosome
 		String geneLocation = splited[0];
@@ -225,10 +225,10 @@ public class Parser extends ONDEXParser {
 		//Integer geneChr = Integer.parseInt(geneChrName);
 		Integer geneBegin = Integer.parseInt(splited[3]);
 		Integer geneEnd = Integer.parseInt(splited[4]);
-                System.out.print("gene Location (attr):"+ geneLocation +", \t");
-                System.out.println("gene Chromosome (attr):"+ geneChrName);
-                System.out.println("dsConcept: "+ dsConcept.getFullname());
-                System.out.println("evidenceType: "+ etIMPD.toString());
+                System.out.print("gff3: Location:"+ geneLocation +", \t");
+                System.out.println("Chromosome:"+ geneChrName);
+        //        System.out.println("dsConcept: "+ dsConcept.getFullname());
+        //        System.out.println("evidenceType: "+ etIMPD.toString());
 
 		ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", ""/*geneDescription*/, dsConcept, ccGene, etIMPD);
 		c1.createConceptName(geneId, true);
@@ -290,11 +290,11 @@ public class Parser extends ONDEXParser {
 						c2.createAttribute(anTaxid, taxid, false);
 						ondex2protein.put(secuenceName, c2.getId());
 						//saves the new secuence name and clears de secuence	    	        			 
-						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1).toUpperCase();
+						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1);//.toUpperCase();
 						secuence = "";
 					} else {
 						//saves the first secuence name
-						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1).toUpperCase();	        			 	        			 
+						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1);//.toUpperCase();	        			 	        			 
 					}
 				} else {
 					//concate the secuence to the current secuence name
@@ -323,6 +323,7 @@ public class Parser extends ONDEXParser {
 
 		//parse mapping file and create relations
 		//---------------------------------------
+		System.out.println("Parse Mapping file, if exists...");
 		String MappingFilePath = null;
 		MappingFilePath = (String) args.getUniqueValue(ArgumentNames.MAPPING_ARG);
 		if(!(MappingFilePath == null)){			
@@ -384,11 +385,13 @@ public class Parser extends ONDEXParser {
 			//If mapping file is not provided
 			Integer missingGenes = 0;   
 			Integer missingProteins = 0;
+			System.out.println("mapping file not provided...");
+			//System.out.println("geneIDs in ondex2gene: "+ ondex2gene.keySet());
 			for(String pAcc : ondex2protein.keySet()){
-				
 				int ondexGeneId;
 				int ondexProteinId;
 				
+				//System.out.println("ondex2gene.get("+ pAcc.split("\\.")[0] +"): "+ ondex2gene.get(pAcc.split("\\.")[0]));
 				if((ondex2gene.get(pAcc) != null) || (ondex2gene.get(pAcc.split("\\.")[0]) != null)){
 					ondexProteinId = ondex2protein.get(pAcc);
 					if (ondex2gene.containsKey(pAcc)) {
@@ -396,7 +399,9 @@ public class Parser extends ONDEXParser {
 					}
 					else {
 						ondexGeneId = ondex2gene.get(pAcc.split("\\.")[0]);
+						System.out.println("Trimmed ondexGeneId: "+ ondexGeneId);
 					}
+				//	System.out.println("ondexGeneId retrieved: "+ ondexGeneId);
 				}
 				else {
 					missingGenes++;	        		
