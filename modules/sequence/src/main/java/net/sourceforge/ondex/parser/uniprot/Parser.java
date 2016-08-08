@@ -68,7 +68,7 @@ import net.sourceforge.ondex.parser.uniprot.xml.filter.ValueFilter;
         urls = {"ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.xml.gz",
                 "ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_trembl.xml.gz",
                 "http://www.uniprot.org/uniprot/?query=taxonomy%3A9606+AND+reviewed%3Ayes"})
-@Custodians(custodians = {"Keywan Hassani-pak"}, emails = {"keywan at users.sourceforge.net"})
+@Custodians(custodians = {"Keywan Hassani-Pak"}, emails = {"keywan at users.sourceforge.net"})
 public class Parser extends ONDEXParser
 {
     private Transformer transformer;
