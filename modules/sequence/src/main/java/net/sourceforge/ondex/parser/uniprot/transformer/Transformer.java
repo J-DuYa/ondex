@@ -246,7 +246,7 @@ public class Transformer {
         if (protein.getTaxId() != null)
             proteinConcept.createAttribute(attTaxId, protein.getTaxId(), false);
         if (protein.getSequence() != null) {
-            proteinConcept.createAttribute(attSequence, protein.getSequence(), false);
+            // proteinConcept.createAttribute(attSequence, protein.getSequence(), false);
         } else {
             System.err.println("unknown error, but protein has no sequence data " + protein.toString());
         }
