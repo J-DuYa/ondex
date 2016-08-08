@@ -338,15 +338,15 @@ public class Transformer {
 //                                publicationConcept.createAttribute(attTitle, pub.getTitle(), false);
 //                        }
 //
-                        if (pub.getYear() > 0) {
-                            if (publicationConcept.getAttribute(attYear) == null)
-                                publicationConcept.createAttribute(attYear, pub.getYear(), false);
-                        }
+//                        if (pub.getYear() > 0) {
+//                            if (publicationConcept.getAttribute(attYear) == null)
+//                                publicationConcept.createAttribute(attYear, pub.getYear(), false);
+//                        }
 
-                        if (pub.getJournalName() != null && !pub.getJournalName().equals("")) {
-                            if (publicationConcept.getAttribute(attJournal) == null)
-                                publicationConcept.createAttribute(attJournal, pub.getJournalName(), false);
-                        }
+//                        if (pub.getJournalName() != null && !pub.getJournalName().equals("")) {
+//                            if (publicationConcept.getAttribute(attJournal) == null)
+//                                publicationConcept.createAttribute(attJournal, pub.getJournalName(), false);
+//                        }
 
                         if (pub.getScopes().size() > 0 && pub.getScopes().toString().length() > 0) {
                             publicationConcept.setAnnotation(pub.getScopes().toString());
@@ -398,9 +398,11 @@ public class Transformer {
             ONDEXConcept ecConcept = graph.getConcept(ecToConcept.get(value));
             ONDEXRelation rel = graph.getFactory().createRelation(proteinConcept, ecConcept, rtCatC, ev);
 
-            ecConcept.addTag(ecConcept);
-            proteinConcept.addTag(ecConcept);
-            rel.addTag(ecConcept);
+            if (addContextInformation) {
+	            ecConcept.addTag(ecConcept);
+	            proteinConcept.addTag(ecConcept);
+	            rel.addTag(ecConcept);
+            }    
 
         }
     }
