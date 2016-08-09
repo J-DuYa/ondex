@@ -26,15 +26,21 @@ public class AccessionBlockParser extends AbstractBlockParser {
 		String value = staxXmlReader.getElementText();
 		if (filter != null) 
 			filter.check(value);
-		Protein.getInstance().addAccession(MetaData.CV_UniProt, value);
-		while ( staxXmlReader.nextTag()  == XMLStreamConstants.START_ELEMENT 
-				&& staxXmlReader.getLocalName().equalsIgnoreCase(ACCESSION)){
-			value =	staxXmlReader.getElementText();
-			
-			if (filter != null) 
-				filter.check(value);
+		
+		// just add the first (primary) accession
+		if(!Protein.getInstance().getAccessions().containsKey(MetaData.CV_UniProt)){
 			Protein.getInstance().addAccession(MetaData.CV_UniProt, value);
 		}
+		
+		// add secondary accessions
+//		while ( staxXmlReader.nextTag()  == XMLStreamConstants.START_ELEMENT 
+//				&& staxXmlReader.getLocalName().equalsIgnoreCase(ACCESSION)){
+//			value =	staxXmlReader.getElementText();
+//			
+//			if (filter != null) 
+//				filter.check(value);
+//			Protein.getInstance().addAccession(MetaData.CV_UniProt, value);
+//		}
 //		if ( staxXmlReader.getLocalName().equalsIgnoreCase(NAME) ){
 //			value = staxXmlReader.getElementText();
 //			Protein.getInstance().addName(value);
