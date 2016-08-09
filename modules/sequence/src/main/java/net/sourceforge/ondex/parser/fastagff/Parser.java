@@ -144,7 +144,9 @@ public class Parser extends ONDEXParser {
 			while((row = br.readLine())!=null){
 				String[] splited = row.split("\t");
 				
-				if(splited.length < 2 || !(splited[2].toLowerCase().contains("gene"))){
+				// skip non-gene or pseudogene features but include ncRNA_gene or similar
+				if(row.startsWith("#") || splited.length < 2 || splited[2].toLowerCase().equals("pseudogene") || 
+						!(splited[2].toLowerCase().contains("gene"))){
 					continue;
 				}
 				
@@ -152,6 +154,7 @@ public class Parser extends ONDEXParser {
 				String geneId = "";
 				String geneDescription = "";
                 String geneCName= null;
+                String biotype = "";
                 // Remove gene: from TAB column
                 splited[8]= splited[8].replaceAll("gene:", "");
                 
@@ -167,6 +170,7 @@ public class Parser extends ONDEXParser {
 					geneId= geneProps.get("ID");
 					geneDescription = geneProps.get("DESCRIPTION");
 					geneCName= geneProps.get("NAME");
+					biotype=geneProps.get("BIOTYPE");
 				}else{
 					geneId = splited[8].split("=")[1].toUpperCase();
 					geneDescription = splited[8].split("=")[1];
@@ -230,7 +234,7 @@ public class Parser extends ONDEXParser {
         //        System.out.println("dsConcept: "+ dsConcept.getFullname());
         //        System.out.println("evidenceType: "+ etIMPD.toString());
 
-		ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", ""/*geneDescription*/, dsConcept, ccGene, etIMPD);
+		ONDEXConcept c1 = graph.getFactory().createConcept(geneId, biotype, dsConcept, ccGene, etIMPD);
 		c1.createConceptName(geneId, true);
 		if(geneCName != null) { // add 2nd preferred concept name
                     c1.createConceptName(geneCName, true);
