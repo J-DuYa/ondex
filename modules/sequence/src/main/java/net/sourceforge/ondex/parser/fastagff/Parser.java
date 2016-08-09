@@ -234,7 +234,7 @@ public class Parser extends ONDEXParser {
 					c1.createAttribute(anChromosome, chromosome, false);
 				else {
 					c1.createAttribute(anChromosome, chr_from_scaffold, false);
-					c1.createAttribute(anLocation, chr_from_scaffold, false);
+					c1.createAttribute(anLocation, chromosome, false);
 				}
 
 				ondex2gene.put(geneId, c1.getId());
