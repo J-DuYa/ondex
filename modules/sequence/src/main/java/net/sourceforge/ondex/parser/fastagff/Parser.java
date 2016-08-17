@@ -35,9 +35,7 @@ import net.sourceforge.ondex.parser.ONDEXParser;
 
 /**
  * Parser for GFF3 and FASTA
- * 
  * @author pakk, mcastellote, ajit singh
- *
  */
 public class Parser extends ONDEXParser {
 
@@ -53,7 +51,7 @@ public class Parser extends ONDEXParser {
 
 	@Override
 	public String getVersion() {
-		return "02/08/2016";
+		return "16/08/2016";
 	}
 
 	@Override
@@ -103,7 +101,7 @@ public class Parser extends ONDEXParser {
 		String taxid = (String) args.getUniqueValue(ArgumentNames.TAXID_ARG);
 		String xref = (String) args.getUniqueValue(ArgumentNames.XREF_ARG);
 		String dsName = (String) args.getUniqueValue(ArgumentNames.DATASOURCE_ARG);
-		System.out.println("TaxID: " + taxid + ", XRef: " + xref + ", DataSource: " + dsName);
+        System.out.println("TaxID: "+ taxid +", XRef: "+ xref +", DataSource: "+ dsName);
 
 		if (md.getDataSource(dsName) != null) {
 			dsConcept = md.getDataSource(dsName);
@@ -125,13 +123,13 @@ public class Parser extends ONDEXParser {
 
 		// parse GFF lines and create Gene concepts
 		// ----------------------------------------
-		System.out.println("Parsing GFF3 file...");
+        System.out.println("Parsing GFF3 file...");
 		String GFFFilePath = (String) args.getUniqueValue(ArgumentNames.GFF_ARG);
 		File gffFile = null;
 		FileReader fr = null;
 		BufferedReader br = null;
 		// create Hashmaps for gene properties retrieved from the gff3 file
-		HashMap<String, String> geneProps = new HashMap<String, String>();
+         HashMap<String,String> geneProps = new HashMap<String,String>();
 
 		try {
 
