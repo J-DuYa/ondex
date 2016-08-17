@@ -58,7 +58,7 @@ public class Parser extends ONDEXParser {
 
 	@Override
 	public String getVersion() {
-		return "02/08/2016";
+		return "16/08/2016";
 	}
 
 	@Override
