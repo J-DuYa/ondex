@@ -3,11 +3,7 @@ package net.sourceforge.ondex.parser.fastagff;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.ondex.annotations.Authors;
 import net.sourceforge.ondex.annotations.Custodians;
@@ -27,21 +23,24 @@ import net.sourceforge.ondex.core.ONDEXGraphMetaData;
 import net.sourceforge.ondex.core.RelationType;
 import net.sourceforge.ondex.parser.ONDEXParser;
 
-
 @Status(description = "Parser for Genes and Proteins using GFF3 (for genes), FASTA (for proteins) and mapping files [optional] (Martin Castellote)", status = StatusType.EXPERIMENTAL)
-@Authors(authors = {"Martin Castellote"}, emails = {"castellotemartin@yahoo.com.ar"})
-// @DatabaseTarget(name = "PGSC", description = "PGSC files", version = "3.4", url = "http://solanaceae.plantbiology.msu.edu/pgsc_download.shtml")
-@DataURL(name = "GFF3, FASTA and Mapping",
-        description = "Gene annotation for v2.1.11 Pseudomolecules in GFF3 format \n Amino acid sequences corresponding to all gene coding sequences \n Linking file between gene ID, and peptide ID",
-        urls = {"http://solanaceae.plantbiology.msu.edu/data/PGSC_DM_v3_2.1.11_pseudomolecule_annotation.gff.zip",
-                "http://solanaceae.plantbiology.msu.edu/data/PGSC_DM_v3.4_pep.fasta.zip",
-                "http://solanaceae.plantbiology.msu.edu/data/PGSC_DM_v3.4_g2t2c2p2func.txt.zip"})
-@Custodians(custodians = {"Keywan Hassani-pak"}, emails = {"keywan at users.sourceforge.net"})
+@Authors(authors = { "Martin Castellote" }, emails = { "castellotemartin@yahoo.com.ar" })
+// @DatabaseTarget(name = "PGSC", description = "PGSC files", version = "3.4",
+// url = "http://solanaceae.plantbiology.msu.edu/pgsc_download.shtml")
+@DataURL(name = "GFF3, FASTA and Mapping", description = "Gene annotation for v2.1.11 Pseudomolecules in GFF3 format \n Amino acid sequences corresponding to all gene coding sequences \n Linking file between gene ID, and peptide ID", urls = {
+		"http://solanaceae.plantbiology.msu.edu/data/PGSC_DM_v3_2.1.11_pseudomolecule_annotation.gff.zip",
+		"http://solanaceae.plantbiology.msu.edu/data/PGSC_DM_v3.4_pep.fasta.zip",
+		"http://solanaceae.plantbiology.msu.edu/data/PGSC_DM_v3.4_g2t2c2p2func.txt.zip" })
+@Custodians(custodians = { "Keywan Hassani-pak" }, emails = { "keywan at users.sourceforge.net" })
 
 /**
  * Parser for GFF3 and FASTA
  * 
+<<<<<<< .working
  * @author mcastellote, ajit singh
+=======
+ * @author pakk, mcastellote, ajit singh
+>>>>>>> .merge-right.r19365
  *
  */
 public class Parser extends ONDEXParser {
@@ -63,26 +62,34 @@ public class Parser extends ONDEXParser {
 
 	@Override
 	public ArgumentDefinition<?>[] getArgumentDefinitions() {
-		return new ArgumentDefinition<?>[]{
-				new FileArgumentDefinition(ArgumentNames.GFF_ARG, "Absolute path to a GFF3 input file with 9 columns. It uses 1)chromosome id, 4)start, 5)end and 9)gene id and gene description i.e. \"ID=PGSC0003DMG400030251;Name=\"\"Conserved gene of unknown function\"\"\" ", true, true, false, false),
-				new FileArgumentDefinition(ArgumentNames.FASTA_ARG, "Absolute path to a FASTA input file with protein secuences", true, true, false, false),
-				new FileArgumentDefinition(ArgumentNames.MAPPING_ARG, "Absolute path to a mapping input file which provides mapping relationsship between the GFF and the FASTA file. It should contain two columns: 2) gene id and 4) protein id", false, true, false, false),
+		return new ArgumentDefinition<?>[] {
+				new FileArgumentDefinition(ArgumentNames.GFF_ARG,
+						"Absolute path to a GFF3 input file with 9 columns. It uses 1)chromosome id, 4)start, 5)end and 9)gene id and gene description i.e. \"ID=PGSC0003DMG400030251;Name=\"\"Conserved gene of unknown function\"\"\" ",
+						true, true, false, false),
+				new FileArgumentDefinition(ArgumentNames.FASTA_ARG,
+						"Absolute path to a FASTA input file with protein secuences", true, true, false, false),
+				new FileArgumentDefinition(ArgumentNames.MAPPING_ARG,
+						"Absolute path to a mapping input file which provides mapping relationsship between the GFF and the FASTA file. It should contain two columns: 2) gene id and 4) protein id",
+						false, true, false, false),
 				new StringArgumentDefinition(ArgumentNames.TAXID_ARG, ArgumentNames.TAXID_ARG_DESC, true, null, false),
 				new StringArgumentDefinition(ArgumentNames.XREF_ARG, ArgumentNames.XREF_ARG_DESC, true, null, false),
-				new StringArgumentDefinition(ArgumentNames.DATASOURCE_ARG, ArgumentNames.DATASOURCE_ARG_DESC, true, null, false),
-				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_GENE, ArgumentNames.MAPPING_GENE_DESC, true, 1, 0, 10),
-				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_PROTEIN, ArgumentNames.MAPPING_PROTEIN_DESC, true, 3, 0, 10)
-		};
+				new StringArgumentDefinition(ArgumentNames.DATASOURCE_ARG, ArgumentNames.DATASOURCE_ARG_DESC, true,
+						null, false),
+				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_GENE, ArgumentNames.MAPPING_GENE_DESC, true, 1,
+						0, 10),
+				new IntegerRangeArgumentDefinition(ArgumentNames.MAPPING_PROTEIN, ArgumentNames.MAPPING_PROTEIN_DESC,
+						true, 3, 0, 10) };
 
 	}
 
 	@Override
 	public void start() throws Exception {
 
-		//get the metadata
+		// get the metadata
 		ONDEXGraphMetaData md = graph.getMetaData();
 
-		//stores the metadata related with concept classes, relation types, attribute names, evidence type and data source
+		// stores the metadata related with concept classes, relation types,
+		// attribute names, evidence type and data source
 		ConceptClass ccGene = md.getConceptClass(MetaData.CC_GENE);
 		ConceptClass ccProtein = md.getConceptClass(MetaData.CC_PROTEIN);
 		RelationType rtEncodes = md.getRelationType(MetaData.RT_ENCODES);
@@ -93,37 +100,36 @@ public class Parser extends ONDEXParser {
 		AttributeName anTaxid = md.getAttributeName(MetaData.AN_TAXID);
 		AttributeName anSecuenceAA = md.getAttributeName(MetaData.AN_AA);
 		EvidenceType etIMPD = md.getEvidenceType(MetaData.ET_IMPD);
-		DataSource dsConcept = null;		
+		DataSource dsConcept = null;
 		DataSource dsAccession = null;
 
-		//saves taxid and data source name into variables
+		// saves taxid and data source name into variables
 		String taxid = (String) args.getUniqueValue(ArgumentNames.TAXID_ARG);
 		String xref = (String) args.getUniqueValue(ArgumentNames.XREF_ARG);
 		String dsName = (String) args.getUniqueValue(ArgumentNames.DATASOURCE_ARG);
         System.out.println("TaxID: "+ taxid +", XRef: "+ xref +", DataSource: "+ dsName);
 
-
-		if(md.getDataSource(dsName) != null){
+		if (md.getDataSource(dsName) != null) {
 			dsConcept = md.getDataSource(dsName);
-		}else{
+		} else {
 			dsConcept = md.createDataSource(dsName, dsName, dsName);
-			System.out.println("New data source object was created: "+ dsName);
+			System.out.println("New data source object was created: " + dsName);
 		}
-		
-		if(md.getDataSource(xref) != null){
-			dsAccession = md.getDataSource(xref);
-		}else{
-			dsAccession = md.createDataSource(xref, xref, xref);
-			System.out.println("New data source object was created: "+ xref);
-		}
-		
-		//creates hashmaps between ondex and concept classes
-		HashMap<String,Integer> ondex2gene = new HashMap<String,Integer>();
-		HashMap<String,Integer> ondex2protein = new HashMap<String,Integer>();
 
-		
-		//parse GFF lines and create Gene concepts
-		//----------------------------------------
+		if (md.getDataSource(xref) != null) {
+			dsAccession = md.getDataSource(xref);
+		} else {
+			dsAccession = md.createDataSource(xref, xref, xref);
+			System.out.println("New data source object was created: " + xref);
+		}
+
+		// creates hashmaps between ondex and concept classes
+		HashMap<String, Integer> ondex2gene = new HashMap<String, Integer>();
+		HashMap<String, Integer> ondex2protein = new HashMap<String, Integer>();
+
+		// parse GFF lines and create Gene concepts
+		// ----------------------------------------
+		System.out.println("Parsing GFF3 file...");
         System.out.println("Parsing GFF3 file...");
 		String GFFFilePath = (String) args.getUniqueValue(ArgumentNames.GFF_ARG);
 		File gffFile = null;
@@ -134,78 +140,85 @@ public class Parser extends ONDEXParser {
 
 		try {
 
-			gffFile = new File (GFFFilePath);
-			fr = new FileReader (gffFile);
+			gffFile = new File(GFFFilePath);
+			fr = new FileReader(gffFile);
 			br = new BufferedReader(fr);
 
-			//Analyze the GFF file
+			// Analyze the GFF file
 			String row;
-			int missingChr = 0;
-			while((row = br.readLine())!=null){
+			while ((row = br.readLine()) != null) {
 				String[] splited = row.split("\t");
-				
-				if(splited.length < 2 || !(splited[2].toLowerCase().contains("gene"))){
+
+				// skip non-gene or pseudogene features but include ncRNA_gene
+				// or similar
+				if (row.startsWith("#") || splited.length < 2 || splited[2].toLowerCase().equals("pseudogene")
+						|| !(splited[2].toLowerCase().contains("gene"))) {
 					continue;
 				}
-				
-				
+
 				String geneId = "";
 				String geneDescription = "";
-                String geneCName= null;
-                // Remove gene: from TAB column
-                splited[8]= splited[8].replaceAll("gene:", "");
-                
-				if(splited[8].contains(";")) {
-					String[] col= splited[8].split(";");
-                    System.out.println("Storing all properties from gff3 in a Hashmap...");
-                    for (String col1 : col) {
-                         String[] gene_props= col1.split("=");
-                         geneProps.put(gene_props[0].toUpperCase(), gene_props[1]);
-                        }
-//					geneId = col[0].split("=")[1].toUpperCase();
-//					geneDescription = col[1].split("=")[1].toUpperCase();
-					geneId= geneProps.get("ID");
+				String geneCName = null;
+				String biotype = "";
+				// Remove gene: from TAB column
+				splited[8] = splited[8].replaceAll("gene:", "");
+
+				if (splited[8].contains(";")) {
+					String[] col = splited[8].split(";");
+					for (String col1 : col) {
+						String[] gene_props = col1.split("=");
+						geneProps.put(gene_props[0].toUpperCase(), gene_props[1]);
+					}
+					// geneId = col[0].split("=")[1].toUpperCase();
+					// geneDescription = col[1].split("=")[1].toUpperCase();
+					geneId = geneProps.get("ID");
 					geneDescription = geneProps.get("DESCRIPTION");
-					geneCName= geneProps.get("NAME");
-				}else{
+					geneCName = geneProps.get("NAME");
+					biotype = geneProps.get("BIOTYPE");
+				} else {
 					geneId = splited[8].split("=")[1].toUpperCase();
 					geneDescription = splited[8].split("=")[1];
 				}
-                // test
-                /*System.out.println("geneProps hashmap contents:");
-                for(String key: geneProps.keySet()) {
-                    System.out.println(key +": "+ geneProps.get(key).toUpperCase());
-                   }*/
-                /*System.out.print("geneId= "+ geneId +", \t");
-                System.out.print("geneCName= "+ geneCName +", \t");
-                System.out.println("geneDescription= "+ geneDescription);*/
 
-		//Standarize the name of the chromosome
-		String geneLocation = splited[0];
-				
-                Pattern p= Pattern.compile("\\d+");
-                Matcher m= p.matcher(splited[0]);
+				String chromosome = splited[0];
 
-                List<String> values = new ArrayList<String>();
-                while(m.find()){
-                       values.add(m.group());
-                }
-                
-                String geneChrName = "0";
-                
-                if (values.size() == 0){
-                       missingChr++;
-                }
-                else {
-                	//everything which is higher than 99 or equals NA is not a chromosome
-                	 if ((values.get(0).length() > 2) || values.equals("NA")){
-                         geneChrName = "0";
-                		 missingChr++;
-                     }
-                	 else {
-                		 geneChrName = values.get(0);
-                	 }
-                }
+				// Pattern p = Pattern.compile("\\d+");
+				// Matcher m = p.matcher(col0);
+				//
+				// List<String> values = new ArrayList<String>();
+				// while (m.find()) {
+				// values.add(m.group());
+				// }
+				//
+				// if (values.size() == 0){
+				// missingChr++;
+				// }
+				// else {
+				// //everything which is higher than 99 or equals NA is not a
+				// chromosome
+				// if ((values.get(0).length() > 2) || values.equals("NA")){
+				// geneChrName = "0";
+				// missingChr++;
+				// }
+				// else {
+				// geneChrName = values.get(0);
+				// }
+				// }
+
+				/*
+				 * For chromosomes in Wheat gff3 file Added 04/08/2016
+				 */
+				String chr_from_scaffold = null;
+				if (chromosome.contains("_")) {
+					String[] chrArr = splited[0].split("_");
+					if (chrArr[chrArr.length - 1].length() <= 2) {
+						chr_from_scaffold = chrArr[chrArr.length - 1];
+					} else {
+						// geneLocation= chrArr[chrArr.length-1].substring(0,2);
+						// geneChrName= chrArr[chrArr.length-1].substring(0,1);
+						chr_from_scaffold = chrArr[chrArr.length - 1].substring(0, 2);
+					}
+				}
                 
                 /* For chromosomes in Wheat gff3 file
                  * Added 04/08/2016
@@ -222,46 +235,44 @@ public class Parser extends ONDEXParser {
                      }
                   }
 
-		//Integer geneChr = Integer.parseInt(geneChrName);
-		Integer geneBegin = Integer.parseInt(splited[3]);
-		Integer geneEnd = Integer.parseInt(splited[4]);
-                System.out.print("gff3: Location:"+ geneLocation +", \t");
-                System.out.println("Chromosome:"+ geneChrName);
-        //        System.out.println("dsConcept: "+ dsConcept.getFullname());
-        //        System.out.println("evidenceType: "+ etIMPD.toString());
+				// Integer geneChr = Integer.parseInt(geneChrName);
+				Integer geneBegin = Integer.parseInt(splited[3]);
+				Integer geneEnd = Integer.parseInt(splited[4]);
 
-		ONDEXConcept c1 = graph.getFactory().createConcept(geneId, "", ""/*geneDescription*/, dsConcept, ccGene, etIMPD);
-		c1.createConceptName(geneId, true);
-		if(geneCName != null) { // add 2nd preferred concept name
-                    c1.createConceptName(geneCName, true);
-                   }
+				ONDEXConcept c1 = graph.getFactory().createConcept(geneId, biotype, "", dsConcept, ccGene, etIMPD);
+				c1.createConceptName(geneId, true);
+				if (geneCName != null) { // add 2nd preferred concept name
+					c1.createConceptName(geneCName, true);
+				}
 
-		c1.createConceptAccession(geneId, dsAccession, false);
-		c1.createAttribute(anTaxid, taxid, false);
-		c1.createAttribute(anChromosome, /*geneChr*/geneChrName, false); // integer Chromosome
-		c1.createAttribute(anLocation, geneLocation, false); // string Location
-		c1.createAttribute(anBegin, geneBegin, false);
-		c1.createAttribute(anEnd, geneEnd, false);
-		ondex2gene.put(geneId, c1.getId());
-	       }
-	    System.out.println("Amount of missing chromosomes: "+missingChr);
-	   }
-	  catch(Exception e) {
-	         e.printStackTrace();
-		}
-          finally {
-			try{                    
-				if( null != fr ){   
-					fr.close();     
-				}                  
-			}catch (Exception e2){ 
+				c1.createConceptAccession(geneId, dsAccession, false);
+				c1.createAttribute(anTaxid, taxid, false);
+				c1.createAttribute(anBegin, geneBegin, false);
+				c1.createAttribute(anEnd, geneEnd, false);
+
+				if (chr_from_scaffold == null)
+					c1.createAttribute(anChromosome, chromosome, false);
+				else {
+					c1.createAttribute(anChromosome, chr_from_scaffold, false);
+					c1.createAttribute(anLocation, chromosome, false);
+				}
+
+				ondex2gene.put(geneId, c1.getId());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fr) {
+					fr.close();
+				}
+			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 
-		
-		//parse FASTA and create protein concepts
-		//---------------------------------------
+		// parse FASTA and create protein concepts
+		// ---------------------------------------
 		String FASTAFilePath = (String) args.getUniqueValue(ArgumentNames.FASTA_ARG);
 		File FASTAFile = null;
 		FileReader FASTAfr = null;
@@ -269,27 +280,28 @@ public class Parser extends ONDEXParser {
 
 		try {
 
-			FASTAFile = new File (FASTAFilePath);
-			FASTAfr = new FileReader (FASTAFile);
+			FASTAFile = new File(FASTAFilePath);
+			FASTAfr = new FileReader(FASTAFile);
 			FASTAbr = new BufferedReader(FASTAfr);
 
-			//Analyze the GFF file
+			// Analyze the GFF file
 			String FASTArow;
 			String secuenceName = "";
 			String secuence = "";
-			while((FASTArow = FASTAbr.readLine())!=null){
-				if(FASTArow.isEmpty())
+			while ((FASTArow = FASTAbr.readLine()) != null) {
+				if (FASTArow.isEmpty())
 					continue;
-				if(FASTArow.substring(0, 1).equals(">")){
-					if(!secuenceName.isEmpty()){
-						//creates protein concept when find the next > symbol
-						ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein, etIMPD);
+				if (FASTArow.substring(0, 1).equals(">")) {
+					if (!secuenceName.isEmpty()) {
+						// creates protein concept when find the next > symbol
+						ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein,
+								etIMPD);
 						c2.createConceptName(secuenceName, true);
-						c2.createConceptAccession(secuenceName, dsAccession, false);	    	     		 
+						c2.createConceptAccession(secuenceName, dsAccession, false);
 						c2.createAttribute(anSecuenceAA, secuence, false);
 						c2.createAttribute(anTaxid, taxid, false);
 						ondex2protein.put(secuenceName, c2.getId());
-						//saves the new secuence name and clears de secuence	    	        			 
+						//saves the new secuence name and clears the secuence	    	        			 
 						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1);//.toUpperCase();
 						secuence = "";
 					} else {
@@ -297,125 +309,126 @@ public class Parser extends ONDEXParser {
 						secuenceName = FASTArow.split("\\s|\\|")[0].substring(1);//.toUpperCase();	        			 	        			 
 					}
 				} else {
-					//concate the secuence to the current secuence name
-					secuence = secuence.concat(FASTArow);	        		 
+					// concate the secuence to the current secuence name
+					secuence = secuence.concat(FASTArow);
 				}
 			}
-			//creates the last protein concept			 
+			// creates the last protein concept
 			ONDEXConcept c2 = graph.getFactory().createConcept(secuenceName, "", "", dsConcept, ccProtein, etIMPD);
 			c2.createConceptName(secuenceName, true);
-			c2.createConceptAccession(secuenceName, dsConcept, false);	    	     		 
+			c2.createConceptAccession(secuenceName, dsConcept, false);
 			c2.createAttribute(anSecuenceAA, secuence, false);
 			ondex2protein.put(secuenceName, c2.getId());
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 
-			try{                    
-				if( null != fr ){   
-					FASTAfr.close();     
-				}                  
-			}catch (Exception e2){ 
+			try {
+				if (null != fr) {
+					FASTAfr.close();
+				}
+			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 
-		//parse mapping file and create relations
-		//---------------------------------------
+		// parse mapping file and create relations
+		// ---------------------------------------
+		System.out.println("Parse Mapping file, if exists...");
 		System.out.println("Parse Mapping file, if exists...");
 		String MappingFilePath = null;
 		MappingFilePath = (String) args.getUniqueValue(ArgumentNames.MAPPING_ARG);
-		if(!(MappingFilePath == null)){			
+		if (!(MappingFilePath == null)) {
 			int geneColumn = Integer.parseInt(args.getUniqueValue(ArgumentNames.MAPPING_GENE).toString());
 			int proteinColumn = Integer.parseInt(args.getUniqueValue(ArgumentNames.MAPPING_PROTEIN).toString());
 			File MappingFile = null;
 			FileReader Mappingfr = null;
 			BufferedReader Mappingbr = null;
-	
+
 			try {
-				MappingFile = new File (MappingFilePath);
-				Mappingfr = new FileReader (MappingFile);
+				MappingFile = new File(MappingFilePath);
+				Mappingfr = new FileReader(MappingFile);
 				Mappingbr = new BufferedReader(Mappingfr);
-	
-				//Analyze the GFF file 
-				Integer missingGenes = 0;     //TODO Check if we have a newer version of gff file!!!!!
+
+				// Analyze the GFF file
+				Integer missingGenes = 0; // TODO Check if we have a newer
+											// version of gff file!!!!!
 				Integer missingProteins = 0;
 				String Mappingrow;
-				while((Mappingrow = Mappingbr.readLine())!=null){
+				while ((Mappingrow = Mappingbr.readLine()) != null) {
 					String[] splited = Mappingrow.split("\t");
-	
+
 					String geneId = splited[geneColumn];
 					String proteinId = splited[proteinColumn];
-					
-					if (ondex2protein.get(proteinId) == null){
+
+					if (ondex2protein.get(proteinId) == null) {
 						missingProteins++;
 						continue;
 					}
-					if (ondex2gene.get(geneId) == null){
-						missingGenes++;	        		
+					if (ondex2gene.get(geneId) == null) {
+						missingGenes++;
 						continue;
 					}
-					
+
 					int ondexGeneId = ondex2gene.get(geneId);
 					int ondexProteinId = ondex2protein.get(proteinId);
-	
+
 					ONDEXConcept geneCocnept = graph.getConcept(ondexGeneId);
 					ONDEXConcept proteinCocnept = graph.getConcept(ondexProteinId);
-	
-					graph.getFactory().createRelation(geneCocnept, proteinCocnept, rtEncodes, etIMPD);			
+
+					graph.getFactory().createRelation(geneCocnept, proteinCocnept, rtEncodes, etIMPD);
 
 				}
-				System.out.println("Amount of missing genes: "+missingGenes);
-				System.out.println("Amount of missing proteins: "+missingProteins);			
-			}
-			catch(Exception e){
+				System.out.println("Amount of missing genes: " + missingGenes);
+				System.out.println("Amount of missing proteins: " + missingProteins);
+			} catch (Exception e) {
 				e.printStackTrace();
-			}finally{
-	
-				try{                    
-					if( null != fr ){   
-						Mappingfr.close();     
-					}                  
-				}catch (Exception e2){ 
+			} finally {
+
+				try {
+					if (null != fr) {
+						Mappingfr.close();
+					}
+				} catch (Exception e2) {
 					e2.printStackTrace();
 				}
 			}
-		}else{ 
-			//If mapping file is not provided
-			Integer missingGenes = 0;   
+		} else {
+			// If mapping file is not provided
+			Integer missingGenes = 0;
 			Integer missingProteins = 0;
 			System.out.println("mapping file not provided...");
-			//System.out.println("geneIDs in ondex2gene: "+ ondex2gene.keySet());
-			for(String pAcc : ondex2protein.keySet()){
+			// System.out.println("geneIDs in ondex2gene: "+
+			// ondex2gene.keySet());
+			for (String pAcc : ondex2protein.keySet()) {
 				int ondexGeneId;
 				int ondexProteinId;
-				
-				//System.out.println("ondex2gene.get("+ pAcc.split("\\.")[0] +"): "+ ondex2gene.get(pAcc.split("\\.")[0]));
-				if((ondex2gene.get(pAcc) != null) || (ondex2gene.get(pAcc.split("\\.")[0]) != null)){
+
+				// System.out.println("ondex2gene.get("+ pAcc.split("\\.")[0]
+				// +"): "+ ondex2gene.get(pAcc.split("\\.")[0]));
+				if ((ondex2gene.get(pAcc) != null) || (ondex2gene.get(pAcc.split("\\.")[0]) != null)) {
 					ondexProteinId = ondex2protein.get(pAcc);
 					if (ondex2gene.containsKey(pAcc)) {
 						ondexGeneId = ondex2gene.get(pAcc);
-					}
-					else {
+					} else {
 						ondexGeneId = ondex2gene.get(pAcc.split("\\.")[0]);
 						System.out.println("Trimmed ondexGeneId: "+ ondexGeneId);
 					}
-				//	System.out.println("ondexGeneId retrieved: "+ ondexGeneId);
-				}
-				else {
-					missingGenes++;	        		
+					// System.out.println("ondexGeneId retrieved: "+
+					// ondexGeneId);
+				} else {
+					missingGenes++;
 					continue;
 				}
 
 				ONDEXConcept geneCocnept = graph.getConcept(ondexGeneId);
 				ONDEXConcept proteinCocnept = graph.getConcept(ondexProteinId);
 
-				graph.getFactory().createRelation(geneCocnept, proteinCocnept, rtEncodes, etIMPD);								
+				graph.getFactory().createRelation(geneCocnept, proteinCocnept, rtEncodes, etIMPD);
 			}
 			System.out.println("Mapping File Not Provided");
-			System.out.println("Amount of missing genes: "+missingGenes);
-			System.out.println("Amount of missing proteins: "+missingProteins);	
+			System.out.println("Amount of missing genes: " + missingGenes);
+			System.out.println("Amount of missing proteins: " + missingProteins);
 		}
 	}
 
