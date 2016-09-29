@@ -7,6 +7,8 @@ import net.sourceforge.ondex.core.ConceptAccession;
 import net.sourceforge.ondex.core.ConceptName;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import org.json.simple.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  * Build node json objects using their various attributes.
@@ -95,17 +97,36 @@ public class AddConceptNodeInfo {
      }
 //    System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
    }
-//  System.out.println("AddConceptNodeInfo: conceptID: "+ conceptID +", name: "+ conceptName +", type: "+ conceptType);
+  System.out.println("AddConceptNodeInfo: conceptID: "+ conceptID +", type: "+ conceptType +", name: "+ conceptName);
 
   String conceptShape;
   String conceptColour;
   String conceptSize= "18px"; // default.
   String conceptVisibility= defaultVisibility; // default (element, i.e., true).
 
+  /* Check if concept Name (value) is highlighted via HTML span tags.
+   * If yes (html span tag present), strip html <span> tags and highlight background */
+  String val= conceptName;
+  String concept_text_bgColor= "black", concept_text_bgOpacity= "0";
+  if(conceptName.contains("<span")) {
+     //val= "<html>"+ conceptName +"</html>";
+     concept_text_bgColor= "gold";
+     concept_text_bgOpacity= "1";
+     // remove all html content (including <span> tags) from conceptName to be displayed
+     Document doc = Jsoup.parse(val);
+     val= doc.text(); //doc.select("span").remove().toString();
+    }
+  // Trim the label's (conceptName) length.
+  if(val.length()>30) { val= val.substring(0, 29) +"...";}
+  System.out.println("concept: trimmed displayValue: "+ val);
+  
   nodeData.put(JSONAttributeNames.ID, conceptID);
   nodeData.put(JSONAttributeNames.VALUE, conceptName);
   nodeData.put("conceptType", conceptType); // conceptType ("ofType").  
   nodeData.put(JSONAttributeNames.PID, con.getPID());
+  nodeData.put("displayValue", val);
+  nodeData.put("conceptTextBGcolor", concept_text_bgColor);
+  nodeData.put("conceptTextBGopacity", concept_text_bgOpacity);
   nodeData.put(JSONAttributeNames.ANNOTATION, con.getAnnotation().replaceAll("(\\r|\\n)", " "));
   // Set the shape, color & visibility attributes for this Concept.
   String[] nodeAttributes= determineNodeColourAndShape(conceptType);
@@ -122,47 +143,7 @@ public class AddConceptNodeInfo {
   else {
      conceptVisibility= ElementVisibility.none.toString();
 //     System.out.println("ConceptID: "+ conId +" , visibleDisplay: "+ conceptVisibility);
-    }*/
 
-  // Set concept visibility, concept size (height & width) & flagged status from Attributes.
-  String attrID, visibility, flagged= "false";
-  int con_size;
-  Set<Attribute> concept_attributes= con.getAttributes(); // get all concept Attributes.
-  for(Attribute attr : concept_attributes) {
-      attrID= attr.getOfType().getId(); // Attribute ID.
-      if(attrID.equals("")) {
-         attrID= attr.getOfType().getFullname();
-        }
-
-      if(attrID.equals("visible")) { // set visibility.
-         visibility= attr.getValue().toString();
-         if(visibility.equals("false")) {
-            conceptVisibility= ElementVisibility.none.toString();
-           }
-         else {
-           conceptVisibility= ElementVisibility.element.toString();
-          }
-        }
-      else if(attrID.equals("size")) { // set size.
-              con_size= Integer.parseInt(attr.getValue().toString());
-              if(con_size > 18 && con_size <= 30) {
-                 con_size= 22;
-                }
-              else if(con_size > 30) {
-                      con_size= 26;
-                     }
-//              conceptSize= attr.getValue().toString() +"px";
-              conceptSize= String.valueOf(con_size) +"px";
-             }
-
-      else if(attrID.equals("flagged")) { // set flagged status.
-              flagged= attr.getValue().toString(); // true
-             }
-     }
-
-  nodeData.put("conceptDisplay", conceptVisibility);
-  nodeData.put("conceptSize", conceptSize);
-  nodeData.put("flagged", flagged);
 
   node.put("data", nodeData); // the node's data.
   node.put("group", "nodes"); // Grouping nodes together
@@ -300,3 +281,47 @@ public class AddConceptNodeInfo {
     }
 
 }
+    }*/
+
+  // Set concept visibility, concept size (height & width) & flagged status from Attributes.
+  String attrID, visibility, flagged= "false";
+  int con_size;
+  Set<Attribute> concept_attributes= con.getAttributes(); // get all concept Attributes.
+  for(Attribute attr : concept_attributes) {
+      attrID= attr.getOfType().getId(); // Attribute ID.
+      if(attrID.equals("")) {
+         attrID= attr.getOfType().getFullname();
+        }
+
+      if(attrID.equals("visible")) { // set visibility.
+         visibility= attr.getValue().toString();
+         if(visibility.equals("false")) {
+            conceptVisibility= ElementVisibility.none.toString();
+           }
+         else {
+           conceptVisibility= ElementVisibility.element.toString();
+          }
+        }
+      else if(attrID.equals("size")) { // set size.
+              con_size= Integer.parseInt(attr.getValue().toString());
+              if(con_size > 18 && con_size <= 30) {
+                 con_size= 22;
+                }
+              else if(con_size > 30) {
+                      con_size= 26;
+                     }
+//              conceptSize= attr.getValue().toString() +"px";
+              conceptSize= String.valueOf(con_size) +"px";
+             }
+
+      else if(attrID.equals("flagged")) { // set flagged status.
+              flagged= attr.getValue().toString(); // true
+             }
+     }
+  // Flagged gene: visual attributes
+  String concept_borderStyle= "solid", concept_borderWidth= "1px", concept_borderColor= "black";
+  if(flagged.equals("true")) {
+     concept_borderStyle= "double";
+     concept_borderWidth= "3px";
+     concept_borderColor= "navy";
+    }
