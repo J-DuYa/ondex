@@ -118,7 +118,7 @@ public class AddConceptNodeInfo {
     }
   // Trim the label's (conceptName) length.
   if(val.length()>30) { val= val.substring(0, 29) +"...";}
-  System.out.println("concept: trimmed displayValue: "+ val);
+  //System.out.println("concept: trimmed displayValue: "+ val);
   
   nodeData.put(JSONAttributeNames.ID, conceptID);
   nodeData.put(JSONAttributeNames.VALUE, conceptName);
