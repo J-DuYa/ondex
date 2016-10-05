@@ -101,6 +101,7 @@ public class Export extends ONDEXExport {
            throw new IOException("Failed to write Attribute values", ex);
 	  }
 
+     System.out.println("JSON export completed...");
      fireEventOccurred(new GeneralOutputEvent("Finished JSON Export.", "[Export - start]"));
     }
 
