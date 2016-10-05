@@ -97,7 +97,7 @@ public class AddConceptNodeInfo {
      }
 //    System.out.println("\t \t Selected (preferred) concept Name: "+ conceptName +"\n");
    }
-  System.out.println("AddConceptNodeInfo: conceptID: "+ conceptID +", type: "+ conceptType +", name: "+ conceptName);
+  //System.out.println("AddConceptNodeInfo: conceptID: "+ conceptID +", type: "+ conceptType +", name: "+ conceptName);
 
   String conceptShape;
   String conceptColour;
