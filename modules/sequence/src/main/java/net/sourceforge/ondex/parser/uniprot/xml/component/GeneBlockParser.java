@@ -44,7 +44,7 @@ public class GeneBlockParser extends AbstractBlockParser {
 					Protein.getInstance().addName(value);
 				} else if (type.equalsIgnoreCase(ORD_LOC)) {
 					// TODO: this is a hack, might change in future
-					if (value.startsWith("Os")) {
+				/*	if (value.startsWith("Os")) {
 						Protein.getInstance().addAccession(MetaData.CV_TIGR,
 								value);
 						Protein.getInstance().addAccession(MetaData.CV_TIGR,
@@ -55,12 +55,12 @@ public class GeneBlockParser extends AbstractBlockParser {
 					} else if (value.startsWith("Y") && !value.contains("_")) {
 						Protein.getInstance().addAccession(MetaData.CV_SGD,
 								value);
-					}
+					}*/
 					Protein.getInstance().addName(value);
 				} else if (type.equalsIgnoreCase(ORF)) {
 					// ORF are somewhat equivalent to accessions but only in the
 					// same genome
-					Protein.getInstance().addAccession("LOCUSTAG", value);
+				//	Protein.getInstance().addAccession("LOCUSTAG", value);
 				} else {
 					Protein.getInstance().addName(value);
 				}

@@ -171,9 +171,9 @@ public class Transformer {
         umambigProtinMetaData = new HashSet<String>();
         umambigProtinMetaData.add(MetaData.CV_UniProt);
         umambigProtinMetaData.add(MetaData.CV_ENSEMBL);
-        umambigProtinMetaData.add(MetaData.CV_EMBL);
-        umambigProtinMetaData.add(MetaData.CV_RefSeq);
-        umambigProtinMetaData.add(MetaData.CV_PIR);
+      //  umambigProtinMetaData.add(MetaData.CV_EMBL);
+      //  umambigProtinMetaData.add(MetaData.CV_RefSeq);
+      //  umambigProtinMetaData.add(MetaData.CV_PIR);
     }
 
 
@@ -217,6 +217,7 @@ public class Transformer {
             Iterator<String> itacc = protein.getAccessions().get(cvName).iterator();
             while (itacc.hasNext()) {
                 String value = itacc.next().trim();
+                System.out.println("itAcc: "+ value +", ds:"+ dataSource.getId() +",cv:"+ cvName);
 
                 if (dataSource != null && value != null && value.length() > 0) {
                     if (dataSource.getId().equals(MetaData.CV_EC)) {
@@ -257,6 +258,7 @@ public class Transformer {
 //            lookForTAIRAccession(dbLink.getAccession().trim(), proteinConcept);
             if ((dataSource = dataSources.get(dbLink.getDbName().toUpperCase())) != null) {
                 String value = dbLink.getAccession().trim();
+                System.out.print("DbLink: value:"+ value +", ds:"+ dataSource.getId());
                 if (value.length() > 0 && proteinConcept.getConceptAccession(value, dataSource) == null)
 
                     if (dataSource.getId().equals(MetaData.CV_EC)) {
@@ -267,9 +269,11 @@ public class Transformer {
                         lookforGOAccessions(dbLink, proteinConcept);
                     } else if (umambigProtinMetaData.contains(dataSource.getId())) {
                         proteinConcept.createConceptAccession(value, dataSource, false);
-                    } else {
-                        proteinConcept.createConceptAccession(value, dataSource, true);
+                        System.out.print("value:"+ value);
+                    } else { // for others like InterPro, PFAM
+                       // proteinConcept.createConceptAccession(value, dataSource, true);
                     }
+             // ToDo: for others like InterPro, PFAM, create concepts & relations like in OMIM, GO above
                 
                 //handle DBs that can have a locus as id (e.g. LOC_Os02g15760.1, AT1G12345.2)
                 if(dataSource.getId().equals(MetaData.CV_TAIR) ||
