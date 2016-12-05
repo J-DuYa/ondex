@@ -176,6 +176,7 @@ public class XMLParser {
 				limit = 1;
 			}
 		}
+		System.out.println("parsePummedID>> accessions: "+ accsessions);
 
 		if (limit != 1) {
 
@@ -194,6 +195,7 @@ public class XMLParser {
 			accession = it.next();
 
 			String efetchString = Parser.EFETCH_WS + accession;
+			System.out.println("\t For "+ efetchString +"...");
 
 			URL efetch = new URL(efetchString);
 			HttpURLConnection httpConn = (HttpURLConnection) efetch.openConnection();
@@ -228,6 +230,10 @@ public class XMLParser {
 		Set<Abstract> medlineCitationSet = new HashSet<Abstract>();
 		
 		while (staxXmlReader.hasNext()) {
+			
+			// skip DOCTYPE
+			/*if(staxXmlReader.getEventType() == XMLStreamConstants.DTD) { System.out.println("skip DOCTYPE..."); staxXmlReader.nextTag(); }
+			else {*/
 
 			int event = staxXmlReader.next();
 			String element;
@@ -242,8 +248,8 @@ public class XMLParser {
 					
 				}
 			}
-		}
-		
+		//}
+		} // test else loop
 		staxXmlReader.close();
 		return medlineCitationSet;
 	}
