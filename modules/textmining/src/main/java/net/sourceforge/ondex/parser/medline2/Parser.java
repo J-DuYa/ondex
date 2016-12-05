@@ -41,7 +41,8 @@ public class Parser extends ONDEXParser {
 
 	private static Parser instance;
 	
-	public static String EFETCH_WS = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=";
+	public static String EFETCH_WS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&id=";
+	// changed from http to https to avoid DOCTYPE error
 
     public Parser() {
         instance = this;
@@ -146,6 +147,7 @@ public class Parser extends ONDEXParser {
                         }
                     }
                 }
+                //System.out.println("pmidSet: " + pmidSet.iterator().next());
                 abs.addAll(xmlParser.parsePummedID(pmidSet));
 	            fireEventOccurred(new GeneralOutputEvent(
 	                    "Number of publications found: "+pmidSet.size(), Parser.getCurrentMethodName()));
