@@ -354,8 +354,8 @@
                 <artifactId>jxl</artifactId>
                 <version>2.6.10</version>
             </dependency>
-
         </dependencies>
+        
     </dependencyManagement>
 
 </project>
