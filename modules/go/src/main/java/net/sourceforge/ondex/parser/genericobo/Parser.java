@@ -295,7 +295,7 @@ public class Parser extends ONDEXParser
             	 xRef = new GenericReferenceContainer(graph);
             }
 
-
+/*// xref omitted
             for (int j = 0; j < obo.getRefs().size(); j++) {
                 xRef.setXrefString(obo.getRefs().get(j));
                 xRef.analyseXRef();
@@ -308,7 +308,7 @@ public class Parser extends ONDEXParser
                     }
                 }
             }
-
+*/
             if (oboType.equalsIgnoreCase(MetaData.cvChebi)) {
                 String accession = id.toUpperCase();
                 int prefix = id.indexOf(':');
