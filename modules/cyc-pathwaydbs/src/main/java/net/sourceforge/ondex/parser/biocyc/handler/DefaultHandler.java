@@ -220,8 +220,16 @@ public abstract class DefaultHandler implements MetaData {
 
 		// get current data source
 		DataSource elementOf = findDataSource(uni.getDB());
-		if (DEBUG || c.getConceptAccession(uni.getID(), elementOf) == null)
-			c.createConceptAccession(uni.getID(), elementOf, false);
+		
+		if(elementOf.getId().equalsIgnoreCase("unknown")){
+			System.err.println("DataSource is UNKNOWN");
+			
+		}
+		
+		
+		if ((DEBUG || c.getConceptAccession(uni.getID(), elementOf) == null) && !(elementOf.getId().equalsIgnoreCase("unknown"))){
+				c.createConceptAccession(uni.getID(), elementOf, false);
+		}	
 	}
 
 	/**
@@ -357,12 +365,16 @@ public abstract class DefaultHandler implements MetaData {
 			System.err.println(rel.getRDFId() + " is empty relationshipXref.");
 			return;
 		}
-
-		// get current data source
 		DataSource elementOf = findDataSource(rel.getDB());
-		if (DEBUG || c.getConceptAccession(rel.getID(), elementOf) == null)
+		if ((DEBUG || c.getConceptAccession(rel.getID(), elementOf) == null) && !(elementOf.getId().equalsIgnoreCase("unknown"))){
 			c.createConceptAccession(rel.getID(), elementOf, false);
+		}	
 	}
+		// get current data source
+		
+		//if (DEBUG || c.getConceptAccession(rel.getID(), elementOf) == null)
+			//c.createConceptAccession(rel.getID(), elementOf, false);
+	//}
 
 	/**
 	 * Returns a DataSource, either the specified one derived from a mapping
