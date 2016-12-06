@@ -59,7 +59,7 @@ import net.sourceforge.ondex.args.StringArgumentDefinition;
 @ConceptClassRequired(ids = {MetaData.ccProtein })
 @EvidenceTypeRequired(ids = {MetaData.etIMPD}) 
 @RelationTypeRequired(ids = {MetaData.rtOrtholog, MetaData.rtParalog}) 
-@AttributeNameRequired(ids = {MetaData.atCONF, MetaData.atTaxid})
+@AttributeNameRequired(ids = {MetaData.atCONF, MetaData.atTaxId})
 public class Parser extends ONDEXParser {
 
 	private HashMap<Integer,Integer> ondexConcepts;
@@ -69,8 +69,9 @@ public class Parser extends ONDEXParser {
 	private RelationType rtOrtholog;
 	private RelationType rtParalog;
 	private EvidenceType etIMPD;
-	private AttributeName anTaxId;
+	private AttributeName atTaxId;
 	private AttributeName anConf;
+
 
 
 
@@ -114,9 +115,10 @@ public class Parser extends ONDEXParser {
 		rtOrtholog = md.getRelationType(MetaData.rtOrtholog);
 		rtParalog = md.getRelationType(MetaData.rtParalog);
 		etIMPD = md.getEvidenceType(MetaData.etIMPD);
-		anTaxId = md.getAttributeName(MetaData.atTaxid);
+		atTaxId = md.getAttributeName(MetaData.atTaxId);
 		anConf = md.getAttributeName(MetaData.atCONF);
 
+		
 		ondexConcepts = new HashMap<Integer,Integer>();
 
 		File xmlFile = new File((String) args.getUniqueValue(FileArgumentDefinition.INPUT_FILE));
@@ -155,6 +157,7 @@ public class Parser extends ONDEXParser {
 				else if(element.equals("orthologGroup")){
 					parseClusters(xmlr);
 				}
+					
 			}
 		} // eof
 	}
@@ -170,13 +173,15 @@ public class Parser extends ONDEXParser {
 	private void parseSpecies(XMLStreamReader xmlr) throws XMLStreamException{
 		//<species id="G.lamblia" name="Giardia lamblia" NCBITaxId="184922">
 		String taxId = xmlr.getAttributeValue(null, "NCBITaxId");
+		
 //		System.out.println("TaxID: "+ taxId);
-
+		
 		xmlr.nextTag(); //database
 		// <database name="Sanger" version="TANN.GeneDB.pep" geneLink="http://www.genedb.org/genedb/Search?name=" protLink="http://www.genedb.org/genedb/Search?name=">
 		String db = xmlr.getAttributeValue(null, "name");
 		//map db to Ondex DataSource
 		String cvId = mapDBtoOndexmetaData(db);
+		System.out.println(cvId);
 //		System.out.println("cvId: "+ cvId);
 		
 		DataSource accDataSource = graph.getMetaData().getDataSource(cvId);
@@ -208,63 +213,111 @@ public class Parser extends ONDEXParser {
 				       id= Integer.parseInt(xmlr.getAttributeValue(i));
                                       }
                                     else if(attrName.equals("geneId")) {
-                                            geneId= xmlr.getAttributeValue(i);//.replaceAll("|", ";");
+                                            geneId= xmlr.getAttributeValue(i);
                                       }
                                     else if(attrName.equals("protId")) {
-                                            protId= xmlr.getAttributeValue(i);//.replaceAll("|", ";");
+                                            protId= xmlr.getAttributeValue(i);
                                       }
                                    }
-//                                System.out.println("XML: id: "+ id +", protId: "+ protId +", geneId: "+ geneId);
-//                                System.out.println("dataSourceInparanoid: id= "+ dataSourceInparanoid.getId() +", fullName= "+ dataSourceInparanoid.getFullname() +", toString= "+ dataSourceInparanoid.toString());
-//                                System.out.println("conceptType: "+ ccProtein +", evidenceType: "+ etIMPD);
+                                System.out.println("XML: id: "+ id +", protId: "+ protId +", geneId: "+ geneId);
 
 				if(!ondexConcepts.containsKey(id)){
-/*                                    if(!protId.isEmpty()) {
-                                       if(protId.contains(";")) {
-                                          String[] protIds= protId.split(";");
-                                          for (String protId1 : protIds) {
-                                               String p_id = protId1.trim();
-                                               System.out.println("createConcept: protId: "+ p_id);
-                                               ONDEXConcept c = graph.getFactory().createConcept(p_id, dataSourceInparanoid, ccProtein, etIMPD);
-                                               c.createAttribute(anTaxId, taxId, false);
-                                              }
-                                          }
-                                        else {*/
-                                           ONDEXConcept c = graph.getFactory().createConcept(protId, dataSourceInparanoid, ccProtein, etIMPD);
-					   c.createAttribute(anTaxId, taxId, false);
-//                                          }
-//                                         }
-//					if(!geneId.isEmpty()){
-/*                                            if(geneId.contains(";")) {
-                                               String[] geneIds= geneId.split(";");
-                                                for (String geneId1 : geneIds) {
-                                                     String g_id = geneId1.trim();
-                                                     System.out.println("createCOnceptName: geneId: "+ g_id);
-                                                     c.createConceptName(g_id, false);
-                                                     c.createConceptAccession(g_id, accDataSource, true);
-                                                }
-                                              }
-                                            else {*/
-//						c.createConceptName(geneId, false);
-//						c.createConceptAccession(geneId, accDataSource, true);
-//                                            }
-//					}	
+
+
+					ONDEXConcept c = graph.getFactory().createConcept(protId, dataSourceInparanoid, ccProtein, etIMPD);
+					
+					if(!taxId.isEmpty()){
+						c.createAttribute(atTaxId, taxId, false);						
+					}
+
+					if(geneId != null && !geneId.isEmpty()){
+						//split geneId to single geneId
+						if(geneId.contains(";")){
+							String[] geneIds = geneId.split(";");
+							for(String geneId1 : geneIds) {
+								String g_id = geneId1.trim();
+								c.createConceptName(g_id, false);
+								c.createConceptAccession(g_id, accDataSource, false);
+							}
+							
+						}
+						else {
+							c.createConceptName(geneId, false);
+							c.createConceptAccession(geneId, accDataSource, false);
+						}
+
+					}
+					
 					if(!protId.isEmpty()){
-/*                                            if(protId.contains(";")) {
-                                               String[] protIds= protId.split(";");
-                                                for (String protId1 : protIds) {
-                                                     String p_id = protId1.trim();
-                                                     System.out.println("createCOnceptName: protId: "+ p_id);
-                                                     c.createConceptName(p_id, false);
-                                                     c.createConceptAccession(p_id, accDataSource, true);
-                                                }
-                                              }
-                                            else {*/
+					
+						if(protId.contains("|")) {
+							//split protId to single protIds
+							String[] protIds= protId.split("[|]");
+							for (String protId1 : protIds) {
+								if(protId1 == protIds[0]) {
+									String p_id = protId1.trim();
+									c.createConceptName(p_id, true);                                
+									c.createConceptAccession(p_id, accDataSource, false);
+									//set parserid
+									c.setPID(p_id);
+								}
+								//find any other data accessions within protId
+								else if(protId1.contains(";Acc")){
+									String[] name =  protId1.split("(?i)\\[S");
+									if(!name[0].trim().equalsIgnoreCase("predicted protein"))
+										c.createConceptName((name[0].trim()), false);
+																		
+									String[] part = name[1].split(";");
+									String accPart = part[1].replaceAll("Acc:", "").replaceAll("]", "").trim();
+									String srcPart = part[0].replaceAll("(?i)ource:", "").trim();
+									
+									//create data accession from within protId
+									String source = mapDBtoOndexmetaData(srcPart);
+									DataSource accDS = graph.getMetaData().getDataSource(source);
+									if(accDS == null){
+										accDS = graph.getMetaData().createDataSource(cvId, cvId, "Unknown DataSource from Inparanoid");
+									}
+									
+									c.createConceptAccession(accPart, accDS, false);
+		
+								}
+								//remove "annot-version="
+								else if(protId1.contains("annot-version")){
+									String[] annot = protId1.split("(?i) annot");
+									c.createConceptName((annot[0].trim()), false);
+									c.createConceptAccession((annot[0].trim()), accDataSource, false);
+								}
+								
+								else {
+									String p_id = protId1.trim();
+									c.createConceptName(p_id, false);
+									c.createConceptAccession(p_id, accDataSource, false);
+								}
+							}
+						}
+					
+						else if(protId.contains("gene=")) {
+							String[] protIds= protId.split("gene=");
+							for (String protId1 : protIds) {
+								if(protId1 == protIds[0]) {
+									String p_id = protId1.trim();
+									c.createConceptName(p_id, true);
+									c.createConceptAccession(p_id, accDataSource, false);
+									//set parserid
+									c.setPID(p_id);
+								} 
+								else {
+									String p_id = protId1.trim();
+									c.createConceptName(p_id, false);
+									c.createConceptAccession(p_id, accDataSource, false);
+								}
+							}
+						}
+					else {
 						c.createConceptName(protId, true);
 						c.createConceptAccession(protId, accDataSource, false);
-//                                            }
-					}	
-
+					}
+				}
 					ondexConcepts.put(id, c.getId());
 				}
 
@@ -279,7 +332,8 @@ public class Parser extends ONDEXParser {
 	/**
 	 * Parser for the xml orthologGroup element. 
 	 * Creates for each seed-ortholog a relation of type ortholog and
-	 * for each inparalog pair a relation of type paralog.
+	 * for each para-paralog a relation of type paralog (for each 
+	 * inparalog pair a relation of type paralog). 
 	 * 
 	 * @param xmlr
 	 * @throws XMLStreamException
@@ -293,15 +347,17 @@ public class Parser extends ONDEXParser {
 		//cluster genes
 //		ONDEXConcept[] seed = new ONDEXConcept[2];
                 ArrayList<ONDEXConcept> seed= new ArrayList<ONDEXConcept>();
-		int count = 0;
+                ArrayList<ONDEXConcept> para = new ArrayList<ONDEXConcept>();
 
+                
+		//int count = 0;
+               
 		while (xmlr.hasNext() && !xmlr.getLocalName().equals("orthologGroup")) {
 
 			//go to geneRef
 //			xmlr.nextTag();
 
-			if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT
-					&& xmlr.getLocalName().equals("geneRef")) {
+			if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("geneRef")) {
 
 				// <geneRef id="1">
 				//   <score id="inparalog" value="1"/>
@@ -309,15 +365,16 @@ public class Parser extends ONDEXParser {
 				// </geneRef>
 				Integer id = Integer.parseInt(xmlr.getAttributeValue(null, "id"));
 				ONDEXConcept gene = graph.getConcept(ondexConcepts.get(id));
-                                
-                                // SKIP score for now.
+				
+				seed.add(gene);
+			// SKIP score for now.
 				// go to score element
 //				xmlr.nextTag();
 				//get the inparalog score
 //				Double scoreInparalog = Double.parseDouble(xmlr.getAttributeValue(1));
 
 //				ONDEXRelation r = null;
-                                seed.add(gene);
+                                
                                 
 /*				if(count < 2){
 					seed[count] = gene;
@@ -341,28 +398,55 @@ public class Parser extends ONDEXParser {
 				}*/
 
 			}
+				
 			//go to geneRef
 			xmlr.nextTag();
+			
+//			<orthologGroup id="3">
+//	        <paralogGroup>
+//				<geneRef id="6" />       
+//	            <geneRef id="7"/>
+//			</paralogGroup>
+//			<geneRef id="5" />
+//	       </orthologGroup>
+
+            if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT && xmlr.getLocalName().equals("geneRef")) {
+    				
+    				Integer id = Integer.parseInt(xmlr.getAttributeValue(null, "id"));
+    				ONDEXConcept gene1 = graph.getConcept(ondexConcepts.get(id));
+    				para.add(gene1);//add paralogGroup elements to "para" ArrayList
+    				seed.add(gene1);//add paralogGroup elements to "seed" ArrayList
+    			}
+    			xmlr.nextTag();
+    		
 		}
-                
-            // Create "ortho" relations for all concepts in "seed" ArrayList.
+           ONDEXRelation r = null;
+
+		// Create "ortho" relations for all concepts in "seed" ArrayList.
+           //create "para" relations for all concepts in "para" ArrayList
             for (int i=0; i< seed.size(); i++) {
                  ONDEXConcept seed1= seed.get(i);
+                 
                  for (int j=i+1; j< seed.size(); j++) {
                       ONDEXConcept seed2= seed.get(j);
-		      ONDEXRelation r = graph.getFactory().createRelation(seed1, seed2, rtOrtholog, etIMPD);
-                     }
-                }
+                      //check for elements in "para" Array
+                      if(para.contains(seed1) && para.contains(seed2)){ //"para" relations
+                    	  r = graph.getFactory().createRelation(seed1, seed2, rtParalog, etIMPD);
+                      }
+                      
+                      else  { //"ortho" relations
+                    	  r = graph.getFactory().createRelation(seed1, seed2, rtOrtholog, etIMPD);
+                      }
 
+                                       
+                 }
+            }
+            
             seed.clear(); // empty the list of ortholog concepts
-                
-            // Create "para" relations for all paralog concepts in "seed" ArrayList.
-            // TO DO
-                
-            // empty the list of paralog concepts
-            // TO DO
-	}
-	
+            para.clear(); //empty list of paralog concepts
+         
+}
+
 	/**
 	 * Mapping of database names to DataSource ids used in the Ondex MetaData
 	 * 
@@ -373,7 +457,7 @@ public class Parser extends ONDEXParser {
 		
 		String cvId = name;
 		
-		if(name.equalsIgnoreCase("Gramene") || name.equalsIgnoreCase("VITVI")){
+		if(name.equalsIgnoreCase("Gramene") || name.equalsIgnoreCase("VITVI") || name.equalsIgnoreCase("POPTR") || name.equalsIgnoreCase("Ensembl")){
 			cvId = "ENSEMBL";
 		}
                 // If "ARATH" (a. thaliana), cvId= "TAIR"
@@ -387,6 +471,10 @@ public class Parser extends ONDEXParser {
                 else if(name.equalsIgnoreCase("PHYTOZOME_SAPUR")){
 			cvId = "PHYTOZOME";
 		}
+                else if(name.equalsIgnoreCase("UNIPROTKB") || name.equalsIgnoreCase("UNIPROTKB/TrEMBL") || name.equalsIgnoreCase("UNIPROTKB/Swissprot")){
+                	cvId = "UNIPROTKB";
+        }
+                
 		
 		return cvId;
 	}

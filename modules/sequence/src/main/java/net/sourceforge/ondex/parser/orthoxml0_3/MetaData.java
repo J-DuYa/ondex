@@ -4,8 +4,8 @@ public class MetaData {
 	
 	// AttributeName
 	public static final String atCONF = "CONF";
-	public static final String atTaxid = "TAXID";
-	
+	public static final String atTaxId = "TAXID";
+		
 	// EvidenceType
 	public static final String etIMPD = "OMA Standalone";// "IMPD";
 	
@@ -14,7 +14,7 @@ public class MetaData {
 	public static final String rtParalog = "para";
 
 	public static final String ccProtein = "Protein";
-
+	
 //	public static final String cvInparanoid = "OMA Standalone"; // "INPARANOID";
 
 }
