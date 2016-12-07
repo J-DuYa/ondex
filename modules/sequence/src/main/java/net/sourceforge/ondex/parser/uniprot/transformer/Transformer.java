@@ -167,10 +167,12 @@ public class Transformer {
         dataSources.put("PRINTS", mdu.safeFetchDataSource(MetaData.CV_PRINTS));
         dataSources.put("TAIR", mdu.safeFetchDataSource(MetaData.CV_TAIR));
         dataSources.put("MIM", mdu.safeFetchDataSource(MetaData.CV_OMIM));
+        dataSources.put("ENSEMBLFUNGI", mdu.safeFetchDataSource(MetaData.CV_SGD));
 
         umambigProtinMetaData = new HashSet<String>();
         umambigProtinMetaData.add(MetaData.CV_UniProt);
         umambigProtinMetaData.add(MetaData.CV_ENSEMBL);
+        umambigProtinMetaData.add(MetaData.CV_SGD);
       //  umambigProtinMetaData.add(MetaData.CV_EMBL);
       //  umambigProtinMetaData.add(MetaData.CV_RefSeq);
       //  umambigProtinMetaData.add(MetaData.CV_PIR);
