@@ -322,16 +322,16 @@ public class GAFTransformer {
 	        Matcher matchTAIR = atgPattern.matcher(query);
 	        if (matchTAIR.find()) {
 	            String acc = matchTAIR.group();
-	            if (acc.contains(".")) {
+	            //if (acc.contains(".")) {
 	            	if(dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
 	            		dbObjConcept.createConceptAccession(acc, dataSourceTAIR, false);
 	            	}	
 	            	
-	            }else{
-	            	if (dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
-	            		dbObjConcept.createConceptAccession(acc, dataSourceTAIR, true);
-	            	}
-	            }
+	            //}else{
+	            	//if (dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
+	            		//dbObjConcept.createConceptAccession(acc, dataSourceTAIR, true);
+	            	//}
+	            //}
 	            
 	           
 	        }
