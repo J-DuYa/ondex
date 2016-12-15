@@ -260,7 +260,7 @@ public class Transformer {
 //            lookForTAIRAccession(dbLink.getAccession().trim(), proteinConcept);
             if ((dataSource = dataSources.get(dbLink.getDbName().toUpperCase())) != null) {
                 String value = dbLink.getAccession().trim();
-                System.out.print("DbLink: value:"+ value +", ds:"+ dataSource.getId());
+//                System.out.print("DbLink: value:"+ value +", ds:"+ dataSource.getId());
                 if (value.length() > 0 && proteinConcept.getConceptAccession(value, dataSource) == null)
 
                     if (dataSource.getId().equals(MetaData.CV_EC)) {

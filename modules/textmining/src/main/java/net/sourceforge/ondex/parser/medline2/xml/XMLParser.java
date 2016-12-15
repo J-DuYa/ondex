@@ -176,7 +176,7 @@ public class XMLParser {
 				limit = 1;
 			}
 		}
-		System.out.println("parsePummedID>> accessions: "+ accsessions);
+//		System.out.println("parsePummedID>> accessions: "+ accsessions);
 
 		if (limit != 1) {
 
@@ -195,7 +195,7 @@ public class XMLParser {
 			accession = it.next();
 
 			String efetchString = Parser.EFETCH_WS + accession;
-			System.out.println("\t For "+ efetchString +"...");
+//			System.out.println("\t For "+ efetchString +"...");
 
 			URL efetch = new URL(efetchString);
 			HttpURLConnection httpConn = (HttpURLConnection) efetch.openConnection();
