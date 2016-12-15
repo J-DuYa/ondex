@@ -219,7 +219,7 @@ public class Transformer {
             Iterator<String> itacc = protein.getAccessions().get(cvName).iterator();
             while (itacc.hasNext()) {
                 String value = itacc.next().trim();
-                System.out.println("itAcc: "+ value +", ds:"+ dataSource.getId() +",cv:"+ cvName);
+//                System.out.println("itAcc: "+ value +", ds:"+ dataSource.getId() +",cv:"+ cvName);
 
                 if (dataSource != null && value != null && value.length() > 0) {
                     if (dataSource.getId().equals(MetaData.CV_EC)) {
@@ -271,7 +271,7 @@ public class Transformer {
                         lookforGOAccessions(dbLink, proteinConcept);
                     } else if (umambigProtinMetaData.contains(dataSource.getId())) {
                         proteinConcept.createConceptAccession(value, dataSource, false);
-                        System.out.print("value:"+ value);
+//                        System.out.print("value:"+ value);
                     } else { // for others like InterPro, PFAM
                        // proteinConcept.createConceptAccession(value, dataSource, true);
                     }
