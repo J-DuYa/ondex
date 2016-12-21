@@ -14,7 +14,7 @@ import net.sourceforge.ondex.exception.type.NullValueException;
  * @author lysenkoa
  *
  */
-abstract class GraphEntityPrototype {
+public abstract class GraphEntityPrototype {
 	
 	protected static EvidenceType createEvidence(ONDEXGraphMetaData meta, String type) throws NullValueException, EmptyStringException{
 		EvidenceType evidence = meta.getEvidenceType(type);
