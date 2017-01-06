@@ -139,9 +139,18 @@ public class ConfigParser
 	public static PathParser parseConfigXml ( Element node, ONDEXGraph graph, String inputPath ) throws Exception
 	{
 		String delim = parseOptionElem ( node, "delimiter" ).or ( "\t" );
+		String startLineStr = parseOptionElem ( node, "start-line" ).or ( "0" );
+		int startLine = 0;
+		try {
+			startLine = Integer.parseInt ( startLineStr );
+		}
+		catch ( NumberFormatException ex ) {
+			throw new IllegalArgumentException ( String.format ( "Invalid value %s for the element <start-line>", startLineStr ));
+		}
+		
 		// TODO: quote/encoding not supported at this time
 		
-		DelimitedReader reader = new DelimitedReader ( inputPath, delim );
+		DelimitedReader reader = new DelimitedReader ( inputPath, delim, startLine );
 		PathParser pp = new PathParser ( graph, reader );
 
 		Map<String, ConceptPrototype> concepts = new HashMap<String, ConceptPrototype> ();

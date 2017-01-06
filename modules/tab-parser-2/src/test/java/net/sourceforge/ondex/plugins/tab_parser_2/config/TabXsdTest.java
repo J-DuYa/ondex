@@ -1,4 +1,4 @@
-package net.sourceforge.ondex.plugins.test_plugin;
+package net.sourceforge.ondex.plugins.tab_parser_2.config;
 
 import java.io.IOException;
 
@@ -44,7 +44,6 @@ public class TabXsdTest
 	@Test
 	public void testSchemaExamples () throws IOException
 	{
-
 		for ( String inResName: new String[] { 
 			"test_tab_spec_1.xml",
 			"test_biogrid_yeast_tab_spec.xml"

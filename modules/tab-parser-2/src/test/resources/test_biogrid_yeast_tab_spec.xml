@@ -14,7 +14,6 @@ pp.newRelationPrototype(c1, c3, defRT("pub_in"));
 pp.newRelationPrototype(c2, c3, defRT("pub_in"));
  -->
 
-
 	<concept id = "c1">
 		<class>Protein</class>
 		<accession data-source = "SGD" ambiguous="false">
