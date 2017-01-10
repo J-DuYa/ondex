@@ -111,7 +111,13 @@
 		  <artifactId>tab-parser-2</artifactId>
 		  <version>${ondex.version}</version>
 			<scope>test</scope>		  
-		</dependency>		
+		</dependency>
+		<dependency>
+		  <groupId>net.sourceforge.ondex.modules</groupId>
+		  <artifactId>js-plugin</artifactId>
+		  <version>${ondex.version}</version>
+			<scope>test</scope>		  
+		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.ondex.modules</groupId>
 			<artifactId>oxl</artifactId>

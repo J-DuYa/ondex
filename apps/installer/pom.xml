@@ -489,6 +489,18 @@
 									<includes>**/*</includes>
 									<destFileName>tab-parser-2-jar-with-dependencies.jar</destFileName>
 								</artifactItem>
+
+								<artifactItem>
+								  <groupId>net.sourceforge.ondex.modules</groupId>
+								  <artifactId>js-plugin</artifactId>
+									<version>${ondex.version}</version>
+									<classifier>jar-with-dependencies</classifier>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${project.build.directory}/plugins</outputDirectory>
+									<includes>**/*</includes>
+									<destFileName>js-plugin-jar-with-dependencies.jar</destFileName>
+								</artifactItem>
 								
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.modules</groupId>

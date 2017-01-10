@@ -21,6 +21,7 @@ import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrapFactory;
 import org.mozilla.javascript.WrappedException;
 
@@ -242,8 +243,17 @@ public class JSInterpreter implements CommandInterpreter {
 		}
 	}
 
+	/**
+	 * Allows for direct injection into Rhino of a Java object.
+	 * Developed by Marco Brandizi, cause I cannot make the templates mechanism to work.
+	 */
+	public void injectDirectly ( Object javaObject, String jsName )
+	{
+		Object wrappedObj = Context.javaToJS ( javaObject, scope );
+		ScriptableObject.putProperty ( scope, jsName, wrappedObj );		
+	}
 
-
+	
 	@Override
 	public boolean isInitialised() {
 		return initialise;
