@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.ondex.core.AttributeName;
 import net.sourceforge.ondex.core.EvidenceType;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXGraph;
@@ -134,11 +135,23 @@ public class RelationPrototype extends GraphEntityPrototype{
 			}
 			
 			else if(prot[2].equalsIgnoreCase(DefConst.NUMBER)){
-				cls = java.lang.Double.class;
 				try{
-					currentValue.createAttribute(createAttName(meta, prot[1], cls), Double.valueOf(prot[3]), false);
+					cls = java.lang.Double.class;
+					
+					AttributeName attName = createAttName(meta, prot[1], cls);
+					// Marco Brandizi: this is to fix the fact that PVALUE is declared as float but PathParser always
+					// gets double values from input
+					Number value; 
+					if ( attName.getDataType ().equals ( Float.class ) ) value = Float.valueOf ( prot [ 3 ] );
+					else value = Double.valueOf ( prot [ 3 ] );
+
+					currentValue.createAttribute( attName, value, false);
 				}
-				catch(Exception e){}
+				catch(Exception e){
+					System.err.println ( String.format ( 
+						"%s while parsing %s: %s", e.getClass ().getSimpleName (), Arrays.toString ( prot ), e.getMessage () 
+					));
+				}
 			}
 			
 			else if(prot[2].equalsIgnoreCase(DefConst.INTEGER)){
@@ -146,7 +159,11 @@ public class RelationPrototype extends GraphEntityPrototype{
 				try{
 					currentValue.createAttribute(createAttName(meta, prot[1], cls), Integer.valueOf(prot[3]), false);
 				}
-				catch(Exception e){}
+				catch(Exception e){
+					System.err.println ( String.format ( 
+						"%s while parsing %s: %s", e.getClass ().getSimpleName (), Arrays.toString ( prot ), e.getMessage () 
+					));
+				}
 			}
 			
 			else if(prot[2].equalsIgnoreCase(DefConst.SMILES)){

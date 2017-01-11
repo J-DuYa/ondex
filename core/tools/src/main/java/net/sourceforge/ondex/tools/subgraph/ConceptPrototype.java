@@ -182,12 +182,24 @@ public class ConceptPrototype extends GraphEntityPrototype {
             	}
             }
             if (prot[2].equalsIgnoreCase(DefConst.NUMBER)) {
-                cls = java.lang.Double.class;
-                try {
-                    currentValue.createAttribute(createAttName(meta, prot[1], cls), Double.valueOf(prot[3]), index);
-                }
-                catch (Exception e) {
-                }
+      				try{
+      					cls = java.lang.Double.class;
+      					
+      					AttributeName attName = createAttName(meta, prot[1], cls);
+      					// Marco Brandizi: this is to fix the fact that PVALUE is declared as float but PathParser always
+      					// gets double values from input
+      					// TODO: this occurs in many places, we need to factorise
+      					Number value; 
+      					if ( attName.getDataType ().equals ( Float.class ) ) value = Float.valueOf ( prot [ 3 ] );
+      					else value = Double.valueOf ( prot [ 3 ] );
+
+      					currentValue.createAttribute( attName, value, index);
+      				}
+      				catch(Exception e){
+      					System.err.println ( String.format ( 
+      						"%s while parsing %s: %s", e.getClass ().getSimpleName (), Arrays.toString ( prot ), e.getMessage () 
+      					));
+      				}
             } 
             
             else if (prot[2].equalsIgnoreCase(DefConst.INTEGER)) {
@@ -196,7 +208,9 @@ public class ConceptPrototype extends GraphEntityPrototype {
                     currentValue.createAttribute(createAttName(meta, prot[1], cls), Integer.valueOf(prot[3]), index);
                 }
                 catch (Exception e) {
-                	e.printStackTrace();
+        					System.err.println ( String.format ( 
+        						"%s while parsing %s: %s", e.getClass ().getSimpleName (), Arrays.toString ( prot ), e.getMessage () 
+        					));
                 }
             } 
             
