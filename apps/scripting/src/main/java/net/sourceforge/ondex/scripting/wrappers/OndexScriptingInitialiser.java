@@ -29,6 +29,15 @@ public class OndexScriptingInitialiser extends AbstractScriptingInitialiser {
     private static boolean isInitialized = false;
     private static ContextualReferenceResolver<ONDEXGraph> graphResolver;
 
+    /**
+     * Resets everything and cause the next calls to initialisation methods to redo their job.
+     * Marco Brandizi: I cannot make the scripting engine to work twice in the same run without this.
+     */
+    public static void reset ()
+    {
+    	isInitialized = false;
+    }
+    
     public static ScriptingShell getScriptingShell() {
 
         ScriptingShell cmd = new ScriptingShell("OVTK>", "Command console v1.0 Sorry - no support documentation available at the moment.");

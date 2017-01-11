@@ -75,6 +75,7 @@ public class JavaScriptPlugin extends ONDEXTransformer
 		
 		new OVTKScriptingInitialiser () 
 		{{
+			reset (); // I cannot make the scripting engine to work twice in the same run without this
 			initialiseAspectBuilder(); // Doesn't work without
 		}};
 
@@ -94,7 +95,7 @@ public class JavaScriptPlugin extends ONDEXTransformer
 		CommandEvent cmdEv = new CommandEvent ( "ONDEX Integrator", script, out );
 		// We cannot make the template mechanism to work, so I've written this wrapper.
 		jsi.injectDirectly ( instance.getArguments().getObjectValueArray ( "Script Argument(s)" ), "scriptArgs" );
-		ic.newCommand ( cmdEv );		
+		ic.newCommand ( cmdEv );
 	}  
   
 	public String getId ()
