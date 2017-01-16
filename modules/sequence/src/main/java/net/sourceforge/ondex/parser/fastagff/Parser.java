@@ -129,7 +129,7 @@ public class Parser extends ONDEXParser {
 		FileReader fr = null;
 		BufferedReader br = null;
 		// create Hashmaps for gene properties retrieved from the gff3 file
-         HashMap<String,String> geneProps = new HashMap<String,String>();
+        HashMap<String,String> geneProps = new HashMap<String,String>();
 
 		try {
 
@@ -236,6 +236,7 @@ public class Parser extends ONDEXParser {
 				}
 
 				ondex2gene.put(geneId, c1.getId());
+				geneProps.clear(); // clear hashmap
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
