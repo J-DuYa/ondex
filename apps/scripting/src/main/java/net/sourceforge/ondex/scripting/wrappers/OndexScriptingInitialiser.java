@@ -30,7 +30,7 @@ public class OndexScriptingInitialiser extends AbstractScriptingInitialiser {
     private static ContextualReferenceResolver<ONDEXGraph> graphResolver;
 
     /**
-     * Resets everything and cause the next calls to initialisation methods to redo their job.
+     * Resets everything and causes the next calls to initialisation methods to redo their job.
      * Marco Brandizi: I cannot make the scripting engine to work twice in the same run without this.
      */
     public static void reset ()
