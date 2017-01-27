@@ -91,27 +91,27 @@
       <!--Ondex dependencies-->      <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>oxl</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <type>jar</type>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>memory</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <!--<dependency>
     	<groupId>net.sourceforge.ondex.core</groupId>
     	<artifactId>workflow-api</artifactId>
-    	<version>0.6.0-SNAPSHOT</version>
+    	<version>${project.version}</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
     <dependency>
     	<groupId>net.sourceforge.ondex.core</groupId>
     	<artifactId>tools</artifactId>
-    	<version>0.6.0-SNAPSHOT</version>
+    	<version>${project.version}</version>
     	<scope>compile</scope>
     </dependency>
     <dependency>
@@ -139,17 +139,17 @@
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>base</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>tools</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>workflow-api</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
       </dependency>
 
       <!-- Missing dependencies from "oxl" -->      <dependency>

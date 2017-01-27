@@ -67,7 +67,7 @@
       <!-- Dependencies required for compilation -->      <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>workflow-base</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
 
@@ -90,7 +90,7 @@
       <!-- Dependencies required for the archive -->      <dependency>
          <groupId>net.sourceforge.ondex</groupId>
          <artifactId>datadir</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <classifier>data</classifier>
          <type>zip</type>
          <scope>runtime</scope>
@@ -101,7 +101,7 @@
 			plugins/ for us. -->      <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>tab-tools</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
@@ -119,20 +119,20 @@
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>oxl</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <type>jar</type>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>generic</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>validator</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>
