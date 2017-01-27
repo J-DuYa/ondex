@@ -1,14 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>net.sourceforge.ondex</groupId>
 		<version>0.6.0-SNAPSHOT</version>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
+	
 	<artifactId>modules</artifactId>
 	<packaging>pom</packaging>
 	<name>modules</name>
-  <version>${ondex.version}</version>
 
 	<modules>
 		<module>arabidopsis</module>
@@ -103,13 +104,16 @@
 	<build>
 		<plugins>
 			<plugin>
+				<!-- 
+				  TODO: doesn't work when you invoke compile/test-compile 
+				-->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>${maven.dependency.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>unpack</id>
-						<phase>compile</phase>
+  					<phase>compile</phase>
 						<goals>
 							<goal>unpack</goal>
 						</goals>
@@ -121,6 +125,7 @@
 								<artifactItem>
 									<groupId>net.sourceforge.ondex.core</groupId>
 									<artifactId>workflow-component-descriptor</artifactId>
+									<version>${project.version}</version>									
 									<type>jar</type>
 									<overWrite>true</overWrite>
 									<outputDirectory>${project.build.directory}</outputDirectory>
