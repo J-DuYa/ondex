@@ -1,98 +1,107 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sourceforge.ondex.doc</groupId>
-	<artifactId>ovtk2</artifactId>
-	<packaging>pom</packaging>
-	<name>ovtk2 documentation</name>
-	<version>0.6.0-SNAPSHOT</version>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>doc</artifactId>
-		<groupId>net.sourceforge.ondex</groupId>
-		<version>0.6.0-SNAPSHOT</version>
-	</parent>
+   <parent>
+      <artifactId>doc</artifactId>
+      <groupId>net.sourceforge.ondex</groupId>
+      <version>0.6.0-SNAPSHOT</version>
+   </parent>
 
-	<description>tutorials and help files for the ovtk2</description>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.agilejava.docbkx</groupId>
-				<artifactId>docbkx-maven-plugin</artifactId>
-				<version>2.0.14</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate-javahelp</goal>
-						</goals>
-						<phase>generate-sources</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<includes>help.xml</includes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<phase>generate-sources</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<executable>java</executable>
-					<workingDirectory>${basedir}/target/docbkx/javahelp/help</workingDirectory>
-					<arguments>
-						<argument>-classpath</argument>
-						<classpath />
-						<argument>com.sun.java.help.search.Indexer</argument>
-						<argument>.</argument>
-					</arguments>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>latex-maven-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>latex</goal>
-						</goals>
-						<phase>generate-sources</phase>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptors>
-						<descriptor>${basedir}/data.xml</descriptor>
-						<descriptor>${basedir}/tutorial.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attached</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+   <groupId>net.sourceforge.ondex.doc</groupId>
+   <artifactId>ovtk2</artifactId>
+   <packaging>pom</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.sun.java</groupId>
-			<artifactId>jsearch</artifactId>
-			<version>2.0.5</version>
-		</dependency>
-	</dependencies>
+   <name>ovtk2 documentation</name>
+   <description>tutorials and help files for the ovtk2</description>
+
+
+
+
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>com.agilejava.docbkx</groupId>
+            <artifactId>docbkx-maven-plugin</artifactId>
+            <version>2.0.14</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>generate-javahelp</goal>
+                  </goals>
+                  <phase>generate-sources</phase>
+               </execution>
+            </executions>
+            <configuration>
+               <includes>help.xml</includes>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>exec</goal>
+                  </goals>
+                  <phase>generate-sources</phase>
+               </execution>
+            </executions>
+            <configuration>
+               <executable>java</executable>
+               <workingDirectory>${basedir}/target/docbkx/javahelp/help</workingDirectory>
+               <arguments>
+                  <argument>-classpath</argument>
+                  <classpath/>
+                  <argument>com.sun.java.help.search.Indexer</argument>
+                  <argument>.</argument>
+               </arguments>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>latex-maven-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>latex</goal>
+                  </goals>
+                  <phase>generate-sources</phase>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <configuration>
+               <descriptors>
+                  <descriptor>${basedir}/data.xml</descriptor>
+                  <descriptor>${basedir}/tutorial.xml</descriptor>
+               </descriptors>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>make-assembly</id>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>attached</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+
+   <dependencies>
+      <dependency>
+         <groupId>com.sun.java</groupId>
+         <artifactId>jsearch</artifactId>
+         <version>2.0.5</version>
+      </dependency>
+   </dependencies>
+
 </project>
