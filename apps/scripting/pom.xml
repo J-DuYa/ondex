@@ -58,43 +58,43 @@
       <!-- ONDEX deps -->      <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>base</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>tools</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>berkeley</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>memory</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>tab</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>tab-tools</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>oxl</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>

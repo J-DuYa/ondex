@@ -5,9 +5,9 @@
    <modelVersion>4.0.0</modelVersion>
 
 	 <parent>
-	   <groupId>net.sourceforge.ondex</groupId>
-	   <artifactId>parent</artifactId>
-	   <version>0.6.0-SNAPSHOT</version>
+	     <groupId>net.sourceforge.ondex</groupId>
+	     <artifactId>parent</artifactId>
+	     <version>0.6.0-SNAPSHOT</version>
 	 </parent>
 
    <groupId>net.sourceforge.ondex.modules.integration</groupId>
@@ -84,7 +84,7 @@
       <dependency>
          <groupId>net.sourceforge.ondex</groupId>
          <artifactId>datadir</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <type>zip</type>
          <classifier>data</classifier>
          <scope>test</scope>
@@ -93,41 +93,41 @@
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>api</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>base</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
 
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>workflow-base</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
 
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>oxl</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
 
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>generic</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
 
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>poplar</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
 

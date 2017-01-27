@@ -45,7 +45,7 @@
       <!-- ONDEX deps -->      <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>validator</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>provided</scope>
       </dependency>
 

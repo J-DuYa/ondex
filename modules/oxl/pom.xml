@@ -33,13 +33,13 @@
       <!-- ONDEX deps -->      <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>memory</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>berkeley</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

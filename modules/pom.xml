@@ -248,32 +248,32 @@
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>base</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>tools</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>workflow-component-descriptor</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>provided</scope>
       </dependency>
       <dependency>
          <groupId>net.sourceforge.ondex.core</groupId>
          <artifactId>workflow-api</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
          <scope>provided</scope>
       </dependency>
       <dependency>
-         <type>zip</type>
          <groupId>net.sourceforge.ondex</groupId>
          <artifactId>datadir</artifactId>
-         <version>0.6.0-SNAPSHOT</version>
+         <version>${project.version}</version>
+         <type>zip</type>
          <classifier>data</classifier>
          <scope>test</scope>
       </dependency>
