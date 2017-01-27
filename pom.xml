@@ -211,6 +211,7 @@
 
    <properties>
       <java.version>1.8</java.version>
+      <ondex.version>0.6.0-SNAPSHOT</ondex.version>      
       <target.dir>target</target.dir>
       <nexus.repro>http://ondex.rothamsted.ac.uk/nexus</nexus.repro>
       <!--Plugin Properties -->
@@ -246,7 +247,6 @@
       <junit.version>4.7</junit.version>
       <mysql.connector.java.version>5.1.6</mysql.connector.java.version>
       <org.apache.lucene.core.version>3.6.1</org.apache.lucene.core.version>
-      <ondex.version>0.6.0-SNAPSHOT</ondex.version>
    </properties>
 
    <profiles>
