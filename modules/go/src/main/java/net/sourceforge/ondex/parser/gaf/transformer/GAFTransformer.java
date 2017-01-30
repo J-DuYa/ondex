@@ -302,7 +302,7 @@ public class GAFTransformer {
     	HashSet<String> synonyms = gaf.getDBObjectSynonyms();
     	String objAcc = gaf.getDBObjectID();
     	String objFrom = gaf.getWithFrom();
-    	
+    	    	
     	HashSet<String> queries = new HashSet<String>();
     	if(symbol != null)
     		queries.add(symbol);
@@ -322,17 +322,18 @@ public class GAFTransformer {
 	        Matcher matchTAIR = atgPattern.matcher(query);
 	        if (matchTAIR.find()) {
 	            String acc = matchTAIR.group();
-	            //if (acc.contains(".")) {
+	            //make protein accessions ambiguous, gene accessions non-ambiguous for gene concepts
+	            if (acc.contains(".")) {
 	            	if(dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
-	            		dbObjConcept.createConceptAccession(acc, dataSourceTAIR, false);
+	            		dbObjConcept.createConceptAccession(acc, dataSourceTAIR, true);
 	            	}	
 	            	
-	            //}else{
-	            	//if (dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
-	            		//dbObjConcept.createConceptAccession(acc, dataSourceTAIR, true);
-	            	//}
-	            //}
-	            
+	            }else{
+	            	if (dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
+	            		dbObjConcept.createConceptAccession(acc, dataSourceTAIR, false);
+	            	}
+	            }
+            
 	           
 	        }
 	        
