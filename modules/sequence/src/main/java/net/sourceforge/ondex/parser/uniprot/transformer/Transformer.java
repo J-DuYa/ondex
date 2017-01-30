@@ -274,6 +274,9 @@ public class Transformer {
                     	proteinConcept.createConceptAccession(value, dataSource, false);
 //                        System.out.println("1:"+value);
                         }
+                        else if(dataSource.getId().equals(MetaData.CV_UniProt) || dataSource.getId().equals(MetaData.CV_SGD)){
+                        	proteinConcept.createConceptAccession(value, dataSource, false);
+                        }
                         else {
                         	proteinConcept.createConceptAccession(value, dataSource, true);
 //                        	System.out.println("2:"+value);
