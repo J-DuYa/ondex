@@ -270,7 +270,14 @@ public class Transformer {
                     } else if (dataSource.getId().equals(MetaData.CV_GO) && goTree != null) {
                         lookforGOAccessions(dbLink, proteinConcept);
                     } else if (umambigProtinMetaData.contains(dataSource.getId())) {
-                        proteinConcept.createConceptAccession(value, dataSource, false);
+                        if(dataSource.getId().equals(MetaData.CV_ENSEMBL) && value.contains(".")){
+                    	proteinConcept.createConceptAccession(value, dataSource, false);
+//                        System.out.println("1:"+value);
+                        }
+                        else {
+                        	proteinConcept.createConceptAccession(value, dataSource, true);
+//                        	System.out.println("2:"+value);
+                        }
 //                        System.out.print("value:"+ value);
                     } else { // for others like InterPro, PFAM
                        // proteinConcept.createConceptAccession(value, dataSource, true);
@@ -284,12 +291,14 @@ public class Transformer {
                     if (prefix > -1) {
                         value = value.substring(prefix, value.length());
                         proteinConcept.createConceptAccession(value, dataSource, false);
+//                        System.out.println("3:" +value);
                     }
 
                     int spliceVarient = value.indexOf(".");
                     if (spliceVarient > -1) {
                         String locus = value.substring(0, spliceVarient);
                         proteinConcept.createConceptAccession(locus, dataSource, true);
+//                        System.out.println("4:" +locus);
                     }
                 }
 
