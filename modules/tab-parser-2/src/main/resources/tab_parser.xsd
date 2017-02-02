@@ -53,11 +53,11 @@ entities (concept and relations).
     		</annotation>
     		<sequence>
     				<element name="class" type="tab:ColumnOrValue" maxOccurs="1" minOccurs="0" />
-    				<element name="accession" type="tab:Accession" maxOccurs="1" minOccurs="0" />
-    				<element name="name" type="tab:Name" maxOccurs="1" minOccurs="0" />
+    				<element name="accession" type="tab:Accession" maxOccurs="unbounded" minOccurs="0" />
+    				<element name="name" type="tab:Name" maxOccurs="unbounded" minOccurs="0" />
     				<element name="data-source" type="tab:ColumnOrValue" maxOccurs="1" minOccurs="0" />
     				<element name="parser-id" type="tab:ColumnOrValue" maxOccurs="1" minOccurs="0" />
-    				<element name="evidence" type="tab:ColumnOrValue" maxOccurs="1" minOccurs="0" />
+    				<element name="evidence" type="tab:ColumnOrValue" maxOccurs="unbounded" minOccurs="0" />
     				<element name="attribute" type="tab:Attribute" maxOccurs="unbounded" minOccurs="0" />
     		</sequence>
     		<attribute name = "id" type = "ID" />
@@ -94,7 +94,7 @@ value, e.g.
     		</annotation>
     		<sequence>
     				<element name="type" type="tab:ColumnOrValue" maxOccurs="1" minOccurs="0" />
-    				<element name="evidence" type="tab:ColumnOrValue" maxOccurs="1" minOccurs="0" />
+    				<element name="evidence" type="tab:ColumnOrValue" maxOccurs="unbounded" minOccurs="0" />
     				<element name="attribute" type="tab:Attribute" maxOccurs="unbounded" minOccurs="0" />
     		</sequence>
     		<attribute name="source-ref" type="IDREF" use="required" />

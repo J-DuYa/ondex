@@ -25,8 +25,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
 import com.google.common.io.Resources;
 
 import net.sourceforge.ondex.core.Attribute;
@@ -217,17 +215,14 @@ public class ConfigParserTest
 		assertFalse ( "No concepts found in the test file!", concepts.isEmpty () );
 		assertTrue ( 
 			"Expected protein not found in the test file!",
-			FluentIterable
-				.from ( concepts )
-				.firstMatch ( new Predicate<ONDEXConcept> () 
-				{
-				  public boolean apply( ONDEXConcept input) 
-				  {
-				  	for ( ConceptAccession acc: input.getConceptAccessions () )
-				  		if ( "UNIPROTKB:Q13158".equals ( acc.getAccession () ) ) return true; 
-				  	return false;
-				  }
-				}).isPresent ()
+			concepts.
+			stream ()
+			.anyMatch ( concept -> 
+		  {
+		  	for ( ConceptAccession acc: concept.getConceptAccessions () )
+		  		if ( "UNIPROTKB:Q13158".equals ( acc.getAccession () ) ) return true; 
+		  	return false;
+		  })
 		);
 		
 		
@@ -236,21 +231,18 @@ public class ConfigParserTest
 		
 		assertTrue ( 
 			"Expected interaction not found in the test file!",
-			FluentIterable
-				.from ( relations )
-				.firstMatch ( new Predicate<ONDEXRelation> () 
-				{
-				  public boolean apply( ONDEXRelation input) 
-				  {
-				  	ONDEXConcept from = input.getFromConcept ();
-				  	ONDEXConcept to = input.getToConcept ();
-				  	if ( !"UNIPROTKB:O55042".equals ( from.getConceptAccessions ().iterator ().next ().getAccession () ) )
-				  		return false;
-				  	if ( !"UNIPROTKB:Q5S006".equals ( to.getConceptAccessions ().iterator ().next ().getAccession () ) )
-				  		return false;
-				  	return true;
-				  }
-				}).isPresent ()
+			relations
+			.stream ()
+			.anyMatch ( concept -> 
+		  {
+		  	ONDEXConcept from = concept.getFromConcept ();
+		  	ONDEXConcept to = concept.getToConcept ();
+		  	if ( !"UNIPROTKB:O55042".equals ( from.getConceptAccessions ().iterator ().next ().getAccession () ) )
+		  		return false;
+		  	if ( !"UNIPROTKB:Q5S006".equals ( to.getConceptAccessions ().iterator ().next ().getAccession () ) )
+		  		return false;
+		  	return true;
+		  })
 		);
 		
 		// TODO: more XML examples (see TabXsdTest.java)
