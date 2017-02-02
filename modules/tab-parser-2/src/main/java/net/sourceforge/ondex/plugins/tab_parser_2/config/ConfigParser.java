@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -56,6 +57,11 @@ import net.sourceforge.ondex.tools.tab.importer.RelationPrototype;
  * according to the declarations in the XML. 
  * 
  * The entry point for doing this is {@link #parseConfigXml(String, ONDEXGraph, String)} (or its variants).
+ * 
+ * Note that many methods here are package-visible and not private, in order to allow for tests.
+ * 
+ * TODO: migrate {@link Optional} to Java8.
+ * 
  *
  * @author brandizi
  * <dl><dt>Date:</dt><dd>14 Dec 2016</dd></dl>
@@ -86,21 +92,8 @@ public class ConfigParser
 		xpath = xpf.newXPath ();
 	}
 		
-	/**
-	 * Facility to evaluate an XPATH expression against a root node. This also caches the XPATH.
-	 * TODO: move to a utility lib.
-	 * 
-	 */
-	@SuppressWarnings ( "unchecked" )
-	public static <T> Optional<T> xpath ( Node node, String xpathExpr, QName returnType ) 
-	{
-		try {
-			return Optional.fromNullable ( (T) xpathCache.getUnchecked ( xpathExpr ).evaluate ( node, returnType ) );
-		}
-		catch ( XPathExpressionException ex ) {
-			throw new IllegalArgumentException ( "Internal error: " + ex.getMessage (), ex );
-		}
-	}
+
+
 	
 	/**
 	 * Wrapper for {@link #parseConfigXml(Reader, ONDEXGraph, String)}.
@@ -133,6 +126,7 @@ public class ConfigParser
 		return parseConfigXml ( xmlDoc.getDocumentElement (), graph, tabInputPath );
 	}
 
+	
 	/**
 	 * Parses the XML root element &lt;parser&gt;.
 	 */
@@ -175,35 +169,33 @@ public class ConfigParser
 	 * Parses a &lt;concept&gt; element and add the resulting {@link ConceptPrototype} to the {@link PathParser} parameter.
 	 * Returns the concept and its ID (as defined by the XML id attribute). 
 	 */
-	public static Pair<String, ConceptPrototype> collectConcept ( Element conceptNode, PathParser pp )
+	static Pair<String, ConceptPrototype> collectConcept ( Element conceptNode, PathParser pp )
 	{
-		String id = conceptNode.getAttribute ( "id" );
+		String id = StringUtils.trimToNull ( conceptNode.getAttribute ( "id" ) );
 		if ( id == null ) throw new IllegalArgumentException (
-				"Concept \"" + StringUtils.abbreviate ( conceptNode.toString (), 15 ) + "\" has no id attribute!" 
+			"Concept \"" + StringUtils.abbreviate ( conceptNode.toString (), 15 ) + "\" has no id attribute!" 
 		);
 			
 		ConceptPrototype concept = pp.newConceptPrototype ();
 
 		collectAttrPrototype ( concept, conceptNode, "class", "defCC" );
-		collectAccession ( concept, conceptNode );
-		collectName ( concept, conceptNode );
+		invokeOnChildren ( conceptNode, "accession", e -> collectAccession ( concept, e ) );
+		invokeOnChildren ( conceptNode, "name", e -> collectName ( concept, e ) );
 		collectAttrPrototype ( concept, conceptNode, "data-source", "defDataSource" );
 		collectAttrPrototype ( concept, conceptNode, "parser-id", "defPID" );
-		collectAttrPrototype ( concept, conceptNode, "evidence", "defEvidence" );
-		
-		NodeList attrNodes = (NodeList) xpath ( conceptNode, "attribute", XPathConstants.NODESET ).orNull ();
-		if ( attrNodes != null ) for ( int i = 0; i < attrNodes.getLength (); i++ )
-			collectONDEXAttribute ( concept, (Element) attrNodes.item ( i ) );
-		
+		invokeOnChildren ( conceptNode, "evidence", e -> collectAttrPrototype ( concept, e, "defEvidence" ) );
+		invokeOnChildren ( conceptNode, "attribute", e -> collectONDEXAttribute ( concept, e ) );
+				
 		return Pair.of ( id, concept );
 	}
+	
 	
 	/**
 	 * Parses a &lt;relation&gt; element and add the resulting {@link RelationPrototype} to the {@link PathParser} parameter.
 	 * The concepts map is built via calls to {@link #collectConcept(Element, PathParser)} and here it's used 
 	 * to know source/target concepts in a relationship (referred to by source-ref/target-ref attributes). 
 	 */
-	public static RelationPrototype collectRelation ( 
+	static RelationPrototype collectRelation ( 
 		Element relationNode, PathParser pp, Map<String, ConceptPrototype> concepts
 	)
 	{
@@ -219,36 +211,26 @@ public class ConfigParser
 		
 		RelationPrototype rt = pp.newRelationPrototype ( source, target );
 		collectAttrPrototype ( rt, relationNode, "type", "defRT" );
-		collectAttrPrototype ( rt, relationNode, "evidence", "defEvidence" );
-		
-		NodeList attrNodes = (NodeList) xpath ( relationNode, "attribute", XPathConstants.NODESET ).orNull ();
-		if ( attrNodes != null ) for ( int i = 0; i < attrNodes.getLength (); i++ )
-			collectONDEXAttribute ( rt, (Element) attrNodes.item ( i ) );
-		
+		invokeOnChildren ( relationNode, "evidence", e -> collectAttrPrototype ( rt, e, "defEvidence" ) );
+		invokeOnChildren ( relationNode, "attribute", e -> collectONDEXAttribute ( rt, e ) );
+				
 		return rt;
 	}
 	
 	
 	/**
-	 * Parses an &lt;accession&gt; element which is child of parentNode and adds it to the parameter concept. 
+	 * Parses an &lt;accession&gt; element and adds it to the parameter concept. 
 	 * Doesn't do anything if no accession element is present under the parentNode.
 	 */
-	private static Optional<AttributePrototype> collectAccession ( ConceptPrototype concept, Element parentNode )
+	static Optional<AttributePrototype> collectAccession ( ConceptPrototype concept, Element accessionNode )
 	{
-		// We need attributes from the child element
-		Optional<Element> accessionNodeOpt = xpath ( parentNode, "accession", XPathConstants.NODE );
-		if ( !accessionNodeOpt.isPresent () ) return Optional.absent ();
-
-		Element accessionNode = accessionNodeOpt.get ();
-		
 		String isAmbiguousStr = "true".equals ( accessionNode.getAttribute ( "ambiguous" ) ) ? "true" : "false";
 		String dataSource = (String) accessionNode.getAttribute ( "data-source" );
 		
 		// Child element is going to be extracted again, but that's not very critical
 		return collectAttrPrototype ( 
 			concept,
-			parentNode,
-			"accession",
+			accessionNode,
 			"defAccession", 
 			new Object[] { dataSource, isAmbiguousStr },
 			new Class<?>[] { String.class, String.class } 
@@ -257,23 +239,15 @@ public class ConfigParser
 
 	/**
 	 * Works similarly to {@link #collectAccession(ConceptPrototype, Element)}. for a name ONDEX attribute.
-	 * 
 	 */
-	private static Optional<AttributePrototype> collectName ( ConceptPrototype concept, Element parentNode )
+	static Optional<AttributePrototype> collectName ( ConceptPrototype concept, Element nameNode )
 	{
-		// We need attributes from the child element
-		Optional<Element> nameNodeOpt = xpath ( parentNode, "name", XPathConstants.NODE );
-		if ( !nameNodeOpt.isPresent () ) return Optional.absent ();
-
-		Element nameNode = nameNodeOpt.get ();
-		
 		String isPreferredStr = "true".equals ( nameNode.getAttribute ( "preferred" ) ) ? "true" : "false";
 		
 		// Child element is going to be extracted again, but that's not very critical
 		return collectAttrPrototype ( 
 			concept,
-			parentNode,
-			"name",
+			nameNode,
 			"defName", 
 			new Object[] { isPreferredStr },
 			new Class<?>[] { String.class } 
@@ -284,7 +258,7 @@ public class ConfigParser
 	 * Parses an &lt;attribute&gt; node and adds the corresponding {@link AttributePrototype} to the parent parameter
 	 * (which must be either {@link ONDEXConcept} or {@link ONDEXRelation}). This expects attrNode to be non-null.
 	 */
-	private static AttributePrototype collectONDEXAttribute ( GraphEntityPrototype parent, Element attrNode )
+	static AttributePrototype collectONDEXAttribute ( GraphEntityPrototype parent, Element attrNode )
 	{
 		// node-specific XML attributes becomes parameters for the ONDEX attribute
 		String name = (String) attrNode.getAttribute ( "name" );
@@ -303,24 +277,45 @@ public class ConfigParser
 	}	
 	
 	/**
-	 * A wrapper of {@link #collectAttrPrototype(GraphEntityPrototype, Element, String, String, Object[], Class[])}
-	 * with null additional parameters.
+	 * A wrapper to {@link #collectAttrPrototype(GraphEntityPrototype, Element, String, Object[], Class[])}
+	 * that takes the child element from its element name (expects only one).
+	 * 
 	 */
-	private static Optional<AttributePrototype> collectAttrPrototype ( 
+	static Optional<AttributePrototype> collectAttrPrototype ( 
+		GraphEntityPrototype parent, Element parentNode, String childElemName, final String methodName,
+		Object[] moreArgs,
+		Class<?>[] moreArgsClasses
+	)
+	{
+		Element childElem = (Element) xpath ( parentNode, childElemName, XPathConstants.NODE ).orNull ();
+		if ( childElem == null ) return Optional.absent ();
+		
+		return collectAttrPrototype ( parent, childElem, methodName, moreArgs, moreArgsClasses );
+	}
+
+	/**
+	 * Wrapper without additional args.
+	 */
+	static Optional<AttributePrototype> collectAttrPrototype ( 
 		GraphEntityPrototype parent, Element parentNode, String childElemName, final String methodName
 	)
 	{
 		return collectAttrPrototype ( parent, parentNode, childElemName, methodName, null, null );
 	}
 
-	
+	static Optional<AttributePrototype> collectAttrPrototype ( 
+		GraphEntityPrototype parent, Element childElem, final String methodName
+	)
+	{
+		return collectAttrPrototype ( parent, childElem, methodName, null, null );
+	}
+
 	/**
 	 * Extracts an AttributePrototype definition from the XML and, if not null, adds it to a concept.
 	 * This is used by {@link #collectConcept(Element, PathParser)}.
 	 *  
 	 * @param parent the concept/relationType to which the AttributePrototype is added
-	 * @param parentNode the node containing children about attributes (e.g., "concept")
-	 * @param childElemName the name of the child XML element (of xml type tab:ColumnOrValue) that defines the attribute 
+	 * @param childElem the child XML element (of xml type tab:ColumnOrValue) that defines the attribute 
 	 * (e.g., "class") 
 	 * @param methodName the method in {@link DefConst} to invoke to define the new AttributePrototype 
 	 * (e.g., "defCC")
@@ -329,19 +324,16 @@ public class ConfigParser
 	 * 
 	 * @return the extracted attribute.
 	 */
-	private static Optional<AttributePrototype> collectAttrPrototype ( 
-			GraphEntityPrototype parent, Element parentNode, String childElemName, final String methodName,
-		Object[] moreArgs,
-		Class<?>[] moreArgsClasses
+	static Optional<AttributePrototype> collectAttrPrototype ( 
+		GraphEntityPrototype parent, Element childElem, final String 
+		methodName, Object[] moreArgs, Class<?>[] moreArgsClasses
 	)
 	{
 		try
 		{
-			Optional<?> colOrValOpt = parseColumnOrValue ( parentNode, childElemName );
-			if ( !colOrValOpt.isPresent () ) return Optional.absent ();
-			
-			Object colOrVal = colOrValOpt.get ();
-			
+			Object colOrVal = parseColumnOrValue ( childElem ).orNull ();
+			if ( colOrVal == null ) return Optional.absent ();
+						
 			Object args[] = null;
 			Class<?> argsClasses[] = null;
 			
@@ -388,27 +380,38 @@ public class ConfigParser
 	}
 	
 	/**
+	 * This invokes {@link #parseColumnOrValue(Element)} after having taken the node specified by elemName
+	 * (only one is expected).
+	 */
+	static Optional<? extends Object> parseColumnOrValue ( Element parentNode, String elemName )
+	{
+		Element elem = (Element) xpath ( parentNode, elemName, XPathConstants.NODE ).orNull ();
+		if ( elem == null ) return Optional.absent ();
+		
+		return parseColumnOrValue ( elem ); 
+	}
+
+	/**
 	 * This is used for those elements (e.g. attributes, accession) that can have a mapping to a column or a straight
-	 * value. Sees if the XML element elemName exists within the children of parentNode. If yes, checks if 
-	 * the child element has a text node, takes this as straight ONDEX value for the entity at issue if it exists. Else, 
-	 * sees if a &lt;column&gt; exists within the child node and, if yes, invokes {@link #parseColumn(Element)} to know
-	 * which header is mapped to the elemName element. If none of the above happens, raises an error.
+	 * value. Checks if the child element has a text node, takes this as straight ONDEX value for the entity at issue 
+	 * if it exists. Else, sees if a &lt;column&gt; exists within the child node and, if yes, 
+	 * invokes {@link #parseColumn(Element)} to know which header is mapped to the elemName element. 
+	 * If none of the above happens, raises an error.
 	 * 
 	 * @return an empty {@link Optional} if no elemName child node exists, a string value if the mapping is based on 
 	 * a straight/constant value, the result of {@link #parseColumn(Element)} if the mapping is done via the 
 	 * column sub-element.  
 	 */
-	public static Optional<? extends Object> parseColumnOrValue ( Element parentNode, String elemName )
+	static Optional<? extends Object> parseColumnOrValue ( Element elem )
 	{
-		Element node = (Element) xpath ( parentNode, elemName, XPathConstants.NODE ).orNull ();
-		if ( node == null ) return Optional.absent ();
+		if ( elem == null ) throw new IllegalArgumentException ( "Child element is null" );
 		
-		Element colElem = (Element) xpath ( node, "column", XPathConstants.NODE ).orNull ();
+		Element colElem = (Element) xpath ( elem, "column", XPathConstants.NODE ).orNull ();
 		if ( colElem != null ) return Optional.of ( parseColumn ( colElem ) );
 				
-		String value = StringUtils.trimToNull ( parseOptionElem ( node, "." ).orNull () );
+		String value = StringUtils.trimToNull ( parseOptionElem ( elem, "." ).orNull () );
 		if ( value == null ) throw new IllegalArgumentException ( 
-			"Wrong syntax for '" + elemName + "'"
+			"Wrong syntax for '" + elem.getTagName () + "'"
 		);
 		return Optional.of ( value );
 	}
@@ -418,7 +421,7 @@ public class ConfigParser
 	 * is not supported yet and for the time being generates an error if the XML defines it.
 	 *   
 	 */
-	public static Object parseColumn ( Element colNode )
+	static Object parseColumn ( Element colNode )
 	{
 		try
 		{
@@ -440,11 +443,39 @@ public class ConfigParser
 	 * {@link Optional} if such XML structure is not present or the text is empty.
 	 *   
 	 */
-	public static Optional<String> parseOptionElem ( Node parentNode, String elemName )
+	static Optional<String> parseOptionElem ( Node parentNode, String elemName )
 	{
 		NodeList list = (NodeList) xpath ( parentNode, elemName + "/text()", XPathConstants.NODESET ).orNull ();
 		if ( list == null || list.getLength () == 0 ) return Optional.absent ();
 		
 		return Optional.fromNullable ( StringUtils.trimToNull ( list.item ( 0 ).getTextContent () ) );
+	}
+	
+	/**
+	 * Facility to evaluate an XPATH expression against a root node. This also caches the XPATH.
+	 * TODO: move to a utility lib.
+	 * 
+	 */
+	@SuppressWarnings ( "unchecked" )
+	static <T> Optional<T> xpath ( Node node, String xpathExpr, QName returnType ) 
+	{
+		try {
+			return Optional.fromNullable ( (T) xpathCache.getUnchecked ( xpathExpr ).evaluate ( node, returnType ) );
+		}
+		catch ( XPathExpressionException ex ) {
+			throw new IllegalArgumentException ( "Internal error: " + ex.getMessage (), ex );
+		}
+	}
+	
+	
+	/**
+	 * Facility to take the children of parentElem of type childElemsName and invokes nodeFunc on all of them.
+	 */
+	static void invokeOnChildren (
+		Element parentElem, String childElemsName, Consumer<Element> nodeFunc )
+	{
+		NodeList attrNodes = (NodeList) xpath ( parentElem, childElemsName, XPathConstants.NODESET ).orNull ();
+		if ( attrNodes != null ) for ( int i = 0; i < attrNodes.getLength (); i++ )
+			nodeFunc.accept ( (Element) attrNodes.item ( i ) );
 	}
 }

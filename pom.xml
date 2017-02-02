@@ -219,7 +219,7 @@
       <cxf.version>2.2.11</cxf.version>
       <maven.assembly.plugin.version>2.2-beta-5</maven.assembly.plugin.version>
       <maven.compiler.plugin.version>2.1</maven.compiler.plugin.version>
-      <maven.dependency.plugin.version>2.1</maven.dependency.plugin.version>
+      <maven.dependency.plugin.version>3.0.0</maven.dependency.plugin.version>
       <maven.failsafe.plugin.version>2.6</maven.failsafe.plugin.version>
       <maven.jar.plugin.version>2.3</maven.jar.plugin.version>
       <maven.javadoc.plugin.version>2.6.1</maven.javadoc.plugin.version>
