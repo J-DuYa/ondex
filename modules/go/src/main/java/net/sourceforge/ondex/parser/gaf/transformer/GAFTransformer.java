@@ -323,12 +323,8 @@ public class GAFTransformer {
 	        if (matchTAIR.find()) {
 	            String acc = matchTAIR.group();
 	            //make protein accessions ambiguous, gene accessions non-ambiguous for gene concepts
-	            if (acc.contains(".")) {
-	            	if(dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
-	            		dbObjConcept.createConceptAccession(acc, dataSourceTAIR, true);
-	            	}	
-	            	
-	            }else{
+	            if (!(acc.contains("."))) {
+
 	            	if (dbObjConcept.getConceptAccession(acc, dataSourceTAIR) == null){
 	            		dbObjConcept.createConceptAccession(acc, dataSourceTAIR, false);
 	            	}
