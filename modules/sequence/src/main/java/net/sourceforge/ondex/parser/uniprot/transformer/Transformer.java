@@ -229,17 +229,24 @@ public class Transformer {
                         if (prefix > -1) {
                             value = value.substring(prefix, value.length());
                             proteinConcept.createConceptAccession(value, dataSource, false);
+//                            System.out.println("1: "+value);
                         }
 
                         int spliceVarient = value.indexOf(".");
                         if (spliceVarient > -1) {
                             String locus = value.substring(0, spliceVarient);
                             proteinConcept.createConceptAccession(locus, dataSource, true);
+//                            System.out.println("2: "+value);
                         }
                     } else if (umambigProtinMetaData.contains(dataSource.getId())) {
-                        proteinConcept.createConceptAccession(value, dataSource, false);
+                    	if(dataSource.getId().equals(MetaData.CV_UniProt) || dataSource.getId().equals(MetaData.CV_SGD)){
+                        	proteinConcept.createConceptAccession(value, dataSource, false);
+//                        	System.out.println("unambig: " + value);
+                        }
+//                    	proteinConcept.createConceptAccession(value, dataSource, false);
                     } else {
                         proteinConcept.createConceptAccession(value, dataSource, true);
+//                        System.out.println("3: "+value);
                     }
                 }
             }
@@ -270,17 +277,18 @@ public class Transformer {
                     } else if (dataSource.getId().equals(MetaData.CV_GO) && goTree != null) {
                         lookforGOAccessions(dbLink, proteinConcept);
                     } else if (umambigProtinMetaData.contains(dataSource.getId())) {
-                        if(dataSource.getId().equals(MetaData.CV_ENSEMBL) && value.contains(".")){
-                    	proteinConcept.createConceptAccession(value, dataSource, false);
-//                        System.out.println("1:"+value);
-                        }
-                        else if(dataSource.getId().equals(MetaData.CV_UniProt) || dataSource.getId().equals(MetaData.CV_SGD)){
+                    	if(dataSource.getId().equals(MetaData.CV_UniProt) || dataSource.getId().equals(MetaData.CV_SGD)){
                         	proteinConcept.createConceptAccession(value, dataSource, false);
+//                        	System.out.println("unambig2: " + value);
                         }
-                        else {
-                        	proteinConcept.createConceptAccession(value, dataSource, true);
-//                        	System.out.println("2:"+value);
-                        }
+//                    	else if(dataSource.getId().equals(MetaData.CV_ENSEMBL) && value.contains(".")){
+//                    	proteinConcept.createConceptAccession(value, dataSource, false);
+////                        System.out.println("1:"+value);
+//                        }
+//                        else {
+//                        	proteinConcept.createConceptAccession(value, dataSource, true);
+////                        	System.out.println("2:"+value);
+//                        }
 //                        System.out.print("value:"+ value);
                     } else { // for others like InterPro, PFAM
                        // proteinConcept.createConceptAccession(value, dataSource, true);
@@ -288,22 +296,22 @@ public class Transformer {
              // ToDo: for others like InterPro, PFAM, create concepts & relations like in OMIM, GO above
                 
                 //handle DBs that can have a locus as id (e.g. LOC_Os02g15760.1, AT1G12345.2)
-                if(dataSource.getId().equals(MetaData.CV_TAIR) ||
-                		dataSource.getId().equals(MetaData.CV_ENSEMBL)){
-                    int prefix = value.indexOf(":");
-                    if (prefix > -1) {
-                        value = value.substring(prefix, value.length());
-                        proteinConcept.createConceptAccession(value, dataSource, false);
-//                        System.out.println("3:" +value);
-                    }
-
-                    int spliceVarient = value.indexOf(".");
-                    if (spliceVarient > -1) {
-                        String locus = value.substring(0, spliceVarient);
-                        proteinConcept.createConceptAccession(locus, dataSource, true);
-//                        System.out.println("4:" +locus);
-                    }
-                }
+//                if(dataSource.getId().equals(MetaData.CV_TAIR) ||
+//                		dataSource.getId().equals(MetaData.CV_ENSEMBL)){
+//                    int prefix = value.indexOf(":");
+//                    if (prefix > -1) {
+//                        value = value.substring(prefix, value.length());
+//                        proteinConcept.createConceptAccession(value, dataSource, false);
+////                        System.out.println("3:" +value);
+//                    }
+//
+//                    int spliceVarient = value.indexOf(".");
+//                    if (spliceVarient > -1) {
+//                        String locus = value.substring(0, spliceVarient);
+//                        proteinConcept.createConceptAccession(locus, dataSource, true);
+////                        System.out.println("4:" +locus);
+//                    }
+//                }
 
             } else {
                 unknownCVs.add(dbLink.getDbName());
@@ -536,16 +544,16 @@ public class Transformer {
         if (m.find()) {
             DataSource dataSource = dataSources.get("TAIR");
             String tairAcc = m.group(1);
-            if(tairAcc.indexOf(".") > 0){
-            	if (proteinConcept.getConceptAccession(tairAcc, dataSource) == null){
-            		proteinConcept.createConceptAccession(tairAcc, dataSource, false);
-            	}	
-            }
-            else{
-                if (proteinConcept.getConceptAccession(tairAcc, dataSource) == null){
-                    proteinConcept.createConceptAccession(tairAcc, dataSource, true);
-                } 
-            }
+//            if(tairAcc.indexOf(".") > 0){
+//            	if (proteinConcept.getConceptAccession(tairAcc, dataSource) == null){
+//            		proteinConcept.createConceptAccession(tairAcc, dataSource, false);
+//            	}	
+//            }
+//            else{
+//                if (proteinConcept.getConceptAccession(tairAcc, dataSource) == null){
+//                    proteinConcept.createConceptAccession(tairAcc, dataSource, true);
+//                } 
+//            }
         
             return true;
         }
