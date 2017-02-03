@@ -18,7 +18,6 @@
       <module>biobase</module>
       <module>blast</module>
       <module>carbs</module>
-      <module>chemical</module>
       <module>clustering</module>
       <module>cyc-pathwaydbs</module>
       <module>cyjs_json</module>

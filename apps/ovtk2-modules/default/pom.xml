@@ -10,7 +10,6 @@
       <version>0.6.0-SNAPSHOT</version>
    </parent>
 
-   <groupId>net.sourceforge.ondex.apps</groupId>
    <artifactId>ovtk2-default</artifactId>
    <packaging>jar</packaging>
 

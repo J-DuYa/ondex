@@ -3,13 +3,10 @@ package net.sourceforge.ondex.ovtk2.ui.toolbars;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -21,14 +18,17 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.sf.jniinchi.INCHI_RET;
-import net.sourceforge.ondex.core.Attribute;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import net.sourceforge.ondex.core.AttributeName;
 import net.sourceforge.ondex.core.ConceptClass;
 import net.sourceforge.ondex.core.DataSource;
 import net.sourceforge.ondex.core.ONDEXConcept;
 import net.sourceforge.ondex.core.ONDEXGraph;
-import net.sourceforge.ondex.core.util.BitSetFunctions;
 import net.sourceforge.ondex.ovtk2.config.Config;
 import net.sourceforge.ondex.ovtk2.ui.OVTK2PropertiesAggregator;
 import net.sourceforge.ondex.ovtk2.util.IdLabel;
@@ -36,26 +36,6 @@ import net.sourceforge.ondex.ovtk2.util.LayoutNeighbours;
 import net.sourceforge.ondex.tools.chemical.ChEMBLWrapper;
 import net.sourceforge.ondex.tools.data.ChemicalStructure;
 import net.sourceforge.ondex.tools.threading.monitoring.Monitorable;
-
-import org.openscience.cdk.DefaultChemObjectBuilder;
-import org.openscience.cdk.Molecule;
-import org.openscience.cdk.MoleculeSet;
-import org.openscience.cdk.exception.CDKException;
-import org.openscience.cdk.fingerprint.Fingerprinter;
-import org.openscience.cdk.inchi.InChIGeneratorFactory;
-import org.openscience.cdk.inchi.InChIToStructure;
-import org.openscience.cdk.interfaces.IAtomContainer;
-import org.openscience.cdk.interfaces.IMolecule;
-import org.openscience.cdk.interfaces.IMoleculeSet;
-import org.openscience.cdk.io.MDLV2000Reader;
-import org.openscience.cdk.io.SMILESReader;
-import org.openscience.cdk.io.SMILESWriter;
-import org.openscience.cdk.similarity.Tanimoto;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * Search the graph for a search term
@@ -489,143 +469,9 @@ public class ChemicalSearch implements Monitorable {
 
 			return processMatches();
 		}
-
-		// perform standard search for chemical similarity
-		else {
-
-			// check for existence of attribute
-			AttributeName an = graph.getMetaData().getAttributeName("ChemicalStructure");
-			if (an == null || graph.getConceptsOfAttributeName(an).size() == 0)
-				return processMatches();
-
-			// view containing restrictions
-			Set<ONDEXConcept> view = BitSetFunctions.copy(graph.getConcepts());
-
-			// concept class restriction
-			if (conceptClass != null)
-				view.retainAll(graph.getConceptsOfConceptClass(conceptClass));
-
-			// data source restriction
-			if (dataSource != null)
-				view.retainAll(graph.getConceptsOfDataSource(dataSource));
-
-			// context restriction
-			if (context != null)
-				view.retainAll(graph.getConceptsOfTag(context));
-
-			// update progress bar
-			progressMax = view.size() + 1;
-
-			state = "Search in concepts...";
-
-			IAtomContainer queryMolecule = new Molecule();
-
-			if (mode.equals(Config.language.get("ToolBar.Search.Mode.SMILES"))) {
-				// turn search string SMILE into chemical structure
-				SMILESReader smilesReader = new SMILESReader(new StringReader(search));
-				IMoleculeSet ms = new MoleculeSet();
-				smilesReader.read(ms);
-				queryMolecule = ms.getMolecule(0);
-			} else if (mode.equals(Config.language.get("ToolBar.Search.Mode.InChI"))) {
-				// turn search string InChI into chemical structure
-				InChIGeneratorFactory factory = InChIGeneratorFactory.getInstance();
-				InChIToStructure intostruct = factory.getInChIToStructure(search, DefaultChemObjectBuilder.getInstance());
-				INCHI_RET ret = intostruct.getReturnStatus();
-				if (ret == INCHI_RET.WARNING) {
-					// Structure generated, but with warning message
-					System.out.println("InChI warning: " + intostruct.getMessage());
-				} else if (ret != INCHI_RET.OKAY) {
-					// Structure generation failed
-					throw new CDKException("Structure generation failed failed: " + ret.toString() + " [" + intostruct.getMessage() + "]");
-				}
-				queryMolecule = intostruct.getAtomContainer();
-			}
-
-			// get fingerprint for search term
-			Fingerprinter fingerprinter = new Fingerprinter();
-			BitSet queryFP = fingerprinter.getFingerprint(queryMolecule);
-
-			// iterate over all concepts
-			for (ONDEXConcept ac : view) {
-
-				// search was cancelled
-				if (cancelled)
-					break;
-
-				// track matching part
-				List<String> match = new ArrayList<String>();
-
-				// search in Attribute
-				Attribute attr = ac.getAttribute(an);
-				if (attr != null) {
-					ChemicalStructure cs = (ChemicalStructure) attr.getValue();
-					IMolecule targetMolecule = new Molecule();
-					String mol = cs.getMOL();
-					if (mol != null && mol.length() > 0) {
-
-						// try to read in molecule from mol file
-						MDLV2000Reader mdl = new MDLV2000Reader(new StringReader(mol));
-						mdl.read(targetMolecule);
-
-						// construct SMILE string for molecule
-						if (cs.getSMILES().length() == 0) {
-							StringWriter smilesString = new StringWriter();
-							SMILESWriter sw = new SMILESWriter(smilesString);
-							sw.write(targetMolecule);
-							try {
-								sw.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-							cs.setSMILES(smilesString.toString());
-						}
-
-					} else {
-
-						// construct molecule from SMILES
-						if (cs.getSMILES().length() > 0) {
-							SMILESReader sr = new SMILESReader(new StringReader(cs.getSMILES()));
-							MoleculeSet ms = new MoleculeSet();
-							sr.read(ms);
-							// not sure this is right, but I assume there is
-							// only one molecule represented by a SMILE in our
-							// case
-							targetMolecule = ms.getMolecule(0);
-						}
-					}
-
-					// get fingerprint for target
-					try {
-						BitSet targetFP = fingerprinter.getFingerprint(targetMolecule);
-
-						// to calculate tanimoto distance
-						float tanimoto = Tanimoto.calculate(queryFP, targetFP);
-						if (tanimoto >= cutoff) {
-							match.add(cs.getSMILES() + " [" + nf.format(tanimoto) + "]");
-						}
-					} catch (CDKException cdk) {
-						// continue search even with buggy data
-						cdk.printStackTrace();
-					}
-				}
-
-				// something was found
-				if (match.size() > 0) {
-					// indexing key
-					String name = String.valueOf(ac.getId());
-					if (ac.getConceptName() != null)
-						name = ac.getConceptName().getName();
-					IdLabel label = new IdLabel(ac.getId(), name);
-					matches.put(label, match);
-					infos.put(label, ac.getOfType() + " [" + ac.getElementOf() + "]");
-				}
-
-				// update progress bar
-				progress++;
-			}
-
-			return processMatches();
-		}
+		else throw new IllegalArgumentException ( String.format ( 
+			"Internal Error: invalid mode parameter \"%s\" sent to ChemicalSerch", mode 
+		));
 	}
 
 	@Override

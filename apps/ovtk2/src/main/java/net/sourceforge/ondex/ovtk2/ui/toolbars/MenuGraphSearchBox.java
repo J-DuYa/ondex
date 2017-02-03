@@ -38,7 +38,6 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.EventListenerList;
 
-import net.sf.jniinchi.INCHI_RET;
 import net.sourceforge.ondex.core.ConceptClass;
 import net.sourceforge.ondex.core.DataSource;
 import net.sourceforge.ondex.core.MetaData;
@@ -49,13 +48,6 @@ import net.sourceforge.ondex.ovtk2.ui.OVTK2PropertiesAggregator;
 import net.sourceforge.ondex.ovtk2.util.ConceptListUtils;
 import net.sourceforge.ondex.ovtk2.util.IntegerStringWrapper;
 import net.sourceforge.ondex.ovtk2.util.renderer.HtmlComboBoxRenderer;
-
-import org.openscience.cdk.DefaultChemObjectBuilder;
-import org.openscience.cdk.MoleculeSet;
-import org.openscience.cdk.exception.CDKException;
-import org.openscience.cdk.inchi.InChIGeneratorFactory;
-import org.openscience.cdk.inchi.InChIToStructure;
-import org.openscience.cdk.io.SMILESReader;
 
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.SortedList;
@@ -289,11 +281,7 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener, CaretL
 				}
 			}
 			// chemical mode validate SMILE
-			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.SMILES")) && isValidSMILE(searchField.getText())) {
-				fireActionPerformed();
-			} else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.InChI")) && isValidInChI(searchField.getText())) {
-				fireActionPerformed();
-			} else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.InChIKey"))) {
+			else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.InChIKey"))) {
 				fireActionPerformed();
 			} else if (searchMode.getSelectedItem().equals(Config.language.getProperty("ToolBar.Search.Mode.ChEMBL")) && isValidChEMBL(searchField.getText())) {
 				fireActionPerformed();
@@ -409,24 +397,6 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener, CaretL
 		// let filler in text field disappear once clicked
 		if (box.getText().equals(Config.language.getProperty("ToolBar.Search.Filler"))) {
 			box.setText("");
-		}
-
-		// valid input SMILE
-		if (searchMode.getSelectedItem().equals(Config.language.get("ToolBar.Search.Mode.SMILES"))) {
-			if (isValidSMILE(box.getText())) {
-				box.setBackground(defaultBackColor);
-			} else {
-				box.setBackground(new Color(255, 70, 70)); // light red
-			}
-		}
-
-		// valid input InChI
-		else if (searchMode.getSelectedItem().equals(Config.language.get("ToolBar.Search.Mode.InChI"))) {
-			if (isValidInChI(box.getText())) {
-				box.setBackground(defaultBackColor);
-			} else {
-				box.setBackground(new Color(255, 70, 70)); // light red
-			}
 		}
 
 		// valid input InChIKey
@@ -691,31 +661,6 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener, CaretL
 		return s.startsWith("CHEMBL") && s.length() > 6;
 	}
 
-	/**
-	 * Processes a InChI string and check if it is possible to parse.
-	 * 
-	 * @param s
-	 *            InChI to evaluate
-	 * @return correct InChI?
-	 */
-	private boolean isValidInChI(String s) {
-
-		// turn search string InChI into chemical structure
-		try {
-			InChIGeneratorFactory factory = InChIGeneratorFactory.getInstance();
-			InChIToStructure intostruct = factory.getInChIToStructure(s, DefaultChemObjectBuilder.getInstance());
-			INCHI_RET ret = intostruct.getReturnStatus();
-			if (ret == INCHI_RET.WARNING) {
-				// Structure generated, but with warning message
-				System.out.println("InChI warning: " + intostruct.getMessage());
-			} else if (ret != INCHI_RET.OKAY) {
-				return false;
-			}
-		} catch (CDKException e) {
-			return false;
-		}
-		return true;
-	}
 
 	/**
 	 * Checks validity of regex.
@@ -733,25 +678,6 @@ public class MenuGraphSearchBox extends JPanel implements ActionListener, CaretL
 		}
 	}
 
-	/**
-	 * Processes a SMILE string and check if it is possible to parse.
-	 * 
-	 * @param s
-	 *            SMILE to evaluate
-	 * @return correct SMILE?
-	 */
-	private boolean isValidSMILE(String s) {
-		SMILESReader smilesReader = new SMILESReader(new StringReader(s));
-		MoleculeSet ms = new MoleculeSet();
-		try {
-			smilesReader.read(ms);
-			if (ms.getMolecule(0) != null)
-				return true;
-		} catch (CDKException e) {
-			// ignore
-		}
-		return false;
-	}
 
 	/**
 	 * Concatenate different file name parts
