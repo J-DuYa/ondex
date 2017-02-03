@@ -138,6 +138,12 @@
          <scope>compile</scope>
       </dependency>
 
+			<dependency>
+				<groupId>net.sourceforge.ondex.modules</groupId>
+				<artifactId>tab-parser-2</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>sbml</artifactId>
@@ -202,11 +208,11 @@
          <artifactId>carbs</artifactId>
          <version>${project.version}</version>
       </dependency>
-      <dependency>
-         <groupId>net.sourceforge.ondex.modules</groupId>
-         <artifactId>chemical</artifactId>
-         <version>${project.version}</version>
-      </dependency>
+<!--       <dependency> -->
+<!--          <groupId>net.sourceforge.ondex.modules</groupId> -->
+<!--          <artifactId>chemical</artifactId> -->
+<!--          <version>${project.version}</version> -->
+<!--       </dependency> -->
       <dependency>
          <groupId>net.sourceforge.ondex.modules</groupId>
          <artifactId>relevance</artifactId>

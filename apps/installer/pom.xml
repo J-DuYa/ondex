@@ -47,6 +47,8 @@
                            <outputDirectory>${project.build.directory}</outputDirectory>
                            <includes>**/*</includes>
                         </artifactItem>
+                        
+                        <!-- TODO: outdated and not building 
                         <artifactItem>
                            <groupId>net.sourceforge.ondex.doc</groupId>
                            <artifactId>ovtk2</artifactId>
@@ -56,7 +58,7 @@
                            <overWrite>true</overWrite>
                            <outputDirectory>${project.build.directory}/ovtk2</outputDirectory>
                            <includes>**/*</includes>
-                        </artifactItem>
+                        </artifactItem> -->
                      </artifactItems>
                      <overWriteReleases>false</overWriteReleases>
                      <overWriteSnapshots>true</overWriteSnapshots>
@@ -153,17 +155,6 @@
                            <outputDirectory>${project.build.directory}/plugins</outputDirectory>
                            <includes>**/*</includes>
                            <destFileName>carbs-jar-with-dependencies.jar</destFileName>
-                        </artifactItem>
-                        <artifactItem>
-                           <groupId>net.sourceforge.ondex.modules</groupId>
-                           <artifactId>chemical</artifactId>
-                           <version>${project.version}</version>
-                           <classifier>jar-with-dependencies</classifier>
-                           <type>jar</type>
-                           <overWrite>true</overWrite>
-                           <outputDirectory>${project.build.directory}/plugins</outputDirectory>
-                           <includes>**/*</includes>
-                           <destFileName>chemical-jar-with-dependencies.jar</destFileName>
                         </artifactItem>
                         <artifactItem>
                            <groupId>net.sourceforge.ondex.modules</groupId>
@@ -488,7 +479,7 @@
                         <artifactItem>
                            <groupId>net.sourceforge.ondex.modules</groupId>
                            <artifactId>tab-parser-2</artifactId>
-                           <version>${ondex.version}</version>
+                           <version>${project.version}</version>
                            <classifier>jar-with-dependencies</classifier>
                            <type>jar</type>
                            <overWrite>true</overWrite>
