@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
 /**
  * Build edge json objects using their various attributes.
  * @author Ajit Singh
- * @version 14/10/15
+ * @version 04/02/17
  */
 public class AddRelationEdgeInfo {
     
@@ -123,7 +123,8 @@ public class AddRelationEdgeInfo {
   else if(edgeLbl.equals(EdgeLabel.control.toString())) {
      colour= EdgeColour.lightGrey.toString();
     }
-  else if(edgeLbl.equals(EdgeLabel.has_variation.toString())) {
+  else if((edgeLbl.equals(EdgeLabel.has_variation.toString())) || 
+          (edgeLbl.equals(EdgeLabel.has_target.toString()))) {
      colour= EdgeColour.navy.toString();
     }
   else if(edgeLbl.equals(EdgeLabel.activated_by.toString())) {
@@ -132,7 +133,8 @@ public class AddRelationEdgeInfo {
   else if(edgeLbl.equals(EdgeLabel.consumed_by.toString())) {
      colour= EdgeColour.brown.toString();
     }
-  else if(edgeLbl.equals(EdgeLabel.produced_by.toString())) {
+  else if((edgeLbl.equals(EdgeLabel.produced_by.toString())) || 
+          (edgeLbl.equals(EdgeLabel.is_involved_in.toString()))) {
      colour= EdgeColour.limeGreen.toString();
     }
   else if((edgeLbl.equals(EdgeLabel.catalyzed_by.toString())) || 

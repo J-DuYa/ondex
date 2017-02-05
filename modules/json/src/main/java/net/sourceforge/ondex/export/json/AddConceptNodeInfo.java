@@ -13,7 +13,7 @@ import org.jsoup.nodes.Document;
 /**
  * Build node json objects using their various attributes.
  * @author Ajit Singh
- * @version 14/10/15
+ * @version 04/02/17
  */
 public class AddConceptNodeInfo {
 
@@ -222,6 +222,14 @@ public class AddConceptNodeInfo {
   else if(conType.equals("Protein Domain")) {
      shape= ConceptShape.pentagon.toString();
      colour= ConceptColour.lightGrey.toString();
+    }
+  else if(conType.equals(ConceptType.Drug.toString())) {
+     shape= ConceptShape.ellipse.toString();
+     colour= ConceptColour.slateBlue.toString();
+    }
+  else if(conType.equals(ConceptType.Disease.toString())) {
+     shape= ConceptShape.triangle.toString();
+     colour= ConceptColour.darkGreen.toString();
     }
   else if(conType.equals(ConceptType.Pathway.toString())) {
      shape= ConceptShape.star.toString();
