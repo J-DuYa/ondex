@@ -15,7 +15,7 @@ import org.junit.Test;
 /**
  * To test the cyjsJSON Export code.
  * @author Ajit Singh
- * @version 04/02/17
+ * @version 06/02/17
  */
 public class CyjsJsonExportTest {
 
@@ -26,7 +26,7 @@ public class CyjsJsonExportTest {
         ClassLoader classLoader= getClass().getClassLoader();
         // example .oxl file to Test.
 //	File oxlTestFile= new File(classLoader.getResource("wheat_eq4_colaIssue.oxl").getFile());
-	File oxlTestFile= new File(classLoader.getResource("MyNetwork_NeuroDisease_subset.oxl").getFile());
+	File oxlTestFile= new File(classLoader.getResource("MyNetwork_NeuroDisease_subset.oxl").getFile()); // human disease network subset
 
         // output file (with timestamped filename) to get exported network graph data in JSON format.
         String outputFileName= "networkGraph_"+ new SimpleDateFormat("yyyyMMddhhmmss'.json'").format(new Date());
