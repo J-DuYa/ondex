@@ -1,4 +1,0 @@
-p = new PathParser(getActiveGraph(), new DelimitedFileReader("D:/Ondex_tutorial/Tutorial_files/Data_integration/Exercise/exercise.tab", "	"));
-Write commands here ...
-p.setProcessingOptions();
-p.parse();

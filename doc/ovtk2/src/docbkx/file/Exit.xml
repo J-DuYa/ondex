@@ -1,8 +1,0 @@
-<sect1 id="File.Exit">
-	<title>Exit</title>
-	<para>
-	Selecting Exit will close the OVTK. If you still have windows open, it will prompt you:
-	"View(s) are still open, do you want to exit anyway?".
-	Click "Yes" to exit, "No" to cancel.
-	</para>
-</sect1>  
