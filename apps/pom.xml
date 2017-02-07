@@ -17,11 +17,11 @@
       <module>scripting</module>
       <module>scripting-commandline</module>
       <module>plugin-rd-ws</module>
-      <module>ondex-view-plugin</module>
+      <!-- module>ondex-view-plugin</module -->
       <!-- module>chemical</module -->
       <module>dashboard</module>
       <module>launcher</module>
-      <module>MetaDataEditor</module>
+      <!--   module>MetaDataEditor</module -->
       <module>ovtk2</module>
       <module>ovtk2-modules</module>
       <module>ondex-all</module>

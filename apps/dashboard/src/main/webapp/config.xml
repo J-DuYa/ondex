@@ -24,10 +24,10 @@
 			<alias>Ondex Mini</alias>
 			<download-url>http://ondex.rothamsted.ac.uk/nexus/service/local/artifact/maven/redirect?r=snapshots&amp;g=net.sourceforge.ondex.apps&amp;a=ondex-mini&amp;v=0.5.0-SNAPSHOT&amp;e=zip&amp;c=packaged-distro</download-url>
 		</module>
-		<module jiraID="VIEWCYPLUGIN" category="0">
+		<!-- module jiraID="VIEWCYPLUGIN" category="0">
 			<alias>Ondex view cytoscape plugin</alias>
 			<download-url>http://ondex.rothamsted.ac.uk/nexus/service/local/artifact/maven/redirect?r=snapshots&amp;g=net.sourceforge.ondex.cytoscape&amp;a=ondex-view-plugin&amp;v=0.5.0-SNAPSHOT&amp;e=jar&amp;c=jar-with-dependencies</download-url>
-		</module>
+		</module -->
 		<module jiraID="WS" category="2">
 			<alias>Webservices</alias>
 			<download-url>http://ondex.rothamsted.ac.uk/nexus/service/local/artifact/maven/redirect?r=snapshots&amp;g=net.sourceforge.ondex.webservices&amp;a=webservice-server&amp;v=0.5.0-SNAPSHOT&amp;e=war</download-url>
