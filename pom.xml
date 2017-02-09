@@ -14,8 +14,8 @@
       <module>modules</module>
       <module>datadir</module>
       <!-- module>doc</module -->
-      <module>apps</module>
-      <module>integration</module>
+      <!--module>apps</module -->
+      <!-- module>integration</module -->
    </modules>
 
    <licenses>
