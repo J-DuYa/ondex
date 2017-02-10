@@ -18,12 +18,9 @@
       <module>algorithms</module>
       <module>api</module>
       <module>base</module>
-      <module>berkeley</module>
       <module>lucene</module>
       <module>marshal</module>
       <module>memory</module>
-      <module>memory-dist</module>
-      <module>sql</module>
       <module>tools</module>
       <module>workflow-api</module>
       <module>workflow-base</module>
