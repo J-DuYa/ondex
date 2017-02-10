@@ -7,15 +7,15 @@
    <artifactId>parent</artifactId>
    <packaging>pom</packaging>
    <name>parent</name>
-   <version>${ondex.version}</version>
+   <version>0.6.0-SNAPSHOT</version>
 
    <modules>
-      <module>apps</module>
       <module>core</module>
+      <module>modules</module>
       <module>datadir</module>
       <module>doc</module>
+      <module>apps</module>
       <module>integration</module>
-      <module>modules</module>
    </modules>
 
    <licenses>
@@ -211,7 +211,7 @@
 
    <properties>
       <java.version>1.8</java.version>
-      <ondex.version>0.6.0-SNAPSHOT</ondex.version>      
+      <ondex.version>${project.version}</ondex.version>      
       <target.dir>target</target.dir>
       <nexus.repro>http://ondex.rothamsted.ac.uk/nexus</nexus.repro>
       <!--Plugin Properties -->
