@@ -223,6 +223,14 @@ public class AddConceptNodeInfo {
      shape= ConceptShape.pentagon.toString();
      colour= ConceptColour.lightGrey.toString();
     }
+  else if(conType.equals(ConceptType.Drug.toString())) {
+     shape= ConceptShape.ellipse.toString();
+     colour= ConceptColour.slateBlue.toString();
+    }
+  else if(conType.equals(ConceptType.Disease.toString())) {
+     shape= ConceptShape.triangle.toString();
+     colour= ConceptColour.darkGreen.toString();
+    }
   else if(conType.equals(ConceptType.Pathway.toString())) {
      shape= ConceptShape.star.toString();
      colour= ConceptColour.springGreen.toString();
