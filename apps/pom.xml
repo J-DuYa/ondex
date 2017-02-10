@@ -16,7 +16,7 @@
    <modules>
       <module>scripting</module>
       <module>scripting-commandline</module>
-      <module>plugin-rd-ws</module>
+      <!-- module>plugin-rd-ws</module -->
       <!-- module>ondex-view-plugin</module -->
       <!-- module>chemical</module -->
       <module>dashboard</module>
